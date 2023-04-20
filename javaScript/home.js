@@ -21,16 +21,16 @@ function renderHomePage(){
 
     <div class="guide">
         <h2>How it works</h3>
-        <h4>1. Rate your current mood</h4>
+        <h3>1. Rate your current mood</h3>
         <p>Select the feeling that best fit you right now<p>
         <p>IMAGE</p>
-        <h4>2. Describe your Feelings</h4>
+        <h3>2. Describe your Feelings</h3>
         <p>Try to explain why you are feeling this way</p>
         <p>IMAGE</p>
-        <h4>3. Share with Friends</h4>
+        <h3>3. Share with Friends</h3>
         <p>Share your mood with your frinds and have a look at how they're feeling </p>
         <p>IMAGE</p>
-        <h4>4. Track your progress</h4>
+        <h3>4. Track your progress</h3>
         <p>Keep track on how your mood changes over time with weekly and monthly statistics</p>
         <p>IMAGE</p>
 
@@ -49,5 +49,9 @@ function renderHomePage(){
         <h4 class="logo">MoodMate</h4>
         <p>This page is for education purposes only</p>
     `;
+
+    document.querySelectorAll(".logo").forEach(logo => {
+        logo.addEventListener("click", renderHomePage);
+    });
 }
 

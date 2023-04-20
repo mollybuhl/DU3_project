@@ -1,0 +1,38 @@
+main{
+    height: 80vh;
+}
+
+.feedHeader{
+    background-color: #B9DBC3;
+    height: 10vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+footer.feed{
+    position: fixed;
+    left: 0;
+    bottom:0;
+    width: 100%;
+
+    height: 7vh;
+    background-color: #B9DBC3;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.feed > div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border: 1px solid rgb(149, 148, 148);
+
+    height: 100%;
+    width: 50%;
+}
+
