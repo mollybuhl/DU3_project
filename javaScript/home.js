@@ -40,10 +40,10 @@ function renderHomePage(){
 
     let registerButtons = document.querySelectorAll(".registerButton");
     registerButtons.forEach(registerButton => {
-        registerButton.addEventListener("click", renderRegisterPage());
+        registerButton.addEventListener("click", renderRegisterPage);
     });
 
-    document.querySelector(".loginButton").addEventListener("click", renderLoginPage());
+    document.querySelector(".loginButton").addEventListener("click", renderLoginPage);
 
     footer.innerHTML = `
         <h4 class="logo">MoodMate</h4>
