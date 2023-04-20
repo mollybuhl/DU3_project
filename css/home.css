@@ -1,0 +1,91 @@
+@font-face {
+    font-family: Merlinda;
+    src: url("../fonts/Merienda-VariableFont_wght.ttf")
+}
+@font-face {
+    font-family: Aboreto;
+    src: url("../fonts/Aboreto-Regular.ttf")
+}
+
+h1, h2, h3, h4{
+    font-family: aboreto;
+}
+
+.logo{
+    font-family: Merlinda;
+}
+
+header.home{
+    height: 7vh;
+    padding: 1vh;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+button{
+    height: 4vh;
+    width: 20vw;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 40px;
+    border: 1px solid black;
+    font-size: 20px;
+    font-family: aboreto; 
+}
+
+button:hover{
+    background-color: #bababa;
+}
+
+.introduction{
+    height: 60vh;
+    padding: 2vh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.introduction > h1{
+ text-align: left;
+ font-size: 28px;
+ line-height: 5vh;
+ margin-top: 0;
+}
+
+h4{
+    color: grey;
+    margin: 0;
+    font-size: 12px;
+}
+
+.introduction > p{
+    text-align: left;
+}
+
+.introduction > button{
+    width: 30vw;
+}
+
+.guide{
+    padding: 2vh;
+    background-color: #B9DBC3;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.guide > button{
+    width: 40vw;
+}
+
+
+
