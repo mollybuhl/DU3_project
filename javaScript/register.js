@@ -7,19 +7,18 @@ function renderRegisterPage(){
         <div id="registerLogo"></div>
         <div id="registerField">
             <label for="username">Username</label>
-            <input id="registerUsername" name="username">
+            <input type="text" id="registerUsername" name="username">
             <label for="password">password</label>
-            <input id="registerPassword" name="username">
+            <input type="password" id="registerPassword" name="password">
         </div>
         <p id="messageToUser"></p>
         <button>Register</button>
-        <p>Already have an account? Login here!</p>
+        <p id="goToLogin">Already have an account? Login here!</p>
     </div>
     `;
 
     document.querySelector("#wrapper > button").addEventListener("click", onClickRegister);
-
-    document.querySelector("#messageToUser").addEventListener("click", renderLoginPage());
+    document.querySelector("#goToLogin").addEventListener("click", renderLoginPage);
 }
 
 async function onClickRegister(){
