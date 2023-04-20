@@ -1,4 +1,6 @@
-header.home{
-    display: flex;
-    justify-content: space-between;
+body{
+    text-align: center;
+    background-color: rgb(251, 246, 239);
+    margin: 0;
 }
+
