@@ -1,20 +1,7 @@
-<?php 
-/* 
-$usedMethod = a string - the method used in the request.
-$allowedMethods = an array that contains the methods that are allowed.
-
-If $usedMethod is not in $allowedMethods, return a message with status 405.
-*/
-
-function checkMethod($usedMethod, $allowedMethods){
-    if(!in_array($usedMethod, $allowedMethods)){
-        $message = ["message" => "Sorry the $usedMethod method is not allowed"];
-        sendJSON($message, 405);
-    }
-}
-?>
-
 <?php
+require_once "functions.php";
+
+// Get the method used for the request, then check to see if it's allowed with a custom funciton (checkMethod).
 $requestMethod = $_SERVER["REQUEST_METHOD"];
 $allowed = ["POST"];
 checkMethod($requestMethod, $allowed);
@@ -22,6 +9,7 @@ checkMethod($requestMethod, $allowed);
 $filename = "php/users.json";
 $users = [];
 
+// Check if file exists. If it doesn't, save $users within $filename. If it exists get contents from $filename then decode and save it in $users.
 if(!file_exists($filename)){
     $json = json_encode($users);
     file_put_contents($filename, $json);
@@ -30,17 +18,28 @@ if(!file_exists($filename)){
     $users = json_decode($json, true);
 }
 
+// Get contents from the request and save them in their respective variable.
 $requestJSON = file_get_contents("php://input");
 $requestData = json_decode($requestJSON, true);
 
 $username = $requestData["username"];
 $password = $requestData["password"];
 
-if($username == "" or $password == ""){
-    $message = ["message" => "Sorry, the fields can't be left empty."];
+// Check if the given username or password is shorter than 3 characters. If so, send a message with status 400(Bad request).
+if(strlen($username) < 3 or strlen($password) < 3){
+    $message = ["message" => "Both the username and password must be 3 characters or longer. Please try again."];
     sendJSON($message, 400);
-};
+}
 
+// Check if the given username is already used by another user. If so, send a message with status 409(Conflict).
+foreach($users as $user){
+    if($user["username"] == $username){
+        $message = ["message" => "Sorry, that username is taken. Please try another"];
+        sendJSON($message, 409);
+    }
+}
+
+// Associative array of the newly created user that is added to the array $users.
 $newUser = [
     "username" => $username,
     "password" => $password,
@@ -51,6 +50,7 @@ $newUser = [
 
 $users[] = $newUser;
 
+// Encode $users and save it in $filename, then send the username of the created user.
 $json = json_encode($users, JSON_PRETTY_PRINT);
 file_put_contents($filename, $json);
 

@@ -25,6 +25,7 @@ async function onClickRegister(){
     const username = document.querySelector("#registerUsername").value;
     const password = document.querySelector("#registerPassword").value;
 
+    // The options sent with the register request.
     const requestOptions = {
         method: "POST",
         headers: {"Content-Type": "application/json"},
@@ -40,10 +41,11 @@ async function onClickRegister(){
 
     const messageToUserDom = document.querySelector("#messageToUser");
 
+    // If the response was unsuccessful for any reason, print the error message to the user. Otherwise tell the user their account has been created then redirect them to the login page.
     if(!response.ok){
         messageToUserDom.innerHTML = resource.message;
     }else{
         messageToUserDom.innerHTML = "Your account has been created! You will now be redirected to the login page.";
-        setTimeout(renderLoginPage(), 2000)
+        setTimeout(renderLoginPage, 3000);
     }
 }
