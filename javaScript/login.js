@@ -4,8 +4,8 @@ function renderLoginPage() {
     
     let main = document.querySelector("main");
     main.innerHTML = `
-    <input type="text" id="loginUsername" placeholder="Username"><input>
-    <input type="password" id="loginPassword" placeholder="Password"><input>
+    <input type="text" id="loginUsername" placeholder="Username">
+    <input type="password" id="loginPassword" placeholder="Password">
     <p id="messageToUser"></p>
     <button>Login</button>
     <p id="switchToRegistration">Don't have an account yet? Make one here!</p>
@@ -33,6 +33,14 @@ async function callServerToLogin() {
     if(!response.ok) {
         //Message from server
         document.getElementById("messageToUser").innerHTML = resource.message;
+    } else {
+        if(resource.firstTime === true) {
+            renderFeedPage();
+        } else {
+            renderFeedPage();
+        }
     }
+
+
 }
 

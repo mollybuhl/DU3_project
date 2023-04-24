@@ -1,1 +1,12 @@
-[]
+[
+    {
+        "username": "elin",
+        "password": "222",
+        "loggedFeelings": [],
+        "friends": [],
+        "posts": [],
+        "profilePicture": "",
+        "firstTime": true,
+        "id": 1
+    }
+]
