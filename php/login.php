@@ -27,7 +27,7 @@ for($i = 0; $i < count($usersArray); $i++) {
             
             $usersArray[$i]["firstTime"] = false;
             $usersArrayJSON = json_encode($usersArray, JSON_PRETTY_PRINT);
-            file_put_contents($usersArrayJSON);
+            file_put_contents("users.json", $usersArrayJSON);
             sendJSON($message);
         } else {
             $message = ["id" => $user["id"], "username" => $user["username"], "firstTime" => false];
