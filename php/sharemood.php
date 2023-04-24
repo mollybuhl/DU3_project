@@ -6,8 +6,8 @@ The body structure when making a POST request to this file.
 
 {
     id: the ID of the user thats posting (int),
-    description: text describing why you are feeling this way (string),
     mood: current mood (string),
+    description: text describing why you are feeling this way (string),
     quote: the quote from the API (string)
 }
 
@@ -17,8 +17,8 @@ fetch("../php/sharemood.php", {
     headers: {"Content-Type": "application/json"},
     body: JSON.stringify({
         id: 2,
-        description: "Ice Cream!!!",
         mood: "Happy",
+        description: "Ice Cream!!!",
         quote: "Houston, we have a problem"
     })
 })
@@ -48,8 +48,8 @@ if(!file_exists($filename)){
 $requestData = json_decode(file_get_contents("php://input"), true);
 
 $userID = $requestData["id"];
-$description = $requestData["description"];
 $mood = $requestData["mood"];
+$description = $requestData["description"];
 $quote = $requestData["quote"];
 
 // Find the user with the same ID as in the one in the request.
@@ -69,8 +69,8 @@ foreach($users as $index => $user){
         $newPost = [
             "postID" => $highestID + 1,
             "userID" => $userID,
-            "description" => $description,
             "mood" => $mood,
+            "description" => $description,
             "quote" => $quote,
             "timestamp" => ""
         ];
