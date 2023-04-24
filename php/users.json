@@ -8,8 +8,8 @@
             {
                 "postID": 1,
                 "userID": 1,
-                "description": "Ice Cream!!!",
                 "mood": "Happy",
+                "description": "Ice cream!!!",
                 "quote": "Houston, we have a problem",
                 "timestamp": ""
             }
