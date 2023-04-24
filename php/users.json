@@ -1,10 +1,19 @@
 [
     {
-        "username": "elin",
-        "password": "222",
+        "username": "test",
+        "password": "test",
         "loggedFeelings": [],
         "friends": [],
-        "posts": [],
+        "posts": [
+            {
+                "postID": 1,
+                "userID": 1,
+                "description": "Ice Cream!!!",
+                "mood": "Happy",
+                "quote": "Houston, we have a problem",
+                "timestamp": ""
+            }
+        ],
         "profilePicture": "",
         "firstTime": true,
         "id": 1
