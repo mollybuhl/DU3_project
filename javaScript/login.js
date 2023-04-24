@@ -1,13 +1,22 @@
-async function renderLoginPage() {
+"use strict";
+
+function renderLoginPage() {
     
     let main = document.querySelector("main");
     main.innerHTML = `
-    <input type="text" id="loginUsername"><input>
-    <input type="password" id="loginPassword"><input>
+    <input type="text" id="loginUsername" placeholder="Username"><input>
+    <input type="password" id="loginPassword" placeholder="Password"><input>
+    <p id="messageToUser"></p>
     <button>Login</button>
+    <p id="switchToRegistration">Don't have an account yet? Make one here!</p>
     `;
 
-    const username = document.querySelector("loginUsername").value;
+    document.querySelector("main > button").addEventListener("click", callServerToLogin);
+    document.querySelector("#switchToRegistration").addEventListener("click", renderRegisterPage);
+}
+
+async function callServerToLogin() {
+    const username = document.querySelector("#loginUsername").value;
     const password = docuement.querySelector("#loginPassword").value;
 
     let response = await fetch("../php/login.php", {
@@ -22,7 +31,8 @@ async function renderLoginPage() {
     let resource = await response.json();
 
     if(!response.ok) {
-        //Message from server?
+        //Message from server
+        document.getElementById("messageToUser").innerHTML = resource.message;
     }
 }
 
