@@ -45,9 +45,19 @@ $newUser = [
     "password" => $password,
     "loggedFeelings" => [],
     "friends" => [],
+    "posts" => [],
     "profilePicture" => "",
     "firstTime" => true
 ];
+
+// Add unique ID to new user
+$highestID = 0;
+foreach($users as $user){
+    if($user["id"] > $highestID){
+        $highestID = $user["id"];
+    }
+}
+$newUser["id"] = $highestID + 1;
 
 $users[] = $newUser;
 
