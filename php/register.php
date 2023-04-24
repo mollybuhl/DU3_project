@@ -45,7 +45,8 @@ $newUser = [
     "password" => $password,
     "loggedFeelings" => [],
     "friends" => [],
-    "profilePicture" => ""
+    "profilePicture" => "",
+    "firstTime" => true
 ];
 
 $users[] = $newUser;
