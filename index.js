@@ -1,2 +1,2 @@
-//renderHomePage();
-renderFeedPage();
+renderHomePage();
+//renderFeedPage();
