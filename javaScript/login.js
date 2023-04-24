@@ -17,7 +17,7 @@ function renderLoginPage() {
 
 async function callServerToLogin() {
     const username = document.querySelector("#loginUsername").value;
-    const password = docuement.querySelector("#loginPassword").value;
+    const password = document.querySelector("#loginPassword").value;
 
     let response = await fetch("../php/login.php", {
         method: "POST",
@@ -31,7 +31,6 @@ async function callServerToLogin() {
     let resource = await response.json();
 
     if(!response.ok) {
-        //Message from server
         document.getElementById("messageToUser").innerHTML = resource.message;
     } else {
         if(resource.firstTime === true) {

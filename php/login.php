@@ -19,7 +19,7 @@ for($i = 0; $i < count($usersArray); $i++) {
     $user = $usersArray[$i];
     $arrayUsername = $usersArray[$i]["username"];
     $arrayPassword = $usersArray[$i]["password"];
-    //$firstTime = $usersArray[$i]["firstTime"];
+    $firstTime = $usersArray[$i]["firstTime"];
 
     if($loginUsername == $arrayUsername && $loginPassword == $arrayPassword) {
         if($firstTime == true) {
