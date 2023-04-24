@@ -19,46 +19,50 @@ function renderPostingModal(){
     <button id="quoteButton">Generate quote</button>
     <button id="postFeeling">Share feeling :)</button>
     `
+
+    const feelingsButtons = postMoodModal.querySelectorAll("#feelings > button");
+
+    feelingsButtons.forEach(button => {
+        button.addEventListener("click", event => {
+
+            mood = button.textContent;
+            switch(mood){
+                case "Sad":
+                    apiCategory = "inspirational";
+                    break;
+                case "Happy":
+                    apiCategory = "happiness";
+                    break;
+                case "Angry":
+                    apiCategory = "anger";
+                    break;
+                case "Couragious":
+                    apiCategory = "courage";
+                    break;
+                case "Forgiving":
+                    apiCategory = "forgiveness";
+                    break;
+                case "Jealous":
+                    apiCategory = "jealousy";
+                    break;
+                case "Fear":
+                    apiCategory = "fear";
+                    break;
+            }
+
+        });
+    })
+
+    document.querySelector("main").appendChild(postMoodModal);
+    postMoodModal.querySelector("#quoteButton").addEventListener("click", fetchQuote);
+    postMoodModal.querySelector("#postFeeling").addEventListener("click", postFeeling);
 }
 
-let userID = 1 /* Recieve from localstorage once its implemented */
+let userID = 1; /* Recieve from localstorage once its implemented */
 let mood = "";
 let apiCategory = "";
 let quote = "Houston, we have a problem"; /* Using this until the Quotes API is implemented */
 
-const feelingsButtons = document.querySelectorAll("#feelings > button");
-feelingsButtons.forEach(button => {
-    button.addEventListener("click", event => {
-        mood = button.textContent;
-
-        switch(mood){
-            case "Sad":
-                apiCategory = "inspirational";
-                break;
-            case "Happy":
-                apiCategory = "happiness";
-                break;
-            case "Angry":
-                apiCategory = "anger";
-                break;
-            case "Couragious":
-                apiCategory = "courage";
-                break;
-            case "Forgiving":
-                apiCategory = "forgiveness";
-                break;
-            case "Jealous":
-                apiCategory = "jealousy";
-                break;
-            case "Fear":
-                apiCategory = "fear";
-                break;
-        }
-    });
-})
-
-document.querySelector("#quoteButton").addEventListener("click", fetchQuote);
-document.querySelector("#postFeeling").addEventListener("click", postFeeling);
 
 async function fetchQuote(){
     // This function will fetch a quote once we figure out the quotes API :)
@@ -79,8 +83,6 @@ async function postFeeling(){
     }
     
     const request = new Request("../php/sharemood.php", requestOptions);
-
     let response = await fetch(request);
     let resource = await response.json();
-
 }
