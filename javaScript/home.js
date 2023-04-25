@@ -45,6 +45,7 @@ function renderHomePage(){
 
     document.querySelector(".loginButton").addEventListener("click", renderLoginPage);
 
+    footer.classList.add("homeFooter");
     footer.innerHTML = `
         <h4 class="logo">MoodMate</h4>
         <p>This page is for education purposes only</p>

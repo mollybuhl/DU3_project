@@ -2,5 +2,28 @@ body{
     text-align: center;
     background-color: rgb(251, 246, 239);
     margin: 0;
+
+    height: 100vh;
+
+    box-sizing: border-box;
+}
+
+header{
+    height: 8vh;
+}
+
+main{
+    height: 85vh;
+}
+
+footer{
+    height: 7vh;
+}
+
+button{
+    box-shadow: 0px 0px 10px 1px rgb(55, 55, 55);
+}
+button:hover{
+    background-color: grey;
 }
 

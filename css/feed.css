@@ -1,15 +1,139 @@
-main{
-    height: 80vh;
-}
 
 .feedHeader{
     background-color: #B9DBC3;
-    height: 10vh;
 
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
+
+    position: relative;
 }
+
+main.mainFeed{
+    background-image: url(../media/background1.avif);
+    background-position: center;
+    background-size: cover;
+}
+
+div.friendsButton{
+    font-size: 11px;
+    height: 7vh;
+    width: 7vh;
+
+    background-image: url(../media/friendsLogo.webp);
+    background-position: center;
+    background-size: contain;
+
+    cursor: pointer;
+}
+
+header.feedHeader > .friendDisplay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+
+    background-color: rgba(29, 57, 40, 0.92);
+    z-index: 100;
+
+    color: rgb(146, 146, 146);
+}
+
+header.feedHeader > .hidden{
+   display: none;
+}
+
+header.feedHeader > .friendDisplay > div{
+    display: flex;
+    justify-content: space-around;
+}
+
+#closeFriendDisplay:after, #closeFriendDisplay:before{
+    content: '';
+    display: block;
+    width: 10vw;
+    height: 5px;
+    background-color: whitesmoke;
+    margin: 6px 0px;
+}
+
+#closeFriendDisplay:after{
+    transform: rotate(45deg) translate(3px, -1px);
+}
+#closeFriendDisplay:before{
+    transform: rotate(-45deg) translate(-9px, 9px);
+}
+
+header.feedHeader > .friendDisplay > .friends > div{
+    background-color: whitesmoke;
+    width: 80%;
+    border-radius: 10px;
+
+    padding: 1vh;
+
+    display: flex;
+    justify-content: flex-start;
+} 
+
+
+
+div.feedWrapper{
+    background-color: rgba(143, 205, 126, 0.41);
+    backdrop-filter: blur(8px);
+    height: 100%;
+    padding-top: 3vh;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3vh;
+}
+
+div.post{
+    background-color: #e5e5e5;
+
+    width: 90%;
+    height: 15vh;
+
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px 2px rgb(55, 55, 55);
+    padding: 1vh;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+div.post.sad{
+    background-color: #c1efe9;
+}
+
+div.post.happy{
+    background-color: #6fbe6f;
+}
+
+div.post > div > h3, div.post > div > h5{
+    margin: .5vh;
+}
+
+div.post > div > p{
+    margin: 0;
+}
+
+div.post > div.textBox{
+    background-color: rgb(248, 248, 239);
+    padding: 1vh;
+    border-radius: 10px;
+
+    height: 90%;
+    width: 90%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
 
 footer.feed{
     position: fixed;
@@ -17,9 +141,8 @@ footer.feed{
     bottom:0;
     width: 100%;
 
-    height: 7vh;
-    background-color: #B9DBC3;
-
+    background-color: #b9dbc3d5;
+    box-shadow: 1px 1px 5px 1px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -30,9 +153,22 @@ footer.feed{
     justify-content: center;
     align-items: center;
 
-    border: 1px solid rgb(149, 148, 148);
-
     height: 100%;
     width: 50%;
+    cursor: pointer;
+}
+
+footer.feed > .feedButton{
+    background-image: url(../media/feed_icon.png);
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+footer.feed > .profileButton{
+    background-image: url(../media/profile_icon.png);
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 

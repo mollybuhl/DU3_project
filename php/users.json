@@ -3,10 +3,20 @@
         "username": "elin",
         "password": "222",
         "loggedFeelings": [],
-        "friends": [],
-        "posts": [],
+        "friends": [2],
+        "posts": [{"postedBy": 1, "feeling": "Happy", "text": "Had breakfast", "quote": "Live Laugh Love"}],
         "profilePicture": "",
         "firstTime": true,
         "id": 1
+    },
+    {
+        "username": "molly",
+        "password": "222",
+        "loggedFeelings": [],
+        "friends": [1],
+        "posts": [{"postedBy": 2, "feeling": "Sad", "text": "It is raining", "quote": "Live Laugh Love"}],
+        "profilePicture": "",
+        "firstTime": true,
+        "id": 2
     }
 ]

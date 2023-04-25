@@ -16,7 +16,6 @@ h1, h2, h3, h4{
 }
 
 header.home{
-    height: 7vh;
     padding: 0vh 2vh;
 
     display: flex;
@@ -86,6 +85,8 @@ h4{
 .guide > button{
     width: 40vw;
 }
+
+
 
 
 
