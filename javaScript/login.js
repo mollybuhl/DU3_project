@@ -33,13 +33,15 @@ async function callServerToLogin() {
     if(!response.ok) {
         document.getElementById("messageToUser").innerHTML = resource.message;
     } else {
+        window.localStorage.setItem("userId", `${resource.id}`);
+        
         if(resource.firstTime === true) {
             renderFeedPage();
         } else {
             renderFeedPage();
         }
+        
     }
-
 
 }
 
