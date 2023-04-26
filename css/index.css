@@ -1,3 +1,12 @@
+@font-face {
+    font-family: Merlinda;
+    src: url("../fonts/Merienda-VariableFont_wght.ttf")
+}
+@font-face {
+    font-family: Aboreto;
+    src: url("../fonts/Aboreto-Regular.ttf")
+}
+
 body{
     text-align: center;
     background-color: rgb(251, 246, 239);
@@ -14,6 +23,7 @@ header{
 
 main{
     height: 85vh;
+    overflow: scroll;
 }
 
 footer{

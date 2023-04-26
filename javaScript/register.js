@@ -2,8 +2,9 @@
 
 function renderRegisterPage(){
     const mainDom = document.querySelector("body > main");
+    mainDom.classList.add("mainRegister");
     mainDom.innerHTML = `
-    <div id="wrapper">
+    <div class="wrapper">
         <div id="registerLogo"></div>
         <div id="registerField">
             <label for="username">Username</label>
@@ -17,7 +18,7 @@ function renderRegisterPage(){
     </div>
     `;
 
-    document.querySelector("#wrapper > button").addEventListener("click", onClickRegister);
+    document.querySelector(".wrapper > button").addEventListener("click", onClickRegister);
     document.querySelector("#goToLogin").addEventListener("click", renderLoginPage);
 }
 

@@ -2,8 +2,10 @@
 
 function renderPostingModal(){
     const postMoodModal = document.createElement("div");
+    postMoodModal.classList.add("moodModal");
 
     postMoodModal.innerHTML = `
+    <h2>How are you currently feeling?</h2>
     <div id="feelings">
         <button>Sad</button>
         <button>Happy</button>
@@ -13,8 +15,8 @@ function renderPostingModal(){
         <button>Jealous</button>
         <button>Fear</button>
     </div>
-    <label for="description">Let your friends know why you feel this way</label>
-    <input id="description" type="text" name="description">
+    <h3>Tell your friends why you feel this way</h3>
+    <input id="description" type="text" name="description" placeholder="I'm feeling like this because..">
     <div id="quote"></div>
     <button id="quoteButton">Generate quote</button>
     <button id="postFeeling">Share feeling :)</button>
@@ -85,4 +87,7 @@ async function postFeeling(){
     const request = new Request("../php/sharemood.php", requestOptions);
     let response = await fetch(request);
     let resource = await response.json();
+
+    document.querySelector(".moodModal").classList.add("hidden");
+    renderFeedPage();
 }

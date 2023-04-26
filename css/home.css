@@ -1,11 +1,4 @@
-@font-face {
-    font-family: Merlinda;
-    src: url("../fonts/Merienda-VariableFont_wght.ttf")
-}
-@font-face {
-    font-family: Aboreto;
-    src: url("../fonts/Aboreto-Regular.ttf")
-}
+
 
 h1, h2, h3, h4{
     font-family: aboreto;

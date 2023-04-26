@@ -14,6 +14,38 @@
                 "description": "Ice cream!!!",
                 "quote": "Houston, we have a problem",
                 "timestamp": ""
+            },
+            {
+                "postID": 2,
+                "userID": 1,
+                "mood": "",
+                "description": "",
+                "quote": "Houston, we have a problem",
+                "timestamp": ""
+            },
+            {
+                "postID": 3,
+                "userID": 1,
+                "mood": "",
+                "description": "",
+                "quote": "Houston, we have a problem",
+                "timestamp": ""
+            },
+            {
+                "postID": 4,
+                "userID": 1,
+                "mood": "",
+                "description": "",
+                "quote": "Houston, we have a problem",
+                "timestamp": ""
+            },
+            {
+                "postID": 5,
+                "userID": 1,
+                "mood": "Jealous",
+                "description": "",
+                "quote": "Houston, we have a problem",
+                "timestamp": ""
             }
         ],
         "profilePicture": "",
@@ -40,5 +72,15 @@
         "profilePicture": "",
         "firstTime": false,
         "id": 2
+    },
+    {
+        "username": "molly1",
+        "password": "molly1",
+        "loggedFeelings": [],
+        "friends": [],
+        "posts": [],
+        "profilePicture": "",
+        "firstTime": true,
+        "id": 3
     }
 ]

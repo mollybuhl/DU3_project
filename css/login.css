@@ -1,0 +1,27 @@
+main.mainLogin{
+   
+}
+
+.mainLogin > .wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.mainLogin > .wrapper > input{
+    width: 70%;
+    height: 3vh;
+    border-radius: 10px;
+}
+
+.mainLogin > .wrapper > label{
+    padding-top: 2vh;
+    padding-bottom: 1vh;
+    font-family: Aboreto;
+    align-self: self-start;
+}
+
+header > .loginButton.hidden{
+    display: none;
+}

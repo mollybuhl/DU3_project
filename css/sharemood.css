@@ -1,0 +1,54 @@
+.moodModal{
+    background-color: rgb(32, 105, 50);
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 11;
+
+    padding: 2vh;
+}
+
+.moodModal.hidden{
+    display: none;
+}
+
+main > .moodModal > div#feelings{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 2vh;
+}
+
+#feelings > button{
+    border-radius: 50%;
+    height: 10vh;
+    width: 10vh;
+    cursor: pointer;
+
+    font-size: 15px;
+}
+
+#feelings > button:hover{
+    background-color: rgb(154, 154, 154);
+}
+#feelings > button.selected{
+    background-color: rgb(107, 107, 107);
+}
+
+div.moodModal > input#description{
+    width: 100%;
+    height: 5vh;
+    border-radius: 10px;
+}
+
+
+button#quoteButton{
+    font-size: 15px;
+}
+
+button#postFeeling{
+    width: 50vw;
+}
+

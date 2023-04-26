@@ -1,17 +1,25 @@
 "use strict";
 
 function renderLoginPage() {
+
+    let headerButton = document.querySelector("header > .loginButton");
+    headerButton.classList.add("hidden");
     
     let main = document.querySelector("main");
+    main.classList.add("mainLogin");
     main.innerHTML = `
-    <input type="text" id="loginUsername" placeholder="Username">
-    <input type="password" id="loginPassword" placeholder="Password">
-    <p id="messageToUser"></p>
-    <button>Login</button>
-    <p id="switchToRegistration">Don't have an account yet? Make one here!</p>
+        <div class="wrapper">
+            <label for="loginUsername">Username</label>
+            <input type="text" id="loginUsername" placeholder="Username">
+            <label for="loginPassword">Password</label>
+            <input type="password" id="loginPassword" placeholder="Password">
+            <p id="messageToUser"></p>
+            <button>Login</button>
+            <p id="switchToRegistration">Don't have an account yet? Make one here!</p>
+        </div>
     `;
 
-    document.querySelector("main > button").addEventListener("click", callServerToLogin);
+    document.querySelector("main > .wrapper > button").addEventListener("click", callServerToLogin);
     document.querySelector("#switchToRegistration").addEventListener("click", renderRegisterPage);
 }
 

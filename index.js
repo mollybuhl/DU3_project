@@ -1,7 +1,12 @@
-renderHomePage(); /* To render header and footer */
-renderDeveloperPage();
+//renderHomePage(); /* To render header and footer */
+//renderDeveloperPage();
+//renderRegisterPage();
+//renderLoginPage();
+renderFeedPage();
+renderPostingModal();
 
-function renderDeveloperPage(){
+
+/*function renderDeveloperPage(){
     document.querySelector("main").innerHTML = `
     <p>Gjorde en liten navigation till de olika funktionerna, så vi slipper ändra på koden varje gång! :) <br>Bara till att lägga till knapp och EventListener ifall det behövs till en ny funktion.</p>
     <button id="renderHomePage">Home Page</button>
@@ -17,4 +22,4 @@ function renderDeveloperPage(){
     document.querySelector("main > #renderLoginPage").addEventListener("click", renderLoginPage);
     document.querySelector("main > #renderFeedPage").addEventListener("click", renderFeedPage);
     document.querySelector("main > #renderPostingModal").addEventListener("click", renderPostingModal);
-}
+}*/
