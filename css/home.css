@@ -16,7 +16,6 @@ h1, h2, h3, h4{
 }
 
 header.home{
-    height: 7vh;
     padding: 0vh 2vh;
 
     display: flex;
@@ -73,6 +72,15 @@ h4{
     width: 30vw;
 }
 
+.introduction > .homeImage{
+    background-image: url();
+    background-position: center;
+    background-size: contain;
+
+    height: 10vh;
+    width: 10vh;
+}
+
 .guide{
     padding: 2vh;
     background-color: #B9DBC3;
@@ -86,6 +94,8 @@ h4{
 .guide > button{
     width: 40vw;
 }
+
+
 
 
 
