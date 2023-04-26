@@ -4,7 +4,10 @@
         "password": "test",
         "loggedFeelings": [],
         "friends": [
-            2
+            2,
+            3,
+            4,
+            5
         ],
         "posts": [
             {
@@ -40,5 +43,35 @@
         "profilePicture": "",
         "firstTime": false,
         "id": 2
+    },
+    {
+        "username": "test1",
+        "password": "test1",
+        "loggedFeelings": [],
+        "friends": [],
+        "posts": [],
+        "profilePicture": "",
+        "firstTime": true,
+        "id": 3
+    },
+    {
+        "username": "test2",
+        "password": "test2",
+        "loggedFeelings": [],
+        "friends": [],
+        "posts": [],
+        "profilePicture": "",
+        "firstTime": true,
+        "id": 4
+    },
+    {
+        "username": "test3",
+        "password": "test3",
+        "loggedFeelings": [],
+        "friends": [],
+        "posts": [],
+        "profilePicture": "",
+        "firstTime": true,
+        "id": 5
     }
 ]

@@ -9,6 +9,7 @@ function renderDeveloperPage(){
     <button id="renderLoginPage">Login Page</button>
     <button id="renderFeedPage">Feed Page</button>
     <button id="renderPostingModal">Post Modal</button>
+    <button id="renderChatPage">Chat Page</button>
     <br>
     `;
 
@@ -17,4 +18,5 @@ function renderDeveloperPage(){
     document.querySelector("main > #renderLoginPage").addEventListener("click", renderLoginPage);
     document.querySelector("main > #renderFeedPage").addEventListener("click", renderFeedPage);
     document.querySelector("main > #renderPostingModal").addEventListener("click", renderPostingModal);
+    document.querySelector("main > #renderChatPage").addEventListener("click", renderChatPage);
 }
