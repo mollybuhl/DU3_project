@@ -3,7 +3,7 @@
         "username": "test",
         "password": "test",
         "loggedFeelings": [],
-        "friends": [],
+        "friends": [2],
         "posts": [
             {
                 "postID": 1,
@@ -23,7 +23,16 @@
         "password": "222",
         "loggedFeelings": [],
         "friends": [1],
-        "posts": [{"postedBy": 2, "feeling": "Sad", "text": "It is raining", "quote": "Live Laugh Love"}],
+        "posts": [
+            {
+                "postID": 1,
+                "userID": 2,
+                "mood": "Sad",
+                "description": "Ice cream!!!",
+                "quote": "Houston, we have a problem",
+                "timestamp": ""
+            }
+        ],
         "profilePicture": "",
         "firstTime": true,
         "id": 2
