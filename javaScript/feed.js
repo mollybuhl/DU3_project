@@ -3,9 +3,13 @@ async function renderFeedPage(){
     let header = document.querySelector("header");
     let footer = document.querySelector("footer");
     let main = document.querySelector("main");
-    main.classList.add("mainFeed");
-    main.innerHTML = `<div class="feedWrapper"></div>`
+    document.querySelector("body").classList.add("bodyFeed");
 
+    
+    main.innerHTML = `
+        <div class="backgroundImage"></div>
+        <div class="feedWrapper"></div>`
+    ;
     
     //Fetching Users
     let response = await fetch("../php/feed.php");

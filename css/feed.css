@@ -1,18 +1,20 @@
 
 .feedHeader{
-    background-color: #B9DBC3;
-
     display: flex;
     justify-content: space-around;
     align-items: center;
 
-    position: relative;
+    position: fixed;
+    width: 100%;
+
+    border-radius: 0px 0px 10px 10px;
+    /*box-shadow: 0px 15px 10px -13px #111;*/
+    z-index: 4;
 }
 
-main.mainFeed{
-    background-image: url(../media/background1.avif);
-    background-position: center;
-    background-size: cover;
+.bodyFeed{
+    background-color: #1A2E35;
+    position: relative;
 }
 
 div.friendsButton{
@@ -34,10 +36,10 @@ header.feedHeader > .friendDisplay{
     width: 100%;
     height: 100vh;
 
-    background-color: rgba(29, 57, 40, 0.92);
-    z-index: 100;
+    background-color: #1a2e35d2;
+    z-index: 10;
 
-    color: rgb(146, 146, 146);
+    color: rgb(221, 221, 221);
 }
 
 header.feedHeader > .hidden{
@@ -76,13 +78,21 @@ header.feedHeader > .friendDisplay > .friends > div{
     justify-content: flex-start;
 } 
 
+div.backgroundImage{
+    background-image: url(../media/11.avif\(1\).png);
+    background-position: center;
+    background-size: cover;
+    height: 30vh;
+    width: 100vw;
 
+    position: fixed;
+    top: 0;
+    left: 0;
+}
 
 div.feedWrapper{
-    background-color: rgba(143, 205, 126, 0.41);
-    backdrop-filter: blur(8px);
     height: 100%;
-    padding-top: 3vh;
+    padding-top: 20vh;
 
     display: flex;
     flex-direction: column;
@@ -91,6 +101,7 @@ div.feedWrapper{
 }
 
 div.post{
+    z-index: 3;
     background-color: #e5e5e5;
 
     width: 90%;
@@ -106,11 +117,11 @@ div.post{
 }
 
 div.post.sad{
-    background-color: #c1efe9;
+    background-color: #2B3C60;
 }
 
 div.post.happy{
-    background-color: #6fbe6f;
+    background-color: #78B8A0;
 }
 
 div.post > div > h3, div.post > div > h5{
@@ -141,7 +152,7 @@ footer.feed{
     bottom:0;
     width: 100%;
 
-    background-color: #b9dbc3d5;
+    background-color: #7CAB99;
     box-shadow: 1px 1px 5px 1px;
     display: flex;
     justify-content: center;
@@ -163,6 +174,10 @@ footer.feed > .feedButton{
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
+}
+
+footer.feed > div.selected{
+    background-color:  #7d7d7dd5;
 }
 
 footer.feed > .profileButton{

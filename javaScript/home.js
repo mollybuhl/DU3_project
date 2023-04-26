@@ -16,7 +16,8 @@ function renderHomePage(){
 
         <p>Share your daily emotions with your friends and build a deeper understanding for eachother.
         Stay on top of your own mental health by keeping track on your own mood over time.</p>
-        <button class="registerButton">Register</p>
+        <button class="registerButton">Register</button>
+        <div class="homeImage"></div>
     </div>
 
     <div class="guide">

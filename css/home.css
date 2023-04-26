@@ -72,6 +72,15 @@ h4{
     width: 30vw;
 }
 
+.introduction > .homeImage{
+    background-image: url();
+    background-position: center;
+    background-size: contain;
+
+    height: 10vh;
+    width: 10vh;
+}
+
 .guide{
     padding: 2vh;
     background-color: #B9DBC3;
