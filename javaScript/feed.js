@@ -81,9 +81,6 @@ async function renderFeedPage(){
         main.querySelector(".feedWrapper").appendChild(newPost);
     });
 
-
-
-
     header.classList.add("feedHeader");
     header.innerHTML = `
         <div class="friendDisplay hidden">
