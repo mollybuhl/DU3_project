@@ -60,6 +60,7 @@ async function renderPrivateChat(event){
 
     // This function fetches all friends with fetchFriends() then prints the messages that are between the current friend and the user.
     async function fetchMessages(){
+        // This function will be called every second with setTimeout()
 
         // Fetch friends
         const loggedInUserFriends = await fetchFriends();
@@ -74,7 +75,7 @@ async function renderPrivateChat(event){
             }
         });
 
-        const currentFriendsMessages = currentFriend.privateMessages;
+        const currentFriendsConversation = currentFriend.conversations[0];
 
         // Add so that each message is printed.
     }
