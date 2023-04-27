@@ -19,8 +19,30 @@
                 "timestamp": ""
             }
         ],
+        "conversations": [
+            {
+                "toUser": 2,
+                "messages": [
+                    {
+                        "timestamp": "",
+                        "text": "test",
+                        "id": 1
+                    },
+                    {
+                        "timestamp": "",
+                        "text": "hej",
+                        "id": 2
+                    },
+                    {
+                        "timestamp": "",
+                        "text": "test",
+                        "id": 3
+                    }
+                ]
+            }
+        ],
         "profilePicture": "",
-        "firstTime": true,
+        "firstTime": false,
         "id": 1
     },
     {
@@ -40,6 +62,32 @@
                 "timestamp": ""
             }
         ],
+        "conversations": [
+            {
+                "toUser": 1,
+                "messages": [
+                    {
+                        "timestamp": "",
+                        "text": "test",
+                        "id": 1
+                    },
+                    {
+                        "timestamp": "",
+                        "text": "hej",
+                        "id": 2
+                    },
+                    {
+                        "timestamp": "",
+                        "text": "test",
+                        "id": 3
+                    }
+                ]
+            },
+            {
+                "toUser": 2,
+                "messages": []
+            }
+        ],
         "profilePicture": "",
         "firstTime": false,
         "id": 2
@@ -50,6 +98,7 @@
         "loggedFeelings": [],
         "friends": [],
         "posts": [],
+        "conversations": [],
         "profilePicture": "",
         "firstTime": true,
         "id": 3
@@ -60,6 +109,7 @@
         "loggedFeelings": [],
         "friends": [],
         "posts": [],
+        "conversations": [],
         "profilePicture": "",
         "firstTime": true,
         "id": 4
@@ -70,6 +120,7 @@
         "loggedFeelings": [],
         "friends": [],
         "posts": [],
+        "conversations": [],
         "profilePicture": "",
         "firstTime": true,
         "id": 5

@@ -63,12 +63,12 @@ if($requestMethod == "GET"){
     }
 
     // Remove every conversation that is not your conversation, from every friend.
-    foreach($usersFriendsWithUser as $userFriend){
-        $userFriendConversations = $userFriend["conversations"];
+    foreach($usersFriendsWithUser as $userIndex => $userFriend){
+        $conversations = $userFriend["conversations"];
 
         foreach($conversations as $index => $conversation){
             if($conversation["toUser"] != $userID){
-                unset($userFriend["conversations"][$index]);
+                unset($usersFriendsWithUser[$userIndex]["conversations"][$index]);
             }
         }
     }
@@ -84,48 +84,58 @@ if($requestMethod == "POST"){
 
     $senderID = $requestData["senderID"];
     $receiverID = $requestData["receiverID"];
-    $message = $requestData["message"];
+    $newMessage = $requestData["message"];
     
     // Find the user that sent the message and add the message to the array of message within the conversation linked with the friend user is chatting with.
-    foreach($users as $user){
+    foreach($users as $userIndex => $user){
         if($user["id"] == $senderID){
             // Find the conversation linked with the friend the user is chatting with.
             foreach($user["conversations"] as $index => $conversation){
 
                 // If found, add the message to the messages array within the correct conversation, also add a unique ID to the message.
                 if($receiverID == $conversation["toUser"]){
-                    $highestMessageID = 1;
-                    foreach($user["conversation"][$index]["messages"] as $message){
+                    $highestMessageID = 0;
+
+                    // Loop through every message and find the message with the highest ID
+                    foreach($user["conversations"][$index]["messages"] as $message){
                         if($message["id"] > $highestMessageID){
                             $highestMessageID = $message["id"];
                         }
                     }
-                    $message[] = ["id" => $highestMessageID + 1];
+                    $newMessage["id"] = $highestMessageID + 1;
 
-                    $user["conversations"][$index]["messages"][] = $message;
+                    $users[$userIndex]["conversations"][$index]["messages"][] = $newMessage;
+                }
+            }
+        }
+
+        if($user["id"] == $receiverID){
+            // Find the conversation linked with the friend the user is chatting with.
+            foreach($user["conversations"] as $index => $conversation){
+
+                // If found, add the message to the messages array within the correct conversation, also add a unique ID to the message.
+                if($senderID == $conversation["toUser"]){
+                    $highestMessageID = 0;
+
+                    // Loop through every message and find the message with the highest ID
+                    foreach($user["conversations"][$index]["messages"] as $message){
+                        if($message["id"] > $highestMessageID){
+                            $highestMessageID = $message["id"];
+                        }
+                    }
+                    $newMessage["id"] = $highestMessageID + 1;
+
+                    $users[$userIndex]["conversations"][$index]["messages"][] = $newMessage;
                 }
             }
         }
 
         // Same as above, only that the message is added to receivers conversation array instead.
-        if($user["id"] == $receiverID){
-            foreach($user["conversations"] as $index => $conversation){
-                if($senderID == $conversation["toUser"]){
-                    $highestMessageID = 1;
-                    foreach($user["conversation"][$index]["messages"] as $message){
-                        if($message["id"] > $highestMessageID){
-                            $highestMessageID = $message["id"];
-                        }
-                    }
-                    $message[] = ["id" => $highestMessageID + 1];
 
-                    $user["conversations"][$index]["messages"][] = $message;
-                }
-            }
-        }
     }
 
-    $json = json_encode($filename);
+    $json = json_encode($users, JSON_PRETTY_PRINT);
     file_put_contents($filename, $json);
 }
 ?>
+
