@@ -42,7 +42,6 @@ async function callServerToLogin() {
         document.getElementById("messageToUser").innerHTML = resource.message;
     } else {
         window.localStorage.setItem("userId", `${resource.id}`);
-        window.localStorage.setItem("loggedIn", "true");
         
         if(resource.firstTime === true) {
             renderFeedPage();
