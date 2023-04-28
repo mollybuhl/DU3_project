@@ -47,7 +47,6 @@ async function callServerToLogin() {
             renderFeedPage();
         } else {
             renderFeedPage();
-            renderPostingModal();
         }
         
     }
