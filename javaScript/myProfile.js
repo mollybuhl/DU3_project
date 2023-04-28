@@ -117,6 +117,7 @@ async function renderProfilePage() {
                 <p>Su</p>
             </div>
         </div>
+        <button id="logout">Logout</button>
         `;
 
     let profilePictureDiv = document.getElementById("profilePicture");
@@ -128,9 +129,7 @@ async function renderProfilePage() {
     body.classList.remove("bodyFeed");
     body.classList.add("bodyProfile");
     let footer = document.querySelector("footer");
-    footer.innerHTML = `
-        <button id="logout">Logout</button>
-    `;
+    
 
     document.getElementById("logout").addEventListener("click", logout);
 
@@ -139,6 +138,6 @@ async function renderProfilePage() {
 }
 
 function logout() {
-    window.localStorage("loggedIn", "false");
+    window.localStorage.setItem("loggedIn", "false");
     renderHomePage();
 }
