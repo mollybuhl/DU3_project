@@ -2,6 +2,79 @@
     height: 100vh;
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
     justify-content: center;
+}
+
+#privateChats > div {
+    padding: 20px;
+    margin: 10px;
+    font-size: 30px;
+    background-color: whitesmoke;
+    width: 150px;
+    border-radius: 10px;
+}
+
+#privateChats > div:hover {
+    background-color: rgb(207, 207, 207);
+    cursor: pointer;
+}
+
+#privateChat {
+    position: absolute;
+    display: grid;
+    grid-template-rows: 10% 1fr 10%;
+    top: 10%;
+    right: 10%;
+    left: 10%;
+    bottom: 10%;
+    z-index: 1;
+    height: 80vh;
+    width: 80vw;
+    background-color: whitesmoke;
+    border-radius: 10px;
+}
+
+#privateChat > #top {
+    display: flex;
+    justify-content: space-between;
     align-items: center;
+    background-color: rgb(209, 209, 209);
+    border-radius: 10px 10px 0px 0px;
+}
+
+#privateChat > #top > #closeChat {
+    background-color: rgb(176, 176, 176);
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 10px 20px;
+}
+
+#privateChat > #top > #closeChat:hover {
+    background-color: rgb(176, 0, 0);
+    cursor: pointer;
+}
+
+#privateChat > #top > div {
+    margin: 0px 10px;
+}
+
+#privateChat > #messages {
+    text-align: start;
+}
+#privateChat > #messages > div {
+    margin: 10px;
+}
+
+#privateChat > #operations {
+    display: flex;
+    align-items: center;
+    padding: 0px 10px;
+    background-color: rgb(209, 209, 209);
+    border-radius: 0px 0px 10px 10px;
+}
+
+#privateChat > #operations > input {
+    flex-grow: 1;
+    border-radius: 10px;
 }

@@ -64,12 +64,7 @@ if($requestMethod == "POST"){
 
     $action = $requestData["action"];
     $betweenUsers = $requestData["betweenUsers"];
-    $newMessage = "";
 
-    if(isset($requestData["message"])){
-        $newMessage = $requestData["message"];
-    }
-    
     if($action === "fetchConversation"){
         foreach($conversations as $conversation){
             $usersInThisConvo = $conversation["betweenUsers"];
@@ -82,6 +77,8 @@ if($requestMethod == "POST"){
     }
 
     if($action === "postMessage"){
+        $newMessage = $requestData["message"];
+    
         foreach($conversations as $index => $conversation){
             $usersInThisConvo = $conversation["betweenUsers"];
             $arraysDifference = array_diff($betweenUsers, $usersInThisConvo);

@@ -45,11 +45,11 @@ async function renderChatPage(){
         </div>
         <div id="messages"></div>
         <div id="operations">
-            <input>
             <button id="sendMessage">Send</button>
+            <input>
         </div>
         `
-        privateChat.setAttribute("id", "privateChat")
+        privateChat.setAttribute("id", "privateChat");
         document.querySelector("main").appendChild(privateChat);
 
         // Add event listener for the send message button.
@@ -93,7 +93,7 @@ async function renderChatPage(){
         // This function fetches all messages from the conversation between the user and the friend and prints them into the messages <div> in the privateChat <div>, this function is by default a recursive function, meaning once the function reaches the end, it will call itself again with one second delay. This is done to automatically receive new messages from the friend.
         async function fetchAndPrintMessages(startTimeout = true){
 
-            // If the chat has been closed for any reason, make it non-recursive to prevent it from doing unnecessary fetching, then return.
+            // If the chat has been closed for any reason, make it non-recursive to prevent it from doing unnecessary fetches, then end the function with return.
             if(document.querySelector("main > #privateChat") === null){
                 startTimeout = false;
                 return;
@@ -114,7 +114,7 @@ async function renderChatPage(){
             const response = await fetch(request);
             const resource = await response.json();
 
-            // Put messages into an array.
+            // Put fetched messages into an array.
             const conversationMessages = resource.messages;
 
             // Sort the array after message ID, so the message with the lowest id(the very first message sent in the convo) will be first.
