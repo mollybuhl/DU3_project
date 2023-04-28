@@ -1,5 +1,5 @@
 //Check if user is already loged in
-if(localStorage.getItem("userId") === "true"){
+if(localStorage.getItem("loggedIn") === "true"){
     renderFeedPage();
 }else{
     renderHomePage();
@@ -31,4 +31,4 @@ if(localStorage.getItem("userId") === "true"){
     document.querySelector("main > #renderFeedPage").addEventListener("click", renderFeedPage);
     document.querySelector("main > #renderPostingModal").addEventListener("click", renderPostingModal);
     document.querySelector("main > #renderChatPage").addEventListener("click", renderChatPage);
-}
+}*/
