@@ -1,0 +1,22 @@
+.bodyProfile #profilePicture {
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 25vh;
+    height: 25vh;
+    border-radius: 50%;
+    background-color: rgb(11, 128, 89);
+    margin-bottom: 2vh;
+}
+
+.bodyProfile #weekdays > p {
+    display: inline;
+    padding: 10px;
+}
+
+.bodyProfile > main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
