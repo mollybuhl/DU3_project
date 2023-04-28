@@ -70,6 +70,14 @@
                 "description": "Ice cream!!!",
                 "quote": "Houston, we have a problem",
                 "timestamp": ""
+            },
+            {
+                "postID": 2,
+                "userID": "2",
+                "mood": "",
+                "description": "",
+                "quote": null,
+                "timestamp": ""
             }
         ],
         "profilePicture": "..\/media\/profile_img.avif",
