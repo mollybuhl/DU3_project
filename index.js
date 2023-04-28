@@ -1,5 +1,5 @@
 //Check if user is already loged in
-if(!localStorage.getItem("userId") === null){
+if(localStorage.getItem("loggedIn") === "true"){
     renderFeedPage();
 }else{
     renderHomePage();
