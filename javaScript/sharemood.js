@@ -1,5 +1,10 @@
 "use strict";
 
+let userID = window.localStorage.getItem("userId");
+let mood = "";
+let apiCategory = "";
+let quote;
+
 function renderPostingModal(){
     const postMoodModal = document.createElement("div");
     postMoodModal.classList.add("moodModal");
@@ -58,26 +63,29 @@ function renderPostingModal(){
     document.querySelector("main").appendChild(postMoodModal);
     postMoodModal.querySelector("#quoteButton").addEventListener("click", fetchQuote);
     postMoodModal.querySelector("#postFeeling").addEventListener("click", postFeeling);
-}
 
-let userID = 1; /* Recieve from localstorage once its implemented */
-let mood = "";
-let apiCategory = "";
-let quote = "Houston, we have a problem"; /* Using this until the Quotes API is implemented */
-
-
-async function fetchQuote(){
-    // This function will fetch a quote once we figure out the quotes API :)
+    async function fetchQuote(){
+        const request = new Request(`https://api.api-ninjas.com/v1/quotes?category=${apiCategory}`, {
+            headers: {"X-Api-Key": "LXZX6kL0y3UveciOxVZfHw==emA1EeSTrBmKlT1R"}
+        })
+        const response = await fetch(request);
+        const resource = await response.json();
+        quote = await resource;
+    
+        const quoteDiv = postMoodModal.querySelector("#quote");
+        quoteDiv.textContent = quote;
+    }
 }
 
 async function postFeeling(){
+
     const description = document.querySelector("#description").value;
 
     const requestOptions = {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({
-            id: 1,
+            id: userID,
             mood: mood,
             description: description,
             quote: quote

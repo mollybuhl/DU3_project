@@ -46,6 +46,7 @@ $newUser = [
     "loggedFeelings" => [],
     "friends" => [],
     "posts" => [],
+    "conversations" => [],
     "profilePicture" => "",
     "firstTime" => true
 ];
