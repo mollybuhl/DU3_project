@@ -1,6 +1,6 @@
 "use strict";
 
-let userID = window.localStorage.getItem("userId");
+let userID = parseInt(window.localStorage.getItem("userId"));
 let mood = "";
 let apiCategory = "";
 let quote;

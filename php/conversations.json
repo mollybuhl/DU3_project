@@ -1,0 +1,49 @@
+[
+    {
+        "betweenUsers": [
+            1,
+            2
+        ],
+        "messages": [
+            {
+                "senderID": 1,
+                "text": "hej",
+                "timestamp": "",
+                "id": 1
+            }
+        ]
+    },
+    {
+        "betweenUsers": [
+            3,
+            2
+        ],
+        "messages": []
+    },
+    {
+        "betweenUsers": [
+            1,
+            3
+        ],
+        "messages": [
+            {
+                "senderID": 3,
+                "text": "tja",
+                "timestamp": "",
+                "id": 1
+            },
+            {
+                "senderID": 3,
+                "text": "N\u00e4men tjena",
+                "timestamp": "",
+                "id": 2
+            },
+            {
+                "senderID": 3,
+                "text": "hejhej",
+                "timestamp": "",
+                "id": 3
+            }
+        ]
+    }
+]

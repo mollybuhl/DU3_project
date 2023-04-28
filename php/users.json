@@ -5,9 +5,7 @@
         "loggedFeelings": [],
         "friends": [
             2,
-            3,
-            4,
-            5
+            3
         ],
         "posts": [
             {
@@ -52,7 +50,7 @@
             }
         ],
         "profilePicture": "..\/media\/profile_img.avif",
-        "firstTime": true,
+        "firstTime": false,
         "id": 1
     },
     {
@@ -60,7 +58,8 @@
         "password": "222",
         "loggedFeelings": [],
         "friends": [
-            1
+            1,
+            3
         ],
         "posts": [
             {
@@ -80,10 +79,13 @@
         "username": "molly1",
         "password": "molly1",
         "loggedFeelings": [],
-        "friends": [],
+        "friends": [
+            1,
+            2
+        ],
         "posts": [],
         "profilePicture": "..\/media\/profile_img.avif",
-        "firstTime": true,
+        "firstTime": false,
         "id": 3
     }
 ]
