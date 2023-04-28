@@ -157,7 +157,7 @@ async function renderFeedPage(){
 
     document.querySelector(".feedButton").addEventListener("click", renderFeedPage);
     document.querySelector(".postButton").addEventListener("click", renderPostingModal);
-    //document.querySelector(".chatButton").addEventListener("click", renderChatPage);
-    //document.querySelector(".profileButton").addEventListener("click", renderProfilePage);
+    document.querySelector(".chatButton").addEventListener("click", renderChatPage);
+    document.querySelector(".profileButton").addEventListener("click", renderProfilePage);
 
 }
