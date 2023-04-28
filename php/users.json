@@ -4,7 +4,10 @@
         "password": "test",
         "loggedFeelings": [],
         "friends": [
-            2
+            2,
+            3,
+            4,
+            5
         ],
         "posts": [
             {
