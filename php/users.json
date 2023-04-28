@@ -26,7 +26,7 @@
             {
                 "postID": 3,
                 "userID": 1,
-                "mood": "",
+                "mood": "Forgiving",
                 "description": "",
                 "quote": "Houston, we have a problem",
                 "timestamp": ""
@@ -34,21 +34,21 @@
             {
                 "postID": 4,
                 "userID": 1,
-                "mood": "",
-                "description": "",
+                "mood": "Jealous",
+                "description": "oh no",
                 "quote": "Houston, we have a problem",
                 "timestamp": ""
             },
             {
                 "postID": 5,
                 "userID": 1,
-                "mood": "Jealous",
-                "description": "",
+                "mood": "Happy",
+                "description": "The sun is out!",
                 "quote": "Houston, we have a problem",
                 "timestamp": ""
             }
         ],
-        "profilePicture": "",
+        "profilePicture": "..\/media\/profile_img.avif",
         "firstTime": true,
         "id": 1
     },
@@ -69,7 +69,7 @@
                 "timestamp": ""
             }
         ],
-        "profilePicture": "",
+        "profilePicture": "..\/media\/profile_img.avif",
         "firstTime": false,
         "id": 2
     },
@@ -79,7 +79,7 @@
         "loggedFeelings": [],
         "friends": [],
         "posts": [],
-        "profilePicture": "",
+        "profilePicture": "..\/media\/profile_img.avif",
         "firstTime": true,
         "id": 3
     }

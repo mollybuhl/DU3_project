@@ -1,9 +1,9 @@
-//renderHomePage(); /* To render header and footer */
+renderHomePage(); /* To render header and footer */
 //renderDeveloperPage();
 //renderRegisterPage();
 //renderLoginPage();
-renderFeedPage();
-renderPostingModal();
+//renderFeedPage();
+//renderPostingModal();
 
 
 /*function renderDeveloperPage(){

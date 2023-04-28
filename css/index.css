@@ -7,6 +7,10 @@
     src: url("../fonts/Aboreto-Regular.ttf")
 }
 
+*{
+    box-sizing: border-box;
+}
+
 body{
     text-align: center;
     background-color: rgb(251, 246, 239);
@@ -22,7 +26,6 @@ header{
 }
 
 main{
-    height: 85vh;
     overflow: scroll;
 }
 

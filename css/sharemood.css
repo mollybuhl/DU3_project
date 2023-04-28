@@ -1,10 +1,10 @@
 .moodModal{
-    background-color: rgb(32, 105, 50);
+    background-color: rgb(221, 227, 222);
 
     position: fixed;
     top: 0;
     left: 0;
-    height: 100vh;
+    height: 85vh;
     z-index: 11;
 
     padding: 2vh;

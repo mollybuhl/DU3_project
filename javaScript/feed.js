@@ -3,9 +3,9 @@ async function renderFeedPage(){
     let header = document.querySelector("header");
     let footer = document.querySelector("footer");
     let main = document.querySelector("main");
-    document.querySelector("body").classList.add("bodyFeed");
 
-    
+    document.querySelector("body").classList.add("bodyFeed");
+    document.querySelector("main").classList.add("mainFeed");
     main.innerHTML = `
         <div class="backgroundImage"></div>
         <div class="feedWrapper"></div>`
@@ -15,9 +15,8 @@ async function renderFeedPage(){
     let response = await fetch("../php/feed.php");
     let Users = await response.json();
 
-    //Locate logged in users' friends. 
-    //Fetch user from localstorage
-    let User_id = 1;
+    //Locate users' friends. 
+    let User_id = 1; //This will be id of user saved in localstorage
     let User = Users.find(user => user.id === User_id);
     let friendsOfUser = User.friends;
 
@@ -81,6 +80,7 @@ async function renderFeedPage(){
         main.querySelector(".feedWrapper").appendChild(newPost);
     });
 
+    //Header
     header.classList.add("feedHeader");
     header.innerHTML = `
         <div class="friendDisplay hidden">
@@ -89,37 +89,73 @@ async function renderFeedPage(){
                 <div id="closeFriendDisplay"></div>
             </div>
             <div class="friends"></div>
+            <div id="searchWrapper">
+                <h3>Add Friends</h3>
+                <p class="messageToUser"></p>
+                <form name="searchForm">
+                    <input name="searchbar" type="text" placeholder="Search">
+                    <button><img src="../media/search.png"></button>
+                </form>
+            </div>
         </div>
-        <h3 class="logo">MoodMate</h3>
+        <div class="profileInformation">
+            <img src="${User["profilePicture"]}">
+            <h3>${User["username"]}</h3>
+        </div>
         <div class="friendsButton"></button>
     `;
 
+    document.querySelector("#searchWrapper > form > button").addEventListener("click", function(){
+        searchName = document.querySelector("#searchWrapper > form > input").value;
+        console.log(searchName);
+        Users.forEach(user => {
+            if(searchName === user["username"]){
+                document.querySelector("#searchWrapper > .messageToUser").textContent = "Found";
+
+            }
+        });
+        document.querySelector("#searchWrapper > .messageToUser").textContent = "User not found";
+    })
+
     //Add each friend to friend list.
-    friendNames.forEach(friend => {
+    friendNames.forEach(name => {
+        let friend = Users.find(user => user.username === name);
+
         let friendBox = document.createElement("div");
         friendBox.innerHTML = `
-        <p>${friend}</p>
+            <img src="${friend["profilePicture"]}">
+            <h3>${friend["username"]}</h3>
+            <div class="chat_icon"></div>
         `;
         document.querySelector("header > .friendDisplay > .friends").appendChild(friendBox);
     })
 
+    //Display friends pop-up by clicking friends-button
     document.querySelector("header > .friendsButton").addEventListener("click", function (){
         document.querySelector(".friendDisplay").classList.remove("hidden");
     });
+
+    //Hide friends pop-up by clicking exit-button
     document.querySelector("#closeFriendDisplay").addEventListener("click", function(){
         document.querySelector(".friendDisplay").classList.add("hidden");
     })
 
+    //Display friend chat when clicking on chat-icon in the friends pop-up
+    document.querySelector("header > .friendDisplay > .friends > div > .chat_icon")
 
+
+    //Footer
     footer.classList.add("feed");
-
     footer.innerHTML = `
+        <div class="chatButton"></div>
         <div class="feedButton"></div>
+        <div class="postButton"></div>
         <div class="profileButton"></div>
-
     `;
 
     document.querySelector(".feedButton").addEventListener("click", renderFeedPage);
+    document.querySelector(".postButton").addEventListener("click", renderPostingModal);
+    //document.querySelector(".chatButton").addEventListener("click", renderChatPage);
     //document.querySelector(".profileButton").addEventListener("click", renderProfilePage);
 
 }
