@@ -120,6 +120,6 @@ async function renderFeedPage(){
     `;
 
     document.querySelector(".feedButton").addEventListener("click", renderFeedPage);
-    //document.querySelector(".profileButton").addEventListener("click", renderProfilePage);
+    document.querySelector(".profileButton").addEventListener("click", renderProfilePage);
 
 }
