@@ -127,7 +127,18 @@ async function renderProfilePage() {
     let body = document.querySelector("body");
     body.classList.remove("bodyFeed");
     body.classList.add("bodyProfile");
+    let footer = document.querySelector("footer");
+    footer.innerHTML = `
+        <button id="logout">Logout</button>
+    `;
+
+    document.getElementById("logout").addEventListener("click", logout);
 
     //let date = `${month} ${dateOfTheMonth}, ${year}`;
     //Today's date if needed?
+}
+
+function logout() {
+    window.localStorage("loggedIn", "false");
+    renderHomePage();
 }
