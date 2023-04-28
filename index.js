@@ -1,4 +1,11 @@
-renderHomePage(); /* To render header and footer */
+//Check if user is already loged in
+if(localStorage.getItem("userId") === "true"){
+    renderFeedPage();
+}else{
+    renderHomePage();
+}
+
+//renderHomePage(); /* To render header and footer */
 //renderDeveloperPage();
 //renderRegisterPage();
 //renderLoginPage();

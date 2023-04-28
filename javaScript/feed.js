@@ -105,7 +105,9 @@ async function renderFeedPage(){
         <div class="friendsButton"></button>
     `;
 
-    document.querySelector("#searchWrapper > form > button").addEventListener("click", function(){
+    //Search for friends
+    document.querySelector("#searchWrapper > form > button").addEventListener("click", function(event){
+        event.preventDefault();
         searchName = document.querySelector("#searchWrapper > form > input").value;
         console.log(searchName);
         Users.forEach(user => {
