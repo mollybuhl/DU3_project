@@ -18,6 +18,9 @@ async function renderChatPage(){
         friendDivDom.addEventListener("click", renderPrivateChat);
     });
 
+    // senderID is the user. This variable is declared here instead of inside the function renderPrivateChat() because if you're logged into an account, that ID will be stored in localStorage, if you then login to another account when the first account already rendered the chat page, the first account will be able to fetch messages with the newly logged in users ID, if its inside the renderPrivateChat() function because that function is called whenever you click on a friend to chat, it will then get the ID from localstorage again, and that ID will be the recently logged in user. - Messy comment, will improve this.
+    const senderID = parseInt(window.localStorage.getItem("userId"));
+
     // This function renders a private chat between the user and its friend.
     async function renderPrivateChat(event){
 
@@ -32,10 +35,9 @@ async function renderChatPage(){
             }
         });
 
-        // receiverID is the friends ID and senderID is the users ID. These are later used to make POST requests when fetching the messages and sending messages.
+        // receiverID is the friend the user is chatting with. This along with senderID will be sent when fetching conversations and posting messages.
         const receiverID = currentFriendObject.id;
-        const senderID = parseInt(window.localStorage.getItem("userId"));
-
+        
         // Create a <div> and fill will elements building the private chat window. Then set an id to the <div> also append it to <main>.
         const privateChat = document.createElement("div");
         privateChat.innerHTML = `
