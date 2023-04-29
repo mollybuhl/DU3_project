@@ -1,11 +1,11 @@
 "use strict";
 
-let userID = window.localStorage.getItem("userId");
-let mood = "";
-let apiCategory = "";
-let quote;
-
 function renderPostingModal(){
+    let userID = parseInt(window.localStorage.getItem("userId"));
+    let mood;
+    let apiCategory;
+    let quoteObject;
+
     const postMoodModal = document.createElement("div");
     postMoodModal.classList.add("moodModal");
 
@@ -70,32 +70,41 @@ function renderPostingModal(){
         })
         const response = await fetch(request);
         const resource = await response.json();
-        quote = await resource;
-    
+        quoteObject = await resource[0];
+        console.log(quoteObject.quote);
         const quoteDiv = postMoodModal.querySelector("#quote");
-        quoteDiv.textContent = quote;
+        quoteDiv.textContent = quoteObject.quote;
     }
-}
 
-async function postFeeling(){
-
-    const description = document.querySelector("#description").value;
-
-    const requestOptions = {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({
-            id: userID,
-            mood: mood,
-            description: description,
-            quote: quote
-        })
-    }
+    async function postFeeling(){
+        const date = new Date();
+        const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        const months = ["Jan.", "Feb.", "Mar.", "Apr.", "May", "June", "July", "Aug.", "Sep.", "Oct.", "Nov.", "Dec."];
     
-    const request = new Request("../php/sharemood.php", requestOptions);
-    let response = await fetch(request);
-    let resource = await response.json();
-
-    document.querySelector(".moodModal").classList.add("hidden");
-    renderFeedPage();
+        let timestamp = `${date.getHours()}:${date.getMinutes()}, ${date.getDate()} ${months[date.getMonth()]}`
+        let dayOfWeek = weekdays[date.getDay()];
+    
+        const description = document.querySelector("#description").value;
+    
+        const requestOptions = {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({
+                id: userID,
+                mood: mood,
+                description: description,
+                quote: quoteObject,
+                dayOfWeek: dayOfWeek,
+                timestamp: timestamp
+            })
+        }
+        
+        const request = new Request("../php/sharemood.php", requestOptions);
+        let response = await fetch(request);
+        let resource = await response.json();
+    
+        document.querySelector(".moodModal").classList.add("hidden");
+        renderFeedPage();
+    }
 }
+

@@ -32,7 +32,7 @@ $requestMethod = $_SERVER["REQUEST_METHOD"];
 $allowed = ["POST"];
 checkMethod($requestMethod, $allowed);
 
-$filename = "users.json";
+$filename = "php/users.json";
 $users = [];
 
 // Check if file exists. If it doesn't, save $users within $filename. If it exists get contents from $filename then decode and save it in $users.
@@ -51,6 +51,8 @@ $userID = $requestData["id"];
 $mood = $requestData["mood"];
 $description = $requestData["description"];
 $quote = $requestData["quote"];
+$timestamp = $requestData["timestamp"];
+$dayOfWeek = $requestData["dayOfWeek"];
 
 // Find the user with the same ID as in the one in the request.
 foreach($users as $index => $user){
@@ -72,7 +74,8 @@ foreach($users as $index => $user){
             "mood" => $mood,
             "description" => $description,
             "quote" => $quote,
-            "timestamp" => ""
+            "dayOfWeek" => $dayOfWeek,
+            "timestamp" => $timestamp
         ];
 
         $users[$index]["posts"][] = $newPost;
