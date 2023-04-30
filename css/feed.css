@@ -192,6 +192,12 @@ main.mainFeed{
     align-items: center;
     gap: 3vh;
 }
+/*MAIN: Info if nothing is posted*/
+.mainFeed > div.feedWrapper > .no_post_info{
+    color: whitesmoke;
+    z-index: 5;
+}
+
 /*MAIN: Each post*/
 div.post{
     z-index: 2;

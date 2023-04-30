@@ -1,7 +1,5 @@
 
 async function renderFeedPage(){
-
-
     let header = document.querySelector("header");
     let footer = document.querySelector("footer");
     let main = document.querySelector("main");
@@ -18,7 +16,8 @@ async function renderFeedPage(){
     let Users = await response.json();
 
     //Locate users' friends. 
-    let User_id = 1; //This will be id of user saved in localstorage
+    let User_id = 3; //This will be id of user saved in localstorage
+    console.log(window.localStorage.getItem("userId"));
     let User = Users.find(user => user.id === User_id);
     let friendsOfUser = User.friends;
 
@@ -49,38 +48,47 @@ async function renderFeedPage(){
     //let PostTimeOrder = posts.sort()
 
     //Create posts in feed
-    posts.forEach(post => {
+    if(posts.length === 0){
         const newPost = document.createElement("div");
-        newPost.classList.add("post");
-
-        const postedBy = Users.find(user => user["id"] === post["userID"]);
-        let userName = postedBy["username"];
-
-        const feeling = post["mood"];
-        const text = post["description"];
-        const quote = post["quote"];
-
-        newPost.innerHTML = `
-            <div>
-                <h3>${userName} is feeling: ${feeling}</h3>
-            </div>
-            <div class="textBox">
-                <h4>Why I'm feeling ${feeling}:</h4> 
-                <p> ${text}</p> 
-                <p><h5>Quote: </h5>"${quote}"</p>
-            </div>`;
-
-        switch(feeling){
-            case "Happy":
-                newPost.classList.add("happy");
-                break;
-            case "Sad":
-                newPost.classList.add("sad");
-                break;
-        }
+        newPost.classList.add("no_post_info")
+        newPost.innerHTML = `<p>Add friends to see their posts here!</p>`;
         
         main.querySelector(".feedWrapper").appendChild(newPost);
-    });
+    }else{
+        posts.forEach(post => {
+            const newPost = document.createElement("div");
+            newPost.classList.add("post");
+    
+            const postedBy = Users.find(user => user["id"] === post["userID"]);
+            let userName = postedBy["username"];
+    
+            const feeling = post["mood"];
+            const text = post["description"];
+            const quote = post["quote"];
+    
+            newPost.innerHTML = `
+                <div>
+                    <h3>${userName} is feeling: ${feeling}</h3>
+                </div>
+                <div class="textBox">
+                    <h4>Why I'm feeling ${feeling}:</h4> 
+                    <p> ${text}</p> 
+                    <p><h5>Quote: </h5>"${quote}"</p>
+                </div>`;
+    
+            switch(feeling){
+                case "Happy":
+                    newPost.classList.add("happy");
+                    break;
+                case "Sad":
+                    newPost.classList.add("sad");
+                    break;
+            }
+            
+            main.querySelector(".feedWrapper").appendChild(newPost);
+        });
+    }
+   
 
     //Header
     header.classList.add("feedHeader");

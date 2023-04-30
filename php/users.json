@@ -50,10 +50,18 @@
                 "description": "The sun is out!",
                 "quote": "Houston, we have a problem",
                 "timestamp": ""
+            },
+            {
+                "postID": 6,
+                "userID": "1",
+                "mood": "Forgiving",
+                "description": "life",
+                "quote": null,
+                "timestamp": ""
             }
         ],
         "profilePicture": "..\/media\/profile_img.avif",
-        "firstTime": true,
+        "firstTime": false,
         "id": 1
     },
     {
