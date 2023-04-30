@@ -98,5 +98,29 @@
         "profilePicture": "..\/media\/profile_img.avif",
         "firstTime": true,
         "id": 3
+    },
+    {
+        "username": "molly2",
+        "password": "molly2",
+        "loggedFeelings": [],
+        "friends": [],
+        "friendRequests": [],
+        "posts": [],
+        "conversations": [],
+        "profilePicture": "profile_icon_3.jpg",
+        "firstTime": false,
+        "id": 4
+    },
+    {
+        "username": "molly3",
+        "password": "molly3",
+        "loggedFeelings": [],
+        "friends": [],
+        "friendRequests": [],
+        "posts": [],
+        "conversations": [],
+        "profilePicture": "..\/media\/profile_imgs\/profile_icon_1.jpg",
+        "firstTime": false,
+        "id": 5
     }
 ]

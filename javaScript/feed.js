@@ -16,8 +16,7 @@ async function renderFeedPage(){
     let Users = await response.json();
 
     //Locate users' friends. 
-    let User_id = 3; //This will be id of user saved in localstorage
-    console.log(window.localStorage.getItem("userId"));
+    let User_id = (Number(window.localStorage.getItem("userId"))); 
     let User = Users.find(user => user.id === User_id);
     let friendsOfUser = User.friends;
 

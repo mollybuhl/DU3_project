@@ -28,7 +28,7 @@ $password = $requestData["password"];
 // Check if the given username or password is shorter than 3 characters. If so, send a message with status 400(Bad request).
 if(strlen($username) < 3 or strlen($password) < 3){
     $message = ["message" => "Both the username and password must be 3 characters or longer. Please try again."];
-    sendJSON($message, 400);
+    sendJSON($message, 400); 
 }
 
 // Check if the given username is already used by another user. If so, send a message with status 409(Conflict).
@@ -39,15 +39,32 @@ foreach($users as $user){
     }
 }
 
+//Randomise profile image
+$folder = "../media/profile_imgs";
+$imageSources = scandir($folder);
+$images = [];
+
+foreach($imageSources as $imageSource){
+    if(str_contains($imageSource, ".jpg")){
+        array_push($images, $imageSource);
+    }
+}
+
+$count = count($images);
+$index = rand(0,($count - 1));
+
+$profilePicture = $images[$index];
+
 // Associative array of the newly created user that is added to the array $users.
 $newUser = [
     "username" => $username,
     "password" => $password,
     "loggedFeelings" => [],
     "friends" => [],
+    "friendRequests" => [],
     "posts" => [],
     "conversations" => [],
-    "profilePicture" => "",
+    "profilePicture" => "../media/profile_imgs/$profilePicture",
     "firstTime" => true
 ];
 
