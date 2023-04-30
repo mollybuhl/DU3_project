@@ -107,20 +107,6 @@ async function renderFeedPage(){
         <div class="friendsButton"></button>
     `;
 
-    //Search for friends
-    document.querySelector("#searchWrapper > form > button").addEventListener("click", function(event){
-        event.preventDefault();
-        searchName = document.querySelector("#searchWrapper > form > input").value;
-        console.log(searchName);
-        Users.forEach(user => {
-            if(searchName === user["username"]){
-                document.querySelector("#searchWrapper > .messageToUser").textContent = "Found";
-
-            }
-        });
-        document.querySelector("#searchWrapper > .messageToUser").textContent = "User not found";
-    })
-
     //Add each friend to friend list.
     friendNames.forEach(name => {
         let friend = Users.find(user => user.username === name);
@@ -145,11 +131,30 @@ async function renderFeedPage(){
     })
 
     //Display friend chat when clicking on chat-icon in the friends pop-up
-    document.querySelector("header > .friendDisplay > .friends > div > .chat_icon")
+    document.querySelector("header > .friendDisplay > .friends > div > .chat_icon");
 
+    //Search for friends
+    document.querySelector("#searchWrapper > form > button").addEventListener("click", function(event){
+        event.preventDefault();
 
-    //Footer
-    footer.classList.add("feed");
+        searchName = document.querySelector("#searchWrapper > form > input").value;
+        
+        Users.forEach(user => {
+            if(searchName === user["username"]){
+                if(confirm(`"Do you want to add ${searchName} to your Friends?"`)){ //If user is found ask to confirm friend request
+                   
+                    //Send friend request
+                    sendFriendRequset(User_id, searchName);  
+                    return;                  
+                };
+            }
+        });
+        document.querySelector("#searchWrapper > .messageToUser").textContent = "User not found";
+
+    });
+
+    //Loged in footer
+    footer.classList.add("footerFeed");
     footer.innerHTML = `
         <div class="chatButton"></div>
         <div class="feedButton"></div>
@@ -157,9 +162,45 @@ async function renderFeedPage(){
         <div class="profileButton"></div>
     `;
 
+    //Render feed page when clicking feed icon in menu
     document.querySelector(".feedButton").addEventListener("click", renderFeedPage);
+    //Render posting page when clicking add post button in menu
     document.querySelector(".postButton").addEventListener("click", renderPostingModal);
+    //Render Chat when clicking chat icon in menu
     document.querySelector(".chatButton").addEventListener("click", renderChatPage);
+    //Render profile when clicking on profile icon in menu
     document.querySelector(".profileButton").addEventListener("click", renderProfilePage);
 
+}
+
+//Send friend request
+async function sendFriendRequset(userFrom, userTo){
+
+    const friendRequest = {
+        method: "PATCH",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            userFrom: userFrom,
+            userTo: userTo,
+        })
+    }
+
+    try{
+        const request = new Request("../php/addFriend.php", friendRequest);
+        let response = await fetch(request);
+        let resource = await response.json();
+    
+        // If the response was unsuccessful for any reason, print the error message to the user. Otherwise tell the user their account has been created then redirect them to the login page.
+        if(!response.ok){
+            document.querySelector("#searchWrapper > .messageToUser").textContent = `${response.message}`;
+
+        }else{          
+            document.querySelector("#searchWrapper > .messageToUser").textContent = `A Friend Request was sent to ${searchName}!`;
+            document.querySelector("#searchWrapper > form > input").value = "";
+        }
+
+    }catch(error){
+        document.querySelector("#searchWrapper > .messageToUser").textContent = `An Error occured, please try again later`;
+    }
+    
 }

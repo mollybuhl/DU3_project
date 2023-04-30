@@ -9,6 +9,7 @@
             4,
             5
         ],
+        "friendRequests": [],
         "posts": [
             {
                 "postID": 1,
@@ -62,6 +63,7 @@
         "friends": [
             1
         ],
+        "friendRequests": [],
         "posts": [
             {
                 "postID": 1,
@@ -81,6 +83,9 @@
         "password": "molly1",
         "loggedFeelings": [],
         "friends": [],
+        "friendRequests": [
+            1
+        ],
         "posts": [],
         "profilePicture": "..\/media\/profile_img.avif",
         "firstTime": true,
