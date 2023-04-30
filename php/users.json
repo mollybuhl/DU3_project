@@ -53,7 +53,7 @@
             },
             {
                 "postID": 6,
-                "userID": "1",
+                "userID": 1,
                 "mood": "Forgiving",
                 "description": "life",
                 "quote": null,

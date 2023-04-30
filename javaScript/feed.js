@@ -59,7 +59,10 @@ async function renderFeedPage(){
             newPost.classList.add("post");
     
             const postedBy = Users.find(user => user["id"] === post["userID"]);
+            console.log(postedBy);
             let userName = postedBy["username"];
+            console.log(userName);
+            
     
             const feeling = post["mood"];
             const text = post["description"];
