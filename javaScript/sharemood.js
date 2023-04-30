@@ -12,19 +12,21 @@ function renderPostingModal(){
     postMoodModal.innerHTML = `
     <h2>How are you currently feeling?</h2>
     <div id="feelings">
-        <button>Sad</button>
-        <button>Happy</button>
-        <button>Angry</button>
-        <button>Couragious</button>
-        <button>Forgiving</button>
-        <button>Jealous</button>
-        <button>Fear</button>
+        <button class="sad">Sad</button>
+        <button class="happy">Happy</button>
+        <button class="angry">Angry</button>
+        <button class="couragious">Couragious</button>
+        <button class="forgiving">Forgiving</button>
+        <button class="jealous">Jealous</button>
+        <button class="fear">Fear</button>
     </div>
-    <h3>Tell your friends why you feel this way</h3>
+    <h3>Why you feel this way</h3>
     <input id="description" type="text" name="description" placeholder="I'm feeling like this because..">
-    <div id="quote"></div>
-    <button id="quoteButton">Generate quote</button>
-    <button id="postFeeling">Share feeling :)</button>
+    <div id="quote">
+        <p id="generatedQuote"></p>
+        <button id="quoteButton">Generate quote</button>
+    </div>
+    <button id="postFeeling">Share feelings :)</button>
     `
 
     const feelingsButtons = postMoodModal.querySelectorAll("#feelings > button");
@@ -71,9 +73,9 @@ function renderPostingModal(){
         const response = await fetch(request);
         const resource = await response.json();
         quote = await resource;
-    
-        const quoteDiv = postMoodModal.querySelector("#quote");
-        quoteDiv.textContent = quote;
+        
+        const quoteDiv = postMoodModal.querySelector("#quote > p");
+        quoteDiv.textContent = quote[0]["quote"];
     }
 }
 
