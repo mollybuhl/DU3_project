@@ -72,11 +72,13 @@ async function renderFeedPage(){
                 <div>
                     <h3>${userName} is feeling: ${feeling}</h3>
                 </div>
+                <button id="deletePost">X</button>
                 <div class="textBox">
                     <h4>Why I'm feeling ${feeling}:</h4> 
                     <p> ${text}</p> 
                     <p><h5>Quote: </h5>"${quote}"</p>
-                </div>`;
+                </div>
+                `;
     
             switch(feeling){
                 case "Happy":
