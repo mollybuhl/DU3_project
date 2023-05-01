@@ -29,7 +29,7 @@ async function renderProfilePage() {
             month = "January";
             break;
         case 1:
-            month = "Febraury";
+            month = "February";
             break;
         case 2:
             month = "March";
@@ -64,41 +64,49 @@ async function renderProfilePage() {
 
     }
 
-    let begginingOfWeek = "";
+    let beginningOfWeek = "";
     let endOfWeek = "";
+    let today = "";
 
     switch(new Date().getDay()) {
         case 0:
-            begginingOfWeek = dateOfTheMonth - 6;
+            beginningOfWeek = dateOfTheMonth - 6;
             endOfWeek = dateOfTheMonth;
+            today = "Su";
             break;
         case 1:
-            begginingOfWeek = dateOfTheMonth;
+            beginningOfWeek = dateOfTheMonth;
             endOfWeek = dateOfTheMonth + 6;
+            today = "Mo";
             break;
         case 2:
-            begginingOfWeek = dateOfTheMonth - 1;
+            beginningOfWeek = dateOfTheMonth - 1;
             endOfWeek = dateOfTheMonth + 5;
+            today = "Tu";
             break;
         case 3:
-            begginingOfWeek = dateOfTheMonth - 2;
+            beginningOfWeek = dateOfTheMonth - 2;
             endOfWeek = dateOfTheMonth + 4;
+            today = "We";
             break;
         case 4: 
-            begginingOfWeek = dateOfTheMonth - 3;
+            beginningOfWeek = dateOfTheMonth - 3;
             endOfWeek = dateOfTheMonth + 3;
+            today = "Th";
             break;
         case 5: 
-            begginingOfWeek = dateOfTheMonth - 4;
+            beginningOfWeek = dateOfTheMonth - 4;
             endOfWeek = dateOfTheMonth + 2;
+            today = "Fr";
             break;
         case 6:
-            begginingOfWeek = dateOfTheMonth - 5;
+            beginningOfWeek = dateOfTheMonth - 5;
             endOfWeek = dateOfTheMonth + 1;
+            today = "Sa";
             break;
     }
 
-    let week = `${month} ${begginingOfWeek}-${endOfWeek}, ${year}`;
+    let week = `${month} ${beginningOfWeek}-${endOfWeek}, ${year}`;
     console.log(week);
 
     let main = document.querySelector("main");
@@ -118,7 +126,14 @@ async function renderProfilePage() {
             </div>
         </div>
         <button id="logout">Logout</button>
-        `;
+    `;
+
+    let weekdays = document.querySelectorAll("div#weekdays > p");
+    for(let i = 0; i < weekdays.length; i++) {
+        if(weekdays[i].textContent === today) {
+            weekdays[i].classList.add("today");
+        }
+    }
 
     let profilePictureDiv = document.getElementById("profilePicture");
     profilePictureDiv.style.backgroundImage = `url(../media/${profilePicture})`;

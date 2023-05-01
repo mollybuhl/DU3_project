@@ -4,7 +4,6 @@ if(isset($_GET["id"])) {
     $activeUserId = $_GET["id"];
 }
 
-
 if(file_exists("users.json")) {
     $usersArrayJSON = file_get_contents("users.json");
     $usersArray = json_decode($usersArrayJSON, true);
