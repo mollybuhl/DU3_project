@@ -7,7 +7,7 @@ $allowed = ["POST", "GET"];
 checkMethod($requestMethod, $allowed);
 
 if($requestMethod == "GET"){
-    $filename = "users.json";
+    $filename = "php/users.json";
     $users = [];
     
     // Check if file exists. If it doesn't, save $users within $filename. If it exists get contents from $filename then decode and save it in $users.
@@ -74,6 +74,17 @@ if($requestMethod == "POST"){
                 sendJSON($conversation, 200);
             }
         }
+        
+        $newConversation = [
+            "betweenUsers" => $betweenUsers,
+            "messages" => []
+        ];
+
+        $conversations[] = $newConversation;
+        $json = json_encode($conversations, JSON_PRETTY_PRINT);
+        file_put_contents($filename, $json);
+
+        sendJSON($newConversation, 200);
     }
 
     if($action === "postMessage"){
