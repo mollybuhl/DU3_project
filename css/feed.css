@@ -1,4 +1,10 @@
+.bodyFeed{
+    background-color: #1A2E35;
+    position: relative;
+}
 
+/*HEADER*/
+/*HEADER: Header in feed*/
 .feedHeader{
     display: flex;
     justify-content: space-between;
@@ -14,14 +20,14 @@
     box-sizing: border-box;
     /*box-shadow: 0px 15px 10px -13px #111;*/
     z-index: 4;
-
 }
 
-.bodyFeed{
-    background-color: #1A2E35;
-    position: relative;
-}
+/*Hide feed header when displaying friends*/
+header.feedHeader > .hidden{
+    display: none;
+ }
 
+/*HEADER: Friends button in header*/
 div.friendsButton{
     font-size: 11px;
     height: 7vh;
@@ -34,6 +40,21 @@ div.friendsButton{
     cursor: pointer;
 }
 
+/*HEADER: Profile pic & name*/
+header.feedHeader > .profileInformation{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+header.feedHeader > .profileInformation > img{
+    height: 8vh;
+    width: 8vh;
+
+    border-radius: 50%;
+}
+
+/*HEADER: Friends display*/
 header.feedHeader > .friendDisplay{
     position: fixed;
     top: 0;
@@ -47,28 +68,13 @@ header.feedHeader > .friendDisplay{
     color: rgb(221, 221, 221);
 }
 
-header.feedHeader > .profileInformation{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-header.feedHeader > .profileInformation > img{
-    height: 10vh;
-    width: 10vh;
-
-    border-radius: 50%;
-}
-
-header.feedHeader > .hidden{
-   display: none;
-}
-
-header.feedHeader > .friendDisplay > div{
+/*Friends display: Heading and exit*/
+header.feedHeader > .friendDisplay > div:first-child{
     display: flex;
     justify-content: space-around;
 }
 
+/*Friends display: exit-button*/
 #closeFriendDisplay:after, #closeFriendDisplay:before{
     content: '';
     display: block;
@@ -76,7 +82,6 @@ header.feedHeader > .friendDisplay > div{
     height: 5px;
     margin: 6px 0px;
 }
-
 #closeFriendDisplay:after{
     transform: rotate(45deg) translate(3px, -1px);
 }
@@ -84,6 +89,7 @@ header.feedHeader > .friendDisplay > div{
     transform: rotate(-45deg) translate(-9px, 9px);
 }
 
+/*Friends display: Each friend on list*/
 header.feedHeader > .friendDisplay > .friends > div{
     width: 80%;
     border-radius: 10px;
@@ -95,13 +101,14 @@ header.feedHeader > .friendDisplay > .friends > div{
     gap: 2vh;
 } 
 
+/*Friends display: Friends profile img*/
 div.friends > div > img{
     height: 10vh;
     width: 10vh;
 
     border-radius: 50%;
 }
-
+/*Friends display: Each friend chat icon*/
 div.friends > div > div.chat_icon{
     height: 5vh;
     width: 5vh;
@@ -111,6 +118,7 @@ div.friends > div > div.chat_icon{
     background-position: center;
 }
 
+/*Friends display: Search*/
 #searchWrapper{
     padding: 2vh;
     display: flex;
@@ -123,7 +131,7 @@ div.friends > div > div.chat_icon{
     width: 100%;
     box-sizing: border-box;
 }
-
+/*Friends display: Search form*/
 #searchWrapper > form {
     width: 100%;
     height: 6vh;
@@ -133,7 +141,7 @@ div.friends > div > div.chat_icon{
     border-radius: 60px;
     padding: 1vh;
 }
-
+/*Friends display: Search form input field*/
 #searchWrapper > form >input{
     background: transparent;
     flex:1;
@@ -157,7 +165,12 @@ div.friends > div > div.chat_icon{
    cursor: pointer;
 }
 
-div.backgroundImage{
+/*MAIN*/
+main.mainFeed{
+    padding-bottom: 10vh;
+}
+/*MAIN: Top background image*/
+.mainFeed > div.backgroundImage{
     background-image: url(../media/11.avif\(1\).png);
     background-position: center;
     background-size: cover;
@@ -168,16 +181,8 @@ div.backgroundImage{
     top: 0;
     left: 0;
 }
-
-div.backgroundImage > .topBackground{
-    background-color: #e5e5e5;
-}
-
-main.mainFeed{
-    padding-bottom: 10vh;
-}
-
-div.feedWrapper{
+/*MAIN: Feed wrapper*/
+.mainFeed > div.feedWrapper{
     height: 100%;
     margin-top: 20vh;
     overflow: hidden;
@@ -187,7 +192,13 @@ div.feedWrapper{
     align-items: center;
     gap: 3vh;
 }
+/*MAIN: Info if nothing is posted*/
+.mainFeed > div.feedWrapper > .no_post_info{
+    color: whitesmoke;
+    z-index: 5;
+}
 
+/*MAIN: Each post*/
 div.post{
     z-index: 2;
     background-color: #e5e5e5;
@@ -204,6 +215,7 @@ div.post{
     align-items: flex-start;
 }
 
+/*MAIN: Post color based on mood*/
 div.post.sad{
     background-color: #2B3C60;
 }
@@ -212,14 +224,15 @@ div.post.happy{
     background-color: #78B8A0;
 }
 
+/*MAIN: Each post h3 & h5 headings*/
 div.post > div > h3, div.post > div > h5{
     margin: .5vh;
 }
-
+/*MAIN: Each post p*/
 div.post > div > p{
     margin: 0;
 }
-
+/*MAIN: Each post inner text box*/
 div.post > div.textBox{
     background-color: rgb(248, 248, 239);
     padding: 1vh;
@@ -233,8 +246,9 @@ div.post > div.textBox{
     align-items: flex-start;
 }
 
-
-footer.feed{
+/*FOOTER*/
+/*FOOTER: Feed footer menu*/
+footer.footerFeed{
     position: fixed;
     left: 0;
     bottom:0;
@@ -252,8 +266,8 @@ footer.feed{
     box-shadow: -5px 0px 15px 1px #272727;
     z-index: 3;
 }
-
-.feed > div{
+/*FOOTER: Each icon in feed footer menu*/
+.footerFeed > div{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -263,34 +277,38 @@ footer.feed{
     cursor: pointer;
 }
 
-footer.feed > .feedButton{
+/*FOOTER: Feed icon*/
+footer.footerFeed > .feedButton{
     background-image: url(../media/feed_icon.png);
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
 }
 
-footer.feed > div.selected{
-    background-color:  #7d7d7dd5;
-}
-
-footer.feed > .profileButton{
+/*FOOTER: Profile icon*/
+footer.footerFeed > .profileButton{
     background-image: url(../media/profile_icon.png);
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
 }
 
-footer.feed > .chatButton{
+/*FOOTER: Chat icon*/
+footer.footerFeed > .chatButton{
     background-image: url(../media/chat.png);
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
 }
-footer.feed > .postButton{
+/*FOOTER: Post icon*/
+footer.footerFeed > .postButton{
     background-image: url(../media/add.png);
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
+}
+
+footer.footerFeed > div.selected{
+    background-color:  #7d7d7dd5;
 }
 

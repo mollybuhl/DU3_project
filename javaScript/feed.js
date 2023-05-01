@@ -1,7 +1,5 @@
 
 async function renderFeedPage(){
-
-
     let header = document.querySelector("header");
     let footer = document.querySelector("footer");
     let main = document.querySelector("main");
@@ -18,7 +16,7 @@ async function renderFeedPage(){
     let Users = await response.json();
 
     //Locate users' friends. 
-    let User_id = 1; //This will be id of user saved in localstorage
+    let User_id = (Number(window.localStorage.getItem("userId"))); 
     let User = Users.find(user => user.id === User_id);
     let friendsOfUser = User.friends;
 
@@ -49,38 +47,50 @@ async function renderFeedPage(){
     //let PostTimeOrder = posts.sort()
 
     //Create posts in feed
-    posts.forEach(post => {
+    if(posts.length === 0){
         const newPost = document.createElement("div");
-        newPost.classList.add("post");
-
-        const postedBy = Users.find(user => user["id"] === post["userID"]);
-        let userName = postedBy["username"];
-
-        const feeling = post["mood"];
-        const text = post["description"];
-        const quote = post["quote"];
-
-        newPost.innerHTML = `
-            <div>
-                <h3>${userName} is feeling: ${feeling}</h3>
-            </div>
-            <div class="textBox">
-                <h4>Why I'm feeling ${feeling}:</h4> 
-                <p> ${text}</p> 
-                <p><h5>Quote: </h5>"${quote}"</p>
-            </div>`;
-
-        switch(feeling){
-            case "Happy":
-                newPost.classList.add("happy");
-                break;
-            case "Sad":
-                newPost.classList.add("sad");
-                break;
-        }
+        newPost.classList.add("no_post_info")
+        newPost.innerHTML = `<p>Add friends to see their posts here!</p>`;
         
         main.querySelector(".feedWrapper").appendChild(newPost);
-    });
+    }else{
+        posts.forEach(post => {
+            const newPost = document.createElement("div");
+            newPost.classList.add("post");
+    
+            const postedBy = Users.find(user => user["id"] === post["userID"]);
+            console.log(postedBy);
+            let userName = postedBy["username"];
+            console.log(userName);
+            
+    
+            const feeling = post["mood"];
+            const text = post["description"];
+            const quote = post["quote"];
+    
+            newPost.innerHTML = `
+                <div>
+                    <h3>${userName} is feeling: ${feeling}</h3>
+                </div>
+                <div class="textBox">
+                    <h4>Why I'm feeling ${feeling}:</h4> 
+                    <p> ${text}</p> 
+                    <p><h5>Quote: </h5>"${quote}"</p>
+                </div>`;
+    
+            switch(feeling){
+                case "Happy":
+                    newPost.classList.add("happy");
+                    break;
+                case "Sad":
+                    newPost.classList.add("sad");
+                    break;
+            }
+            
+            main.querySelector(".feedWrapper").appendChild(newPost);
+        });
+    }
+   
 
     //Header
     header.classList.add("feedHeader");
@@ -107,20 +117,6 @@ async function renderFeedPage(){
         <div class="friendsButton"></button>
     `;
 
-    //Search for friends
-    document.querySelector("#searchWrapper > form > button").addEventListener("click", function(event){
-        event.preventDefault();
-        searchName = document.querySelector("#searchWrapper > form > input").value;
-        console.log(searchName);
-        Users.forEach(user => {
-            if(searchName === user["username"]){
-                document.querySelector("#searchWrapper > .messageToUser").textContent = "Found";
-
-            }
-        });
-        document.querySelector("#searchWrapper > .messageToUser").textContent = "User not found";
-    })
-
     //Add each friend to friend list.
     friendNames.forEach(name => {
         let friend = Users.find(user => user.username === name);
@@ -145,11 +141,30 @@ async function renderFeedPage(){
     })
 
     //Display friend chat when clicking on chat-icon in the friends pop-up
-    document.querySelector("header > .friendDisplay > .friends > div > .chat_icon")
+    document.querySelector("header > .friendDisplay > .friends > div > .chat_icon");
 
+    //Search for friends
+    document.querySelector("#searchWrapper > form > button").addEventListener("click", function(event){
+        event.preventDefault();
 
-    //Footer
-    footer.classList.add("feed");
+        searchName = document.querySelector("#searchWrapper > form > input").value;
+        
+        Users.forEach(user => {
+            if(searchName === user["username"]){
+                if(confirm(`"Do you want to add ${searchName} to your Friends?"`)){ //If user is found ask to confirm friend request
+                   
+                    //Send friend request
+                    sendFriendRequset(User_id, searchName);  
+                    return;                  
+                };
+            }
+        });
+        document.querySelector("#searchWrapper > .messageToUser").textContent = "User not found";
+
+    });
+
+    //Loged in footer
+    footer.classList.add("footerFeed");
     footer.innerHTML = `
         <div class="chatButton"></div>
         <div class="feedButton"></div>
@@ -157,9 +172,45 @@ async function renderFeedPage(){
         <div class="profileButton"></div>
     `;
 
+    //Render feed page when clicking feed icon in menu
     document.querySelector(".feedButton").addEventListener("click", renderFeedPage);
+    //Render posting page when clicking add post button in menu
     document.querySelector(".postButton").addEventListener("click", renderPostingModal);
+    //Render Chat when clicking chat icon in menu
     document.querySelector(".chatButton").addEventListener("click", renderChatPage);
+    //Render profile when clicking on profile icon in menu
     document.querySelector(".profileButton").addEventListener("click", renderProfilePage);
 
+}
+
+//Send friend request
+async function sendFriendRequset(userFrom, userTo){
+
+    const friendRequest = {
+        method: "PATCH",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            userFrom: userFrom,
+            userTo: userTo,
+        })
+    }
+
+    try{
+        const request = new Request("../php/addFriend.php", friendRequest);
+        let response = await fetch(request);
+        let resource = await response.json();
+    
+        // If the response was unsuccessful for any reason, print the error message to the user. Otherwise tell the user their account has been created then redirect them to the login page.
+        if(!response.ok){
+            document.querySelector("#searchWrapper > .messageToUser").textContent = `${response.message}`;
+
+        }else{          
+            document.querySelector("#searchWrapper > .messageToUser").textContent = `A Friend Request was sent to ${searchName}!`;
+            document.querySelector("#searchWrapper > form > input").value = "";
+        }
+
+    }catch(error){
+        document.querySelector("#searchWrapper > .messageToUser").textContent = `An Error occured, please try again later`;
+    }
+    
 }

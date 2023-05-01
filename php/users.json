@@ -7,6 +7,7 @@
             2,
             3
         ],
+        "friendRequests": [],
         "posts": [
             {
                 "postID": 1,
@@ -47,6 +48,14 @@
                 "description": "The sun is out!",
                 "quote": "Houston, we have a problem",
                 "timestamp": ""
+            },
+            {
+                "postID": 6,
+                "userID": 1,
+                "mood": "Forgiving",
+                "description": "life",
+                "quote": null,
+                "timestamp": ""
             }
         ],
         "profilePicture": "..\/media\/profile_img.avif",
@@ -61,6 +70,7 @@
             1,
             3
         ],
+        "friendRequests": [],
         "posts": [
             {
                 "postID": 1,
@@ -79,13 +89,34 @@
         "username": "molly1",
         "password": "molly1",
         "loggedFeelings": [],
-        "friends": [
-            1,
-            2
-        ],
+        "friends": [],
         "posts": [],
         "profilePicture": "..\/media\/profile_img.avif",
         "firstTime": false,
         "id": 3
+    },
+    {
+        "username": "molly2",
+        "password": "molly2",
+        "loggedFeelings": [],
+        "friends": [],
+        "friendRequests": [],
+        "posts": [],
+        "conversations": [],
+        "profilePicture": "profile_icon_3.jpg",
+        "firstTime": false,
+        "id": 4
+    },
+    {
+        "username": "molly3",
+        "password": "molly3",
+        "loggedFeelings": [],
+        "friends": [],
+        "friendRequests": [],
+        "posts": [],
+        "conversations": [],
+        "profilePicture": "..\/media\/profile_imgs\/profile_icon_1.jpg",
+        "firstTime": false,
+        "id": 5
     }
 ]
