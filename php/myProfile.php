@@ -5,7 +5,7 @@ if(isset($_GET["id"])) {
 }
 
 if(file_exists("users.json")) {
-    $usersArrayJSON = file_get_contents("users.json");
+    $usersArrayJSON = file_get_contents("php/users.json");
     $usersArray = json_decode($usersArrayJSON, true);
 }
 

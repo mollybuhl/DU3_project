@@ -2,16 +2,13 @@
 
 // Renders the chat page.
 async function renderChatPage(){
+    // Select the <main> element and change its innerHTML.
     const mainDom = document.querySelector("main");
+    mainDom.innerHTML = `<div id="privateChats"></div>`;
 
-    mainDom.innerHTML = `
-    <div id="chatUsername"></div>
-    <div id="privateChats"></div>
-    `
-
-    const loggedInUserFriends = await fetchFriends();
-
-    loggedInUserFriends.forEach(friendObject => {
+    // Fetch the users friends, then create a new <div> for each friend and put their username as textContent for the <div>, also add an eventListener for every <div>, when its pressed call function renderPrivateChat().
+    const userFriends = await fetchFriends();
+    userFriends.forEach(friendObject => {
         const privateChats = mainDom.querySelector("#privateChats");
 
         const friendDivDom = document.createElement("div");
@@ -20,122 +17,139 @@ async function renderChatPage(){
 
         friendDivDom.addEventListener("click", renderPrivateChat);
     });
-}
 
-// Render private chat when clicking on a friend in chat page.
-async function renderPrivateChat(event){
+    // senderID is the user. This variable is declared here instead of inside the function renderPrivateChat() because if you're logged into an account, that ID will be stored in localStorage, if you then login to another account when the first account already rendered the chat page, the first account will be able to fetch messages with the newly logged in users ID, if its inside the renderPrivateChat() function because that function is called whenever you click on a friend to chat, it will then get the ID from localstorage again, and that ID will be the recently logged in user. - Messy comment, will improve this.
+    const senderID = parseInt(window.localStorage.getItem("userId"));
 
-    // The clicked friends username and JS object.
-    const currentFriendUsername = event.target.textContent;
-    let currentFriendObject;
+    // This function renders a private chat between the user and its friend.
+    async function renderPrivateChat(event){
 
-    let fetchMessageTimeout;
+        // The clicked friends username and JS object.
+        const currentFriendUsername = event.target.textContent;
+        let currentFriendObject;
 
-    // Fetch the messages sent between the user and their friend.
-
-    const privateChat = document.createElement("div");
-    privateChat.innerHTML = `
-    <div id="top">
-        <div>Username</div>
-        <div id="closeChat">Close</div>
-    </div>
-    <div id="messages"></div>
-    <div id="operations">
-        <input>
-        <button id="sendMessage">Send</button>
-    </div>
-    `
-    await fetchMessages();
-    // add event listener for the send message button
-    privateChat.querySelector("#sendMessage").addEventListener("click", event => {
-        sendMessage();
-
-    });
-
-    // add event listener to close current chat
-    privateChat.querySelector("#closeChat").addEventListener("click", event => {
-        // Clear the timeout so it doesn't keep fetching messages when chat is closed.
-        clearTimeout(fetchMessageTimeout);
-        privateChat.remove();
-    })
-
-    document.querySelector("main").appendChild(privateChat);
-
-    // This function will trigger when the send message button is pressed within the privateChat. Posts the message to the server.
-    async function sendMessage(event){
-        // Receiver is the friend of the user, sender is the user and message is the text that will be sent.
-        const receiverID = currentFriendObject.id;
-        const senderID = parseInt(window.localStorage.getItem("userId"));
-        const message = privateChat.querySelector("#operations > input").value;
-
-        // The body of the request
-        const requestBody = {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({
-                senderID: senderID,
-                receiverID: receiverID,
-                message: {
-                    timestamp: "",
-                    text: message
-                }
-            })
-        }
-
-        // Send message to server.
-        const request = new Request("../php/chat.php", requestBody);
-        const response = await fetch(request);
-
-        fetchMessages(false);
-    }
-
-    // This function fetches all friends with fetchFriends() then prints the messages that are between the current friend and the user.
-    async function fetchMessages(startTimeout = true){
-        // This function will be called every second with setTimeout()
-
-        // Fetch friends
-        const loggedInUserFriends = await fetchFriends();
-        
-        // Find the object of the current friend and put in currentFriend variable.
-        loggedInUserFriends.forEach(friendObject => {
+        // Find the object of the friend the user is currently chatting with and put it in currentFriendObject.
+        userFriends.forEach(friendObject => {
             if(friendObject.username === currentFriendUsername){
                 currentFriendObject = friendObject;
             }
         });
 
-        // Put current conversation in variable, then put every message in an array.
-        const currentFriendsConversation = currentFriendObject.conversations[0];
-        const conversationMessages = currentFriendsConversation.messages;
+        // receiverID is the friend the user is chatting with. This along with senderID will be sent when fetching conversations and posting messages.
+        const receiverID = currentFriendObject.id;
+        
+        // Create a <div> and fill will elements building the private chat window. Then set an id to the <div> also append it to <main>.
+        const privateChat = document.createElement("div");
+        privateChat.innerHTML = `
+        <div id="top">
+            <div>${currentFriendUsername}</div>
+            <div id="closeChat">Close</div>
+        </div>
+        <div id="messages"></div>
+        <div id="operations">
+            <button id="sendMessage">Send</button>
+            <input>
+        </div>
+        `
+        privateChat.setAttribute("id", "privateChat");
+        document.querySelector("main").appendChild(privateChat);
 
-        // Sort the array after message ID, so the message with the lowest id(the very first message sent in the convo) will be first.
-        conversationMessages.sort((a, b) => {
-            if(a.id > b.id){
-                return 1;
-            }else{
-                return -1;
+        // Add event listener for the send message button.
+        privateChat.querySelector("#sendMessage").addEventListener("click", sendMessage);
+
+        // Add event listener to close current chat.
+        privateChat.querySelector("#closeChat").addEventListener("click", event => privateChat.remove())
+
+        // Calling the function to start fetch messages and print them.
+        await fetchAndPrintMessages();
+
+        // This function will trigger when the send message button is pressed within the privateChat <div>. It posts a new message to the server.
+        async function sendMessage(event){
+
+            // Get the message the user wants to send.
+            const message = privateChat.querySelector("#operations > input").value;
+
+            // The body of the request
+            const requestOptions = {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({
+                    action: "postMessage",
+                    betweenUsers: [receiverID, senderID],
+                    message: {
+                        senderID: senderID,
+                        text: message,
+                        timestamp: ""
+                    }
+                })
             }
-        });
 
-        // The div that all messages will be put into.
-        const messagesDiv = privateChat.querySelector("#messages");
-        messagesDiv.innerHTML = "";
+            // Send message to server.
+            const request = new Request("../php/chat.php", requestOptions);
+            const response = await fetch(request);
 
-        // For every message in the messages array, create a div and put the text message as textContent, then append to the messagesDiv.
-        conversationMessages.forEach(message => {
-            const messageDiv = document.createElement("div");
-            messageDiv.textContent = message.text;
-            messagesDiv.appendChild(messageDiv);
-        })
+            // Fetch the messages once your message is up on the server to instantly see your own message. The argument is sent to make it non-recursive.
+            fetchAndPrintMessages(false);
+        }
 
-        // Call this function every second to repeatedly get messages.
-        if(startTimeout){
-            fetchMessageTimeout = setTimeout(fetchMessages, 1000);
+        // This function fetches all messages from the conversation between the user and the friend and prints them into the messages <div> in the privateChat <div>, this function is by default a recursive function, meaning once the function reaches the end, it will call itself again with one second delay. This is done to automatically receive new messages from the friend.
+        async function fetchAndPrintMessages(startTimeout = true){
+
+            // If the chat has been closed for any reason, make it non-recursive to prevent it from doing unnecessary fetches, then end the function with return.
+            if(document.querySelector("main > #privateChat") === null){
+                startTimeout = false;
+                return;
+            }
+
+            // The options for the request made to fetch the messages.
+            const requestOptions = {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({
+                    action: "fetchConversation",
+                    betweenUsers: [receiverID, senderID]
+                })
+            }
+
+            // Fetch messages.
+            const request = new Request("../php/chat.php", requestOptions);
+            const response = await fetch(request);
+            const resource = await response.json();
+
+            // Put fetched messages into an array.
+            const conversationMessages = resource.messages;
+
+            // Sort the array after message ID, so the message with the lowest id(the very first message sent in the convo) will be first.
+            conversationMessages.sort((a, b) => {
+                if(a.id > b.id){
+                    return 1;
+                }else{
+                    return -1;
+                }
+            });
+
+            // Select the <div> where the messages will be printed into, and clear it to prevent duplication of messages.
+            const messagesDiv = privateChat.querySelector("#messages");
+            messagesDiv.innerHTML = "";
+
+            // For every message in the messages array, create a <div> and put the text message as textContent, then append to the messages <div>.
+            conversationMessages.forEach(message => {
+                const messageDiv = document.createElement("div");
+                messageDiv.textContent = message.text;
+                messagesDiv.appendChild(messageDiv);
+            })
+
+            // if startTimeout = true, call this function again after one second, making it recursive.
+            if(startTimeout){
+                setTimeout(fetchAndPrintMessages, 1000);
+            }
         }
     }
 }
 
 // Fetches every user object that is friends with the currently logged in user.
 async function fetchFriends(){
+    
     // Get the currently logged in userID
     const loggedInUser = window.localStorage.getItem("userId");
 
