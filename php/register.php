@@ -64,8 +64,7 @@ $newUser = [
     "friendRequests" => [],
     "posts" => [],
     "conversations" => [],
-    "profilePicture" => "../media/profile_imgs/$profilePicture",
-    "firstTime" => true
+    "profilePicture" => "../media/profile_imgs/$profilePicture"
 ];
 
 // Add unique ID to new user
