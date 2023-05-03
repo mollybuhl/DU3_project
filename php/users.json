@@ -5,9 +5,12 @@
         "loggedFeelings": [],
         "friends": [
             2,
-            3
+            3,
+            6
         ],
-        "friendRequests": [],
+        "friendRequests": [
+            
+        ],
         "posts": [
             {
                 "postID": 1,
@@ -70,7 +73,9 @@
             1,
             3
         ],
-        "friendRequests": [],
+        "friendRequests": [
+            6
+        ],
         "posts": [
             {
                 "postID": 1,
@@ -118,5 +123,17 @@
         "profilePicture": "..\/media\/profile_imgs\/profile_icon_1.jpg",
         "firstTime": false,
         "id": 5
+    },
+    {
+        "username": "Ossian",
+        "password": "1234",
+        "loggedFeelings": [],
+        "friends": [],
+        "friendRequests": [],
+        "posts": [],
+        "conversations": [],
+        "profilePicture": "..\/media\/profile_imgs\/",
+        "firstTime": false,
+        "id": 6
     }
 ]
