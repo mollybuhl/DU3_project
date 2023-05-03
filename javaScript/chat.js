@@ -65,7 +65,9 @@ async function renderChatPage(){
 
         // This function will trigger when the send message button is pressed within the privateChat <div>. It posts a new message to the server.
         async function sendMessage(event){
-
+            const date = new Date();
+            const months = ["Jan.", "Feb.", "Mar.", "Apr.", "May", "June", "July", "Aug.", "Sep.", "Oct.", "Nov.", "Dec."];
+            let timestamp = `${date.getHours()}:${date.getMinutes()}, ${date.getDate()} ${months[date.getMonth()]}`
             // Get the message the user wants to send.
             const message = privateChat.querySelector("#operations > input").value;
 
@@ -79,7 +81,7 @@ async function renderChatPage(){
                     message: {
                         senderID: senderID,
                         text: message,
-                        timestamp: ""
+                        timestamp: timestamp
                     }
                 })
             }
