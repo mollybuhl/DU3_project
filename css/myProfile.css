@@ -20,3 +20,9 @@
     justify-content: center;
     align-items: center;
 }
+
+.today {
+    padding: 3.2vw;
+    border-radius: 50%;
+    background-color: rgb(11, 128, 89);
+}
