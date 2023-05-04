@@ -87,6 +87,10 @@ if($requestMethod == "POST"){
         sendJSON($newConversation, 200);
     }
 
+    if($action === "fetchGroupChat"){
+        
+    }
+
     if($action === "postMessage"){
         $newMessage = $requestData["message"];
     

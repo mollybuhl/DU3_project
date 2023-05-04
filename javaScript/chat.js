@@ -4,7 +4,10 @@
 async function renderChatPage(){
     // Select the <main> element and change its innerHTML.
     const mainDom = document.querySelector("main");
-    mainDom.innerHTML = `<div id="privateChats"></div>`;
+    mainDom.innerHTML = `
+    <div id="privateChats"></div>
+    <div id="groupChats"></div>
+    `;
 
     // Fetch the users friends, then create a new <div> for each friend and put their username as textContent for the <div>, also add an eventListener for every <div>, when its pressed call function renderPrivateChat().
     const userFriends = await fetchFriends();
@@ -162,4 +165,8 @@ async function fetchFriends(){
     const resource = await response.json();
 
     return await resource;
+}
+
+async function fetchGroupChats(){
+    
 }
