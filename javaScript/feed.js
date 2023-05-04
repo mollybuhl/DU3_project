@@ -15,84 +15,162 @@ async function renderFeedPage(){
     let response = await fetch("../php/feed.php");
     let Users = await response.json();
 
-    //Locate users' friends. 
+    //Locate user by localstorage
     let User_id = (Number(window.localStorage.getItem("userId"))); 
     let User = Users.find(user => user.id === User_id);
-    let friendsOfUser = User.friends;
 
-    let posts = [];
-    let friendNames = [];
+    //Create a display for users X last posts;
+    let postDisplay = document.createElement("div");
+    postDisplay.classList.add("postDisplay");
+    main.querySelector(".feedWrapper").appendChild(postDisplay);
+
+    let postedByUser = User.posts;
+    postedByUser.sort(compare);
+    function compare(a,b){
+        //console.log(a.timestamp);
+        //console.log(b.timestamp);
+        return b.timestamp - a.timestamp;
+    }
+
+    postedByUser.forEach(post => { 
+        let createdPost = createPostInFeed(User, post);
+        postDisplay.appendChild(createdPost);
+
+        createdPost.querySelector("#deletePost").addEventListener("click", deletePost);
+
+        async function deletePost (event){
+            let postID = post.postID;
+            
+            const requestOptions = {
+                method: "DELETE",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({
+                    userID: User_id,
+                    postID: postID,
+                })
+            }
+
+            try{
+                const request = new Request("feed.php", requestOptions);
+                let response = await fetch(request);
+                let resource = await response.json();
+            }catch(error){
+                console.log(error);
+            }
+            
+        }
+
+    });
+
+    /*let deletePostButtons = document.querySelectorAll("#deletePost")
+    deletePostButtons.forEach(deletePostbutton => {
+        deletePostbutton.addEventListener("click", deletePost);
+    });*/
     
-    //Push all friends posts into array "posts".
+
+    
+    
+    
+    //For each friend create a display with their X last posts
+    let friendsOfUser = User.friends;
+    let friendNames = [];
     friendsOfUser.forEach(friendId => {
         Users.forEach(user => {
             if(user.id === friendId){
-                friendNames.push(user.username);
-                let friendPosts = user.posts;
-                friendPosts.forEach(post => {
-                    posts.push(post)
-                })
+                friendNames.push(user.username); //Neccecary?
+
+                let friendsPostDisplay = document.createElement("div");
+                friendsPostDisplay.classList.add("friendsPostDisplay");
+                main.querySelector(".feedWrapper").appendChild(friendsPostDisplay);
+
+                let postedBy = user.username;
+                let posts = user.posts;
+
+                posts.sort(compare);
+                function compare(a,b){
+                    return b.timestamp - a.timestamp;
+                }
+        
+                posts.forEach(post=> {
+                    friendsPostDisplay.appendChild(createPostInFeed(postedBy, post));
+                });
+
             }
         })
     });
 
-    
-    //Push the users own posts into array "posts".
-    let UserPosts = User.posts;
-    UserPosts.forEach(post => {
-        posts.push(post);
-    });
-    
-    //Order posts by date published.
-    //let PostTimeOrder = posts.sort()
+
+    function createPostInFeed(postedBy, post){
+        const newPost = document.createElement("div");
+        newPost.classList.add("post");
+
+        const feeling = post["mood"];
+        const text = post["description"];
+        const quote = post["quote"];
+        const timestamp = post["timestamp"];
+
+        if(postedBy === User){
+            newPost.innerHTML = `
+                <div>
+                    <h3>I'm feeling <span>${feeling}</span></h3>
+                    <div id="deletePost"></div>
+                </div>
+                <p class="timestamp">${timestamp}</p>
+                <p> ${text}</p> 
+                <h5>Quote: </h5><p>"${quote}"</p>
+             `;
+        }else{
+            newPost.innerHTML = `
+            <div>
+                <h3>I'm feeling <span>${feeling}</span></h3>
+            </div>
+            <p class="timestamp">${timestamp}</p>
+            <p> ${text}</p> 
+            <h5>Quote: </h5><p>"${quote}"</p>
+         `;
+        }
+      
+
+        switch(feeling){
+            case "Happy":
+                newPost.classList.add("happy");
+                break;
+            case "Sad":
+                newPost.classList.add("sad");
+                break;
+            case "Angry":
+                newPost.classList.add("angry");
+            break;
+            case "Couragious":
+                newPost.classList.add("couragious");
+            break;
+            case "Forgiving":
+                newPost.classList.add("forgiving");
+            break;
+            case "Jealous":
+                newPost.classList.add("jealous");
+            break;
+            case "Fearful":
+                newPost.classList.add("fearful");
+            break;
+            
+        }
+
+        return newPost;
+    }
+ 
+   
 
     //Create posts in feed
-    if(posts.length === 0){
+    /*
+    if(posts.length === 0 ){
         const newPost = document.createElement("div");
         newPost.classList.add("no_post_info")
         newPost.innerHTML = `<p>Add friends to see their posts here!</p>`;
         
         main.querySelector(".feedWrapper").appendChild(newPost);
-    }else{
-        posts.forEach(post => {
-            const newPost = document.createElement("div");
-            newPost.classList.add("post");
-    
-            const postedBy = Users.find(user => user["id"] === post["userID"]);
-            console.log(postedBy);
-            let userName = postedBy["username"];
-            console.log(userName);
-            
-    
-            const feeling = post["mood"];
-            const text = post["description"];
-            const quote = post["quote"];
-    
-            newPost.innerHTML = `
-                <div>
-                    <h3>${userName} is feeling: ${feeling}</h3>
-                </div>
-                <button id="deletePost">X</button>
-                <div class="textBox">
-                    <h4>Why I'm feeling ${feeling}:</h4> 
-                    <p> ${text}</p> 
-                    <p><h5>Quote: </h5>"${quote}"</p>
-                </div>
-                `;
-    
-            switch(feeling){
-                case "Happy":
-                    newPost.classList.add("happy");
-                    break;
-                case "Sad":
-                    newPost.classList.add("sad");
-                    break;
-            }
-            
-            main.querySelector(".feedWrapper").appendChild(newPost);
-        });
     }
-   
+   */
 
     //Header
     header.classList.add("feedHeader");
