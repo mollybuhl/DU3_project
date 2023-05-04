@@ -138,15 +138,32 @@ async function renderProfilePage() {
     let profilePictureDiv = document.getElementById("profilePicture");
     profilePictureDiv.style.backgroundImage = `url(../media/${profilePicture})`;
 
-    let header = document.querySelector("header");
-    header.classList.remove("home");
+    
     let body = document.querySelector("body");
     body.classList.remove("bodyFeed");
-    body.classList.add("bodyProfile");
+    body.classList.add("profileBody");
+    let header = document.querySelector(".profileBody > header");
+    header.classList.remove("home");
+    header.classList.remove("feedHeader");
+    header.classList.add("profileHeader");
     let footer = document.querySelector("footer");
+    main.classList.remove("mainFeed");
+    main.classList.add("mainProfile");
     
 
     document.getElementById("logout").addEventListener("click", logout);
+
+    let divs = document.querySelectorAll(".profileHeader > div");
+    console.log(divs);
+
+    for(let i = 0; i < divs.length; i++) {
+        divs[i].style.display = "none";
+    }
+
+    let settingsButton = document.createElement("button");
+    header.appendChild(settingsButton);
+    settingsButton.setAttribute("id", "settingsButton");
+    settingsButton.textContent = "Settings";
 
     //let date = `${month} ${dateOfTheMonth}, ${year}`;
     //Today's date if needed?

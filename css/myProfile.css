@@ -1,4 +1,4 @@
-.bodyProfile #profilePicture {
+.profileBody #profilePicture {
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -7,22 +7,41 @@
     border-radius: 50%;
     background-color: rgb(11, 128, 89);
     margin-bottom: 2vh;
+    margin-top: 10vh;
 }
 
-.bodyProfile #weekdays > p {
+.profileBody #weekdays > p {
     display: inline;
     padding: 10px;
 }
 
-.bodyProfile > main {
+.profileBody > main {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
-.today {
+.profileBody .today {
     padding: 3.2vw;
     border-radius: 50%;
-    background-color: rgb(11, 128, 89);
+    background-color: rgb(130, 210, 183);
+    font-weight: bold;
+}
+
+.profileBody #calendar {
+    margin-bottom: 20vh;
+}
+
+
+.profileHeader {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 3vw;
+}
+
+header.profileHeader > #settingsButton {
+    width: 24vw;
+    font-size: 4.2vw;
 }
