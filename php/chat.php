@@ -7,7 +7,7 @@ $allowed = ["POST", "GET"];
 checkMethod($requestMethod, $allowed);
 
 if($requestMethod == "GET"){
-    $filename = "users.json";
+    $filename = "php/users.json";
     $users = [];
     
     // Check if file exists. If it doesn't, save $users within $filename. If it exists get contents from $filename then decode and save it in $users.
@@ -45,7 +45,7 @@ if($requestMethod == "GET"){
 }
 
 if($requestMethod == "POST"){
-    $filename = "conversations.json";
+    $filename = "php/conversations.json";
     $conversations = [];
     
     // Check if file exists. If it doesn't, save $users within $filename. If it exists get contents from $filename then decode and save it in $users.
