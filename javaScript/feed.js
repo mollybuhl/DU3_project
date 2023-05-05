@@ -18,86 +18,108 @@ async function renderFeedPage(){
     //Locate user by localstorage
     let User_id = (Number(window.localStorage.getItem("userId"))); 
     let User = Users.find(user => user.id === User_id);
-
-    //Create a display for users X last posts;
-    let postDisplay = document.createElement("div");
-    postDisplay.classList.add("postDisplay");
-    main.querySelector(".feedWrapper").appendChild(postDisplay);
-
     let postedByUser = User.posts;
-    postedByUser.sort(compare);
-    function compare(a,b){
-        //console.log(a.timestamp);
-        //console.log(b.timestamp);
-        return b.timestamp - a.timestamp;
-    }
 
-    postedByUser.forEach(post => { 
-        let createdPost = createPostInFeed(User, post);
-        postDisplay.appendChild(createdPost);
+    //If user has not posted anything, display nothing.
+    if(postedByUser.length > 0){
 
-        createdPost.querySelector("#deletePost").addEventListener("click", deletePost);
+        //Create a display for users X last posts;
+        let postDisplay = document.createElement("div");
+        postDisplay.classList.add("postDisplay");
+        main.querySelector(".feedWrapper").appendChild(postDisplay);
 
-        async function deletePost (event){
-            let postID = post.postID;
-            
-            const requestOptions = {
-                method: "DELETE",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({
-                    userID: User_id,
-                    postID: postID,
-                })
-            }
-
-            try{
-                const request = new Request("feed.php", requestOptions);
-                let response = await fetch(request);
-                let resource = await response.json();
-            }catch(error){
-                console.log(error);
-            }
-            
+        //Sort post by timestamp
+        postedByUser.sort(compare);
+        function compare(a,b){
+            //console.log(a.timestamp);
+            //console.log(b.timestamp);
+            return b.timestamp - a.timestamp;
         }
-
-    });
-
-    /*let deletePostButtons = document.querySelectorAll("#deletePost")
-    deletePostButtons.forEach(deletePostbutton => {
-        deletePostbutton.addEventListener("click", deletePost);
-    });*/
+    
+        //Create users post display
+        postedByUser.forEach(post => { 
+            let createdPost = createPostInFeed(User, post);
+            postDisplay.appendChild(createdPost);
+    
+            createdPost.querySelector("#deletePost").addEventListener("click", deletePost);
+    
+            async function deletePost (event){
+                let postID = post.postID;
+                
+                const requestOptions = {
+                    method: "DELETE",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({
+                        userID: User_id,
+                        postID: postID,
+                    })
+                }
+    
+                try{
+                    const request = new Request("feed.php", requestOptions);
+                    let response = await fetch(request);
+                    let resource = await response.json();
+                    console.log(resource);
+                }catch(error){
+                    console.log(error);
+                }
+            }
+        });
+    }
     
 
-    
-    
-    
+   
     //For each friend create a display with their X last posts
     let friendsOfUser = User.friends;
     let friendNames = [];
-    friendsOfUser.forEach(friendId => {
-        Users.forEach(user => {
-            if(user.id === friendId){
-                friendNames.push(user.username); //Neccecary?
 
-                let friendsPostDisplay = document.createElement("div");
-                friendsPostDisplay.classList.add("friendsPostDisplay");
-                main.querySelector(".feedWrapper").appendChild(friendsPostDisplay);
-
-                let postedBy = user.username;
-                let posts = user.posts;
-
-                posts.sort(compare);
-                function compare(a,b){
-                    return b.timestamp - a.timestamp;
-                }
+    if(friendsOfUser.length < 0){
+        const noPostInfoDisplay = document.createElement("div");
+        noPostInfoDisplay.classList.add("no_post_info")
+        noPostInfoDisplay.innerHTML = `<p>Add more friends to see their posts here!</p>`;
+            
+        main.querySelector(".feedWrapper").appendChild(noPostInfoDisplay);
         
-                posts.forEach(post=> {
-                    friendsPostDisplay.appendChild(createPostInFeed(postedBy, post));
-                });
+    }else{
+        friendsPostStatus = "noPosts";
 
-            }
-        })
-    });
+        friendsOfUser.forEach(friendId => {
+            Users.forEach(user => {
+                if(user.id === friendId){
+                    friendNames.push(user.username); //Neccecary?
+    
+                    let postedBy = user.username;
+                    let posts = user.posts;
+
+                    if(posts.length > 0){
+                        let friendsPostDisplay = document.createElement("div");
+                        friendsPostDisplay.classList.add("friendsPostDisplay");
+                        main.querySelector(".feedWrapper").appendChild(friendsPostDisplay);
+        
+                        posts.sort(compare);
+                        function compare(a,b){
+                            return b.timestamp - a.timestamp;
+                        }
+                
+                        posts.forEach(post=> {
+                            friendsPostDisplay.appendChild(createPostInFeed(postedBy, post));
+                        });
+
+                        friendsPostStatus = "posts";
+                    }
+                }
+            })
+        });
+
+        if(friendsPostStatus === "noPosts"){
+            const noPostInfoDisplay = document.createElement("div");
+            noPostInfoDisplay.classList.add("no_post_info")
+            noPostInfoDisplay.innerHTML = `<p>Add more friends to see their posts here!</p>`;
+                
+            main.querySelector(".feedWrapper").appendChild(noPostInfoDisplay);
+        }
+    }
+   
 
 
     function createPostInFeed(postedBy, post){
@@ -130,7 +152,6 @@ async function renderFeedPage(){
          `;
         }
       
-
         switch(feeling){
             case "Happy":
                 newPost.classList.add("happy");
@@ -153,24 +174,10 @@ async function renderFeedPage(){
             case "Fearful":
                 newPost.classList.add("fearful");
             break;
-            
         }
 
         return newPost;
     }
- 
-   
-
-    //Create posts in feed
-    /*
-    if(posts.length === 0 ){
-        const newPost = document.createElement("div");
-        newPost.classList.add("no_post_info")
-        newPost.innerHTML = `<p>Add friends to see their posts here!</p>`;
-        
-        main.querySelector(".feedWrapper").appendChild(newPost);
-    }
-   */
 
     //Header
     header.classList.add("feedHeader");

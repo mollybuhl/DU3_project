@@ -54,7 +54,7 @@ if($requestMethod == "DELETE"){
                     $json = json_encode($users, JSON_PRETTY_PRINT);
                     file_put_contents($filename, $json);
         
-                    $message = ["message" => "Done"];
+                    $message = ["message" => "Post Deleted"];
                     sendJSON($message);
                 } 
             }
