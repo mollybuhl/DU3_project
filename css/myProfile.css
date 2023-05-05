@@ -10,9 +10,18 @@
     margin-top: 10vh;
 }
 
-.profileBody #weekdays > p {
-    display: inline;
-    padding: 10px;
+#weekdays {
+    display: flex;
+}
+
+.profileBody #weekdays > div {
+    margin: 0 3.8vw;
+    display: flex;
+    flex-direction: column;
+}
+
+.profileBody #weekdays > div > p {
+    margin: 0;
 }
 
 .profileBody > main {
@@ -44,4 +53,35 @@
 header.profileHeader > #settingsButton {
     width: 24vw;
     font-size: 4.2vw;
+}
+
+.mainProfile .feeling {
+    border-radius: 50%;
+    width: 5vw;
+    height: 5vw;
+    margin: 1vw;
+}
+
+.mainProfile .happy {
+    background-color: aquamarine;
+}
+
+.mainProfile .sad {
+    background-color: blue;
+}
+
+.mainProfile .angry {
+    background-color: red;
+}
+
+.mainProfile .jealous {
+    background-color: grey;
+}
+
+.mainProfile .couragious {
+    background-color: aqua;
+}
+
+.mainProfile .fear {
+    background-color: orange;
 }
