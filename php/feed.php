@@ -34,7 +34,7 @@ if($requestMethod == "GET"){
 }
 
 if($requestMethod == "DELETE"){
-    if(!isset($requestData["podtID"]) || !isset($requestData["userID"])){
+    if(!isset($requestData["postID"]) || !isset($requestData["userID"])){
         $message = ["message" => "No post or user id."];
         sendJSON($message, 404); 
     }
@@ -42,15 +42,17 @@ if($requestMethod == "DELETE"){
     $userID = $requestData["userID"];
     $postID = $requestData["postID"];
 
-    foreach($users as $index => $user){
+    foreach($users as $indexUser => $user){
         if($user["id"] == $userID){
-            echo $user;
 
-            $userPosts = $user["posts"];
-            foreach($userPosts as $index => $userPost){
+            $userPosts = $users[$indexUser]["posts"];
+
+            //$userPosts = $user["posts"];
+            foreach($userPosts as $indexPost => $userPost){
 
                 if($userPost["postID"] == $postID){
-                    array_splice($userPost, $index, 1);
+                    array_splice($users[$indexUser]["posts"], $indexPost, 1);
+                   
                     $json = json_encode($users, JSON_PRETTY_PRINT);
                     file_put_contents($filename, $json);
         

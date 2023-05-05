@@ -11,19 +11,19 @@
         "posts": [
             {
                 "postID": 1,
-                "userID": 1,
-                "mood": "Happy",
+                "userID": 2,
+                "mood": "Sad",
                 "description": "Ice cream!!!",
                 "quote": "Houston, we have a problem",
-                "timestamp": "01-05-2023"
+                "timestamp": "06-05-2023"
             },
             {
                 "postID": 2,
-                "userID": 1,
-                "mood": "Sad",
-                "description": "Just a day",
+                "userID": 2,
+                "mood": "Happy",
+                "description": "Good day to be alive",
                 "quote": "Houston, we have a problem",
-                "timestamp": "01-04-2023"
+                "timestamp": "26-04-2023"
             }
         ],
         "profilePicture": "..\/media\/profile_img.avif",
@@ -41,19 +41,12 @@
         "friendRequests": [],
         "posts": [
             {
-                "postID": 1,
-                "userID": 2,
-                "mood": "Sad",
-                "description": "Ice cream!!!",
-                "quote": "Houston, we have a problem",
-                "timestamp": "06-05-2023"
-            }, {
                 "postID": 2,
                 "userID": 2,
-                "mood": "Happy",
-                "description": "Good day to be alive",
+                "mood": "Sad",
+                "description": "No ice cream",
                 "quote": "Houston, we have a problem",
-                "timestamp": "26-04-2023"
+                "timestamp": "03-05-2023"
             }
         ],
         "profilePicture": "..\/media\/profile_img.avif",
@@ -65,22 +58,24 @@
         "password": "molly1",
         "loggedFeelings": [],
         "friends": [],
-        "posts": [ {
-            "postID": 1,
-            "userID": 3,
-            "mood": "Sad",
-            "description": "No ice cream",
-            "quote": "Houston, we have a problem",
-            "timestamp": "03-05-2023"
-        }, 
-        {
-            "postID": 2,
-            "userID": 3,
-            "mood": "Happy",
-            "description": "Hiking today!",
-            "quote": "Houston, we have a problem",
-            "timestamp": "05-05-2023"
-        }],
+        "posts": [
+            {
+                "postID": 1,
+                "userID": 3,
+                "mood": "Sad",
+                "description": "No ice cream",
+                "quote": "Houston, we have a problem",
+                "timestamp": "03-05-2023"
+            },
+            {
+                "postID": 2,
+                "userID": 3,
+                "mood": "Happy",
+                "description": "Hiking today!",
+                "quote": "Houston, we have a problem",
+                "timestamp": "05-05-2023"
+            }
+        ],
         "profilePicture": "..\/media\/profile_img.avif",
         "firstTime": false,
         "id": 3
@@ -91,7 +86,24 @@
         "loggedFeelings": [],
         "friends": [],
         "friendRequests": [],
-        "posts": [],
+        "posts": [
+            {
+                "postID": 1,
+                "userID": 4,
+                "mood": "Sad",
+                "description": "No ice cream",
+                "quote": "Houston, we have a problem",
+                "timestamp": "03-05-2023"
+            },
+            {
+                "postID": 2,
+                "userID": 4,
+                "mood": "Happy",
+                "description": "Hiking today!",
+                "quote": "Houston, we have a problem",
+                "timestamp": "05-05-2023"
+            }
+        ],
         "conversations": [],
         "profilePicture": "profile_icon_3.jpg",
         "firstTime": false,

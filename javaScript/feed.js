@@ -44,24 +44,27 @@ async function renderFeedPage(){
             createdPost.querySelector("#deletePost").addEventListener("click", deletePost);
     
             async function deletePost (event){
-                let postID = post.postID;
+
+                if(confirm("Would you like to delete this post?")){
+                    let postID = post.postID;
                 
-                const requestOptions = {
-                    method: "DELETE",
-                    headers: {"Content-Type": "application/json"},
-                    body: JSON.stringify({
-                        userID: User_id,
-                        postID: postID,
-                    })
-                }
-    
-                try{
-                    const request = new Request("feed.php", requestOptions);
-                    let response = await fetch(request);
-                    let resource = await response.json();
-                    console.log(resource);
-                }catch(error){
-                    console.log(error);
+                    const requestOptions = {
+                        method: "DELETE",
+                        headers: {"Content-Type": "application/json"},
+                        body: JSON.stringify({
+                            userID: User_id,
+                            postID: postID,
+                        })
+                    }
+        
+                    try{
+                        const request = new Request("../php/feed.php", requestOptions);
+                        let response = await fetch(request);
+                        let resource = await response.json();
+                        renderFeedPage();
+                    }catch(error){
+                        console.log(error);
+                    }
                 }
             }
         });
