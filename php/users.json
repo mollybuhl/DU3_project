@@ -8,9 +8,7 @@
             3,
             6
         ],
-        "friendRequests": [
-            
-        ],
+        "friendRequests": [],
         "posts": [
             {
                 "postID": 1,
@@ -52,6 +50,19 @@
                 "description": "No ice cream",
                 "quote": "Houston, we have a problem",
                 "timestamp": "03-05-2023"
+            },
+            {
+                "postID": 3,
+                "userID": 2,
+                "mood": "Forgiving",
+                "description": "that time",
+                "quote": {
+                    "quote": "Without forgiveness life is governed by... an endless cycle of resentment and retaliation.",
+                    "author": "Roberto Assagioli",
+                    "category": "forgiveness"
+                },
+                "dayOfWeek": "Friday",
+                "timestamp": "11:16, 5 May"
             }
         ],
         "profilePicture": "..\/media\/profile_img.avif",
