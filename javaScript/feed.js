@@ -15,84 +15,172 @@ async function renderFeedPage(){
     let response = await fetch("../php/feed.php");
     let Users = await response.json();
 
-    //Locate users' friends. 
+    //Locate user by localstorage
     let User_id = (Number(window.localStorage.getItem("userId"))); 
     let User = Users.find(user => user.id === User_id);
-    let friendsOfUser = User.friends;
+    let postedByUser = User.posts;
 
-    let posts = [];
-    let friendNames = [];
-    
-    //Push all friends posts into array "posts".
-    friendsOfUser.forEach(friendId => {
-        Users.forEach(user => {
-            if(user.id === friendId){
-                friendNames.push(user.username);
-                let friendPosts = user.posts;
-                friendPosts.forEach(post => {
-                    posts.push(post)
-                })
-            }
-        })
-    });
+    //If user has not posted anything, display nothing.
+    if(postedByUser.length > 0){
 
-    
-    //Push the users own posts into array "posts".
-    let UserPosts = User.posts;
-    UserPosts.forEach(post => {
-        posts.push(post);
-    });
-    
-    //Order posts by date published.
-    //let PostTimeOrder = posts.sort()
+        //Create a display for users X last posts;
+        let postDisplay = document.createElement("div");
+        postDisplay.classList.add("postDisplay");
+        main.querySelector(".feedWrapper").appendChild(postDisplay);
 
-    //Create posts in feed
-    if(posts.length === 0){
-        const newPost = document.createElement("div");
-        newPost.classList.add("no_post_info")
-        newPost.innerHTML = `<p>Add friends to see their posts here!</p>`;
+        //Sort post by timestamp
+        postedByUser.sort(compare);
+        function compare(a,b){
+            //console.log(a.timestamp);
+            //console.log(b.timestamp);
+            return b.timestamp - a.timestamp;
+        }
+    
+        //Create users post display
+        postedByUser.forEach(post => { 
+            let createdPost = createPostInFeed(User, post);
+            postDisplay.appendChild(createdPost);
+    
+            createdPost.querySelector("#deletePost").addEventListener("click", deletePost);
+    
+            async function deletePost (event){
+
+                if(confirm("Would you like to delete this post?")){
+                    let postID = post.postID;
+                
+                    const requestOptions = {
+                        method: "DELETE",
+                        headers: {"Content-Type": "application/json"},
+                        body: JSON.stringify({
+                            userID: User_id,
+                            postID: postID,
+                        })
+                    }
         
-        main.querySelector(".feedWrapper").appendChild(newPost);
-    }else{
-        posts.forEach(post => {
-            const newPost = document.createElement("div");
-            newPost.classList.add("post");
-    
-            const postedBy = Users.find(user => user["id"] === post["userID"]);
-            console.log(postedBy);
-            let userName = postedBy["username"];
-            console.log(userName);
-            
-    
-            const feeling = post["mood"];
-            const text = post["description"];
-            const quote = post["quote"];
-    
-            newPost.innerHTML = `
-                <div>
-                    <h3>${userName} is feeling: ${feeling}</h3>
-                </div>
-                <button id="deletePost">X</button>
-                <div class="textBox">
-                    <h4>Why I'm feeling ${feeling}:</h4> 
-                    <p> ${text}</p> 
-                    <p><h5>Quote: </h5>"${quote}"</p>
-                </div>
-                `;
-    
-            switch(feeling){
-                case "Happy":
-                    newPost.classList.add("happy");
-                    break;
-                case "Sad":
-                    newPost.classList.add("sad");
-                    break;
+                    try{
+                        const request = new Request("../php/feed.php", requestOptions);
+                        let response = await fetch(request);
+                        let resource = await response.json();
+                        renderFeedPage();
+                    }catch(error){
+                        console.log(error);
+                    }
+                }
             }
-            
-            main.querySelector(".feedWrapper").appendChild(newPost);
         });
     }
+    
+
    
+    //For each friend create a display with their X last posts
+    let friendsOfUser = User.friends;
+    let friendNames = [];
+
+    if(friendsOfUser.length < 0){
+        const noPostInfoDisplay = document.createElement("div");
+        noPostInfoDisplay.classList.add("no_post_info")
+        noPostInfoDisplay.innerHTML = `<p>Add more friends to see their posts here!</p>`;
+            
+        main.querySelector(".feedWrapper").appendChild(noPostInfoDisplay);
+        
+    }else{
+        friendsPostStatus = "noPosts";
+
+        friendsOfUser.forEach(friendId => {
+            Users.forEach(user => {
+                if(user.id === friendId){
+                    friendNames.push(user.username); //Neccecary?
+    
+                    let postedBy = user.username;
+                    let posts = user.posts;
+
+                    if(posts.length > 0){
+                        let friendsPostDisplay = document.createElement("div");
+                        friendsPostDisplay.classList.add("friendsPostDisplay");
+                        main.querySelector(".feedWrapper").appendChild(friendsPostDisplay);
+        
+                        posts.sort(compare);
+                        function compare(a,b){
+                            return b.timestamp - a.timestamp;
+                        }
+                
+                        posts.forEach(post=> {
+                            friendsPostDisplay.appendChild(createPostInFeed(postedBy, post));
+                        });
+
+                        friendsPostStatus = "posts";
+                    }
+                }
+            })
+        });
+
+        if(friendsPostStatus === "noPosts"){
+            const noPostInfoDisplay = document.createElement("div");
+            noPostInfoDisplay.classList.add("no_post_info")
+            noPostInfoDisplay.innerHTML = `<p>Add more friends to see their posts here!</p>`;
+                
+            main.querySelector(".feedWrapper").appendChild(noPostInfoDisplay);
+        }
+    }
+   
+
+
+    function createPostInFeed(postedBy, post){
+        const newPost = document.createElement("div");
+        newPost.classList.add("post");
+
+        const feeling = post["mood"];
+        const text = post["description"];
+        const quote = post["quote"];
+        const timestamp = post["timestamp"];
+
+        if(postedBy === User){
+            newPost.innerHTML = `
+                <div>
+                    <h3>I'm feeling <span>${feeling}</span></h3>
+                    <div id="deletePost"></div>
+                </div>
+                <p class="timestamp">${timestamp}</p>
+                <p> ${text}</p> 
+                <h5>Quote: </h5><p>"${quote}"</p>
+             `;
+        }else{
+            newPost.innerHTML = `
+            <div>
+                <h3>I'm feeling <span>${feeling}</span></h3>
+            </div>
+            <p class="timestamp">${timestamp}</p>
+            <p> ${text}</p> 
+            <h5>Quote: </h5><p>"${quote}"</p>
+         `;
+        }
+      
+        switch(feeling){
+            case "Happy":
+                newPost.classList.add("happy");
+                break;
+            case "Sad":
+                newPost.classList.add("sad");
+                break;
+            case "Angry":
+                newPost.classList.add("angry");
+            break;
+            case "Couragious":
+                newPost.classList.add("couragious");
+            break;
+            case "Forgiving":
+                newPost.classList.add("forgiving");
+            break;
+            case "Jealous":
+                newPost.classList.add("jealous");
+            break;
+            case "Fearful":
+                newPost.classList.add("fearful");
+            break;
+        }
+
+        return newPost;
+    }
 
     //Header
     header.classList.add("feedHeader");
