@@ -42,6 +42,9 @@ async function renderChatPage(){
         const receiverID = currentFriendObject.id;
         
         // Create a <div> and fill will elements building the private chat window. Then set an id to the <div> also append it to <main>.
+        const chatModal = document.createElement("div");
+        document.querySelector("main").append(chatModal);
+        chatModal.setAttribute("id", "chatModal")
         const privateChat = document.createElement("div");
         privateChat.innerHTML = `
         <div id="top">
@@ -50,18 +53,18 @@ async function renderChatPage(){
         </div>
         <div id="messages"></div>
         <div id="operations">
+                <input>
             <button id="sendMessage">Send</button>
-            <input>
         </div>
         `
         privateChat.setAttribute("id", "privateChat");
-        document.querySelector("main").appendChild(privateChat);
+        chatModal.appendChild(privateChat);
 
         // Add event listener for the send message button.
         privateChat.querySelector("#sendMessage").addEventListener("click", sendMessage);
 
         // Add event listener to close current chat.
-        privateChat.querySelector("#closeChat").addEventListener("click", event => privateChat.remove())
+        privateChat.querySelector("#closeChat").addEventListener("click", event => chatModal.remove())
 
         // Calling the function to start fetch messages and print them.
         await fetchAndPrintMessages();
@@ -101,7 +104,7 @@ async function renderChatPage(){
         async function fetchAndPrintMessages(startTimeout = true){
 
             // If the chat has been closed for any reason, make it non-recursive to prevent it from doing unnecessary fetches, then end the function with return.
-            if(document.querySelector("main > #privateChat") === null){
+            if(document.querySelector("main > #chatModal > #privateChat") === null){
                 startTimeout = false;
                 return;
             }

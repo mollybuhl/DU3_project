@@ -32,6 +32,55 @@
             6,
             1
         ],
-        "messages": []
+        "messages": [
+            {
+                "senderID": 1,
+                "text": "tjena",
+                "timestamp": "11:12, 5 May",
+                "id": 1
+            },
+            {
+                "senderID": 1,
+                "text": "tjena",
+                "timestamp": "11:12, 5 May",
+                "id": 2
+            },
+            {
+                "senderID": 1,
+                "text": "tjena",
+                "timestamp": "11:12, 5 May",
+                "id": 3
+            },
+            {
+                "senderID": 1,
+                "text": "tjena",
+                "timestamp": "11:12, 5 May",
+                "id": 4
+            },
+            {
+                "senderID": 1,
+                "text": "tjena",
+                "timestamp": "11:12, 5 May",
+                "id": 5
+            },
+            {
+                "senderID": 1,
+                "text": "tjena",
+                "timestamp": "11:14, 5 May",
+                "id": 6
+            },
+            {
+                "senderID": 1,
+                "text": "tjena",
+                "timestamp": "11:14, 5 May",
+                "id": 7
+            },
+            {
+                "senderID": 1,
+                "text": "tjena",
+                "timestamp": "11:14, 5 May",
+                "id": 8
+            }
+        ]
     }
 ]
