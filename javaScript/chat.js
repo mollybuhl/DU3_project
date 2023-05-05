@@ -11,35 +11,63 @@ async function renderChatPage(){
 
     // Fetch the users friends, then create a new <div> for each friend and put their username as textContent for the <div>, also add an eventListener for every <div>, when its pressed call function renderPrivateChat().
     const userFriends = await fetchFriends();
+    const userGroupChats = await fetchChats("groupChat");
+    const userPrivateChats = await fetchChats("privateChat");
+    console.log(userPrivateChats);
     userFriends.forEach(friendObject => {
         const privateChats = mainDom.querySelector("#privateChats");
 
         const friendDivDom = document.createElement("div");
         friendDivDom.textContent = friendObject.username;
+        friendDivDom.classList.add("privateChat");
         privateChats.appendChild(friendDivDom);
 
-        friendDivDom.addEventListener("click", renderPrivateChat);
+        friendDivDom.addEventListener("click", renderChat);
     });
 
-    // senderID is the user. This variable is declared here instead of inside the function renderPrivateChat() because if you're logged into an account, that ID will be stored in localStorage, if you then login to another account when the first account already rendered the chat page, the first account will be able to fetch messages with the newly logged in users ID, if its inside the renderPrivateChat() function because that function is called whenever you click on a friend to chat, it will then get the ID from localstorage again, and that ID will be the recently logged in user. - Messy comment, will improve this.
-    const senderID = parseInt(window.localStorage.getItem("userId"));
+    userGroupChats.forEach(groupChat => {
+        const groupChats = mainDom.querySelector("#groupChats");
+
+        const groupChatDom = document.createElement("div");
+        groupChatDom.textContent = groupChat.name;
+        groupChatDom.classList.add("groupChat");
+        groupChats.append(groupChatDom);
+        
+
+        groupChatDom.addEventListener("click", renderChat);
+    })
 
     // This function renders a private chat between the user and its friend.
-    async function renderPrivateChat(event){
+    async function renderChat(event){
+        let chatID;
+        let type;
 
-        // The clicked friends username and JS object.
-        const currentFriendUsername = event.target.textContent;
-        let currentFriendObject;
+        if(event.target.classList.contains("privateChat")){
+            const clickedFriendUsername = event.target.textContent;
 
-        // Find the object of the friend the user is currently chatting with and put it in currentFriendObject.
-        userFriends.forEach(friendObject => {
-            if(friendObject.username === currentFriendUsername){
-                currentFriendObject = friendObject;
-            }
-        });
+            userFriends.forEach(friend => {
+                if(friend.username === clickedFriendUsername){
+                    userPrivateChats.forEach(privateChat => {
+                        if(privateChat.betweenUsers.includes(friend.id)){
+                            chatID = privateChat.id;
+                            type = "privateChat";
+                        }
+                    })
+                }
+            });
 
-        // receiverID is the friend the user is chatting with. This along with senderID will be sent when fetching conversations and posting messages.
-        const receiverID = currentFriendObject.id;
+        }
+        if(event.target.classList.contains("groupChat")){
+            const clickedGroupChat = event.target.textContent;
+
+            userGroupChats.forEach(groupChat => {
+                if(clickedGroupChat === groupChat.name){
+                    chatID = groupChat.id;
+                    type = "groupChat";
+                }
+            })
+
+        }
         
         // Create a <div> and fill will elements building the private chat window. Then set an id to the <div> also append it to <main>.
         const chatModal = document.createElement("div");
@@ -48,12 +76,12 @@ async function renderChatPage(){
         const privateChat = document.createElement("div");
         privateChat.innerHTML = `
         <div id="top">
-            <div>${currentFriendUsername}</div>
+            <div>${event.target.textContent}</div>
             <div id="closeChat">Close</div>
         </div>
         <div id="messages"></div>
         <div id="operations">
-                <input>
+            <input>
             <button id="sendMessage">Send</button>
         </div>
         `
@@ -71,9 +99,11 @@ async function renderChatPage(){
 
         // This function will trigger when the send message button is pressed within the privateChat <div>. It posts a new message to the server.
         async function sendMessage(event){
+
             const date = new Date();
             const months = ["Jan.", "Feb.", "Mar.", "Apr.", "May", "June", "July", "Aug.", "Sep.", "Oct.", "Nov.", "Dec."];
             let timestamp = `${date.getHours()}:${date.getMinutes()}, ${date.getDate()} ${months[date.getMonth()]}`
+
             // Get the message the user wants to send.
             const message = privateChat.querySelector("#operations > input").value;
 
@@ -83,9 +113,9 @@ async function renderChatPage(){
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({
                     action: "postMessage",
-                    betweenUsers: [receiverID, senderID],
+                    type: type,
+                    chatID: chatID,
                     message: {
-                        senderID: senderID,
                         text: message,
                         timestamp: timestamp
                     }
@@ -114,8 +144,9 @@ async function renderChatPage(){
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({
-                    action: "fetchConversation",
-                    betweenUsers: [receiverID, senderID]
+                    action: "fetchChat",
+                    chatID: chatID,
+                    type: type
                 })
             }
 
@@ -170,6 +201,27 @@ async function fetchFriends(){
     return await resource;
 }
 
-async function fetchGroupChats(){
-    
+async function fetchChats(type){
+
+    const loggedInUser = parseInt(window.localStorage.getItem("userId"));
+    const userPassword = window.localStorage.getItem("userPassword");
+
+    const requestOptions = {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            action: "fetchChats",
+            type: type,
+            userID: loggedInUser,
+            userPassword: userPassword
+        })
+    }
+
+    const request = new Request("../php/chat.php", requestOptions);
+    const response = await fetch(request);
+    const resource = await response.json();
+        
+    return await resource;
+
+
 }

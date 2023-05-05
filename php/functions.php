@@ -20,4 +20,26 @@ function sendJSON($message, $statusCode = 200){
     echo $json;
     exit();
 }
+
+function checkCredentials($userID, $userPassword){
+    $filename = "php/users.json";
+    $users = [];
+
+    if(!file_exists($filename)){
+        $message = ["message" => "Sorry, something went wrong."];
+        sendJSON($message, 404);
+    }else{
+        $json = file_get_contents($filename);
+        $users = json_decode($json, true);
+    }
+
+    foreach($users as $user){
+        if($user["id"] == $userID){
+            if($user["password"] != $userPassword){
+                $message = ["message" => "You didn't provide the right details to successfully request this information."];
+                sendJSON($message, 400);
+            }
+        }
+    }
+}
 ?>
