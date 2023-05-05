@@ -74,6 +74,9 @@
         "password": "molly1",
         "loggedFeelings": [],
         "friends": [],
+        "friendRequests": [
+            6
+        ],
         "posts": [
             {
                 "postID": 1,

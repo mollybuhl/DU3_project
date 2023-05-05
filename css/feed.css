@@ -118,6 +118,24 @@ div.friends > div > div.chat_icon{
     background-position: center;
 }
 
+header.feedHeader > div.friendDisplay > div.friendRequestsDisplay{
+
+}
+
+
+header.feedHeader > div.friendDisplay > div.friendRequestsDisplay.hidden{
+    display: none;
+}
+
+header.feedHeader > div.friendDisplay > div.friendRequestsDisplay > #activeRequests{
+    
+}
+
+/*Each request*/
+header.feedHeader > div.friendDisplay > div.friendRequestsDisplay > #activeRequests > div{
+    display: flex;
+}
+
 /*Friends display: Search*/
 #searchWrapper{
     padding: 0;

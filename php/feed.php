@@ -27,7 +27,7 @@ if($requestMethod == "GET"){
     $usersLimitedAcces = [];
 
     foreach($users as $user){
-        $usersLimitedAcces[] = ["id" => $user["id"], "username" => $user["username"], "friends" => $user["friends"], "posts" => $user["posts"], "profilePicture" => $user["profilePicture"]];
+        $usersLimitedAcces[] = ["id" => $user["id"], "username" => $user["username"], "friends" => $user["friends"], "friendRequests" => $user["friendRequests"], "posts" => $user["posts"], "profilePicture" => $user["profilePicture"]];
     }
     
     sendJSON($usersLimitedAcces);

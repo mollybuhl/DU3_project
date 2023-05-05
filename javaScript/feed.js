@@ -70,8 +70,6 @@ async function renderFeedPage(){
         });
     }
     
-
-   
     //For each friend create a display with their X last posts
     let friendsOfUser = User.friends;
     let friendNames = [];
@@ -122,8 +120,6 @@ async function renderFeedPage(){
             main.querySelector(".feedWrapper").appendChild(noPostInfoDisplay);
         }
     }
-   
-
 
     function createPostInFeed(postedBy, post){
         const newPost = document.createElement("div");
@@ -191,6 +187,10 @@ async function renderFeedPage(){
                 <div id="closeFriendDisplay"></div>
             </div>
             <div class="friends"></div>
+            <div class="friendRequestsDisplay hidden">
+                <h3>Friend Requests</h3>
+                <div id="activeRequests"></div>
+            </div>
             <div id="searchWrapper">
                 <h3>Add Friends</h3>
                 <p class="messageToUser"></p>
@@ -220,6 +220,38 @@ async function renderFeedPage(){
         document.querySelector("header > .friendDisplay > .friends").appendChild(friendBox);
     })
 
+    if(User.friendRequests.length > 0){
+        document.querySelector(".friendRequestsDisplay").classList.remove("hidden");
+
+        let activeFriendRequests = User.friendRequests;
+        activeFriendRequests.forEach(friendRequest => {
+
+            Users.forEach(user => {
+                if(user.id === friendRequest){
+                    const singleFriendRequest = document.createElement("div");
+                    singleFriendRequest.innerHTML = `
+                    <img src="${user.profilePicture}"> 
+                    <h4>${user.username}</h4>
+                    <button id="acceptFriendRequest">Accept</button>
+                    <button id="declineFriendRequest">Decline</button>
+                    `;
+                    document.querySelector(".friendRequestsDisplay > #activeRequests").appendChild(singleFriendRequest);
+
+                    document.querySelector(".friendRequestsDisplay > #activeRequests > div > #declineFriendRequest").addEventListener("click", declineFriendRequest);
+                    function declineFriendRequest(event){
+//HERE: Connect to sendFriendRequest
+                    }
+                    document.querySelector(".friendRequestsDisplay > #activeRequests > div > #acceptFriendRequest").addEventListener("click", acceptFriendRequest);
+                    function acceptFriendRequest(event){
+//HERE: Connect to sendFriendRequest
+                        sendFriendRequset(friendRequest,User,"acceptRequest");
+                        
+                    }
+                }
+            });
+        });
+    }
+
     //Display friends pop-up by clicking friends-button
     document.querySelector("header > .friendsButton").addEventListener("click", function (){
         document.querySelector(".friendDisplay").classList.remove("hidden");
@@ -244,7 +276,7 @@ async function renderFeedPage(){
                 if(confirm(`"Do you want to add ${searchName} to your Friends?"`)){ //If user is found ask to confirm friend request
                    
                     //Send friend request
-                    sendFriendRequset(User_id, searchName);  
+                    sendFriendRequset(User_id, searchName, sendRequest);  
                     return;                  
                 };
             }
@@ -274,12 +306,13 @@ async function renderFeedPage(){
 }
 
 //Send friend request
-async function sendFriendRequset(userFrom, userTo){
+async function sendFriendRequset(userFrom, userTo, action){
 
     const friendRequest = {
         method: "PATCH",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({
+            action: action,
             userFrom: userFrom,
             userTo: userTo,
         })
