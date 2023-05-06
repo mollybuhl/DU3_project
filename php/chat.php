@@ -92,37 +92,12 @@ if($requestMethod == "POST"){
                 sendJSON($conversation, 200);
             }
         }
-        
-        // REMINDER: this wont work, fix later
-        if($type == "privateChat"){
-            $newConversation = [
-                "betweenUsers" => $betweenUsers,
-                "messages" => []
-            ];
-
-            $highestConversationID = 0;
-
-            foreach($conversations as $conversation){
-                if($conversation["id"] > $highestConversationID){
-                    $highestConversationID = $conversation["id"];
-                }
-            }
-
-            $newConversation["id"] = $highestConversationID + 1;
-    
-            $allConversations[0]["privateChats"][] = $newConversation;
-            $json = json_encode($allConversations, JSON_PRETTY_PRINT);
-            file_put_contents($filename, $json);
-    
-            sendJSON($newConversation, 200);
-        }
 
         $error = ["message" => "Sorry the chat was not found."];
         sendJSON($error, 404);
         
     }
 
-    // Make new conversation for privateChats in this section instead
     if($action === "fetchChats"){
 
         if(!isset($requestData["userID"]) or !isset($requestData["userPassword"])){
@@ -178,6 +153,38 @@ if($requestMethod == "POST"){
         $json = json_encode($allConversations, JSON_PRETTY_PRINT);
         file_put_contents($filename, $json);
         sendJSON($newGroupChat, 200);
+    }
+
+    if($action == "createPrivateChat"){
+        $conversations = $allConversations[0]["privateChats"];
+
+        $userID = $requestData["userID"];
+        $userPassword = $requestData["userPassword"];
+        $betweenUsers = $requestData["betweenUsers"];
+
+        checkCredentials($userID, $userPassword);
+
+        $newConversation = [
+            "betweenUsers" => $betweenUsers,
+            "messages" => []
+        ];
+
+        $highestConversationID = 0;
+
+        foreach($conversations as $conversation){
+            if($conversation["id"] > $highestConversationID){
+                $highestConversationID = $conversation["id"];
+            }
+        }
+
+        $newConversation["id"] = $highestConversationID + 1;
+
+        $allConversations[0]["privateChats"][] = $newConversation;
+        $json = json_encode($allConversations, JSON_PRETTY_PRINT);
+        file_put_contents($filename, $json);
+
+        sendJSON($newConversation, 200);
+
     }
 
     if($action === "postMessage"){

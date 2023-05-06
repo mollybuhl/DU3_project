@@ -16,7 +16,7 @@ async function renderChatPage(){
 
     const userFriends = await fetchFriends();
     const userGroupChats = await fetchChats("groupChat");
-    const userPrivateChats = await fetchChats("privateChat");
+    let userPrivateChats = await fetchChats("privateChat");
 
     userFriends.forEach(friendObject => {
         const privateChats = mainDom.querySelector("#privateChats");
@@ -46,10 +46,11 @@ async function renderChatPage(){
     async function renderChat(event){
         let chatID;
         let type;
-
+        
         if(event.target.classList.contains("privateChat")){
+            
             const clickedFriendUsername = event.target.textContent;
-
+            let friendObject;
             userFriends.forEach(friend => {
                 if(friend.username === clickedFriendUsername){
                     userPrivateChats.forEach(privateChat => {
@@ -58,10 +59,22 @@ async function renderChatPage(){
                             type = "privateChat";
                         }
                     })
+                    friendObject = friend;
                 }
             });
 
+            if(chatID === undefined){
+                await addPrivateChat();
+
+                async function addPrivateChat(){
+                    chatID = await createPrivateChat(friendObject.id);
+                    type = "privateChat";
+                    
+                    userPrivateChats = await fetchChats("privateChat");
+                }
+            }
         }
+        
         if(event.target.classList.contains("groupChat")){
             const clickedGroupChat = event.target.textContent;
 
@@ -73,7 +86,7 @@ async function renderChatPage(){
             })
 
         }
-        
+
         // Create a <div> and fill will elements building the private chat window. Then set an id to the <div> also append it to <main>.
         const chatModal = document.createElement("div");
         document.querySelector("main").append(chatModal);
@@ -102,7 +115,6 @@ async function renderChatPage(){
         // Calling the function to start fetch messages and print them.
         await fetchAndPrintMessages();
 
-        // This function will trigger when the send message button is pressed within the privateChat <div>. It posts a new message to the server.
         async function sendMessage(event){
 
             const date = new Date();
@@ -136,7 +148,6 @@ async function renderChatPage(){
             fetchAndPrintMessages(false);
         }
 
-        // This function fetches all messages from the conversation between the user and the friend and prints them into the messages <div> in the privateChat <div>, this function is by default a recursive function, meaning once the function reaches the end, it will call itself again with one second delay. This is done to automatically receive new messages from the friend.
         async function fetchAndPrintMessages(startTimeout = true){
 
             // If the chat has been closed for any reason, make it non-recursive to prevent it from doing unnecessary fetches, then end the function with return.
@@ -312,3 +323,24 @@ async function fetchChats(type){
 
 }
 
+async function createPrivateChat(friendID){
+    const userID = parseInt(window.localStorage.getItem("userId"));
+    const userPassword = window.localStorage.getItem("userPassword");
+
+    const requestOptions = {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            action: "createPrivateChat",
+            userID: userID,
+            userPassword: userPassword,
+            betweenUsers: [userID, friendID]
+        })
+    }
+
+    const request = new Request("../php/chat.php", requestOptions);
+    const response = await fetch(request);
+    const resource = await response.json();
+
+    return await resource.id;
+}
