@@ -46,11 +46,14 @@ if($requestMethod == "GET"){
 
 if($requestMethod == "POST"){
     $filename = "php/conversations.json";
-    $allConversations = [];
+    $allConversations = [
+        "privateChats" => [],
+        "groupChats" => []
+    ];
     
     // Check if file exists. If it doesn't, save $users within $filename. If it exists get contents from $filename then decode and save it in $users.
     if(!file_exists($filename)){
-        $json = json_encode($allConversations);
+        $json = json_encode($allConversations, JSON_PRETTY_PRINT);
         file_put_contents($filename, $json);
     }else{
         $json = file_get_contents($filename);
@@ -67,10 +70,10 @@ if($requestMethod == "POST"){
     if(isset($requestData["type"])){
         $type = $requestData["type"];
         if($type == "privateChat"){
-            $conversations = $allConversations[0]["privateChats"];
+            $conversations = $allConversations["privateChats"];
         }
         if($type == "groupChat"){
-            $conversations = $allConversations[0]["groupChats"];
+            $conversations = $allConversations["groupChats"];
         }
     }
     if(isset($requestData["chatID"])){
@@ -122,7 +125,7 @@ if($requestMethod == "POST"){
     }
 
     if($action == "createGroupChat"){
-        $conversations = $allConversations[0]["groupChats"];
+        $conversations = $allConversations["groupChats"];
 
         $groupName = $requestData["groupName"];
         $groupOwner = $requestData["groupOwner"];
@@ -131,13 +134,6 @@ if($requestMethod == "POST"){
 
         checkCredentials($groupOwner, $groupOwnerPassword);
 
-        $newGroupChat = [
-            "name" => $groupName,
-            "owner" => $groupOwner,
-            "betweenUsers" => $betweenUsers,
-            "messages" => []
-        ];
-
         $highestConversationID = 0;
 
         foreach($conversations as $conversation){
@@ -146,9 +142,15 @@ if($requestMethod == "POST"){
             }
         }
 
-        $newGroupChat["id"] = $highestConversationID + 1;
+        $newGroupChat = [
+            "id" => $highestConversationID,
+            "name" => $groupName,
+            "owner" => $groupOwner,
+            "betweenUsers" => $betweenUsers,
+            "messages" => []
+        ];
 
-        $allConversations[0]["groupChats"][] = $newGroupChat;
+        $allConversations["groupChats"][] = $newGroupChat;
 
         $json = json_encode($allConversations, JSON_PRETTY_PRINT);
         file_put_contents($filename, $json);
@@ -156,18 +158,13 @@ if($requestMethod == "POST"){
     }
 
     if($action == "createPrivateChat"){
-        $conversations = $allConversations[0]["privateChats"];
+        $conversations = $allConversations["privateChats"];
 
         $userID = $requestData["userID"];
         $userPassword = $requestData["userPassword"];
         $betweenUsers = $requestData["betweenUsers"];
 
         checkCredentials($userID, $userPassword);
-
-        $newConversation = [
-            "betweenUsers" => $betweenUsers,
-            "messages" => []
-        ];
 
         $highestConversationID = 0;
 
@@ -177,9 +174,13 @@ if($requestMethod == "POST"){
             }
         }
 
-        $newConversation["id"] = $highestConversationID + 1;
+        $newConversation = [
+            "id" => $highestConversationID + 1,
+            "betweenUsers" => $betweenUsers,
+            "messages" => []
+        ];
 
-        $allConversations[0]["privateChats"][] = $newConversation;
+        $allConversations["privateChats"][] = $newConversation;
         $json = json_encode($allConversations, JSON_PRETTY_PRINT);
         file_put_contents($filename, $json);
 
@@ -207,7 +208,7 @@ if($requestMethod == "POST"){
                     $newMessage["id"] = $highestMessageID + 1;  
                 }
 
-                $allConversations[0][$typeInPlural][$convoIndex]["messages"][] = $newMessage;
+                $allConversations[$typeInPlural][$convoIndex]["messages"][] = $newMessage;
                         
                 $json = json_encode($allConversations, JSON_PRETTY_PRINT);
                 file_put_contents($filename, $json);
