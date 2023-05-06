@@ -64,7 +64,7 @@ if($requestMethod == "POST"){
 
     $action = $requestData["action"];
 
-    if($action === "fetchChat"){
+    if(isset($requestData["type"])){
         $type = $requestData["type"];
         if($type == "privateChat"){
             $conversations = $allConversations[0]["privateChats"];
@@ -72,15 +72,28 @@ if($requestMethod == "POST"){
         if($type == "groupChat"){
             $conversations = $allConversations[0]["groupChats"];
         }
-
+    }
+    if(isset($requestData["chatID"])){
         $chatID = $requestData["chatID"];
+    }
+
+    if($action === "fetchChat"){
+        $users = json_decode(file_get_contents("php/users.json"), true);
 
         foreach($conversations as $conversation){
             if($chatID == $conversation["id"]){
+                foreach($conversation["messages"] as $messageIndex => $message){
+                    foreach($users as $user){   
+                        if($user["id"] == $message["sender"]){
+                            $conversation["messages"][$messageIndex]["sender"] = $user["username"];
+                        }
+                    }
+                }
                 sendJSON($conversation, 200);
             }
         }
         
+        // REMINDER: this wont work, fix later
         if($type == "privateChat"){
             $newConversation = [
                 "betweenUsers" => $betweenUsers,
@@ -102,21 +115,15 @@ if($requestMethod == "POST"){
             file_put_contents($filename, $json);
     
             sendJSON($newConversation, 200);
-            }else{
-                $error = ["message" => "Sorry the chat was not found."];
-                sendJSON($error, 404);
-            }
+        }
 
+        $error = ["message" => "Sorry the chat was not found."];
+        sendJSON($error, 404);
+        
     }
 
+    // Make new conversation for privateChats in this section instead
     if($action === "fetchChats"){
-        $type = $requestData["type"];
-        if($type == "privateChat"){
-            $conversations = $allConversations[0]["privateChats"];
-        }
-        if($type == "groupChat"){
-            $conversations = $allConversations[0]["groupChats"];
-        }
 
         if(!isset($requestData["userID"]) or !isset($requestData["userPassword"])){
             $message = ["message" => "Sorry you didn't provide the right information."];
@@ -140,26 +147,47 @@ if($requestMethod == "POST"){
     }
 
     if($action == "createGroupChat"){
-        $conversations = $conversations[0]["groupChats"];
+        $conversations = $allConversations[0]["groupChats"];
 
+        $groupName = $requestData["groupName"];
+        $groupOwner = $requestData["groupOwner"];
+        $groupOwnerPassword = $requestData["groupOwnerPassword"];
+        $betweenUsers = $requestData["betweenUsers"];
+
+        checkCredentials($groupOwner, $groupOwnerPassword);
+
+        $newGroupChat = [
+            "name" => $groupName,
+            "owner" => $groupOwner,
+            "betweenUsers" => $betweenUsers,
+            "messages" => []
+        ];
+
+        $highestConversationID = 0;
+
+        foreach($conversations as $conversation){
+            if($conversation["id"] > $highestConversationID){
+                $highestConversationID = $conversation["id"];
+            }
+        }
+
+        $newGroupChat["id"] = $highestConversationID + 1;
+
+        $allConversations[0]["groupChats"][] = $newGroupChat;
+
+        $json = json_encode($allConversations, JSON_PRETTY_PRINT);
+        file_put_contents($filename, $json);
+        sendJSON($newGroupChat, 200);
     }
 
     if($action === "postMessage"){
-        $type = $requestData["type"];
-        if($type == "privateChat"){
-            $conversations = $allConversations[0]["privateChats"];
-        }
-        if($type == "groupChat"){
-            $conversations = $allConversations[0]["groupChats"];
-        }
         $typeInPlural = $type . "s";
-        $chatID = $requestData["chatID"];
 
         foreach($conversations as $convoIndex => $conversation){
             if($conversation["id"] == $chatID){
                 $newMessage = $requestData["message"];
     
-                foreach($conversations as $index => $conversation){
+                foreach($conversations as $conversation){
                     $convoMessages = $conversation["messages"];
                     $highestMessageID = 0;
         
