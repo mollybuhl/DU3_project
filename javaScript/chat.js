@@ -39,7 +39,7 @@ async function renderChatPage(){
         
 
         groupChatDom.addEventListener("click", renderChat);
-    })
+    });
 
     mainDom.querySelector("#groupChats > #createGroupChat").addEventListener("click", createGroupChat);
 
@@ -64,17 +64,13 @@ async function renderChatPage(){
             });
 
             if(chatID === undefined){
-                await addPrivateChat();
-
-                async function addPrivateChat(){
-                    chatID = await createPrivateChat(friendObject.id);
-                    type = "privateChat";
+                chatID = await createPrivateChat(friendObject.id);
+                type = "privateChat";
                     
-                    userPrivateChats = await fetchChats("privateChat");
-                }
+                userPrivateChats = await fetchChats("privateChat");
             }
         }
-        
+
         if(event.target.classList.contains("groupChat")){
             const clickedGroupChat = event.target.textContent;
 
@@ -282,9 +278,6 @@ async function renderChatPage(){
     }
 }
 
-
-
-// Fetches every user object that is friends with the currently logged in user.
 async function fetchFriends(){
     
     // Get the currently logged in userID

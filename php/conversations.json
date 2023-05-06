@@ -1,65 +1,8 @@
 [
     {
         "privateChats": [
-            {
-                "betweenUsers": [
-                    1,
-                    6
-                ],
-                "messages": [],
-                "id": 1
-            },
-            {
-                "betweenUsers": [
-                    1,
-                    4
-                ],
-                "messages": [
-                    {
-                        "sender": 1,
-                        "text": "hej",
-                        "timestamp": "18:10, 6 May",
-                        "id": 1
-                    },
-                    {
-                        "sender": 1,
-                        "text": "tja",
-                        "timestamp": "18:10, 6 May",
-                        "id": 2
-                    }
-                ],
-                "id": 2
-            },
-            {
-                "betweenUsers": [
-                    1,
-                    3
-                ],
-                "messages": [],
-                "id": 3
-            },
-            {
-                "betweenUsers": [
-                    1,
-                    2
-                ],
-                "messages": [],
-                "id": 4
-            }
         ],
         "groupChats": [
-            {
-                "name": "testar",
-                "owner": 1,
-                "betweenUsers": [
-                    1,
-                    2,
-                    3,
-                    6
-                ],
-                "messages": [],
-                "id": 1
-            }
         ]
     }
 ]
