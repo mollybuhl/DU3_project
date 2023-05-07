@@ -13,6 +13,7 @@ TODO:
     - Credentials on all fetches
     - Error messages
     - Fetch feedback for user
+    - Combine fetch functions?
 */
 
 // Renders the chat page.
@@ -212,6 +213,9 @@ async function renderChatPage(){
             let ownerID = conversation.owner;
             let name = conversation.name;
 
+            console.log(conversation);
+            console.log(betweenUsers);
+
             const optionsDivDom = document.createElement("div");
             optionsDivDom.innerHTML = `
             <div>
@@ -230,6 +234,7 @@ async function renderChatPage(){
             if(user === ownerID){
                 const ownerOptionsDom = optionsDivDom.querySelector("#ownerOptions");
                 ownerOptionsDom.classList.remove("hidden");
+
                 ownerOptionsDom.querySelector("#changeGroupName").addEventListener("click", event => {
                     const changeGroupNameDom = document.createElement("div");
                     changeGroupNameDom.innerHTML = `
@@ -244,10 +249,133 @@ async function renderChatPage(){
                     })
                     optionsDivDom.appendChild(changeGroupNameDom);
                 })
+
                 ownerOptionsDom.querySelector("#changeMembers").addEventListener("click", event => {
+                    const addFriendsModal = document.createElement("div");
+
+                    addFriendsModal.innerHTML = `
+                    <div id="friendsSelector"></div>
+                    <button id="friends">Confirm</button>
+                    `
+        
+                    userFriends.forEach(friend => {
+                        const friendDiv = document.createElement("div");
+                        friendDiv.innerHTML = `
+                        <div id="profPic"></div>
+                        <div id="friendName">${friend.username}</div>
+                        `
+                        
+                        if(betweenUsers.includes(friend.id)){
+                            friendDiv.classList.add("marked");
+                        }
+
+                        friendDiv.addEventListener("click", event => {
+                            if(!betweenUsers.includes(friend.id)){
+                                betweenUsers.push(friend.id);
+                                friendDiv.classList.add("marked");
+                                console.log(betweenUsers);
+                            }else{
+                                betweenUsers.splice(betweenUsers.indexOf(friend.id), 1);
+                                friendDiv.classList.remove("marked");
+                                console.log(betweenUsers);
+                            }
+                        })
+                        addFriendsModal.querySelector("#friendsSelector").appendChild(friendDiv);
+                    })
+                    addFriendsModal.querySelector("#friends").addEventListener("click", event => {
+                        async function updateMembers(){
+                            const requestOptions = {
+                                method: "PATCH",
+                                headers: {"Content-Type": "application/json"},
+                                body: JSON.stringify({
+                                    action: "editMembers",
+                                    chatID: chatID,
+                                    userID: user,
+                                    userPassword: userPassword,
+                                    betweenUsers: betweenUsers,
+                                })
+                            }
+    
+                            const request = new Request("../php/chat.php", requestOptions);
+                            const response = await fetch(request);
+                            const resource = await response.json();
+                        }
+                        updateMembers();
+                        addFriendsModal.remove();
+                    })
+                    ownerOptionsDom.appendChild(addFriendsModal);
+                })
+
+                const leaveDeleteButton = optionsDivDom.querySelector("#leaveDelete")
+                leaveDeleteButton.textContent = "Delete groupchat";
+                leaveDeleteButton.addEventListener("click", event => {
+
+                    const confirmationModal = document.createElement("div");
+                    confirmationModal.innerHTML = `
+                    <div>Are you sure you want to delete this groupchat?</div>
+                    <div id="deleteGroupConfirmation">
+                        <button id="confirmDeleteGroup">Confirm</button>
+                        <button id="cancelDeleteGroup">Cancel</button>
+                    </div>
+                    `
+
+                    confirmationModal.querySelector("#cancelDeleteGroup").addEventListener("click", event => confirmationModal.remove());
+                    confirmationModal.querySelector("#confirmDeleteGroup").addEventListener("click", event => {
+                        async function deleteGroup(){
+                            const requestOptions = {
+                                method: "DELETE",
+                                headers: {"Content-Type": "application/json"},
+                                body: JSON.stringify({
+                                    action: "deleteGroup",
+                                    userID: user,
+                                    userPassword: userPassword,
+                                    chatID: chatID
+                                })
+                            }
+    
+                            const request = new Request("../php/chat.php", requestOptions);
+                            const response = await fetch(request);
+                            const resource = await response.json()
+                        }
+                        deleteGroup();
+                        confirmationModal.remove()
+                    });
+
+                    ownerOptionsDom.appendChild(confirmationModal);
                 })
             }
+            if(user !== ownerID){
+                const leaveDeleteButton = optionsDivDom.querySelector("#leaveDelete");
+                leaveDeleteButton.textContent = "Leave groupchat";
+                leaveDeleteButton.addEventListener("click", event => async function(){
+                    const confirmationModal = document.createElement("div");
+                    confirmationModal.innerHTML = `
+                    <div>Are you sure you want to leave this groupchat?</div>
+                    <div id="deleteGroupConfirmation">
+                        <button id="confirmDeleteGroup">Confirm</button>
+                        <button id="cancelDeleteGroup">Cancel</button>
+                    </div>
+                    `
 
+                    confirmationModal.querySelector("#cancelDeleteGroup").addEventListener("click", event => confirmationModal.remove());
+                    confirmationModal.querySelector("#confirmDeleteGroup").addEventListener("click", event => async function(){
+                        const requestOptions = {
+                            method: "DELETE",
+                            headers: {"Content-Type": "application/json"},
+                            body: JSON.stringify({
+                                action: "leaveGroup",
+                                userID: user,
+                                userPassword: userPassword,
+                                chatID: chatID
+                            })
+                        }
+
+                        const request = new Request("../php/chat.php", requestOptions);
+                        const response = await fetch(request);
+                        const resource = await response.json()
+                    });
+                })
+            }
             privateChat.appendChild(optionsDivDom);
         }
     }

@@ -41,36 +41,5 @@
         }
     ],
     "groupChats": [
-        {
-            "id": 0,
-            "name": "Cool club",
-            "owner": 1,
-            "betweenUsers": [
-                1,
-                2,
-                3,
-                6
-            ],
-            "messages": [
-                {
-                    "sender": 1,
-                    "text": "Hur m\u00e5r alla?",
-                    "timestamp": "18:46, 6 May",
-                    "id": 1
-                },
-                {
-                    "sender": 1,
-                    "text": "BRA!",
-                    "timestamp": "18:46, 6 May",
-                    "id": 2
-                },
-                {
-                    "sender": 1,
-                    "text": "j\u00e4tte",
-                    "timestamp": "15:43, 7 May",
-                    "id": 3
-                }
-            ]
-        }
     ]
 }

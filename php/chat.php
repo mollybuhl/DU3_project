@@ -202,19 +202,17 @@ if($requestMethod == "POST"){
             if($conversation["id"] == $chatID){
                 if(in_array($userID, $conversation["betweenUsers"])){
                     $newMessage = $requestData["message"];
-    
-                    foreach($conversations as $conversation){
-                        $convoMessages = $conversation["messages"];
-                        $highestMessageID = 0;
+
+                    $convoMessages = $conversation["messages"];
+                    $highestMessageID = 0;
             
-                        foreach($convoMessages as $message){
-                            if($message["id"] > $highestMessageID){
-                                $highestMessageID = $message["id"];
-                            }
+                    foreach($convoMessages as $message){
+                        if($message["id"] > $highestMessageID){
+                            $highestMessageID = $message["id"];
                         }
-            
-                        $newMessage["id"] = $highestMessageID + 1;  
                     }
+            
+                    $newMessage["id"] = $highestMessageID + 1;  
     
                     $allConversations[$typeInPlural][$convoIndex]["messages"][] = $newMessage;
                             
@@ -229,13 +227,120 @@ if($requestMethod == "POST"){
 }
 
 if($requestMethod == "DELETE"){
-// Ta bort gruppchatt
-// Lämna grupp
+    $filename = "php/conversations.json";
+    $allConversations = [
+        "privateChats" => [],
+        "groupChats" => []
+    ];
+
+    // Check if file exists. If it doesn't, save $users within $filename. If it exists get contents from $filename then decode and save it in $users.
+    if(!file_exists($filename)){
+        $json = json_encode($allConversations, JSON_PRETTY_PRINT);
+        file_put_contents($filename, $json);
+    }else{
+        $json = file_get_contents($filename);
+        $allConversations = json_decode($json, true);
+    }
+
+    $requestJSON = file_get_contents("php://input");
+    $requestData = json_decode($requestJSON, true);
+
+    $groupChats = $allConversations["groupChats"];
+
+    $action = $requestData["action"];
+    $chatID = $requestData["chatID"];
+    $userID = $requestData["userID"];
+    $userPassword = $requestData["userPassword"];
+
+    checkCredentials($userID, $userPassword);
+
+    if($action == "deleteGroup"){
+        foreach($groupChats as $chatIndex => $chat){
+            if($chat["id"] == $chatID){
+                if($chat["owner"] == $userID){
+                    unset($allConversations["groupChats"][$chatIndex]);
+
+                    $json = json_encode($allConversations, JSON_PRETTY_PRINT);
+                    file_put_contents($filename, $json);
+                    sendJSON($chat, 200);
+                }
+            }
+        }
+    }
+
+    if($action == "leaveGroup"){
+        foreach($groupChats as $chatIndex => $chat){
+            if($chat["id"] == $chatID){
+                $indexOfUserID = array_search($userID, $chat["betweenUsers"]);
+                unset($allConversations["groupChats"][$chatIndex]["betweenUsers"][$indexOfUserID]);
+
+                $json = json_encode($allConversations, JSON_PRETTY_PRINT);
+                file_put_contents($filename, $json);
+                sendJSON($chat, 200);
+            }
+        }
+    }
 }
 
 if($requestMethod == "PATCH"){
-// Ändra namn på gruppchatt
-// Lägga till eller ta bort personer i gruppchatt
+    $filename = "php/conversations.json";
+    $allConversations = [
+        "privateChats" => [],
+        "groupChats" => []
+    ];
+
+    // Check if file exists. If it doesn't, save $users within $filename. If it exists get contents from $filename then decode and save it in $users.
+    if(!file_exists($filename)){
+        $json = json_encode($allConversations, JSON_PRETTY_PRINT);
+        file_put_contents($filename, $json);
+    }else{
+        $json = file_get_contents($filename);
+        $allConversations = json_decode($json, true);
+    }
+
+    $requestJSON = file_get_contents("php://input");
+    $requestData = json_decode($requestJSON, true);
+
+    $groupChats = $allConversations["groupChats"];
+
+    $action = $requestData["action"];
+    $chatID = $requestData["chatID"];
+    $userID = $requestData["userID"];
+    $userPassword = $requestData["userPassword"];
+
+    checkCredentials($userID, $userPassword);
+
+    if($action == "editMembers"){
+        $updatedMembers = $requestData["betweenUsers"];
+
+        foreach($groupChats as $chatIndex => $chat){
+            if($chat["id"] == $chatID){
+                if($userID == $chat["owner"]){
+                    $allConversations["groupChats"][$chatIndex]["betweenUsers"] = $updatedMembers;
+
+                    $json = json_encode($allConversations, JSON_PRETTY_PRINT);
+                    file_put_contents($filename, $json);
+                    sendJSON($chat, 200);
+                }
+            }
+        }
+    }
+
+    if($action == "changeGroupName"){
+        $newGroupName = $requestData["name"];
+
+        foreach($groupChats as $chatIndex => $chat){
+            if($chat["id"] == $chatID){
+                if($userID == $chat["owner"]){
+                    $allConversations["groupChats"][$chatIndex]["name"] = $newGroupName;
+                    
+                    $json = json_encode($allConversations, JSON_PRETTY_PRINT);
+                    file_put_contents($filename, $json);
+                    sendJSON($chat, 200);
+                }
+            }
+        }
+    }
 }
 ?>
 
