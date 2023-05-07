@@ -12,6 +12,7 @@ TODO:
     - Comments
     - Credentials on all fetches
     - Error messages
+    - Fetch feedback for user
 */
 
 // Renders the chat page.
