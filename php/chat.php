@@ -82,17 +82,23 @@ if($requestMethod == "POST"){
 
     if($action === "fetchChat"){
         $users = json_decode(file_get_contents("php/users.json"), true);
+        $userID = $requestData["userID"];
+        $userPassword = $requestData["userPassword"];
+
+        checkCredentials($userID, $userPassword);
 
         foreach($conversations as $conversation){
             if($chatID == $conversation["id"]){
-                foreach($conversation["messages"] as $messageIndex => $message){
-                    foreach($users as $user){   
-                        if($user["id"] == $message["sender"]){
-                            $conversation["messages"][$messageIndex]["sender"] = $user["username"];
+                if(in_array($userID, $conversation["betweenUsers"])){
+                    foreach($conversation["messages"] as $messageIndex => $message){
+                        foreach($users as $user){   
+                            if($user["id"] == $message["sender"]){
+                                $conversation["messages"][$messageIndex]["sender"] = $user["username"];
+                            }
                         }
                     }
+                    sendJSON($conversation, 200);
                 }
-                sendJSON($conversation, 200);
             }
         }
 
@@ -143,7 +149,7 @@ if($requestMethod == "POST"){
         }
 
         $newGroupChat = [
-            "id" => $highestConversationID,
+            "id" => $highestConversationID + 1,
             "name" => $groupName,
             "owner" => $groupOwner,
             "betweenUsers" => $betweenUsers,
@@ -189,31 +195,34 @@ if($requestMethod == "POST"){
     }
 
     if($action === "postMessage"){
+        $userID = $requestData["message"]["sender"];
         $typeInPlural = $type . "s";
 
         foreach($conversations as $convoIndex => $conversation){
             if($conversation["id"] == $chatID){
-                $newMessage = $requestData["message"];
+                if(in_array($userID, $conversation["betweenUsers"])){
+                    $newMessage = $requestData["message"];
     
-                foreach($conversations as $conversation){
-                    $convoMessages = $conversation["messages"];
-                    $highestMessageID = 0;
-        
-                    foreach($convoMessages as $message){
-                        if($message["id"] > $highestMessageID){
-                            $highestMessageID = $message["id"];
+                    foreach($conversations as $conversation){
+                        $convoMessages = $conversation["messages"];
+                        $highestMessageID = 0;
+            
+                        foreach($convoMessages as $message){
+                            if($message["id"] > $highestMessageID){
+                                $highestMessageID = $message["id"];
+                            }
                         }
+            
+                        $newMessage["id"] = $highestMessageID + 1;  
                     }
-        
-                    $newMessage["id"] = $highestMessageID + 1;  
-                }
-
-                $allConversations[$typeInPlural][$convoIndex]["messages"][] = $newMessage;
-                        
-                $json = json_encode($allConversations, JSON_PRETTY_PRINT);
-                file_put_contents($filename, $json);
     
-                sendJSON($newMessage, 200);
+                    $allConversations[$typeInPlural][$convoIndex]["messages"][] = $newMessage;
+                            
+                    $json = json_encode($allConversations, JSON_PRETTY_PRINT);
+                    file_put_contents($filename, $json);
+        
+                    sendJSON($newMessage, 200);
+                }
             }
         }
     }
@@ -221,13 +230,12 @@ if($requestMethod == "POST"){
 
 if($requestMethod == "DELETE"){
 // Ta bort gruppchatt
-// Ta bort user från gruppchatt
 // Lämna grupp
 }
 
 if($requestMethod == "PATCH"){
 // Ändra namn på gruppchatt
-// Lägga till personer i gruppchatt
+// Lägga till eller ta bort personer i gruppchatt
 }
 ?>
 
