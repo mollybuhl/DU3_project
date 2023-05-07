@@ -237,15 +237,18 @@ async function renderFeedPage(){
                     `;
                     document.querySelector(".friendRequestsDisplay > #activeRequests").appendChild(singleFriendRequest);
 
-                    document.querySelector(".friendRequestsDisplay > #activeRequests > div > #declineFriendRequest").addEventListener("click", declineFriendRequest);
+                    singleFriendRequest.querySelector(".friendRequestsDisplay > #activeRequests > div > #declineFriendRequest").addEventListener("click", declineFriendRequest);
                     function declineFriendRequest(event){
-//HERE: Connect to sendFriendRequest
+                        if(confirm(`Do you want to remove friend request from ${user.username}?`)){
+                            sendFriendRequset(friendRequest, User.id, "declineRequest");
+                        }
                     }
-                    document.querySelector(".friendRequestsDisplay > #activeRequests > div > #acceptFriendRequest").addEventListener("click", acceptFriendRequest);
+
+                    singleFriendRequest.querySelector(".friendRequestsDisplay > #activeRequests > div > #acceptFriendRequest").addEventListener("click", acceptFriendRequest);
                     function acceptFriendRequest(event){
-//HERE: Connect to sendFriendRequest
-                        sendFriendRequset(friendRequest,User,"acceptRequest");
-                        
+                        if(confirm(`Do you want to add ${user.username} to your friends?`)){
+                            sendFriendRequset(friendRequest, User.id, "acceptRequest");
+                        }
                     }
                 }
             });
@@ -273,9 +276,7 @@ async function renderFeedPage(){
         
         Users.forEach(user => {
             if(searchName === user["username"]){
-                if(confirm(`"Do you want to add ${searchName} to your Friends?"`)){ //If user is found ask to confirm friend request
-                   
-                    //Send friend request
+                if(confirm(`"Do you want to add ${searchName} to your Friends?"`)){ 
                     sendFriendRequset(User_id, searchName, sendRequest);  
                     return;                  
                 };
@@ -327,9 +328,19 @@ async function sendFriendRequset(userFrom, userTo, action){
         if(!response.ok){
             document.querySelector("#searchWrapper > .messageToUser").textContent = `${response.message}`;
 
-        }else{          
-            document.querySelector("#searchWrapper > .messageToUser").textContent = `A Friend Request was sent to ${searchName}!`;
-            document.querySelector("#searchWrapper > form > input").value = "";
+        }else{  
+            if(resource.action === "acceptRequest"){
+                alert("Friend Request Accepted"); //To much?
+                renderFeedPage();
+            } 
+            if(resource.action === "declineRequest"){
+                alert("Friend Request Declined"); //To much?
+                renderFeedPage();
+            }
+            if(resource.action === "search"){
+                document.querySelector("#searchWrapper > .messageToUser").textContent = `A Friend Request was sent to ${searchName}!`;
+                document.querySelector("#searchWrapper > form > input").value = "";
+            }     
         }
 
     }catch(error){

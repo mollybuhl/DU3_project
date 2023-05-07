@@ -39,23 +39,50 @@ if($action == "sendRequest"){
         }
     }
 }
+
 if($action == "acceptRequest") {
 
     foreach($users as $index => $user){
-        if($user["username"] === $userTo){
-            $user["username"]["friends"][] = $userFrom;
-            array_splice($users[$index]["friendRequests"], $index, 1);
+        if($user["id"] === $userTo){
+            $users[$index]["friends"][] = $userFrom;
 
-            $json = json_encode($users, JSON_PRETTY_PRINT);
-            file_put_contents($filename, $json);
+            $friendRequests = $users[$index]["friendRequests"];
 
-            $message = ["message" => "Friend request accepted"];
-            sendJSON($message);
+            foreach($friendRequests as $requestIndex => $request){
+                if($request == $userFrom){
+                    array_splice($users[$index]["friendRequests"], $requestIndex, 1);
+
+                    $json = json_encode($users, JSON_PRETTY_PRINT);
+                    file_put_contents($filename, $json);
+        
+                    $message = ["message" => "Friend request accepted", "action" => "acceptRequest"];
+                    sendJSON($message);
+                }
+            }
         }
     }
     
-}elseif ($action == "declineRequest") {
-    # code...
+}
+
+if($action == "declineRequest") {
+    foreach($users as $index => $user){
+        if($user["id"] === $userTo){
+
+            $friendRequests = $users[$index]["friendRequests"];
+
+            foreach($friendRequests as $requestIndex => $request){
+                if($request == $userFrom){
+                    array_splice($users[$index]["friendRequests"], $requestIndex, 1);
+
+                    $json = json_encode($users, JSON_PRETTY_PRINT);
+                    file_put_contents($filename, $json);
+        
+                    $message = ["message" => "Friend request declined", "action" => "declineRequest"];
+                    sendJSON($message);
+                }
+            }
+        }
+    }
 }
 
 $message = ["message" => "User not found"];

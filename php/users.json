@@ -37,11 +37,10 @@
         "loggedFeelings": [],
         "friends": [
             1,
-            3
+            3,
+            4
         ],
-        "friendRequests": [
-            6
-        ],
+        "friendRequests": [],
         "posts": [
             {
                 "postID": 2,
