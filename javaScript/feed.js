@@ -203,7 +203,10 @@ async function renderFeedPage(){
             <img src="${User["profilePicture"]}">
             <h3>${User["username"]}</h3>
         </div>
-        <div class="friendsButton"></button>
+        
+        <div class="friendsButton">
+            <div class="notificationFriendRequest hidden"></div>
+        </div>
     `;
 
     //Add each friend to friend list.
@@ -220,6 +223,7 @@ async function renderFeedPage(){
     })
 
     if(User.friendRequests.length > 0){
+        document.querySelector("div.notificationFriendRequest").classList.remove("hidden");
         document.querySelector(".friendRequestsDisplay").classList.remove("hidden");
 
         let activeFriendRequests = User.friendRequests;

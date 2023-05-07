@@ -40,6 +40,19 @@ div.friendsButton{
     cursor: pointer;
 }
 
+div.notificationFriendRequest{
+background-color: red;
+color: white;
+border-radius: 50%;
+
+height: 2vh;
+width: 2vh;
+font-size: 30px;
+}
+div.notificationFriendRequest.hidden{
+    display: none;
+}
+
 /*HEADER: Profile pic & name*/
 header.feedHeader > .profileInformation{
     display: flex;
@@ -229,7 +242,7 @@ main.mainFeed{
 
 /*MAIN: friendPostDisplay*/
 main.mainFeed > div.feedWrapper > div.friendsPostDisplay, main.mainFeed > div.feedWrapper > div.postDisplay {
-    height: 20vh;
+    min-height: 20vh;
     width: 100%;
     background-color: #d9d9d978;
     z-index: 1;
@@ -249,9 +262,7 @@ main.mainFeed > div.feedWrapper > div.friendsPostDisplay, main.mainFeed > div.fe
 
 main.mainFeed > div.feedWrapper > div.friendsPostDisplay > div.friendProfileDisplay{
     display: flex;
-    position: absolute;
-
-    z-index: 5;
+    
 } 
 main.mainFeed > div.feedWrapper > div.friendsPostDisplay > div.friendProfileDisplay > img{
     height: 10vh;
