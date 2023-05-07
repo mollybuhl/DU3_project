@@ -230,7 +230,7 @@ async function renderFeedPage(){
                 if(user.id === friendRequest){
                     const singleFriendRequest = document.createElement("div");
                     singleFriendRequest.innerHTML = `
-                    <img src="${user.profilePicture}"> 
+                    <img src="../media/profile_imgs/${user.profilePicture}"> 
                     <h4>${user.username}</h4>
                     <button id="acceptFriendRequest">Accept</button>
                     <button id="declineFriendRequest">Decline</button>
@@ -273,17 +273,27 @@ async function renderFeedPage(){
         event.preventDefault();
 
         searchName = document.querySelector("#searchWrapper > form > input").value;
+        let found = false;
         
         Users.forEach(user => {
             if(searchName === user["username"]){
-                if(confirm(`"Do you want to add ${searchName} to your Friends?"`)){ 
-                    sendFriendRequset(User_id, searchName, sendRequest);  
-                    return;                  
-                };
+                found = true;
+                let usersCurrentFriends = User.friends;
+
+                if(usersCurrentFriends.includes(user["id"])){
+                    alert(`You are already friends with ${searchName}`);
+                }else{
+                    if(confirm(`Do you want to add ${searchName} to your Friends?`)){ 
+                        sendFriendRequset(User_id, searchName, sendRequest);  
+                        return;                  
+                    };
+                }
             }
         });
-        document.querySelector("#searchWrapper > .messageToUser").textContent = "User not found";
-
+        
+        if(found === false){
+            document.querySelector("#searchWrapper > .messageToUser").textContent = "User not found";
+        };
     });
 
     //Loged in footer
