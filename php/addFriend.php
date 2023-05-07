@@ -35,7 +35,8 @@ if($action == "sendRequest"){
 
             $json = json_encode($users, JSON_PRETTY_PRINT);
             file_put_contents($filename, $json);
-            sendJSON($users[$index]["friendRequests"]);
+            $message = ["message" => "Friend request sent", "action" => "sendRequest"];
+            sendJSON($message);
         }
     }
 }

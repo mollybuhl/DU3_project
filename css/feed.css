@@ -136,6 +136,16 @@ header.feedHeader > div.friendDisplay > div.friendRequestsDisplay > #activeReque
     display: flex;
 }
 
+header.feedHeader > div.friendDisplay > div.friendRequestsDisplay > #activeRequests > div > img{
+    height: 7vh;
+    width: 7vh;
+    border-radius: 50%;
+    
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
 /*Friends display: Search*/
 #searchWrapper{
     padding: 0;
@@ -214,7 +224,7 @@ main.mainFeed{
 /*MAIN: Info if nothing is posted*/
 .mainFeed > div.feedWrapper > .no_post_info{
     color: whitesmoke;
-    z-index: 5;
+    z-index: 3;
 }
 
 /*MAIN: friendPostDisplay*/
@@ -233,7 +243,22 @@ main.mainFeed > div.feedWrapper > div.friendsPostDisplay, main.mainFeed > div.fe
     border-radius: 10px 0 0 10px;
     padding: 5vw;
     padding-right: 10vw;
+
+    position: relative;
 }
+
+main.mainFeed > div.feedWrapper > div.friendsPostDisplay > div.friendProfileDisplay{
+    display: flex;
+    position: absolute;
+
+    z-index: 5;
+} 
+main.mainFeed > div.feedWrapper > div.friendsPostDisplay > div.friendProfileDisplay > img{
+    height: 10vh;
+    width: 10vh;
+    border-radius: 50%;
+}
+
 
 main.mainFeed > div.feedWrapper > div.postDisplay{
     background-color: #171717d1;
