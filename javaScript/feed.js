@@ -12,87 +12,171 @@ async function renderFeedPage(){
     ;
     
     //Fetching Users
-    let response = await fetch("../php/feed.php");
+    let response = await fetch("php/feed.php");
     let Users = await response.json();
 
-    //Locate users' friends. 
+    //Locate user by localstorage
     let User_id = (Number(window.localStorage.getItem("userId"))); 
     let User = Users.find(user => user.id === User_id);
-    let friendsOfUser = User.friends;
-
-    let posts = [];
-    let friendNames = [];
     
-    //Push all friends posts into array "posts".
-    friendsOfUser.forEach(friendId => {
-        Users.forEach(user => {
-            if(user.id === friendId){
-                friendNames.push(user.username);
-                let friendPosts = user.posts;
-                friendPosts.forEach(post => {
-                    posts.push(post)
-                })
-            }
-        })
-    });
+    let postedByUser = User.posts;
+    //If user has not posted anything, display nothing.
+    if(postedByUser.length > 0){
 
-    
-    //Push the users own posts into array "posts".
-    let UserPosts = User.posts;
-    UserPosts.forEach(post => {
-        posts.push(post);
-    });
-    
-    //Order posts by date published.
-    //let PostTimeOrder = posts.sort()
+        //Create a display for users X last posts;
+        let postDisplay = document.createElement("div");
+        postDisplay.classList.add("postDisplay");
+        main.querySelector(".feedWrapper").appendChild(postDisplay);
 
-    //Create posts in feed
-    if(posts.length === 0){
-        const newPost = document.createElement("div");
-        newPost.classList.add("no_post_info")
-        newPost.innerHTML = `<p>Add friends to see their posts here!</p>`;
+        //Sort post by latest posted
+        postedByUser.reverse();
+        //let users7LatestPosts = postedByUser.splice(7,1);
+        //console.log(users7LatestPosts);
+    
+        //Create users post display
+        postedByUser.forEach(post => { 
+            let createdPost = createPostInFeed(User, post);
+            postDisplay.appendChild(createdPost);
+    
+            createdPost.querySelector("#deletePost").addEventListener("click", deletePost);
+    
+            async function deletePost (event){
+
+                if(confirm("Would you like to delete this post?")){
+                    let postID = post.postID;
+                
+                    const requestOptions = {
+                        method: "DELETE",
+                        headers: {"Content-Type": "application/json"},
+                        body: JSON.stringify({
+                            userID: User_id,
+                            postID: postID,
+                        })
+                    }
         
-        main.querySelector(".feedWrapper").appendChild(newPost);
-    }else{
-        posts.forEach(post => {
-            const newPost = document.createElement("div");
-            newPost.classList.add("post");
-    
-            const postedBy = Users.find(user => user["id"] === post["userID"]);
-            console.log(postedBy);
-            let userName = postedBy["username"];
-            console.log(userName);
-            
-    
-            const feeling = post["mood"];
-            const text = post["description"];
-            const quote = post["quote"];
-    
-            newPost.innerHTML = `
-                <div>
-                    <h3>${userName} is feeling: ${feeling}</h3>
-                </div>
-                <button id="deletePost">X</button>
-                <div class="textBox">
-                    <h4>Why I'm feeling ${feeling}:</h4> 
-                    <p> ${text}</p> 
-                    <p><h5>Quote: </h5>"${quote}"</p>
-                </div>
-                `;
-    
-            switch(feeling){
-                case "Happy":
-                    newPost.classList.add("happy");
-                    break;
-                case "Sad":
-                    newPost.classList.add("sad");
-                    break;
+                    try{
+                        const request = new Request("../php/feed.php", requestOptions);
+                        let response = await fetch(request);
+                        let resource = await response.json();
+                        renderFeedPage();
+                    }catch(error){
+//What happens when error
+                        console.log(error);
+                    }
+                }
             }
-            
-            main.querySelector(".feedWrapper").appendChild(newPost);
         });
     }
-   
+    
+    //For each friend create a display with their X last posts
+    let friendsOfUser = User.friends;
+    let friendNames = [];
+
+    if(friendsOfUser.length < 0){
+        const noPostInfoDisplay = document.createElement("div");
+        noPostInfoDisplay.classList.add("no_post_info")
+        noPostInfoDisplay.innerHTML = `<p>Add more friends to see their posts here!</p>`;
+            
+        main.querySelector(".feedWrapper").appendChild(noPostInfoDisplay);
+        
+    }else{
+        friendsPostStatus = "noPosts";
+
+        friendsOfUser.forEach(friendId => {
+            Users.forEach(user => {
+                if(user.id === friendId){
+                    friendNames.push(user.username); //Neccecary?
+    
+                    let postedBy = user.username;
+                    let posts = user.posts;
+
+                    if(posts.length > 0){
+                        let friendsPostDisplay = document.createElement("div");
+                        friendsPostDisplay.classList.add("friendsPostDisplay");
+                        friendsPostDisplay.innerHTML = `
+                            <div class="friendProfileDisplay">
+                                <img src="${user.profilePicture}">
+                                <h3>${user.username}</h3>
+                            </div>`
+                        main.querySelector(".feedWrapper").appendChild(friendsPostDisplay);
+        
+                        posts.reverse();
+                
+                        posts.forEach(post=> {
+                            friendsPostDisplay.appendChild(createPostInFeed(postedBy, post));
+                        });
+
+                        friendsPostStatus = "posts";
+                    }
+                }
+            })
+        });
+
+        if(friendsPostStatus === "noPosts"){
+            const noPostInfoDisplay = document.createElement("div");
+            noPostInfoDisplay.classList.add("no_post_info")
+            noPostInfoDisplay.innerHTML = `<p>Add more friends to see their posts here!</p>`;
+                
+            main.querySelector(".feedWrapper").appendChild(noPostInfoDisplay);
+        }
+    }
+
+    function createPostInFeed(postedBy, post){
+        const newPost = document.createElement("div");
+        newPost.classList.add("post");
+
+        const feeling = post["mood"];
+        const text = post["description"];
+        const quote = post["quote"];
+        const timestamp = post["timestamp"];
+
+        if(postedBy === User){
+            newPost.innerHTML = `
+                <div>
+                    <h3>I'm feeling <span>${feeling}</span></h3>
+                    <div id="deletePost"></div>
+                </div>
+                <p class="timestamp">${timestamp}</p>
+                <p> ${text}</p> 
+                <h5>Quote: </h5><p>"${quote}"</p>
+             `;
+        }else{
+            newPost.innerHTML = `
+            <div>
+                <h3>I'm feeling <span>${feeling}</span></h3>
+            </div>
+            <p class="timestamp">${timestamp}</p>
+            <p> ${text}</p> 
+            <h5>Quote: </h5><p>"${quote}"</p>
+         `;
+        }
+      
+        switch(feeling){
+            case "Happy":
+                newPost.classList.add("happy");
+                break;
+            case "Sad":
+                newPost.classList.add("sad");
+                break;
+            case "Angry":
+                newPost.classList.add("angry");
+            break;
+            case "Couragious":
+                newPost.classList.add("couragious");
+            break;
+            case "Forgiving":
+                newPost.classList.add("forgiving");
+            break;
+            case "Jealous":
+                newPost.classList.add("jealous");
+            break;
+            case "Fearful":
+                newPost.classList.add("fearful");
+            break;
+        }
+
+        return newPost;
+    }
 
     //Header
     header.classList.add("feedHeader");
@@ -103,6 +187,10 @@ async function renderFeedPage(){
                 <div id="closeFriendDisplay"></div>
             </div>
             <div class="friends"></div>
+            <div class="friendRequestsDisplay hidden">
+                <h3>Friend Requests</h3>
+                <div id="activeRequests"></div>
+            </div>
             <div id="searchWrapper">
                 <h3>Add Friends</h3>
                 <p class="messageToUser"></p>
@@ -116,7 +204,10 @@ async function renderFeedPage(){
             <img src="${User["profilePicture"]}">
             <h3>${User["username"]}</h3>
         </div>
-        <div class="friendsButton"></button>
+        
+        <div class="friendsButton">
+            <div class="notificationFriendRequest hidden"></div>
+        </div>
     `;
 
     //Add each friend to friend list.
@@ -132,9 +223,46 @@ async function renderFeedPage(){
         document.querySelector("header > .friendDisplay > .friends").appendChild(friendBox);
     })
 
+    if(User.friendRequests.length > 0){
+        document.querySelector("div.notificationFriendRequest").classList.remove("hidden");
+        document.querySelector(".friendRequestsDisplay").classList.remove("hidden");
+
+        let activeFriendRequests = User.friendRequests;
+        activeFriendRequests.forEach(friendRequest => {
+
+            Users.forEach(user => {
+                if(user.id === friendRequest){
+                    const singleFriendRequest = document.createElement("div");
+                    singleFriendRequest.innerHTML = `
+                    <img src="${user.profilePicture}"> 
+                    <h3>${user.username}</h3>
+                    <button id="acceptFriendRequest">Accept</button>
+                    <button id="declineFriendRequest">Decline</button>
+                    `;
+                    document.querySelector(".friendRequestsDisplay > #activeRequests").appendChild(singleFriendRequest);
+
+                    singleFriendRequest.querySelector(".friendRequestsDisplay > #activeRequests > div > #declineFriendRequest").addEventListener("click", declineFriendRequest);
+                    function declineFriendRequest(event){
+                        if(confirm(`Do you want to remove friend request from ${user.username}?`)){
+                            sendFriendRequset(friendRequest, User.id, "declineRequest");
+                        }
+                    }
+
+                    singleFriendRequest.querySelector(".friendRequestsDisplay > #activeRequests > div > #acceptFriendRequest").addEventListener("click", acceptFriendRequest);
+                    function acceptFriendRequest(event){
+                        if(confirm(`Do you want to add ${user.username} to your friends?`)){
+                            sendFriendRequset(friendRequest, User.id, "acceptRequest");
+                        }
+                    }
+                }
+            });
+        });
+    }
+
     //Display friends pop-up by clicking friends-button
     document.querySelector("header > .friendsButton").addEventListener("click", function (){
         document.querySelector(".friendDisplay").classList.remove("hidden");
+        document.querySelector("#searchWrapper > .messageToUser").textContent ="";
     });
 
     //Hide friends pop-up by clicking exit-button
@@ -150,19 +278,27 @@ async function renderFeedPage(){
         event.preventDefault();
 
         searchName = document.querySelector("#searchWrapper > form > input").value;
+        let found = false;
         
         Users.forEach(user => {
             if(searchName === user["username"]){
-                if(confirm(`"Do you want to add ${searchName} to your Friends?"`)){ //If user is found ask to confirm friend request
-                   
-                    //Send friend request
-                    sendFriendRequset(User_id, searchName);  
-                    return;                  
-                };
+                found = true;
+                let usersCurrentFriends = User.friends;
+
+                if(usersCurrentFriends.includes(user["id"])){
+                    alert(`You are already friends with ${searchName}`);
+                }else{
+                    if(confirm(`Do you want to add ${searchName} to your Friends?`)){ 
+                        sendFriendRequset(User_id, searchName, "sendRequest");  
+                        return;                  
+                    };
+                }
             }
         });
-        document.querySelector("#searchWrapper > .messageToUser").textContent = "User not found";
 
+        if(found === false){
+            document.querySelector("#searchWrapper > .messageToUser").textContent = "User not found";
+        };
     });
 
     //Loged in footer
@@ -186,12 +322,13 @@ async function renderFeedPage(){
 }
 
 //Send friend request
-async function sendFriendRequset(userFrom, userTo){
+async function sendFriendRequset(userFrom, userTo, action){
 
     const friendRequest = {
         method: "PATCH",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({
+            action: action,
             userFrom: userFrom,
             userTo: userTo,
         })
@@ -206,9 +343,19 @@ async function sendFriendRequset(userFrom, userTo){
         if(!response.ok){
             document.querySelector("#searchWrapper > .messageToUser").textContent = `${response.message}`;
 
-        }else{          
-            document.querySelector("#searchWrapper > .messageToUser").textContent = `A Friend Request was sent to ${searchName}!`;
-            document.querySelector("#searchWrapper > form > input").value = "";
+        }else{  
+            if(resource.action === "acceptRequest"){
+                document.querySelector("#searchWrapper > .messageToUser").textContent = "Friend Request Accepted";
+                renderFeedPage();
+            } 
+            if(resource.action === "declineRequest"){
+                document.querySelector("#searchWrapper > .messageToUser").textContent = "Friend Request Declined";
+                renderFeedPage();
+            }
+            if(resource.action === "sendRequest"){
+                document.querySelector("#searchWrapper > .messageToUser").textContent = `A Friend Request was sent to ${searchName}!`;
+                document.querySelector("#searchWrapper > form > input").value = "";
+            }     
         }
 
     }catch(error){

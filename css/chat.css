@@ -20,6 +20,15 @@
     cursor: pointer;
 }
 
+#chatModal {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
 #privateChat {
     position: absolute;
     display: grid;
@@ -43,14 +52,14 @@
     border-radius: 10px 10px 0px 0px;
 }
 
-#privateChat > #top > #closeChat {
+#privateChat > #top #closeChat {
     background-color: rgb(176, 176, 176);
     border: 1px solid black;
     border-radius: 5px;
     padding: 10px 20px;
 }
 
-#privateChat > #top > #closeChat:hover {
+#privateChat > #top #closeChat:hover {
     background-color: rgb(176, 0, 0);
     cursor: pointer;
 }
@@ -77,4 +86,8 @@
 #privateChat > #operations > input {
     flex-grow: 1;
     border-radius: 10px;
+}
+
+.hidden {
+    display: none;
 }

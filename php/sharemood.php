@@ -32,7 +32,7 @@ $requestMethod = $_SERVER["REQUEST_METHOD"];
 $allowed = ["POST"];
 checkMethod($requestMethod, $allowed);
 
-$filename = "users.json";
+$filename =  __DIR__."/users.json";
 $users = [];
 
 // Check if file exists. If it doesn't, save $users within $filename. If it exists get contents from $filename then decode and save it in $users.

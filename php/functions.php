@@ -20,4 +20,15 @@ function sendJSON($message, $statusCode = 200){
     echo $json;
     exit();
 }
+
+function checkCredentials($userID, $userPassword){
+    foreach($users as $user){
+        if($user["id"] == $userID){
+            if($user["password"] != $userPassword){
+                $message = ["message" => "You didn't provide the right details to successfully request this information."];
+                sendJSON($message, 400);
+            }
+        }
+    }
+}
 ?>
