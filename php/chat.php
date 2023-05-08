@@ -9,6 +9,7 @@ function chat($data, $users, $allConversations){
     checkMethod($requestMethod, $allowed);
 
     if($requestMethod == "GET"){
+
         // Get the logged in userID from the parameter sent with GET request.
         $userID = $data["userID"];
 
@@ -167,9 +168,10 @@ function chat($data, $users, $allConversations){
     }
 
     if($requestMethod == "DELETE"){
+        
         $groupChats = $allConversations["groupChats"];
 
-        $chatAction = $data["action"];
+        $chatAction = $data["chatAction"];
         $chatID = $data["chatID"];
         $userID = $data["userID"];
 

@@ -8,7 +8,7 @@ If $usedMethod is not in $allowedMethods, return a message with status 405.
 
 function checkMethod($usedMethod, $allowedMethods){
     if(!in_array($usedMethod, $allowedMethods)){
-        $message = ["message" => "Sorry the $usedMethod method is not allowed"];
+        $message = ["message" => $allowedMethods];
         sendJSON($message, 405);
     }
 }
@@ -21,7 +21,7 @@ function sendJSON($message, $statusCode = 200){
     exit();
 }
 
-function checkCredentials($userID, $userPassword){
+function checkCredentials($userID, $userPassword, $users){
     foreach($users as $user){
         if($user["id"] == $userID){
             if($user["password"] != $userPassword){

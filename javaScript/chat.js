@@ -6,14 +6,13 @@ TODO:
     - Add/remove users from groupchat
     - Leave/remove groupchat (leave if non owner, remove if owner)
     - Fix error if two groupchats have same name
+    - Small errors in code
     - CSS
     - Classes/IDs
     - Variable names
     - Comments
-    - Credentials on all fetches
     - Error messages
     - Fetch feedback for user
-    - Combine fetch functions?
 */
 
 // Renders the chat page.
@@ -187,7 +186,7 @@ async function renderChatPage(){
             const conversation = await fetchOneChat(user, userPassword, chatID, type);
 
             let betweenUsers = conversation.betweenUsers;
-            let ownerID = conversation.owner;
+            let ownerID = conversation.ownerID;
             let name = conversation.name;
 
             const optionsDivDom = document.createElement("div");
@@ -278,6 +277,7 @@ async function renderChatPage(){
                     confirmationModal.querySelector("#confirmDeleteGroup").addEventListener("click", async function(){
                             await deleteGroupChat(user, userPassword, chatID);
                             confirmationModal.remove();
+                            renderChatPage();
                         });
 
                     ownerOptionsDom.appendChild(confirmationModal);
@@ -325,6 +325,8 @@ async function renderChatPage(){
             <button id="finalizeGroupChat">Create Groupchat!</button>
         </div>
         `
+        groupChatModal.classList.add("modal");
+
         groupChatModal.querySelector("#closeModal").addEventListener("click", event => groupChatModal.remove())
 
         groupChatModal.querySelector("#addFriendsToChat").addEventListener("click", event => {
@@ -368,7 +370,7 @@ async function renderChatPage(){
 }
 
 async function fetchFriends(userID, userPassword){
-    const request = new Request(`php/api.php?userID=${userID}&userPassword=${userPassword}&action="chat"`);
+    const request = new Request(`php/api.php?userID=${userID}&userPassword=${userPassword}&action=chat`);
     const resource = await fetchAPI(request);
 
     return await resource;
@@ -498,7 +500,8 @@ async function deleteGroupChat(userID, userPassword, chatID){
         method: "DELETE",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({
-            action: "deleteGroup",
+            action: "chat",
+            chatAction: "deleteGroup",
             userID: userID,
             userPassword: userPassword,
             chatID: chatID

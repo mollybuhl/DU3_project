@@ -2,15 +2,16 @@
 ini_set("display_errors", 1); 
 
 require_once "functions.php";
-require_once "addFriend.php";
 require_once "chat.php";
-require_once "feed.php";
-require_once "login.php";
-require_once "myProfile.php";
-require_once "register.php";
-require_once "sharemood.php";
+// require_once "addFriend.php";
+// require_once "feed.php";
+// require_once "login.php";
+// require_once "myProfile.php";
+// require_once "register.php";
+// require_once "sharemood.php";
 
 $requestMethod = $_SERVER["REQUEST_METHOD"];
+
 if($requestMethod === "GET"){
     $requestData = $_GET;
 }else{
@@ -37,7 +38,7 @@ $userID = $requestData["userID"];
 $userPassword = $requestData["userPassword"];
 checkCredentials($userID, $userPassword, $users);
 
-$filenameConversations = __DIR__."/conversation.json";
+$filenameConversations = __DIR__."/conversations.json";
 $allConversations = [
     "privateChats" => [],
     "groupChats" => []
@@ -50,6 +51,7 @@ if(!file_exists($filenameConversations)){
 
 $json = file_get_contents($filenameConversations);
 $allConversations = json_decode($json, true);
+
 
 $action = $requestData["action"];
 switch($action){

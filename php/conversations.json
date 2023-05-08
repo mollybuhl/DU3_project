@@ -21,7 +21,32 @@
                 1,
                 6
             ],
-            "messages": []
+            "messages": [
+                {
+                    "sender": 1,
+                    "text": "hej",
+                    "timestamp": "23:28, 8 May",
+                    "id": 1
+                },
+                {
+                    "sender": 1,
+                    "text": "ds",
+                    "timestamp": "23:29, 8 May",
+                    "id": 2
+                },
+                {
+                    "sender": 1,
+                    "text": "ds",
+                    "timestamp": "23:29, 8 May",
+                    "id": 3
+                },
+                {
+                    "sender": 1,
+                    "text": "ds",
+                    "timestamp": "23:29, 8 May",
+                    "id": 4
+                }
+            ]
         },
         {
             "id": 3,
@@ -41,5 +66,25 @@
         }
     ],
     "groupChats": [
+        {
+            "id": 1,
+            "name": "hej",
+            "ownerID": 1,
+            "betweenUsers": [
+                1,
+                2,
+                3,
+                4,
+                6
+            ],
+            "messages": [
+                {
+                    "sender": 1,
+                    "text": "hejsan",
+                    "timestamp": "23:47, 8 May",
+                    "id": 1
+                }
+            ]
+        }
     ]
 }
