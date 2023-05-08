@@ -6,7 +6,7 @@ $loginInfoJSON = file_get_contents("php://input");
 $loginInfo = json_decode($loginInfoJSON, true);
 $loginUsername = $loginInfo["username"];
 $loginPassword = $loginInfo["password"];
-$usersArrayJSON = file_get_contents(__DIR__."users.json");
+$usersArrayJSON = file_get_contents(__DIR__."/users.json");
 $usersArray = json_decode($usersArrayJSON, true);
 
 for($i = 0; $i < count($usersArray); $i++) {
