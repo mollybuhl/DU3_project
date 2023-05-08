@@ -43,14 +43,7 @@ async function callServerToLogin() {
     } else {
         window.localStorage.setItem("userPassword", document.querySelector("#loginPassword").value)
         window.localStorage.setItem("userId", `${resource.id}`);
-        window.localStorage.setItem("loggedIn", "true");
-        
-        if(resource.firstTime === true) {
-            renderFeedPage();
-        } else {
-            renderFeedPage();
-        }
-        
+        window.localStorage.setItem("loggedIn", "true");   
     }
 
 }
