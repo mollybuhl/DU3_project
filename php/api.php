@@ -2,17 +2,20 @@
 ini_set("display_errors", 1); 
 
 require_once "functions.php";
-require_once "addFriend.php";
-require_once "chat.php";
+//require_once "addFriend.php";
+//require_once "chat.php";
 require_once "feed.php";
-require_once "login.php";
-require_once "myProfile.php";
-require_once "register.php";
-require_once "sharemood.php";
+//require_once "login.php";
+//require_once "myProfile.php";
+//require_once "register.php";
+//require_once "sharemood.php";
 
 //Check credentials
 $requestJSON = file_get_contents("php://input");
 $requestData = json_decode($requestJSON, true);
+
+echo json_encode($requestJSON);
+
 
 if(!isset($requestData["userID"]) || !isset($requestData["userPassword"]) || !isset($requestData["action"]) ){
     $message = ["message" => "Credentials missing"];

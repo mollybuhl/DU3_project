@@ -12,7 +12,7 @@ async function renderFeedPage(){
     ;
     
     //Fetching Users
-    let response = await fetch("php/feed.php");
+    let response = await fetch("php/api.php");
     let Users = await response.json();
 
     //Locate user by localstorage
@@ -324,18 +324,22 @@ async function renderFeedPage(){
 //Send friend request
 async function sendFriendRequset(userFrom, userTo, action){
 
+    let password = window.localStorage.getItem("userPassword");
+    console.log(password);
+
     const friendRequest = {
         method: "PATCH",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({
             action: action,
-            userFrom: userFrom,
+            userID: userFrom,
+            userPassword: password,
             userTo: userTo,
         })
     }
 
     try{
-        const request = new Request("../php/addFriend.php", friendRequest);
+        const request = new Request("php/api.php", friendRequest);
         let response = await fetch(request);
         let resource = await response.json();
     
