@@ -22,7 +22,7 @@ function sendJSON($message, $statusCode = 200){
 }
 
 function checkCredentials($userID, $userPassword){
-    $filename = "php/users.json";
+    $filename = "users.json";
     $users = [];
 
     if(!file_exists($filename)){
