@@ -1,73 +1,146 @@
 "use strict";
 
+/* 
+
+TODO:
+    - Add/remove users from groupchat
+    - Leave/remove groupchat (leave if non owner, remove if owner)
+    - Fix error if two groupchats have same name
+    - CSS
+    - Classes/IDs
+    - Variable names
+    - Comments
+    - Credentials on all fetches
+    - Error messages
+    - Fetch feedback for user
+    - Combine fetch functions?
+*/
+
 // Renders the chat page.
 async function renderChatPage(){
+    const user = parseInt(window.localStorage.getItem("userId"));
+    const userPassword = window.localStorage.getItem("userPassword")
+
     // Select the <main> element and change its innerHTML.
     const mainDom = document.querySelector("main");
-    mainDom.innerHTML = `<div id="privateChats"></div>`;
+    mainDom.innerHTML = `
+    <div id="privateChats"></div>
+    <div id="groupChats">
+        <button id="createGroupChat">Create new groupchat</button>
+    </div>
+    `;
 
-    // Fetch the users friends, then create a new <div> for each friend and put their username as textContent for the <div>, also add an eventListener for every <div>, when its pressed call function renderPrivateChat().
     const userFriends = await fetchFriends();
+    const userGroupChats = await fetchChats("groupChat");
+    let userPrivateChats = await fetchChats("privateChat");
+
     userFriends.forEach(friendObject => {
         const privateChats = mainDom.querySelector("#privateChats");
 
         const friendDivDom = document.createElement("div");
         friendDivDom.textContent = friendObject.username;
+        friendDivDom.classList.add("privateChat");
         privateChats.appendChild(friendDivDom);
 
-        friendDivDom.addEventListener("click", renderPrivateChat);
+        friendDivDom.addEventListener("click", renderChat);
     });
 
-    // senderID is the user. This variable is declared here instead of inside the function renderPrivateChat() because if you're logged into an account, that ID will be stored in localStorage, if you then login to another account when the first account already rendered the chat page, the first account will be able to fetch messages with the newly logged in users ID, if its inside the renderPrivateChat() function because that function is called whenever you click on a friend to chat, it will then get the ID from localstorage again, and that ID will be the recently logged in user. - Messy comment, will improve this.
-    const senderID = parseInt(window.localStorage.getItem("userId"));
+    userGroupChats.forEach(groupChat => {
+        const groupChats = mainDom.querySelector("#groupChats");
 
-    // This function renders a private chat between the user and its friend.
-    async function renderPrivateChat(event){
-
-        // The clicked friends username and JS object.
-        const currentFriendUsername = event.target.textContent;
-        let currentFriendObject;
-
-        // Find the object of the friend the user is currently chatting with and put it in currentFriendObject.
-        userFriends.forEach(friendObject => {
-            if(friendObject.username === currentFriendUsername){
-                currentFriendObject = friendObject;
-            }
-        });
-
-        // receiverID is the friend the user is chatting with. This along with senderID will be sent when fetching conversations and posting messages.
-        const receiverID = currentFriendObject.id;
+        const groupChatDom = document.createElement("div");
+        groupChatDom.textContent = groupChat.name;
+        groupChatDom.classList.add("groupChat");
+        groupChats.append(groupChatDom);
         
+
+        groupChatDom.addEventListener("click", renderChat);
+    });
+
+    mainDom.querySelector("#groupChats > #createGroupChat").addEventListener("click", createGroupChat);
+
+    async function renderChat(event){
+        let chatID;
+        let type;
+        
+        if(event.target.classList.contains("privateChat")){
+            type = "privateChat";
+            
+            const clickedFriendUsername = event.target.textContent;
+
+            let friendObject;
+            userFriends.forEach(friend => {
+                if(friend.username === clickedFriendUsername){
+                    userPrivateChats.forEach(privateChat => {
+                        if(privateChat.betweenUsers.includes(friend.id)){
+                            chatID = privateChat.id;
+                        }
+                    })
+                    friendObject = friend;
+                }
+            });
+
+            if(chatID === undefined){
+                chatID = await createPrivateChat(friendObject.id);
+                    
+                userPrivateChats = await fetchChats("privateChat");
+            }
+        }
+
+        if(event.target.classList.contains("groupChat")){
+            type = "groupChat";
+            
+            const clickedGroupChat = event.target.textContent;
+
+            userGroupChats.forEach(groupChat => {
+                if(clickedGroupChat === groupChat.name){
+                    chatID = groupChat.id;
+                }
+            })
+
+        }
+
         // Create a <div> and fill will elements building the private chat window. Then set an id to the <div> also append it to <main>.
+        const chatModal = document.createElement("div");
+        document.querySelector("main").append(chatModal);
+        chatModal.setAttribute("id", "chatModal")
         const privateChat = document.createElement("div");
         privateChat.innerHTML = `
         <div id="top">
-            <div>${currentFriendUsername}</div>
-            <div id="closeChat">Close</div>
+            <div>${event.target.textContent}</div>
+            <div id="chatOptions">
+                <div class="hidden" id="groupChatOptions">Options</div>
+                <div id="closeChat">Close</div>
+            </div>
         </div>
         <div id="messages"></div>
         <div id="operations">
-            <button id="sendMessage">Send</button>
             <input>
+            <button id="sendMessage">Send</button>
         </div>
         `
         privateChat.setAttribute("id", "privateChat");
-        document.querySelector("main").appendChild(privateChat);
+        chatModal.appendChild(privateChat);
 
+        if(type === "groupChat"){
+            privateChat.querySelector("#groupChatOptions").classList.remove("hidden");
+            privateChat.querySelector("#groupChatOptions").addEventListener("click", renderGroupChatOptions);
+        }
         // Add event listener for the send message button.
         privateChat.querySelector("#sendMessage").addEventListener("click", sendMessage);
 
         // Add event listener to close current chat.
-        privateChat.querySelector("#closeChat").addEventListener("click", event => privateChat.remove())
+        privateChat.querySelector("#closeChat").addEventListener("click", event => chatModal.remove())
 
         // Calling the function to start fetch messages and print them.
         await fetchAndPrintMessages();
 
-        // This function will trigger when the send message button is pressed within the privateChat <div>. It posts a new message to the server.
         async function sendMessage(event){
+
             const date = new Date();
             const months = ["Jan.", "Feb.", "Mar.", "Apr.", "May", "June", "July", "Aug.", "Sep.", "Oct.", "Nov.", "Dec."];
             let timestamp = `${date.getHours()}:${date.getMinutes()}, ${date.getDate()} ${months[date.getMonth()]}`
+
             // Get the message the user wants to send.
             const message = privateChat.querySelector("#operations > input").value;
 
@@ -77,9 +150,10 @@ async function renderChatPage(){
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({
                     action: "postMessage",
-                    betweenUsers: [receiverID, senderID],
+                    type: type,
+                    chatID: chatID,
                     message: {
-                        senderID: senderID,
+                        sender: user,
                         text: message,
                         timestamp: timestamp
                     }
@@ -94,32 +168,17 @@ async function renderChatPage(){
             fetchAndPrintMessages(false);
         }
 
-        // This function fetches all messages from the conversation between the user and the friend and prints them into the messages <div> in the privateChat <div>, this function is by default a recursive function, meaning once the function reaches the end, it will call itself again with one second delay. This is done to automatically receive new messages from the friend.
         async function fetchAndPrintMessages(startTimeout = true){
 
             // If the chat has been closed for any reason, make it non-recursive to prevent it from doing unnecessary fetches, then end the function with return.
-            if(document.querySelector("main > #privateChat") === null){
+            if(document.querySelector("main > #chatModal > #privateChat") === null){
                 startTimeout = false;
                 return;
             }
 
-            // The options for the request made to fetch the messages.
-            const requestOptions = {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({
-                    action: "fetchConversation",
-                    betweenUsers: [receiverID, senderID]
-                })
-            }
-
-            // Fetch messages.
-            const request = new Request("../php/chat.php", requestOptions);
-            const response = await fetch(request);
-            const resource = await response.json();
-
             // Put fetched messages into an array.
-            const conversationMessages = resource.messages;
+            const conversation = await fetchOneChat(user, userPassword, chatID, type);
+            const conversationMessages = await conversation.messages;
 
             // Sort the array after message ID, so the message with the lowest id(the very first message sent in the convo) will be first.
             conversationMessages.sort((a, b) => {
@@ -146,10 +205,261 @@ async function renderChatPage(){
                 setTimeout(fetchAndPrintMessages, 1000);
             }
         }
+
+        async function renderGroupChatOptions(event){
+            const conversation = await fetchOneChat(user, userPassword, chatID, type);
+
+            let betweenUsers = conversation.betweenUsers;
+            let ownerID = conversation.owner;
+            let name = conversation.name;
+
+            console.log(conversation);
+            console.log(betweenUsers);
+
+            const optionsDivDom = document.createElement("div");
+            optionsDivDom.innerHTML = `
+            <div>
+                <div id="optionsTop">
+                    <div>Options</div>
+                    <div>Close</div>
+                </div>
+                <span id="ownerOptions" class="hidden">
+                    <button id="changeGroupName">Change Groupname</button>
+                    <button id="changeMembers">Add/Remove members</button>
+                </span>
+                <button id="leaveDelete"></button>
+            </div>
+            `
+
+            if(user === ownerID){
+                const ownerOptionsDom = optionsDivDom.querySelector("#ownerOptions");
+                ownerOptionsDom.classList.remove("hidden");
+
+                ownerOptionsDom.querySelector("#changeGroupName").addEventListener("click", event => {
+                    const changeGroupNameDom = document.createElement("div");
+                    changeGroupNameDom.innerHTML = `
+                    <label for="newGroupName">Enter a new group name</label>
+                    <input name="newGroupName" id="newGroupName">
+                    <button id="confirmNameChange">Confirm</button>
+                    `
+
+                    changeGroupNameDom.querySelector("#confirmNameChange").addEventListener("click", event => {
+                        name = changeGroupNameDom.querySelector("#newGroupName").value;
+                        changeGroupName(name, chatID, user, userPassword);
+                    })
+                    optionsDivDom.appendChild(changeGroupNameDom);
+                })
+
+                ownerOptionsDom.querySelector("#changeMembers").addEventListener("click", event => {
+                    const addFriendsModal = document.createElement("div");
+
+                    addFriendsModal.innerHTML = `
+                    <div id="friendsSelector"></div>
+                    <button id="friends">Confirm</button>
+                    `
+        
+                    userFriends.forEach(friend => {
+                        const friendDiv = document.createElement("div");
+                        friendDiv.innerHTML = `
+                        <div id="profPic"></div>
+                        <div id="friendName">${friend.username}</div>
+                        `
+                        
+                        if(betweenUsers.includes(friend.id)){
+                            friendDiv.classList.add("marked");
+                        }
+
+                        friendDiv.addEventListener("click", event => {
+                            if(!betweenUsers.includes(friend.id)){
+                                betweenUsers.push(friend.id);
+                                friendDiv.classList.add("marked");
+                                console.log(betweenUsers);
+                            }else{
+                                betweenUsers.splice(betweenUsers.indexOf(friend.id), 1);
+                                friendDiv.classList.remove("marked");
+                                console.log(betweenUsers);
+                            }
+                        })
+                        addFriendsModal.querySelector("#friendsSelector").appendChild(friendDiv);
+                    })
+                    addFriendsModal.querySelector("#friends").addEventListener("click", event => {
+                        async function updateMembers(){
+                            const requestOptions = {
+                                method: "PATCH",
+                                headers: {"Content-Type": "application/json"},
+                                body: JSON.stringify({
+                                    action: "editMembers",
+                                    chatID: chatID,
+                                    userID: user,
+                                    userPassword: userPassword,
+                                    betweenUsers: betweenUsers,
+                                })
+                            }
+    
+                            const request = new Request("../php/chat.php", requestOptions);
+                            const response = await fetch(request);
+                            const resource = await response.json();
+                        }
+                        updateMembers();
+                        addFriendsModal.remove();
+                    })
+                    ownerOptionsDom.appendChild(addFriendsModal);
+                })
+
+                const leaveDeleteButton = optionsDivDom.querySelector("#leaveDelete")
+                leaveDeleteButton.textContent = "Delete groupchat";
+                leaveDeleteButton.addEventListener("click", event => {
+
+                    const confirmationModal = document.createElement("div");
+                    confirmationModal.innerHTML = `
+                    <div>Are you sure you want to delete this groupchat?</div>
+                    <div id="deleteGroupConfirmation">
+                        <button id="confirmDeleteGroup">Confirm</button>
+                        <button id="cancelDeleteGroup">Cancel</button>
+                    </div>
+                    `
+
+                    confirmationModal.querySelector("#cancelDeleteGroup").addEventListener("click", event => confirmationModal.remove());
+                    confirmationModal.querySelector("#confirmDeleteGroup").addEventListener("click", event => {
+                        async function deleteGroup(){
+                            const requestOptions = {
+                                method: "DELETE",
+                                headers: {"Content-Type": "application/json"},
+                                body: JSON.stringify({
+                                    action: "deleteGroup",
+                                    userID: user,
+                                    userPassword: userPassword,
+                                    chatID: chatID
+                                })
+                            }
+    
+                            const request = new Request("../php/chat.php", requestOptions);
+                            const response = await fetch(request);
+                            const resource = await response.json()
+                        }
+                        deleteGroup();
+                        confirmationModal.remove()
+                    });
+
+                    ownerOptionsDom.appendChild(confirmationModal);
+                })
+            }
+            if(user !== ownerID){
+                const leaveDeleteButton = optionsDivDom.querySelector("#leaveDelete");
+                leaveDeleteButton.textContent = "Leave groupchat";
+                leaveDeleteButton.addEventListener("click", event => async function(){
+                    const confirmationModal = document.createElement("div");
+                    confirmationModal.innerHTML = `
+                    <div>Are you sure you want to leave this groupchat?</div>
+                    <div id="deleteGroupConfirmation">
+                        <button id="confirmDeleteGroup">Confirm</button>
+                        <button id="cancelDeleteGroup">Cancel</button>
+                    </div>
+                    `
+
+                    confirmationModal.querySelector("#cancelDeleteGroup").addEventListener("click", event => confirmationModal.remove());
+                    confirmationModal.querySelector("#confirmDeleteGroup").addEventListener("click", event => async function(){
+                        const requestOptions = {
+                            method: "DELETE",
+                            headers: {"Content-Type": "application/json"},
+                            body: JSON.stringify({
+                                action: "leaveGroup",
+                                userID: user,
+                                userPassword: userPassword,
+                                chatID: chatID
+                            })
+                        }
+
+                        const request = new Request("../php/chat.php", requestOptions);
+                        const response = await fetch(request);
+                        const resource = await response.json()
+                    });
+                })
+            }
+            privateChat.appendChild(optionsDivDom);
+        }
+    }
+
+    async function createGroupChat(event){
+        const groupChatModal = document.createElement("div");
+        let betweenUsers = [user];
+
+        groupChatModal.innerHTML = `
+        <div>
+            <div id="top">
+                <div>Creating a new groupchat...</div>
+                <div id="closeModal">Close</div>
+            </div>
+
+            <label for="groupName">Name:</label>
+            <input type="text" name="groupName" id="groupName">
+            <button id="addFriendsToChat">Choose friends to add</button>
+            <button id="finalizeGroupChat">Create Groupchat!</button>
+        </div>
+        `
+        groupChatModal.querySelector("#closeModal").addEventListener("click", event => {
+            groupChatModal.remove();
+        })
+
+        groupChatModal.querySelector("#addFriendsToChat").addEventListener("click", event => {
+            const addFriendsModal = document.createElement("div");
+
+            addFriendsModal.innerHTML = `
+            <div id="friendsSelector"></div>
+            <button id="confirmFriends">Confirm</button>
+            `
+
+            userFriends.forEach(friend => {
+                const friendDiv = document.createElement("div");
+                friendDiv.innerHTML = `
+                <div id="profPic"></div>
+                <div id="friendName">${friend.username}</div>
+                `
+                
+                friendDiv.addEventListener("click", event => {
+                    if(!betweenUsers.includes(friend.id)){
+                        betweenUsers.push(friend.id);
+                        friendDiv.classList.add("marked");
+                    }else{
+                        betweenUsers.splice(betweenUsers.indexOf(friend.id));
+                        friendDiv.classList.remove("marked");
+                    }
+                })
+                addFriendsModal.querySelector("#friendsSelector").appendChild(friendDiv);
+            })
+            addFriendsModal.querySelector("#confirmFriends").addEventListener("click", event => {
+                addFriendsModal.remove();
+            })
+
+            mainDom.appendChild(addFriendsModal);
+        })
+
+        groupChatModal.querySelector("#finalizeGroupChat").addEventListener("click", async function(){
+            const name = document.querySelector("#groupName").value;
+            const owner = user;
+
+            const requestOptions = {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({
+                    action: "createGroupChat",
+                    groupName: name,
+                    groupOwner: owner,
+                    groupOwnerPassword: userPassword,
+                    betweenUsers: betweenUsers
+                })
+            }
+
+            const request = new Request("../php/chat.php", requestOptions);
+            const response = await fetch(request);
+
+            renderChatPage();
+        })
+
+        mainDom.appendChild(groupChatModal);
     }
 }
 
-// Fetches every user object that is friends with the currently logged in user.
 async function fetchFriends(){
     
     // Get the currently logged in userID
@@ -158,6 +468,94 @@ async function fetchFriends(){
     // Request with the logged in users ID as parameter.
     // This will return all friends that are in the friends list of the user with the sent ID.
     const request = new Request(`../php/chat.php?userID=${loggedInUser}`);
+    const response = await fetch(request);
+    const resource = await response.json();
+
+    return await resource;
+}
+
+async function fetchChats(type){
+
+    const loggedInUser = parseInt(window.localStorage.getItem("userId"));
+    const userPassword = window.localStorage.getItem("userPassword");
+
+    const requestOptions = {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            action: "fetchChats",
+            type: type,
+            userID: loggedInUser,
+            userPassword: userPassword
+        })
+    }
+
+    const request = new Request("../php/chat.php", requestOptions);
+    const response = await fetch(request);
+    const resource = await response.json();
+        
+    return await resource;
+
+}
+
+async function fetchOneChat(user, userPassword, chatID, type){
+    // The options for the request made to fetch the messages.
+    const requestOptions = {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            action: "fetchChat",
+            userID: user,
+            userPassword: userPassword,
+            chatID: chatID,
+            type: type
+        })
+    }
+    
+    // Fetch messages.
+    const request = new Request("../php/chat.php", requestOptions);
+    const response = await fetch(request);
+    const resource = await response.json();
+
+    return await resource;
+}
+
+async function createPrivateChat(friendID){
+    const userID = parseInt(window.localStorage.getItem("userId"));
+    const userPassword = window.localStorage.getItem("userPassword");
+
+    const requestOptions = {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            action: "createPrivateChat",
+            userID: userID,
+            userPassword: userPassword,
+            betweenUsers: [userID, friendID]
+        })
+    }
+
+    const request = new Request("../php/chat.php", requestOptions);
+    const response = await fetch(request);
+    const resource = await response.json();
+
+    return await resource.id;
+}
+
+async function changeGroupName(name, chatID, userID, userPassword){
+    const requestOptions = {
+        method: "PATCH",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            action: "changeGroupName",
+            name: name,
+            chatID: chatID,
+            userID: userID,
+            userPassword: userPassword
+        }) 
+    }
+
+    const request = new Request("../php/chat.php", requestOptions);
     const response = await fetch(request);
     const resource = await response.json();
 
