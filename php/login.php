@@ -12,7 +12,7 @@ $loginInfo = json_decode($loginInfoJSON, true);
 $loginUsername = $loginInfo["username"];
 $loginPassword = $loginInfo["password"];
 
-$usersArrayJSON = file_get_contents("users.json");
+$usersArrayJSON = file_get_contents( __DIR__."/users.json");
 $usersArray = json_decode($usersArrayJSON, true);
 
 for($i = 0; $i < count($usersArray); $i++) {
@@ -27,7 +27,7 @@ for($i = 0; $i < count($usersArray); $i++) {
             
             $usersArray[$i]["firstTime"] = false;
             $usersArrayJSON = json_encode($usersArray, JSON_PRETTY_PRINT);
-            file_put_contents("users.json", $usersArrayJSON);
+            file_put_contents( __DIR__."/users.json", $usersArrayJSON);
             sendJSON($message);
         } else {
             $message = ["id" => $user["id"], "username" => $user["username"], "firstTime" => false];

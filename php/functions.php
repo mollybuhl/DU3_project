@@ -22,17 +22,6 @@ function sendJSON($message, $statusCode = 200){
 }
 
 function checkCredentials($userID, $userPassword){
-    $filename = "users.json";
-    $users = [];
-
-    if(!file_exists($filename)){
-        $message = ["message" => "Sorry, something went wrong."];
-        sendJSON($message, 404);
-    }else{
-        $json = file_get_contents($filename);
-        $users = json_decode($json, true);
-    }
-
     foreach($users as $user){
         if($user["id"] == $userID){
             if($user["password"] != $userPassword){
