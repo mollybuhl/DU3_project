@@ -19,6 +19,7 @@ async function renderFeedPage(){
     //Locate user by localstorage
     let User_id = (Number(window.localStorage.getItem("userId"))); 
     let User = Users.find(user => user.id === User_id);
+    let password = window.localStorage.getItem("userPassword");
     
     let postedByUser = User.posts;
     //If user has not posted anything, display nothing.
@@ -50,13 +51,15 @@ async function renderFeedPage(){
                         method: "DELETE",
                         headers: {"Content-Type": "application/json"},
                         body: JSON.stringify({
+                            action: "feed",
                             userID: User_id,
-                            postID: postID,
+                            userPassword: password,
+                            actionCredentials:{"feedAction": "DELETE", "postID": postID},
                         })
                     }
         
                     try{
-                        const request = new Request("../php/feed.php", requestOptions);
+                        const request = new Request("php/api.php", requestOptions);
                         let response = await fetch(request);
                         let resource = await response.json();
                         renderFeedPage();
@@ -324,9 +327,6 @@ async function renderFeedPage(){
 
 //Send friend request
 async function sendFriendRequset(userFrom, userTo, action){
-
-    let password = window.localStorage.getItem("userPassword");
-    console.log(password);
 
     const friendRequest = {
         method: "PATCH",

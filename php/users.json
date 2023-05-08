@@ -63,19 +63,6 @@
                 },
                 "dayOfWeek": "Friday",
                 "timestamp": "11:16, 5 May"
-            },
-            {
-                "postID": 4,
-                "userID": 2,
-                "mood": "Happy",
-                "description": "the weather",
-                "quote": {
-                    "quote": "What I mean by that is that the point of life, as I see it, is not to write books or scale mountains or sail oceans, but to achieve happiness, and preferably an unselfish happiness.",
-                    "author": "Bernard Cornwell",
-                    "category": "happiness"
-                },
-                "dayOfWeek": "Sunday",
-                "timestamp": "18:42, 7 May"
             }
         ],
         "profilePicture": "..\/media\/profile_img.avif",

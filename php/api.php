@@ -60,7 +60,7 @@ switch($action){
         login($requestData);
         break;
     case "feed":
-        feed($requestData);
+        feed($requestData, $users);
         break;
     case "addFriend":
         addFriend($requestData);
