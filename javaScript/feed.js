@@ -12,7 +12,7 @@ async function renderFeedPage(){
     ;
     
     //Fetching Users
-    let response = await fetch("../php/feed.php");
+    let response = await fetch("php/feed.php");
     let Users = await response.json();
 
     //Locate user by localstorage
@@ -60,6 +60,7 @@ async function renderFeedPage(){
                         let resource = await response.json();
                         renderFeedPage();
                     }catch(error){
+//What happens when error
                         console.log(error);
                     }
                 }
