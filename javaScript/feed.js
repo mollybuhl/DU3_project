@@ -11,8 +11,9 @@ async function renderFeedPage(){
         <div class="feedWrapper"></div>`
     ;
     
+   
     //Fetching Users
-    let response = await fetch("php/api.php");
+    let response = await fetch("php/api.php?action=feed&userID=2&userPassword=222");
     let Users = await response.json();
 
     //Locate user by localstorage
