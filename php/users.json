@@ -6,6 +6,7 @@
         "friends": [
             2,
             3,
+            4,
             6
         ],
         "friendRequests": [],
@@ -37,11 +38,10 @@
         "loggedFeelings": [],
         "friends": [
             1,
-            3
+            3,
+            4
         ],
-        "friendRequests": [
-            6
-        ],
+        "friendRequests": [],
         "posts": [
             {
                 "postID": 2,
@@ -49,7 +49,7 @@
                 "mood": "Sad",
                 "description": "No ice cream",
                 "quote": "Houston, we have a problem",
-                "timestamp": "03-05-2023"
+                "timestamp": "16:42, 7 May"
             },
             {
                 "postID": 3,
@@ -63,6 +63,19 @@
                 },
                 "dayOfWeek": "Friday",
                 "timestamp": "11:16, 5 May"
+            },
+            {
+                "postID": 4,
+                "userID": 2,
+                "mood": "Happy",
+                "description": "the weather",
+                "quote": {
+                    "quote": "What I mean by that is that the point of life, as I see it, is not to write books or scale mountains or sail oceans, but to achieve happiness, and preferably an unselfish happiness.",
+                    "author": "Bernard Cornwell",
+                    "category": "happiness"
+                },
+                "dayOfWeek": "Sunday",
+                "timestamp": "18:42, 7 May"
             }
         ],
         "profilePicture": "..\/media\/profile_img.avif",
@@ -74,6 +87,9 @@
         "password": "molly1",
         "loggedFeelings": [],
         "friends": [],
+        "friendRequests": [
+            6
+        ],
         "posts": [
             {
                 "postID": 1,
@@ -121,7 +137,7 @@
             }
         ],
         "conversations": [],
-        "profilePicture": "profile_icon_3.jpg",
+        "profilePicture": "..\/media\/profile_imgs\/profile_icon_1.jpg",
         "firstTime": false,
         "id": 4
     },
@@ -145,8 +161,20 @@
         "friendRequests": [],
         "posts": [],
         "conversations": [],
-        "profilePicture": "..\/media\/profile_imgs\/",
+        "profilePicture": "..\/media\/profile_imgs\/profile_icon_1.jpg",
         "firstTime": false,
         "id": 6
+    },
+    {
+        "username": "testar",
+        "password": "testar",
+        "loggedFeelings": [],
+        "friends": [],
+        "friendRequests": [],
+        "posts": [],
+        "conversations": [],
+        "profilePicture": "..\/media\/profile_imgs\/profile_icon_1.jpg",
+        "id": 7,
+        "firstTime": false
     }
 ]

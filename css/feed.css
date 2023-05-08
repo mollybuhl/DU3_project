@@ -40,6 +40,19 @@ div.friendsButton{
     cursor: pointer;
 }
 
+div.notificationFriendRequest{
+background-color: red;
+color: white;
+border-radius: 50%;
+
+height: 2vh;
+width: 2vh;
+font-size: 30px;
+}
+div.notificationFriendRequest.hidden{
+    display: none;
+}
+
 /*HEADER: Profile pic & name*/
 header.feedHeader > .profileInformation{
     display: flex;
@@ -116,6 +129,34 @@ div.friends > div > div.chat_icon{
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
+}
+
+header.feedHeader > div.friendDisplay > div.friendRequestsDisplay{
+
+}
+
+
+header.feedHeader > div.friendDisplay > div.friendRequestsDisplay.hidden{
+    display: none;
+}
+
+header.feedHeader > div.friendDisplay > div.friendRequestsDisplay > #activeRequests{
+    
+}
+
+/*Each request*/
+header.feedHeader > div.friendDisplay > div.friendRequestsDisplay > #activeRequests > div{
+    display: flex;
+}
+
+header.feedHeader > div.friendDisplay > div.friendRequestsDisplay > #activeRequests > div > img{
+    height: 7vh;
+    width: 7vh;
+    border-radius: 50%;
+    
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
 }
 
 /*Friends display: Search*/
@@ -196,12 +237,12 @@ main.mainFeed{
 /*MAIN: Info if nothing is posted*/
 .mainFeed > div.feedWrapper > .no_post_info{
     color: whitesmoke;
-    z-index: 5;
+    z-index: 3;
 }
 
 /*MAIN: friendPostDisplay*/
 main.mainFeed > div.feedWrapper > div.friendsPostDisplay, main.mainFeed > div.feedWrapper > div.postDisplay {
-    height: 20vh;
+    min-height: 20vh;
     width: 100%;
     background-color: #d9d9d978;
     z-index: 1;
@@ -215,7 +256,20 @@ main.mainFeed > div.feedWrapper > div.friendsPostDisplay, main.mainFeed > div.fe
     border-radius: 10px 0 0 10px;
     padding: 5vw;
     padding-right: 10vw;
+
+    position: relative;
 }
+
+main.mainFeed > div.feedWrapper > div.friendsPostDisplay > div.friendProfileDisplay{
+    display: flex;
+    
+} 
+main.mainFeed > div.feedWrapper > div.friendsPostDisplay > div.friendProfileDisplay > img{
+    height: 10vh;
+    width: 10vh;
+    border-radius: 50%;
+}
+
 
 main.mainFeed > div.feedWrapper > div.postDisplay{
     background-color: #171717d1;
