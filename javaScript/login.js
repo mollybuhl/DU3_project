@@ -41,16 +41,11 @@ async function callServerToLogin() {
     if(!response.ok) {
         document.getElementById("messageToUser").innerHTML = resource.message;
     } else {
-        window.localStorage.setItem("userPassword", document.querySelector("#loginPassword").value)
+        window.localStorage.setItem("userPassword", document.querySelector("#loginPassword").value);
         window.localStorage.setItem("userId", `${resource.id}`);
-        window.localStorage.setItem("loggedIn", "true");
-        
-        if(resource.firstTime === true) {
-            renderFeedPage();
-        } else {
-            renderFeedPage();
-        }
-        
+        window.localStorage.setItem("loggedIn", "true");   
+
+        renderFeedPage();
     }
 
 }

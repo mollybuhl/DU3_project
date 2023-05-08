@@ -7,19 +7,19 @@ function chat($data){
     $requestMethod = $_SERVER["REQUEST_METHOD"];
     $allowed = ["POST", "GET", "DELETE", "PATCH"];
     checkMethod($requestMethod, $allowed);
-
+    
     if($requestMethod == "GET"){
-        $filename =  "users.json";
-        $users = [];
-        
-        // Check if file exists. If it doesn't, save $users within $filename. If it exists get contents from $filename then decode and save it in $users.
-        if(!file_exists($filename)){
-            $json = json_encode($users);
-            file_put_contents($filename, $json);
-        }else{
-            $json = file_get_contents($filename);
-            $users = json_decode($json, true);
-        }
+    $filename =   __DIR__."users.json";
+    $users = [];
+    
+    // Check if file exists. If it doesn't, save $users within $filename. If it exists get contents from $filename then decode and save it in $users.
+    if(!file_exists($filename)){
+        $json = json_encode($users);
+        file_put_contents($filename, $json);
+    }else{
+        $json = file_get_contents($filename);
+        $users = json_decode($json, true);
+    }
 
         // Get the logged in userID from the parameter sent with GET request.
         $userID = $_GET["userID"];
