@@ -37,9 +37,7 @@ function feed($requestData, $users){
                     if($userPost["postID"] == $postID){
                         array_splice($users[$indexUser]["posts"], $indexPost, 1);
                        
-                        $json = json_encode($users, JSON_PRETTY_PRINT);
-                        file_put_contents($filename, $json);
-            
+                        putInUsersJSON($users);
                         $message = ["message" => "Post Deleted"];
                         sendJSON($message);
                     } 

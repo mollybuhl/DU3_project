@@ -342,9 +342,7 @@ async function sendFriendRequset(requestFrom, requestTo, action){
 
     try{
         const request = new Request("php/api.php", requestOptions);
-        let resourse = fetchAPI(request);
-        //let response = await fetch(request);
-        //let resource = await response.json();
+        let resource = await fetchAPI(request);
     
         // If the response was unsuccessful for any reason, print the error message to the user. Otherwise tell the user their account has been created then redirect them to the login page.
         /*if(!response.ok){

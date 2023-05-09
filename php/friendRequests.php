@@ -8,26 +8,29 @@ function friendRequests($requestData){
     $allowed = ["PATCH"];
     checkMethod($requestMethod, $allowed);
 
-    //Use new function to fetch users
-    $filename = __DIR__."users.json";
+    $filename = __DIR__."/users.json";
     $users = [];
     $json = file_get_contents($filename);
     $users = json_decode($json, true);    
 
-    $userFrom = $requestData["actionsCredentials"]["requestFrom"];
-    $userTo = $requestData["actionsCredentials"]["requestTo"];
-    $action = $requestData["actionsCredentials"]["requestAction"];
+    $requestFrom = $requestData["actionCredentials"]["requestFrom"];
+    $requestTo = $requestData["actionCredentials"]["requestTo"];
+    $action = $requestData["actionCredentials"]["requestAction"];
 
 if($action == "sendRequest"){
-    //Find requested user and add the id of the requester to friendRequests 
     foreach($users as $index => $user){
-        if($user["username"] === $userTo){
-            $users[$index]["friendRequests"][] = $userFrom;
+        if($user["username"] === $requestTo){
+            $activeRequests = $users[$index]["friendRequests"];
+            if(in_array($requestFrom ,$activeRequests)){
+                $message = ["message" => "You have already sent a friend request to $requestTo"];
+                sendJSON($message, 400);
+            }else{
+                $users[$index]["friendRequests"][] = $requestFrom;
 
-            $json = json_encode($users, JSON_PRETTY_PRINT);
-            file_put_contents($filename, $json);
-            $message = ["message" => "Friend request sent", "action" => "sendRequest"];
-            sendJSON($message);
+                putInUsersJSON($users);
+                $message = ["message" => "Friend request sent", "action" => "sendRequest"];
+                sendJSON($message);
+            }
         }
     }
 }
@@ -35,18 +38,16 @@ if($action == "sendRequest"){
 if($action == "acceptRequest") {
 
     foreach($users as $index => $user){
-        if($user["id"] === $userTo){
-            $users[$index]["friends"][] = $userFrom;
+        if($user["id"] === $requestTo){
+            $users[$index]["friends"][] = $requestFrom;
 
             $friendRequests = $users[$index]["friendRequests"];
 
             foreach($friendRequests as $requestIndex => $request){
-                if($request == $userFrom){
+                if($request == $requestFrom){
                     array_splice($users[$index]["friendRequests"], $requestIndex, 1);
 
-                    $json = json_encode($users, JSON_PRETTY_PRINT);
-                    file_put_contents($filename, $json);
-        
+                    putInUsersJSON($users);
                     $message = ["message" => "Friend request accepted", "action" => "acceptRequest"];
                     sendJSON($message);
                 }
@@ -63,12 +64,10 @@ if($action == "declineRequest") {
             $friendRequests = $users[$index]["friendRequests"];
 
             foreach($friendRequests as $requestIndex => $request){
-                if($request == $userFrom){
+                if($request == $requestFrom){
                     array_splice($users[$index]["friendRequests"], $requestIndex, 1);
 
-                    $json = json_encode($users, JSON_PRETTY_PRINT);
-                    file_put_contents($filename, $json);
-        
+                    putInUsersJSON($users);
                     $message = ["message" => "Friend request declined", "action" => "declineRequest"];
                     sendJSON($message);
                 }

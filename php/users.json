@@ -128,7 +128,9 @@
         "password": "molly3",
         "loggedFeelings": [],
         "friends": [],
-        "friendRequests": [],
+        "friendRequests": [
+            2
+        ],
         "posts": [],
         "conversations": [],
         "profilePicture": "..\/media\/profile_imgs\/profile_icon_1.jpg",
