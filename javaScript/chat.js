@@ -3,10 +3,9 @@
 /* 
 
 TODO:
-    - Add/remove users from groupchat
-    - Leave/remove groupchat (leave if non owner, remove if owner)
     - Fix error if two groupchats have same name
     - Small errors in code
+    - Make code more readable, extract functions? Repeated code?
     - CSS
     - Classes/IDs
     - Variable names
