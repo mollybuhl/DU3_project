@@ -32,5 +32,4 @@ function checkCredentials($userID, $userPassword, $users){
             }
         }
     }
-}
-?>
+}?>

@@ -11,15 +11,13 @@ async function renderFeedPage(){
         <div class="feedWrapper"></div>`
     ;
     
-   
     //Fetching Users
-    let response = await fetch("php/api.php?action=feed&userID=2&userPassword=222");
-    let Users = await response.json();
+    let Users = await fetchAPI("php/api.php?action=feed&userID=2&userPassword=222");
 
     //Locate user by localstorage
-    let User_id = (Number(window.localStorage.getItem("userId"))); 
-    let User = Users.find(user => user.id === User_id);
+    let UserID = (Number(window.localStorage.getItem("userId"))); 
     let password = window.localStorage.getItem("userPassword");
+    let User = Users.find(user => user.id === UserID);
     
     let postedByUser = User.posts;
     //If user has not posted anything, display nothing.
@@ -52,16 +50,17 @@ async function renderFeedPage(){
                         headers: {"Content-Type": "application/json"},
                         body: JSON.stringify({
                             action: "feed",
-                            userID: User_id,
+                            userID: UserID,
                             userPassword: password,
                             actionCredentials:{"feedAction": "DELETE", "postID": postID},
                         })
                     }
         
                     try{
-                        const request = new Request("php/api.php", requestOptions);
-                        let response = await fetch(request);
-                        let resource = await response.json();
+
+                        let request = new Request("php/api.php", requestOptions);
+                        let response = await fetchAPI(request);
+
                         renderFeedPage();
                     }catch(error){
 //What happens when error
@@ -293,7 +292,7 @@ async function renderFeedPage(){
                     alert(`You are already friends with ${searchName}`);
                 }else{
                     if(confirm(`Do you want to add ${searchName} to your Friends?`)){ 
-                        sendFriendRequset(User_id, searchName, "sendRequest");  
+                        sendFriendRequset(UserID, searchName, "sendRequest");  
                         return;                  
                     };
                 }
@@ -325,30 +324,34 @@ async function renderFeedPage(){
 
 }
 
-//Send friend request
-async function sendFriendRequset(userFrom, userTo, action){
+//Send request
+async function sendFriendRequset(requestFrom, requestTo, action){
+    let UserID = (Number(window.localStorage.getItem("userId")));
+    let password = window.localStorage.getItem("userPassword");
 
-    const friendRequest = {
+    const requestOptions = {
         method: "PATCH",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({
-            action: action,
-            userID: userFrom,
+            action: "friendRequests",
+            userID: UserID,
             userPassword: password,
-            userTo: userTo,
+            actionCredentials:{"requestAction": action, "requestTo": requestTo, "requestFrom": requestFrom},
         })
     }
 
     try{
-        const request = new Request("php/api.php", friendRequest);
-        let response = await fetch(request);
-        let resource = await response.json();
+        const request = new Request("php/api.php", requestOptions);
+        let resourse = fetchAPI(request);
+        //let response = await fetch(request);
+        //let resource = await response.json();
     
         // If the response was unsuccessful for any reason, print the error message to the user. Otherwise tell the user their account has been created then redirect them to the login page.
-        if(!response.ok){
+        /*if(!response.ok){
             document.querySelector("#searchWrapper > .messageToUser").textContent = `${response.message}`;
 
-        }else{  
+        }else{  */
+        
             if(resource.action === "acceptRequest"){
                 document.querySelector("#searchWrapper > .messageToUser").textContent = "Friend Request Accepted";
                 renderFeedPage();
@@ -361,10 +364,16 @@ async function sendFriendRequset(userFrom, userTo, action){
                 document.querySelector("#searchWrapper > .messageToUser").textContent = `A Friend Request was sent to ${searchName}!`;
                 document.querySelector("#searchWrapper > form > input").value = "";
             }     
-        }
+        
 
     }catch(error){
         document.querySelector("#searchWrapper > .messageToUser").textContent = `An Error occured, please try again later`;
     }
     
+}
+
+
+async function fetchAPI(request){
+    const response = await fetch(request);
+    return await response.json();
 }

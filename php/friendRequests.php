@@ -2,30 +2,21 @@
 
 require_once "functions.php";
 
-// Get the method used for the request, then check to see if it's allowed with a custom funciton (checkMethod).
-$requestMethod = $_SERVER["REQUEST_METHOD"];
-$allowed = ["PATCH"];
-checkMethod($requestMethod, $allowed);
+function friendRequests($requestData){
+    // Get the method used for the request, then check to see if it's allowed with a custom funciton (checkMethod).
+    $requestMethod = $_SERVER["REQUEST_METHOD"];
+    $allowed = ["PATCH"];
+    checkMethod($requestMethod, $allowed);
 
-$filename = __DIR__."users.json";
-$users = [];
+    //Use new function to fetch users
+    $filename = __DIR__."users.json";
+    $users = [];
+    $json = file_get_contents($filename);
+    $users = json_decode($json, true);    
 
-// Check if file exists. If it doesn't, send error message. If it exists get contents from $filename then decode and save it in $users.
-if(!file_exists($filename)){
-    $message = ["message" => "Something went wrong. Please try again later."];
-    sendJSON($message, 400);
-}
-
-$json = file_get_contents($filename);
-$users = json_decode($json, true);    
-
-// Get contents from the request and save them in their respective variable.
-$requestJSON = file_get_contents("php://input");
-$requestData = json_decode($requestJSON, true);
-
-$userFrom = $requestData["userFrom"];
-$userTo = $requestData["userTo"];
-$action = $requestData["action"];
+    $userFrom = $requestData["actionsCredentials"]["requestFrom"];
+    $userTo = $requestData["actionsCredentials"]["requestTo"];
+    $action = $requestData["actionsCredentials"]["requestAction"];
 
 if($action == "sendRequest"){
     //Find requested user and add the id of the requester to friendRequests 
@@ -88,4 +79,6 @@ if($action == "declineRequest") {
 
 $message = ["message" => "User not found"];
 sendJSON($message, 404);
+}
+
 ?>

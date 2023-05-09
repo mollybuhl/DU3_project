@@ -2,7 +2,7 @@
 ini_set("display_errors", 1); 
 
 require_once "functions.php";
-//require_once "addFriend.php";
+require_once "friendRequests.php";
 //require_once "chat.php";
 require_once "feed.php";
 //require_once "login.php";
@@ -17,6 +17,7 @@ if($requestMethod === "GET"){
     $requestJSON = file_get_contents("php://input");
     $requestData = json_decode($requestJSON, true);
 }
+//echo json_encode($requestData, JSON_PRETTY_PRINT);
 
 if(!isset($requestData["userID"]) || !isset($requestData["userPassword"]) || !isset($requestData["action"]) ){
     $message = ["message" => "Credentials missing"];
@@ -62,8 +63,8 @@ switch($action){
     case "feed":
         feed($requestData, $users);
         break;
-    case "addFriend":
-        addFriend($requestData);
+    case "friendRequests":
+        friendRequests($requestData);
         break;
     case "chat":
         chat($requestData);

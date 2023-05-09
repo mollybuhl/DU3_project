@@ -52,17 +52,12 @@
                 "timestamp": "16:42, 7 May"
             },
             {
-                "postID": 3,
+                "postID": 2,
                 "userID": 2,
-                "mood": "Forgiving",
-                "description": "that time",
-                "quote": {
-                    "quote": "Without forgiveness life is governed by... an endless cycle of resentment and retaliation.",
-                    "author": "Roberto Assagioli",
-                    "category": "forgiveness"
-                },
-                "dayOfWeek": "Friday",
-                "timestamp": "11:16, 5 May"
+                "mood": "Sad",
+                "description": "No ice cream",
+                "quote": "Houston, we have a problem",
+                "timestamp": "16:42, 7 May"
             }
         ],
         "profilePicture": "..\/media\/profile_img.avif",
