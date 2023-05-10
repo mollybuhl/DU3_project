@@ -29,8 +29,21 @@ main{
     overflow: scroll;
 }
 
-footer{
-    height: 7vh;
+.homeFooter{
+    height: 10vh;
+    box-sizing: border-box;
+}
+.homeFooter > h4{
+    font-size: 20px;
+    padding-top: 2vh;
+    margin: 0;
+}
+
+.homeFooter > p{
+    color:#4c4c4c;
+    font-size: 12px;
+    margin: 0;
+    padding: 1vh;
 }
 
 button{
