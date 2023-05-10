@@ -29,7 +29,7 @@
     background-color: rgba(0, 0, 0, 0.4);
 }
 
-#privateChat {
+#chat {
     position: absolute;
     display: grid;
     grid-template-rows: 10% 1fr 10%;
@@ -44,7 +44,7 @@
     border-radius: 10px;
 }
 
-#privateChat > #top {
+#chat > #top {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -52,30 +52,30 @@
     border-radius: 10px 10px 0px 0px;
 }
 
-#privateChat > #top #closeChat {
+#chat > #top #closeChat {
     background-color: rgb(176, 176, 176);
     border: 1px solid black;
     border-radius: 5px;
     padding: 10px 20px;
 }
 
-#privateChat > #top #closeChat:hover {
+#chat > #top #closeChat:hover {
     background-color: rgb(176, 0, 0);
     cursor: pointer;
 }
 
-#privateChat > #top > div {
+#chat > #top > div {
     margin: 0px 10px;
 }
 
-#privateChat > #messages {
+#chat > #messages {
     text-align: start;
 }
-#privateChat > #messages > div {
+#chat > #messages > div {
     margin: 10px;
 }
 
-#privateChat > #operations {
+#chat > #operations {
     display: flex;
     align-items: center;
     padding: 0px 10px;
@@ -83,7 +83,7 @@
     border-radius: 0px 0px 10px 10px;
 }
 
-#privateChat > #operations > input {
+#chat > #operations > input {
     flex-grow: 1;
     border-radius: 10px;
 }

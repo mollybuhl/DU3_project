@@ -203,7 +203,7 @@ function chat($data, $users, $allConversations){
     if($requestMethod == "PATCH"){
         $groupChats = $allConversations["groupChats"];
 
-        $chatAction = $data["action"];
+        $chatAction = $data["chatAction"];
         $chatID = $data["chatID"];
         $userID = $data["userID"];
 
