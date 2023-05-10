@@ -31,4 +31,14 @@ function checkCredentials($userID, $userPassword){
         }
     }
 }
+
+function putInUsersJSON($newData){
+    $filename = __DIR__ . "/users.json";
+    file_put_contents($filename, json_encode($newData, JSON_PRETTY_PRINT));
+}
+
+function putInConversationsJSON($newData){
+    $filename = __DIR__ . "/conversations.json";
+    file_put_contents($filename, json_encode($newData, JSON_PRETTY_PRINT));
+}
 ?>
