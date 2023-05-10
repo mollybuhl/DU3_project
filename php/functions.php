@@ -34,7 +34,3 @@ function checkCredentials($userID, $userPassword, $users){
     }
 }
 
-function putInUsersJSON($newData){
-    $filename = __DIR__ . "/users.json";
-    file_put_contents($filename, json_encode($newData, JSON_PRETTY_PRINT));
-}?>

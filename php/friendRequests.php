@@ -76,8 +76,8 @@ if($action == "declineRequest") {
     }
 }
 
-$message = ["message" => "User not found"];
-sendJSON($message, 404);
+$message = ["message" => "Action not defined"];
+sendJSON($message, 400);
 }
 
 ?>
