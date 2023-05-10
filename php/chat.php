@@ -1,7 +1,6 @@
 <?php
 
 function chat($data, $users, $allConversations){
-
     require_once "functions.php";
 
     $requestMethod = $_SERVER["REQUEST_METHOD"];
@@ -238,6 +237,5 @@ function chat($data, $users, $allConversations){
             }
         }
     }
-
 }
 ?>

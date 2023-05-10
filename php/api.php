@@ -2,13 +2,6 @@
 ini_set("display_errors", 1); 
 
 require_once "functions.php";
-require_once "chat.php";
-// require_once "addFriend.php";
-// require_once "feed.php";
-// require_once "login.php";
-// require_once "myProfile.php";
-// require_once "register.php";
-// require_once "sharemood.php";
 
 $requestMethod = $_SERVER["REQUEST_METHOD"];
 
@@ -56,24 +49,31 @@ $allConversations = json_decode($json, true);
 $action = $requestData["action"];
 switch($action){
     case "register":
+        require_once "register.php";
         register($requestData);
         break;
     case "login":
+        require_once "login.php";
         login($requestData);
         break;
     case "feed":
+        require_once "feed.php";
         feed($requestData);
         break;
     case "addFriend":
+        require_once "addFriend.php";
         addFriend($requestData);
         break;
     case "chat":
+        require_once "chat.php";
         chat($requestData, $users, $allConversations);
         break;
     case "shareMood":
+        require_once "sharemood.php";
         shareMood();
         break;
     case "myProfile":
+        require_once "myProfile.php";
         myProfile($requestData);
         break;
 }

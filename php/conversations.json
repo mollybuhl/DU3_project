@@ -12,6 +12,12 @@
                     "text": "hejsan",
                     "timestamp": "18:43, 6 May",
                     "id": 1
+                },
+                {
+                    "sender": 1,
+                    "text": "tjena",
+                    "timestamp": "9:11, 10 May",
+                    "id": 2
                 }
             ]
         },
