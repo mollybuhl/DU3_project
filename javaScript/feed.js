@@ -1,4 +1,7 @@
 
+let UserID = (Number(window.localStorage.getItem("userId"))); 
+let password = window.localStorage.getItem("userPassword");
+
 async function renderFeedPage(){
     let header = document.querySelector("header");
     let footer = document.querySelector("footer");
@@ -12,18 +15,18 @@ async function renderFeedPage(){
     ;
     
     //Fetching Users
-    let response = await fetch("php/feed.php");
+    let response = await fetchAPI(true, "action=feed&userID=2&userPassword=222");
+    if(!response.ok){
+        
+    }
     let Users = await response.json();
-
-    //Locate user by localstorage
-    let User_id = (Number(window.localStorage.getItem("userId"))); 
-    let User = Users.find(user => user.id === User_id);
+    let User = Users.find(user => user.id === UserID);
     
     let postedByUser = User.posts;
     //If user has not posted anything, display nothing.
     if(postedByUser.length > 0){
 
-        //Create a display for users X last posts;
+        //Create a display for users 7 last posts;
         let postDisplay = document.createElement("div");
         postDisplay.classList.add("postDisplay");
         main.querySelector(".feedWrapper").appendChild(postDisplay);
@@ -49,20 +52,22 @@ async function renderFeedPage(){
                         method: "DELETE",
                         headers: {"Content-Type": "application/json"},
                         body: JSON.stringify({
-                            userID: User_id,
-                            postID: postID,
+                            action: "feed",
+                            userID: UserID,
+                            userPassword: password,
+                            actionCredentials:{"feedAction": "DELETE", "postID": postID},
                         })
                     }
         
-                    try{
-                        const request = new Request("../php/feed.php", requestOptions);
-                        let response = await fetch(request);
-                        let resource = await response.json();
-                        renderFeedPage();
-                    }catch(error){
-//What happens when error
-                        console.log(error);
-                    }
+                        //let request = new Request("php/api.php", requestOptions);
+                        let response = await fetchAPI(false, requestOptions);
+
+                        if(!response.ok){                       
+//What happens if delete post get error code
+                        }else{
+                            renderFeedPage();
+                        }
+                    
                 }
             }
         });
@@ -72,7 +77,7 @@ async function renderFeedPage(){
     let friendsOfUser = User.friends;
     let friendNames = [];
 
-    if(friendsOfUser.length < 0){
+    if(friendsOfUser.length === 0){
         const noPostInfoDisplay = document.createElement("div");
         noPostInfoDisplay.classList.add("no_post_info")
         noPostInfoDisplay.innerHTML = `<p>Add more friends to see their posts here!</p>`;
@@ -112,6 +117,7 @@ async function renderFeedPage(){
             })
         });
 
+        //If you have friends but no one has posted
         if(friendsPostStatus === "noPosts"){
             const noPostInfoDisplay = document.createElement("div");
             noPostInfoDisplay.classList.add("no_post_info")
@@ -145,9 +151,10 @@ async function renderFeedPage(){
             <div>
                 <h3>I'm feeling <span>${feeling}</span></h3>
             </div>
-            <p class="timestamp">${timestamp}</p>
-            <p> ${text}</p> 
-            <h5>Quote: </h5><p>"${quote}"</p>
+                <p class="timestamp">${timestamp}</p>
+                <p> ${text}</p> 
+            <h5>Quote: </h5>
+            <p>"${quote}"</p>
          `;
         }
       
@@ -234,24 +241,24 @@ async function renderFeedPage(){
                 if(user.id === friendRequest){
                     const singleFriendRequest = document.createElement("div");
                     singleFriendRequest.innerHTML = `
-                    <img src="${user.profilePicture}"> 
-                    <h3>${user.username}</h3>
-                    <button id="acceptFriendRequest">Accept</button>
-                    <button id="declineFriendRequest">Decline</button>
+                        <img src="${user.profilePicture}"> 
+                        <h3>${user.username}</h3>
+                        <button id="acceptFriendRequest">Accept</button>
+                        <button id="declineFriendRequest">Decline</button>
                     `;
                     document.querySelector(".friendRequestsDisplay > #activeRequests").appendChild(singleFriendRequest);
 
                     singleFriendRequest.querySelector(".friendRequestsDisplay > #activeRequests > div > #declineFriendRequest").addEventListener("click", declineFriendRequest);
                     function declineFriendRequest(event){
                         if(confirm(`Do you want to remove friend request from ${user.username}?`)){
-                            sendFriendRequset(friendRequest, User.id, "declineRequest");
+                            handleFriendRequset(friendRequest, User.id, "declineRequest");
                         }
                     }
 
                     singleFriendRequest.querySelector(".friendRequestsDisplay > #activeRequests > div > #acceptFriendRequest").addEventListener("click", acceptFriendRequest);
                     function acceptFriendRequest(event){
                         if(confirm(`Do you want to add ${user.username} to your friends?`)){
-                            sendFriendRequset(friendRequest, User.id, "acceptRequest");
+                            handleFriendRequset(friendRequest, User.id, "acceptRequest");
                         }
                     }
                 }
@@ -289,7 +296,7 @@ async function renderFeedPage(){
                     alert(`You are already friends with ${searchName}`);
                 }else{
                     if(confirm(`Do you want to add ${searchName} to your Friends?`)){ 
-                        sendFriendRequset(User_id, searchName, "sendRequest");  
+                        handleFriendRequset(UserID, searchName, "sendRequest");  
                         return;                  
                     };
                 }
@@ -321,29 +328,32 @@ async function renderFeedPage(){
 
 }
 
-//Send friend request
-async function sendFriendRequset(userFrom, userTo, action){
+//Send request
+async function handleFriendRequset(requestFrom, requestTo, action){
+    let UserID = (Number(window.localStorage.getItem("userId")));
+    let password = window.localStorage.getItem("userPassword");
 
-    const friendRequest = {
+    const requestOptions = {
         method: "PATCH",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({
-            action: action,
-            userFrom: userFrom,
-            userTo: userTo,
+            action: "friendRequests",
+            userID: UserID,
+            userPassword: password,
+            actionCredentials:{"requestAction": action, "requestTo": requestTo, "requestFrom": requestFrom},
         })
     }
 
-    try{
-        const request = new Request("../php/addFriend.php", friendRequest);
-        let response = await fetch(request);
+        //const request = new Request("php/api.php", requestOptions);
+        let response = await fetchAPI(false, requestOptions);
         let resource = await response.json();
     
         // If the response was unsuccessful for any reason, print the error message to the user. Otherwise tell the user their account has been created then redirect them to the login page.
         if(!response.ok){
             document.querySelector("#searchWrapper > .messageToUser").textContent = `${response.message}`;
 
-        }else{  
+        }else{ 
+        
             if(resource.action === "acceptRequest"){
                 document.querySelector("#searchWrapper > .messageToUser").textContent = "Friend Request Accepted";
                 renderFeedPage();
@@ -356,10 +366,10 @@ async function sendFriendRequset(userFrom, userTo, action){
                 document.querySelector("#searchWrapper > .messageToUser").textContent = `A Friend Request was sent to ${searchName}!`;
                 document.querySelector("#searchWrapper > form > input").value = "";
             }     
-        }
 
-    }catch(error){
-        document.querySelector("#searchWrapper > .messageToUser").textContent = `An Error occured, please try again later`;
-    }
+
+        }
     
 }
+
+
