@@ -6,6 +6,8 @@ $allowedMethods = an array that contains the methods that are allowed.
 If $usedMethod is not in $allowedMethods, return a message with status 405.
 */
 
+require_once "api.php";
+
 function checkMethod($usedMethod, $allowedMethods){
     if(!in_array($usedMethod, $allowedMethods)){
         $message = ["message" => "Sorry the $usedMethod method is not allowed"];
@@ -21,7 +23,7 @@ function sendJSON($message, $statusCode = 200){
     exit();
 }
 
-function checkCredentials($userID, $userPassword){
+function checkCredentials($userID, $userPassword, $users){
     foreach($users as $user){
         if($user["id"] == $userID){
             if($user["password"] != $userPassword){
@@ -32,13 +34,3 @@ function checkCredentials($userID, $userPassword){
     }
 }
 
-function putInUsersJSON($newData){
-    $filename = __DIR__ . "/users.json";
-    file_put_contents($filename, json_encode($newData, JSON_PRETTY_PRINT));
-}
-
-function putInConversationsJSON($newData){
-    $filename = __DIR__ . "/conversations.json";
-    file_put_contents($filename, json_encode($newData, JSON_PRETTY_PRINT));
-}
-?>

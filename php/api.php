@@ -2,42 +2,57 @@
 ini_set("display_errors", 1); 
 
 require_once "functions.php";
-require_once "addFriend.php";
-require_once "chat.php";
+require_once "friendRequests.php";
+//require_once "chat.php";
 require_once "feed.php";
-require_once "login.php";
-require_once "myProfile.php";
-require_once "register.php";
-require_once "sharemood.php";
+//require_once "login.php";
+//require_once "myProfile.php";
+//require_once "register.php";
+//require_once "sharemood.php";
 
-//Check credentials
-$requestJSON = file_get_contents("php://input");
-$requestData = json_decode($requestJSON, true);
+$requestMethod = $_SERVER["REQUEST_METHOD"];
+if($requestMethod === "GET"){
+    $requestData = $_GET;
+}else{
+    $requestJSON = file_get_contents("php://input");
+    $requestData = json_decode($requestJSON, true);
+}
+//echo json_encode($requestData, JSON_PRETTY_PRINT);
 
 if(!isset($requestData["userID"]) || !isset($requestData["userPassword"]) || !isset($requestData["action"]) ){
     $message = ["message" => "Credentials missing"];
     sendJSON($message, 400);
 }
 
+$filenameUsers = __DIR__."/users.json";
+$users = [];
+if(!file_exists($filenameUsers)){
+    $json = json_encode($users);
+    file_put_contents($filenameUsers, $json);
+}
+
+$json = file_get_contents($filenameUsers);
+$users = json_decode($json, true);
+
 $userID = $requestData["userID"];
 $userPassword = $requestData["userPassword"];
-checkCredentials($userID, $userPassword);
+checkCredentials($userID, $userPassword, $users);
 
-//Check if users.json exists
-$filename = __DIR__."/users.json";
-if(!file_exists($filename)){
-    $message = ["message" => "File not found. Please try again later."];
-    sendJSON($message, 404);
+$filenameConversations = __DIR__."/conversation.json";
+$allConversations = [
+    "privateChats" => [],
+    "groupChats" => []
+];
+
+if(!file_exists($filenameConversations)){
+    $json = json_encode($allConversations, JSON_PRETTY_PRINT);
+    file_put_contents($filenameConversations, $json);
 }
 
-//Check if conversation.json
-if(!file_exists(__DIR__."/conversation.json")){
-    $message = ["message" => "File not found. Please try again later."];
-    sendJSON($message, 404);
-}
+$json = file_get_contents($filenameConversations);
+$allConversations = json_decode($json, true);
 
 $action = $requestData["action"];
-
 switch($action){
     case "register":
         register($requestData);
@@ -46,10 +61,10 @@ switch($action){
         login($requestData);
         break;
     case "feed":
-        feed($requestData);
+        feed($requestData, $users);
         break;
-    case "addFriend":
-        addFriend($requestData);
+    case "friendRequests":
+        friendRequests($requestData);
         break;
     case "chat":
         chat($requestData);
