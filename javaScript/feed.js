@@ -15,8 +15,11 @@ async function renderFeedPage(){
     ;
     
     //Fetching Users
-    //Vad händer vid fel?
-    let Users = await fetchAPI(true, "action=feed&userID=2&userPassword=222");
+    let response = await fetchAPI(true, "action=feed&userID=2&userPassword=222");
+    if(!response.ok){
+        
+    }
+    let Users = await response.json();
     let User = Users.find(user => user.id === UserID);
     
     let postedByUser = User.posts;
