@@ -3,13 +3,13 @@
 /* 
 
 TODO:
+    - Comments
+    - Classes/IDs
+    - Variable names
+    - CSS   
     - Fix error if two groupchats have same name
     - Small errors in code
     - Make code more readable, extract functions? Repeated code?
-    - CSS
-    - Classes/IDs
-    - Variable names
-    - Comments
     - Error messages
     - Fetch feedback for user
 */
