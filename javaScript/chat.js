@@ -158,8 +158,8 @@ async function renderChatPage(){
         <div id="chatTop">
             <div>${event.target.textContent}</div>
             <div id="chatOptions">
-                <button class="hidden" id="groupChatOptions">Options</button>
-                <button id="closeChat">Close</button>
+                <div class="hidden" id="groupChatOptions"></div>
+                <div class="closeModal" id="closeChat"></div>
             </div>
         </div>
         <div id="messages"></div>
@@ -271,8 +271,8 @@ async function renderChatPage(){
             optionsDivDom.innerHTML = `
             <div class="modalContainer">
                 <div id="optionsTop">
-                    <div>Options</div>
-                    <button id="closeOptions">Close</button>
+                    <div>Chat Options</div>
+                    <div class="closeModal" id="closeOptions">Close</div>
                 </div>
                 <span id="ownerOptions" class="hidden">
                     <button id="changeGroupName">Change Groupname</button>

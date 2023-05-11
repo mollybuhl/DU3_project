@@ -112,6 +112,25 @@ button {
     background-color: #b3b3b3a9;
 }
 
+#chatOptions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+#groupChatOptions {
+    background-image: url(../media/settingsIcon.png);
+    background-size: cover;
+    height: 3.2vh;
+    width: 3.2vh;
+}
+.closeModal {
+    background-image: url(../media/X.png);
+    background-size: cover;
+    height: 3vh;
+    width: 3vh;
+}
+
 .iconStyle {
     background-position: center;
     background-size: contain;
@@ -145,13 +164,6 @@ button {
     align-items: center;
     background-color: rgb(209, 209, 209);
     border-radius: 10px 10px 0px 0px;
-}
-
-#chat > #chatTop #closeChat {
-    background-color: rgb(176, 176, 176);
-    border: 1px solid black;
-    border-radius: 5px;
-    padding: 10px 20px;
 }
 
 #chat > #chatTop #closeChat:hover {
