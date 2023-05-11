@@ -24,6 +24,54 @@
                     "text": "tja",
                     "timestamp": "17:27, 10 May",
                     "id": 3
+                },
+                {
+                    "sender": 1,
+                    "text": "hej",
+                    "timestamp": "13:33, 11 May",
+                    "id": 4
+                },
+                {
+                    "sender": 1,
+                    "text": "hej",
+                    "timestamp": "18:6, 11 May",
+                    "id": 5
+                },
+                {
+                    "sender": 1,
+                    "text": "tja",
+                    "timestamp": "18:10, 11 May",
+                    "id": 6
+                },
+                {
+                    "sender": 1,
+                    "text": "he",
+                    "timestamp": "18:11, 11 May",
+                    "id": 7
+                },
+                {
+                    "sender": 1,
+                    "text": "he",
+                    "timestamp": "18:11, 11 May",
+                    "id": 8
+                },
+                {
+                    "sender": 1,
+                    "text": "hej",
+                    "timestamp": "18:26, 11 May",
+                    "id": 9
+                },
+                {
+                    "sender": 1,
+                    "text": "sluta nu",
+                    "timestamp": "18:28, 11 May",
+                    "id": 10
+                },
+                {
+                    "sender": 1,
+                    "text": "hej",
+                    "timestamp": "18:29, 11 May",
+                    "id": 11
                 }
             ]
         },
@@ -84,7 +132,14 @@
                 1,
                 3
             ],
-            "messages": []
+            "messages": [
+                {
+                    "sender": 1,
+                    "text": "hej",
+                    "timestamp": "18:10, 11 May",
+                    "id": 1
+                }
+            ]
         },
         {
             "id": 4,

@@ -70,7 +70,7 @@ switch($action){
         break;
     case "shareMood":
         require_once "sharemood.php";
-        shareMood();
+        shareMood($requestData, $users);
         break;
     case "myProfile":
         require_once "myProfile.php";

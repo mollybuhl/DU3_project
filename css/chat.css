@@ -1,50 +1,117 @@
-#privateChats {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-}
-
-#privateChats > div {
-    padding: 20px;
-    margin: 10px;
-    font-size: 30px;
+/* General CSS rules that are applied on many elements */
+.modalContainer {
     background-color: whitesmoke;
-    width: 150px;
     border-radius: 10px;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 50px;
 }
 
-#privateChats > div:hover {
-    background-color: rgb(207, 207, 207);
-    cursor: pointer;
-}
-
-#chatModal {
+.chatPageModal {
+    background-color: rgba(0, 0, 0, 0.4);
     position: absolute;
     top: 0;
     bottom: 0;
     right: 0;
     left: 0;
-    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
+#confirmCancel {
+    display: flex;
+}
+
+.hidden {
+    display: none;
+}
+
+button {
+    font-size: 10px;
+}
+
+/* MAIN */
+
+/* First page when loading chat page */
+
+.chatMain > div.backgroundImage {
+    background-image: url(../media/11.avif\(1\).png);
+    background-position: center;
+    background-size: cover;
+    height: 30vh;
+    width: 100vw;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    z-index: -1;
+}
+
+.chatMain {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#chatsContainer {
+    width: 80vw;
+}
+
+#privateChats, #groupChats {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #d9d9d978;
+    width: 100%;
+    border-radius: 10px;
+    height: 35vh;
+    margin: 10px 0px;
+    overflow-y: scroll;
+}
+
+#privateChats > p, #groupChats > #groupChatsTop > p {
+    width: 100%;
+    text-align: start;
+    font-family: Aboreto;
+    padding: 10px;
+    margin: 0;
+}
+
+#groupChatsTop {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+#privateChatsContainer, #groupChatsContainer {
+    width: 90%;
+}
+
+.groupChat, .privateChat {
+    display: flex;
+    font-family: Aboreto;
+    text-align: start;
+    padding: 15px 0px;
+}
+
+/* Rules for the chat window. */
 #chat {
-    position: absolute;
     display: grid;
     grid-template-rows: 10% 1fr 10%;
-    top: 10%;
-    right: 10%;
-    left: 10%;
-    bottom: 10%;
-    z-index: 1;
     height: 80vh;
     width: 80vw;
     background-color: whitesmoke;
     border-radius: 10px;
+    border: 1px solid black;
 }
 
-#chat > #top {
+#chat > #chatTop {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -52,24 +119,26 @@
     border-radius: 10px 10px 0px 0px;
 }
 
-#chat > #top #closeChat {
+#chat > #chatTop #closeChat {
     background-color: rgb(176, 176, 176);
     border: 1px solid black;
     border-radius: 5px;
     padding: 10px 20px;
 }
 
-#chat > #top #closeChat:hover {
+#chat > #chatTop #closeChat:hover {
     background-color: rgb(176, 0, 0);
     cursor: pointer;
 }
 
-#chat > #top > div {
+#chat > #chatTop > div {
     margin: 0px 10px;
 }
 
 #chat > #messages {
     text-align: start;
+    max-height: 80vh;
+    overflow-y: scroll;
 }
 #chat > #messages > div {
     margin: 10px;
@@ -88,6 +157,4 @@
     border-radius: 10px;
 }
 
-.hidden {
-    display: none;
-}
+/* Rules for groupchat options */
