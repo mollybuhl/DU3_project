@@ -15,6 +15,11 @@ header.headerHome{
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    position: relative;
+
+    background-color: transparent;
+    z-index: 1;
 }
 
 header.headerHome > .logo{

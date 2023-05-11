@@ -1,5 +1,7 @@
 
 function renderHomePage(){
+    document.querySelector("body").classList.remove("bodyRegisterLogin");
+
     let main = document.querySelector("main");
     let header = document.querySelector("header");
     let footer = document.querySelector("footer");
@@ -9,6 +11,8 @@ function renderHomePage(){
         <h3 class="logo">MoodMate</h3>
         <button class="loginButton">LOGIN</button>`;
 
+    main.classList.remove("mainLogin");
+    main.classList.remove("mainRegister");
     main.classList.add("mainHome");
     main.innerHTML =`
     <div class="introduction">
@@ -47,6 +51,7 @@ function renderHomePage(){
 
     document.querySelector(".loginButton").addEventListener("click", renderLoginPage);
 
+    footer.classList.remove("homeFooter");
     footer.classList.add("homeFooter");
     footer.innerHTML = `
         <h4 class="logo">MoodMate</h4>

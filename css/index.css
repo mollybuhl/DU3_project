@@ -32,6 +32,7 @@ main{
 .homeFooter{
     height: 10vh;
     box-sizing: border-box;
+    background-color: rgb(251, 246, 239);
 }
 .homeFooter > h4{
     font-size: 20px;

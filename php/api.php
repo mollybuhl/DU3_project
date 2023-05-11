@@ -5,7 +5,7 @@ require_once "functions.php";
 require_once "friendRequests.php";
 //require_once "chat.php";
 require_once "feed.php";
-//require_once "login.php";
+require_once "login.php";
 //require_once "myProfile.php";
 //require_once "register.php";
 //require_once "sharemood.php";
@@ -18,6 +18,10 @@ if($requestMethod === "GET"){
     $requestData = json_decode($requestJSON, true);
 }
 //echo json_encode($requestData, JSON_PRETTY_PRINT);
+
+if($requestData["action"] == "login"){
+
+}else
 
 if(!isset($requestData["userID"]) || !isset($requestData["userPassword"]) || !isset($requestData["action"]) ){
     $message = ["message" => "Credentials missing"];
@@ -58,7 +62,7 @@ switch($action){
         register($requestData);
         break;
     case "login":
-        login($requestData);
+        login($requestData, $users);
         break;
     case "feed":
         feed($requestData, $users);

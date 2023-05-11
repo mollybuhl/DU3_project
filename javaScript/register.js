@@ -1,20 +1,24 @@
 "use strict";
 
 function renderRegisterPage(){
+    document.querySelector("body").classList.add("bodyRegisterLogin");
+    let headerButton = document.querySelector("header > .loginButton");
+    headerButton.classList.remove("hidden");
+
     const mainDom = document.querySelector("body > main");
     mainDom.classList.add("mainRegister");
     mainDom.innerHTML = `
     <div class="wrapper">
-        <div id="registerLogo"></div>
+        <h1>Sign up</h1>
+        <p id="goToLogin">Already have an account? <span>Login here!</span></p>
         <div id="registerField">
             <label for="username">Username</label>
-            <input type="text" id="registerUsername" name="username">
+            <input type="text" id="registerUsername" name="username" placeholder="Enter username">
             <label for="password">Password</label>
-            <input type="password" id="registerPassword" name="password">
+            <input type="password" id="registerPassword" name="password" placeholder="Enter password">
         </div>
         <p id="messageToUser"></p>
         <button>Register</button>
-        <p id="goToLogin">Already have an account? Login here!</p>
     </div>
     `;
 
