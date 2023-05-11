@@ -35,7 +35,7 @@ async function renderChatPage(){
         <div id="groupChats">
             <div id="groupChatsTop">
                 <p>Groupchats:</p>
-                <button id="createGroupChat">Create new groupchat</button>
+                <div id="createGroupChat"></div>
             </div>
             <div id="groupChatsContainer"></div>
         </div>
@@ -272,7 +272,7 @@ async function renderChatPage(){
             <div class="modalContainer">
                 <div id="optionsTop">
                     <div>Chat Options</div>
-                    <div class="closeModal" id="closeOptions">Close</div>
+                    <div class="closeModal" id="closeOptions"></div>
                 </div>
                 <span id="ownerOptions" class="hidden">
                     <button id="changeGroupName">Change Groupname</button>

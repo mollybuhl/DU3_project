@@ -7,7 +7,8 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    padding: 50px;
+    padding: 25px;
+    margin: 25px;
 }
 
 .chatPageModal {
@@ -76,11 +77,21 @@ button {
 }
 
 #privateChats > p, #groupChats > #groupChatsTop > p {
-    width: 100%;
+    max-width: 100%;
     text-align: start;
     font-family: Aboreto;
     padding: 10px;
     margin: 0;
+}
+#chatsContainer > #privateChats > p {
+    width: 100%;
+}
+
+#createGroupChat {
+    background-image: url(../media/add.png);
+    background-size: cover;
+    height: 5vh;
+    width: 5vh;
 }
 
 #groupChatsTop {

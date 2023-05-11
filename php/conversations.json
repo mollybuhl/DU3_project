@@ -43,35 +43,19 @@
     "groupChats": [
         {
             "id": 1,
-            "name": "hej",
-            "ownerID": 1,
-            "betweenUsers": [
-                1,
-                2,
-                3,
-                4,
-                6
-            ],
-            "messages": []
-        },
-        {
-            "id": 2,
-            "name": "coola cluben",
-            "ownerID": 1,
-            "betweenUsers": [
-                1,
-                6
-            ],
-            "messages": []
-        },
-        {
-            "id": 3,
-            "name": "hejsan",
+            "name": "testar",
             "ownerID": 1,
             "betweenUsers": [
                 1
             ],
-            "messages": []
+            "messages": [
+                {
+                    "sender": 1,
+                    "text": "hej",
+                    "timestamp": "23:58, 11 May",
+                    "id": 1
+                }
+            ]
         }
     ]
 }
