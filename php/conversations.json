@@ -7,120 +7,6 @@
                 2
             ],
             "messages": [
-                {
-                    "sender": 1,
-                    "text": "hejsan",
-                    "timestamp": "18:43, 6 May",
-                    "id": 1
-                },
-                {
-                    "sender": 1,
-                    "text": "tjena",
-                    "timestamp": "9:11, 10 May",
-                    "id": 2
-                },
-                {
-                    "sender": 1,
-                    "text": "tja",
-                    "timestamp": "17:27, 10 May",
-                    "id": 3
-                },
-                {
-                    "sender": 1,
-                    "text": "hej",
-                    "timestamp": "13:33, 11 May",
-                    "id": 4
-                },
-                {
-                    "sender": 1,
-                    "text": "hej",
-                    "timestamp": "18:6, 11 May",
-                    "id": 5
-                },
-                {
-                    "sender": 1,
-                    "text": "tja",
-                    "timestamp": "18:10, 11 May",
-                    "id": 6
-                },
-                {
-                    "sender": 1,
-                    "text": "he",
-                    "timestamp": "18:11, 11 May",
-                    "id": 7
-                },
-                {
-                    "sender": 1,
-                    "text": "he",
-                    "timestamp": "18:11, 11 May",
-                    "id": 8
-                },
-                {
-                    "sender": 1,
-                    "text": "hej",
-                    "timestamp": "18:26, 11 May",
-                    "id": 9
-                },
-                {
-                    "sender": 1,
-                    "text": "sluta nu",
-                    "timestamp": "18:28, 11 May",
-                    "id": 10
-                },
-                {
-                    "sender": 1,
-                    "text": "hej",
-                    "timestamp": "18:29, 11 May",
-                    "id": 11
-                },
-                {
-                    "sender": 1,
-                    "text": "hej",
-                    "timestamp": "19:22, 11 May",
-                    "id": 12
-                },
-                {
-                    "sender": 1,
-                    "text": "hej",
-                    "timestamp": "19:22, 11 May",
-                    "id": 13
-                },
-                {
-                    "sender": 1,
-                    "text": "hej",
-                    "timestamp": "19:22, 11 May",
-                    "id": 14
-                },
-                {
-                    "sender": 1,
-                    "text": "hej",
-                    "timestamp": "19:22, 11 May",
-                    "id": 15
-                },
-                {
-                    "sender": 1,
-                    "text": "he",
-                    "timestamp": "19:24, 11 May",
-                    "id": 16
-                },
-                {
-                    "sender": 1,
-                    "text": "tja",
-                    "timestamp": "19:26, 11 May",
-                    "id": 17
-                },
-                {
-                    "sender": 1,
-                    "text": "sfd",
-                    "timestamp": "19:29, 11 May",
-                    "id": 18
-                },
-                {
-                    "sender": 1,
-                    "text": "sdfg",
-                    "timestamp": "19:30, 11 May",
-                    "id": 19
-                }
             ]
         },
         {
@@ -130,48 +16,7 @@
                 6
             ],
             "messages": [
-                {
-                    "sender": 1,
-                    "text": "hej",
-                    "timestamp": "23:28, 8 May",
-                    "id": 1
-                },
-                {
-                    "sender": 1,
-                    "text": "ds",
-                    "timestamp": "23:29, 8 May",
-                    "id": 2
-                },
-                {
-                    "sender": 1,
-                    "text": "ds",
-                    "timestamp": "23:29, 8 May",
-                    "id": 3
-                },
-                {
-                    "sender": 1,
-                    "text": "ds",
-                    "timestamp": "23:29, 8 May",
-                    "id": 4
-                },
-                {
-                    "sender": 1,
-                    "text": "he",
-                    "timestamp": "16:50, 10 May",
-                    "id": 5
-                },
-                {
-                    "sender": 1,
-                    "text": "he",
-                    "timestamp": "16:50, 10 May",
-                    "id": 6
-                },
-                {
-                    "sender": 1,
-                    "text": "he",
-                    "timestamp": "16:50, 10 May",
-                    "id": 7
-                }
+
             ]
         },
         {
@@ -181,12 +26,7 @@
                 3
             ],
             "messages": [
-                {
-                    "sender": 1,
-                    "text": "hej",
-                    "timestamp": "18:10, 11 May",
-                    "id": 1
-                }
+
             ]
         },
         {
@@ -211,30 +51,7 @@
                 6
             ],
             "messages": [
-                {
-                    "sender": 1,
-                    "text": "hejsan",
-                    "timestamp": "23:47, 8 May",
-                    "id": 1
-                },
-                {
-                    "sender": 1,
-                    "text": "he",
-                    "timestamp": "16:50, 10 May",
-                    "id": 2
-                },
-                {
-                    "sender": 1,
-                    "text": "he",
-                    "timestamp": "16:50, 10 May",
-                    "id": 3
-                },
-                {
-                    "sender": 1,
-                    "text": "he",
-                    "timestamp": "16:50, 10 May",
-                    "id": 4
-                }
+
             ]
         },
         {
