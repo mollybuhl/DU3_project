@@ -20,7 +20,7 @@ async function renderChatPage(){
     const userPassword = window.localStorage.getItem("userPassword")
 
     const header = document.querySelector("header");
-    header.querySelector(".friendsButton").remove();
+    header.querySelector(".friendsButton").classList.add("hidden");
 
     const main = document.querySelector("main");
     main.removeAttribute("class");
@@ -63,6 +63,7 @@ async function renderChatPage(){
         <div class="chatName">${friendObject.username}</div>
         `
         friendDivDom.querySelector(".chatName").addEventListener("click", event => event.stopPropagation());
+        friendDivDom.querySelector(".iconStyle").addEventListener("click", event => event.stopPropagation());
         friendDivDom.classList.add("privateChat");
         privateChats.appendChild(friendDivDom);
 
@@ -75,11 +76,20 @@ async function renderChatPage(){
 
         const groupChatDom = document.createElement("div");
         groupChatDom.innerHTML = `
-        <div class="iconStyle" style="background-image: url('media/groupIcon.png');")></div>
+        <div class="iconStyle groupIcon" style="background-image: url('media/groupIcon.png');")></div>
         <div class="chatName">${groupChat.name}</div>
         `
         groupChatDom.querySelector(".chatName").addEventListener("click", event => event.stopPropagation());
+        groupChatDom.querySelector(".iconStyle").addEventListener("click", event => event.stopPropagation());
         groupChatDom.classList.add("groupChat");
+
+        if(groupChat.ownerID === user){
+            const ownerIcon = document.createElement("div");
+            ownerIcon.addEventListener("click", event => event.stopPropagation());
+            ownerIcon.classList.add("ownerIcon");
+            groupChatDom.appendChild(ownerIcon);
+        }
+
         groupChats.append(groupChatDom);
         
         groupChatDom.addEventListener("click", renderChat);
@@ -93,7 +103,6 @@ async function renderChatPage(){
         // Declaring chatID and type here to use it later when fetching chats.
         let chatID;
         let type;
-        
         
         // If the clicked <div> was a private chat/friend chat, find which friend that was clicked then find the chat that is between the user and that friend, then store that chats ID in chatID. If it's the first time a chat was opened between the user and the friend, create a new chat between them.
         if(event.target.classList.contains("privateChat")){
@@ -192,10 +201,12 @@ async function renderChatPage(){
                 }
             });
 
-            fetchAndPrintMessages(false);
+            fetchAndPrintMessages(false, true);
         }
 
-        async function fetchAndPrintMessages(startTimeout = true){
+        async function fetchAndPrintMessages(startTimeout = true, calledFromSendMessage = false){
+            let scrollToBottom;
+
             if(document.querySelector("#chat") === null){
                 startTimeout = false;
                 return;
@@ -217,6 +228,10 @@ async function renderChatPage(){
             });
 
             const messagesDiv = chat.querySelector("#messages");
+            if(messagesDiv.scrollTop === messagesDiv.scrollTopMax || calledFromSendMessage){
+                scrollToBottom = true;
+            }
+
             messagesDiv.innerHTML = "";
 
             conversationMessages.forEach(message => {
@@ -231,6 +246,10 @@ async function renderChatPage(){
                 `;
                 messagesDiv.appendChild(messageDiv);
             })
+
+            if(scrollToBottom){
+                messagesDiv.scrollTop = messagesDiv.scrollTopMax;
+            }
 
             if(startTimeout){
                 setTimeout(fetchAndPrintMessages, 1000);
@@ -401,6 +420,9 @@ async function renderChatPage(){
             }
             chat.appendChild(optionsDivDom);
         }
+
+        const chatMessages = chat.querySelector("#messages")
+        chatMessages.scrollTop = chatMessages.scrollTopMax;
     }
 
     async function createGroupChat(event){

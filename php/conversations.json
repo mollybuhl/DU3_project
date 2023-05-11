@@ -72,6 +72,54 @@
                     "text": "hej",
                     "timestamp": "18:29, 11 May",
                     "id": 11
+                },
+                {
+                    "sender": 1,
+                    "text": "hej",
+                    "timestamp": "19:22, 11 May",
+                    "id": 12
+                },
+                {
+                    "sender": 1,
+                    "text": "hej",
+                    "timestamp": "19:22, 11 May",
+                    "id": 13
+                },
+                {
+                    "sender": 1,
+                    "text": "hej",
+                    "timestamp": "19:22, 11 May",
+                    "id": 14
+                },
+                {
+                    "sender": 1,
+                    "text": "hej",
+                    "timestamp": "19:22, 11 May",
+                    "id": 15
+                },
+                {
+                    "sender": 1,
+                    "text": "he",
+                    "timestamp": "19:24, 11 May",
+                    "id": 16
+                },
+                {
+                    "sender": 1,
+                    "text": "tja",
+                    "timestamp": "19:26, 11 May",
+                    "id": 17
+                },
+                {
+                    "sender": 1,
+                    "text": "sfd",
+                    "timestamp": "19:29, 11 May",
+                    "id": 18
+                },
+                {
+                    "sender": 1,
+                    "text": "sdfg",
+                    "timestamp": "19:30, 11 May",
+                    "id": 19
                 }
             ]
         },
@@ -188,6 +236,25 @@
                     "id": 4
                 }
             ]
+        },
+        {
+            "id": 2,
+            "name": "coola cluben",
+            "ownerID": 1,
+            "betweenUsers": [
+                1,
+                6
+            ],
+            "messages": []
+        },
+        {
+            "id": 3,
+            "name": "hejsan",
+            "ownerID": 1,
+            "betweenUsers": [
+                1
+            ],
+            "messages": []
         }
     ]
 }
