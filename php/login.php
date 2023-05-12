@@ -12,9 +12,10 @@ function login($requestData, $users){
     //$usersArray = json_decode($usersArrayJSON, true);
     
     for($i = 0; $i < count($users); $i++) {
-        $user = $usersArray[$i];
+        $user = $users[$i];
         $arrayUsername = $users[$i]["username"];
         $arrayPassword = $users[$i]["password"];
+        
     
         if($loginUsername == $arrayUsername && $loginPassword == $arrayPassword) {
             $message = ["id" => $user["id"], "username" => $user["username"]];
