@@ -9,8 +9,8 @@
             "messages": [
                 {
                     "sender": 1,
-                    "text": "hejsan",
-                    "timestamp": "18:43, 6 May",
+                    "text": "hej",
+                    "timestamp": "21:31, 11 May",
                     "id": 1
                 }
             ]
@@ -41,5 +41,21 @@
         }
     ],
     "groupChats": [
+        {
+            "id": 1,
+            "name": "testar",
+            "ownerID": 1,
+            "betweenUsers": [
+                1
+            ],
+            "messages": [
+                {
+                    "sender": 1,
+                    "text": "hej",
+                    "timestamp": "23:58, 11 May",
+                    "id": 1
+                }
+            ]
+        }
     ]
 }

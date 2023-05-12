@@ -10,7 +10,7 @@ require_once "api.php";
 
 function checkMethod($usedMethod, $allowedMethods){
     if(!in_array($usedMethod, $allowedMethods)){
-        $message = ["message" => "Sorry the $usedMethod method is not allowed"];
+        $message = ["message" => $allowedMethods];
         sendJSON($message, 405);
     }
 }
