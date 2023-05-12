@@ -1,13 +1,16 @@
 
-let UserID = (Number(window.localStorage.getItem("userId"))); 
-let password = window.localStorage.getItem("userPassword");
-
 async function renderFeedPage(){
+    let UserID = (Number(window.localStorage.getItem("userId"))); 
+    let password = window.localStorage.getItem("userPassword");
+
+    document.querySelector("body").removeAttribute("class");
+    document.querySelector("body").classList.add("bodyFeed");
+    
     let header = document.querySelector("header");
     let footer = document.querySelector("footer");
     let main = document.querySelector("main");
+    main.removeAttribute("class");
 
-    document.querySelector("body").classList.add("bodyFeed");
     document.querySelector("main").classList.add("mainFeed");
     main.innerHTML = `
         <div class="backgroundImage"></div>
@@ -15,7 +18,9 @@ async function renderFeedPage(){
     ;
     
     //Fetching Users
-    let response = await fetchAPI(true, "action=feed&userID=2&userPassword=222");
+    let response = await fetchAPI(true, `action=feed&userID=${UserID}&userPassword=${password}`);
+    
+    
     if(!response.ok){
         
     }

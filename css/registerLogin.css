@@ -1,0 +1,74 @@
+body.bodyRegisterLogin{
+    background-color: #B9DBC3;
+}
+
+.mainRegister, main.mainLogin{
+    height: 82vh;
+}
+
+header > .loginButton.hidden{
+    display: none;
+}
+
+.mainRegister > .wrapper, .mainLogin > .wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.mainRegister > .wrapper > h1, .mainLogin > .wrapper > h1{
+    margin-bottom: 0;
+}
+.mainRegister > .wrapper > p, .mainLogin > .wrapper > p {
+    margin-top: 0;
+    color: gray;
+}
+
+.mainRegister > .wrapper > p > span, .mainLogin > .wrapper > p > span{
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+#registerLogo{
+    height: 20vh;
+}
+
+#registerField, #loginField{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 70%;
+}
+
+#registerField > label, #loginField > label{
+    padding-top: 2vh;
+    padding-bottom: 2vh;
+    font-family: Aboreto;
+    font-size: 22px;
+    align-self: self-start;
+}
+
+#registerField > input, #loginField > input{
+    width: 100%;
+    height: 4vh;
+    border-radius: 20px;
+    border: none;
+    box-shadow: 0px 0px 10px 1px gray;
+    padding: 2vh;
+}
+
+#registerField > input:focus, #loginField > input:focus{
+    outline: none;
+    box-shadow: 0px 0px 10px 4px rgb(85, 85, 85);
+}
+
+.messageToUser{
+    padding: 1vh;
+    height: 4vh;
+    width: 80%;
+    text-align: center;
+}
+
+.mainRegister > .wrapper > button, .mainLogin > .wrapper > button{
+    width: 35vw;
+}
