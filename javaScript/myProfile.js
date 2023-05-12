@@ -406,59 +406,63 @@ function displayRightWeek(rightWeek, storedMoods) {
         <div id="sundayContainer"><p>Su</p></div>
     
     `;
-
-    for(let i = 0; i < storedMoods.length; i++) {
-        if(storedMoods[i].week === rightWeek) {
-            let weekId = storedMoods[i].weekId;
-            document.querySelector("#calendar > #calendarWeek").setAttribute("class", `${weekId}`);
-            document.querySelector("#calendar > #calendarWeek").textContent = `${rightWeek}`;
-            let weekdays = document.querySelectorAll("#weekdays > div > p");
-            let weekMoods = storedMoods[i];
-            let rightDay;
-    
-            for(let key in weekMoods) {
-                if(key === "week" || key === "weekId") {
-                    continue;
-                }
-            
-                let weekdayKeyName = key;
-                let firstTwoWords = weekdayKeyName.substring(0, 2);
-                console.log(firstTwoWords);
-    
-                let weekdayKeyArray = weekMoods[key];
-                console.log(weekdayKeyArray);
-    
-    
-                for(let ii = 0; ii < weekdays.length; ii++) {
-                    if(firstTwoWords === weekdays[ii].textContent) {
-                        rightDay = weekdays[ii];
-                        console.log(rightDay);
+    console.log(storedMoods);
+    if(storedMoods.length >= 1) {
+        for(let i = 0; i < storedMoods.length; i++) {
+            if(storedMoods[i].week === rightWeek) {
+                let weekId = storedMoods[i].weekId;
+                document.querySelector("#calendar > #calendarWeek").setAttribute("class", `${weekId}`);
+                document.querySelector("#calendar > #calendarWeek").textContent = `${rightWeek}`;
+                let weekdays = document.querySelectorAll("#weekdays > div > p");
+                let weekMoods = storedMoods[i];
+                let rightDay;
+        
+                for(let key in weekMoods) {
+                    if(key === "week" || key === "weekId") {
+                        continue;
                     }
-                }       
                 
-                let parentOfParagraph = rightDay.parentNode;
-                for(let i = 0; i < weekdayKeyArray.length; i++) {
-                    let moodOfDay = document.createElement("div");
-                    parentOfParagraph.appendChild(moodOfDay);
-                    moodOfDay.classList.add("feeling");
-
-                    if(weekdayKeyArray[i].moodOfPost === "Happy") {
-                        moodOfDay.classList.add("happy");
-                    } else if(weekdayKeyArray[i].moodOfPost === "Sad") {
-                        moodOfDay.classList.add("sad");
-                    } else if(weekdayKeyArray[i].moodOfPost === "Angry") {
-                        moodOfDay.classList.add("angry");
-                    } else if(weekdayKeyArray[i].moodOfPost === "Jealous") {
-                        moodOfDay.classList.add("jealous");
-                    } else if(weekdayKeyArray[i].moodOfPost === "Couragious") {
-                        moodOfDay.classList.add("couragious");
-                    } else if(weekdayKeyArray[i].moodOfPost === "Fear") {
-                        moodOfDay.classList.add("fear");
-                    } else if(weekdayKeyArray[i].moodOfPost === "Forgiving") {
-                        moodOfDay.classList.add("forgiving");
+                    let weekdayKeyName = key;
+                    let firstTwoWords = weekdayKeyName.substring(0, 2);
+                    console.log(firstTwoWords);
+        
+                    let weekdayKeyArray = weekMoods[key];
+                    console.log(weekdayKeyArray);
+        
+        
+                    for(let ii = 0; ii < weekdays.length; ii++) {
+                        if(firstTwoWords === weekdays[ii].textContent) {
+                            rightDay = weekdays[ii];
+                            console.log(rightDay);
+                        }
+                    }       
+                    
+                    let parentOfParagraph = rightDay.parentNode;
+                    for(let i = 0; i < weekdayKeyArray.length; i++) {
+                        let moodOfDay = document.createElement("div");
+                        parentOfParagraph.appendChild(moodOfDay);
+                        moodOfDay.classList.add("feeling");
+    
+                        if(weekdayKeyArray[i].moodOfPost === "Happy") {
+                            moodOfDay.classList.add("happy");
+                        } else if(weekdayKeyArray[i].moodOfPost === "Sad") {
+                            moodOfDay.classList.add("sad");
+                        } else if(weekdayKeyArray[i].moodOfPost === "Angry") {
+                            moodOfDay.classList.add("angry");
+                        } else if(weekdayKeyArray[i].moodOfPost === "Jealous") {
+                            moodOfDay.classList.add("jealous");
+                        } else if(weekdayKeyArray[i].moodOfPost === "Couragious") {
+                            moodOfDay.classList.add("couragious");
+                        } else if(weekdayKeyArray[i].moodOfPost === "Fear") {
+                            moodOfDay.classList.add("fear");
+                        } else if(weekdayKeyArray[i].moodOfPost === "Forgiving") {
+                            moodOfDay.classList.add("forgiving");
+                        }
                     }
                 }
-            }
-        }  
-    }  
+            }  
+        }
+    } else {
+        document.querySelector("div#weekdays").textContent = "Sorry, you don't have any logged feelings";
+    } 
 }
