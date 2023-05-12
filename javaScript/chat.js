@@ -110,6 +110,7 @@ async function renderChatPage(){
             type = "privateChat";
             const clickedFriendUsername = target.textContent;
 
+            let friendObject
             userFriends.forEach(friend => {
                 if(friend.username === clickedFriendUsername){
                     userPrivateChats.forEach(chat => {
@@ -117,6 +118,7 @@ async function renderChatPage(){
                             chatID = chat.id;
                         }
                     })
+                    friendObject = friend;
                 }
             });
 
@@ -124,7 +126,7 @@ async function renderChatPage(){
             if(chatID === undefined){
                 const createdChat = await fetchChatPhp(user, userPassword, "POST", {
                     chatAction: "createPrivateChat",
-                    betweenUsers: [user, friend.id]
+                    betweenUsers: [user, friendObject.id]
                 });
                 chatID = createdChat.id;
                 userPrivateChats = await fetchChatPhp(user, userPassword, "POST",{

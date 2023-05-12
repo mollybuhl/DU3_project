@@ -1,0 +1,37 @@
+[
+    {
+        "username": "ossian",
+        "password": "1234",
+        "loggedFeelings": [],
+        "friends": [],
+        "friendRequests": [],
+        "posts": [],
+        "profilePicture": "..\/media\/profile_imgs\/profile_icon_2.jpg",
+        "id": 1
+    },
+    {
+        "username": "testchat",
+        "password": "123",
+        "loggedFeelings": [],
+        "friends": [
+            1,
+            3
+        ],
+        "friendRequests": [],
+        "posts": [],
+        "profilePicture": "..\/media\/profile_imgs\/profile_icon_1.jpg",
+        "id": 2
+    },
+    {
+        "username": "testchat2",
+        "password": "testchat2",
+        "loggedFeelings": [],
+        "friends": [
+            1
+        ],
+        "friendRequests": [],
+        "posts": [],
+        "profilePicture": "..\/media\/profile_imgs\/profile_icon_3.jpg",
+        "id": 3
+    }
+]
