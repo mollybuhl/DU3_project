@@ -156,9 +156,37 @@
         "friends": [],
         "friendRequests": [],
         "posts": [],
-        "conversations": [],
-        "profilePicture": "..\/media\/profile_imgs\/profile_icon_1.jpg",
-        "id": 7,
-        "firstTime": false
+        "profilePicture": "..\/media\/profile_imgs\/profile_icon_2.jpg",
+        "id": 7
+    },
+    {
+        "username": "funka",
+        "password": "funka",
+        "loggedFeelings": [],
+        "friends": [],
+        "friendRequests": [],
+        "posts": [],
+        "profilePicture": "..\/media\/profile_imgs\/",
+        "id": 8
+    },
+    {
+        "username": "funkanu",
+        "password": "funkaunu",
+        "loggedFeelings": [],
+        "friends": [],
+        "friendRequests": [],
+        "posts": [],
+        "profilePicture": "..\/media\/profile_imgs\/profile_icon_3.jpg",
+        "id": 9
+    },
+    {
+        "username": "testing",
+        "password": "testing",
+        "loggedFeelings": [],
+        "friends": [],
+        "friendRequests": [],
+        "posts": [],
+        "profilePicture": "..\/media\/profile_imgs\/profile_icon_2.jpg",
+        "id": 10
     }
 ]

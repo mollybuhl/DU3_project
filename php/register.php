@@ -25,7 +25,7 @@ function register($data, $users){
     }
     
     //Randomise profile image
-    $folder = "media/profile_imgs";
+    $folder = __DIR__."/../media/profile_imgs";
     $imageSources = scandir($folder);
     $images = [];
     
