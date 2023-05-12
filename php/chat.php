@@ -69,8 +69,10 @@ function chat($data, $users, $allConversations){
         }
 
         if($chatAction === "fetchChats"){
+
             $userID = $data["userID"];
             $userChats = [];
+
 
             foreach($conversations as $conversation){
                 if(in_array($userID, $conversation["betweenUsers"])){
