@@ -15,7 +15,7 @@
 }
 
 .profileBody #weekdays > div {
-    margin: 0 3.8vw;
+    margin: 0 2.7vw;
     display: flex;
     flex-direction: column;
 }
@@ -32,14 +32,14 @@
 }
 
 .profileBody .today {
-    padding: 3.2vw;
+    padding: 1vw;
     border-radius: 50%;
     background-color: rgb(130, 210, 183);
     font-weight: bold;
 }
 
 .profileBody #calendar {
-    margin-bottom: 20vh;
+    margin-bottom: 5vh;
 }
 
 
@@ -53,6 +53,10 @@
 header.profileHeader > #settingsButton {
     width: 24vw;
     font-size: 4.2vw;
+}
+
+.mainProfile #calendarWeek {
+    margin-bottom: 1.7vh;
 }
 
 .mainProfile .feeling {
@@ -84,4 +88,8 @@ header.profileHeader > #settingsButton {
 
 .mainProfile .fear {
     background-color: orange;
+}
+
+.mainProfile .forgiving {
+    background-color: green;
 }

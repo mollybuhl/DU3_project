@@ -6,7 +6,7 @@ require_once "friendRequests.php";
 //require_once "chat.php";
 require_once "feed.php";
 //require_once "login.php";
-//require_once "myProfile.php";
+require_once "myProfile.php";
 //require_once "register.php";
 //require_once "sharemood.php";
 
