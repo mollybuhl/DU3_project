@@ -17,7 +17,6 @@ if($requestMethod === "GET"){
     $requestJSON = file_get_contents("php://input");
     $requestData = json_decode($requestJSON, true);
 }
-//echo json_encode($requestData, JSON_PRETTY_PRINT);
 
 if(!isset($requestData["userID"]) || !isset($requestData["userPassword"]) || !isset($requestData["action"]) ){
     $message = ["message" => "Credentials missing"];
@@ -38,7 +37,7 @@ $userID = $requestData["userID"];
 $userPassword = $requestData["userPassword"];
 checkCredentials($userID, $userPassword, $users);
 
-$filenameConversations = __DIR__."/conversation.json";
+$filenameConversations = __DIR__."/conversations.json";
 $allConversations = [
     "privateChats" => [],
     "groupChats" => []
@@ -55,9 +54,11 @@ $allConversations = json_decode($json, true);
 $action = $requestData["action"];
 switch($action){
     case "register":
+        require_once "register.php";
         register($requestData);
         break;
     case "login":
+        require_once "login.php";
         login($requestData);
         break;
     case "feed":
@@ -67,12 +68,15 @@ switch($action){
         friendRequests($requestData);
         break;
     case "chat":
-        chat($requestData);
+        require_once "chat.php";
+        chat($requestData, $users, $allConversations);
         break;
     case "shareMood":
-        shareMood();
+        require_once "sharemood.php";
+        shareMood($requestData, $users);
         break;
     case "myProfile":
+        require_once "myProfile.php";
         myProfile($requestData);
         break;
 }

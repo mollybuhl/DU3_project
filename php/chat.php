@@ -1,346 +1,241 @@
 <?php
 
-require_once "functions.php";
+function chat($data, $users, $allConversations){
+    require_once "functions.php";
 
-$requestMethod = $_SERVER["REQUEST_METHOD"];
-$allowed = ["POST", "GET", "DELETE", "PATCH"];
-checkMethod($requestMethod, $allowed);
+    $requestMethod = $_SERVER["REQUEST_METHOD"];
+    $allowed = ["POST", "GET", "DELETE", "PATCH"];
+    checkMethod($requestMethod, $allowed);
 
-if($requestMethod == "GET"){
-    $filename =   __DIR__."users.json";
-    $users = [];
-    
-    // Check if file exists. If it doesn't, save $users within $filename. If it exists get contents from $filename then decode and save it in $users.
-    if(!file_exists($filename)){
-        $json = json_encode($users);
-        file_put_contents($filename, $json);
-    }else{
-        $json = file_get_contents($filename);
-        $users = json_decode($json, true);
-    }
+    if($requestMethod == "GET"){
 
-    // Get the logged in userID from the parameter sent with GET request.
-    $userID = $_GET["userID"];
-    $loggedInUser = "";
+        // Get the logged in userID from the parameter sent with GET request.
+        $userID = $data["userID"];
 
-    // Find the logged in user in users array.
-    foreach($users as $user){
-        if($user["id"] == $userID){
-            $loggedInUser = $user;
+        // Find the logged in user in users array.
+        foreach($users as $user1){
+            if($user1["id"] == $userID){
+                $userFriends = [];
+                foreach($users as $user2){
+                    if(in_array($user2["id"], $user1["friends"])){
+                        unset($user2["password"]);
+                        unset($user2["friends"]);
+                        $userFriends[] = $user2;
+                    }
+                }
+                sendJSON($userFriends, 200);
+            }
         }
+
     }
 
-    $usersFriendsWithUser = [];
+    if($requestMethod == "POST"){
+        $chatAction = $data["chatAction"];
 
-    // Find all users that is friends with the logged in user.
-    foreach($users as $user){
-        if(in_array($user["id"], $loggedInUser["friends"])){
-            unset($user["password"]);
-            unset($user["friends"]);
-            $usersFriendsWithUser[] = $user;
+        if(isset($data["type"])){
+            $type = $data["type"];
+
+            if($type == "privateChat"){
+                $conversations = $allConversations["privateChats"];
+            }
+            if($type == "groupChat"){
+                $conversations = $allConversations["groupChats"];
+            }
         }
-    }
-
-    sendJSON($usersFriendsWithUser, 200);
-}
-
-if($requestMethod == "POST"){
-    $filename = "php/conversations.json";
-    $allConversations = [
-        "privateChats" => [],
-        "groupChats" => []
-    ];
-    
-    // Check if file exists. If it doesn't, save $users within $filename. If it exists get contents from $filename then decode and save it in $users.
-    if(!file_exists($filename)){
-        $json = json_encode($allConversations, JSON_PRETTY_PRINT);
-        file_put_contents($filename, $json);
-    }else{
-        $json = file_get_contents($filename);
-        $allConversations = json_decode($json, true);
-    }
-
-    $requestJSON = file_get_contents("php://input");
-    $requestData = json_decode($requestJSON, true);
-
-    /* needs to add message to both your own conversations and the one you're chatting with, when POST request, send ID of user and users friend to later find the right conversations */
-
-    $action = $requestData["action"];
-
-    if(isset($requestData["type"])){
-        $type = $requestData["type"];
-        if($type == "privateChat"){
-            $conversations = $allConversations["privateChats"];
+        if(isset($data["chatID"])){
+            $chatID = $data["chatID"];
         }
-        if($type == "groupChat"){
-            $conversations = $allConversations["groupChats"];
-        }
-    }
-    if(isset($requestData["chatID"])){
-        $chatID = $requestData["chatID"];
-    }
 
-    if($action === "fetchChat"){
-        $users = json_decode(file_get_contents("php/users.json"), true);
-        $userID = $requestData["userID"];
-        $userPassword = $requestData["userPassword"];
+        if($chatAction === "fetchChat"){
+            $userID = $data["userID"];
 
-        checkCredentials($userID, $userPassword);
-
-        foreach($conversations as $conversation){
-            if($chatID == $conversation["id"]){
-                if(in_array($userID, $conversation["betweenUsers"])){
-                    foreach($conversation["messages"] as $messageIndex => $message){
-                        foreach($users as $user){   
-                            if($user["id"] == $message["sender"]){
-                                $conversation["messages"][$messageIndex]["sender"] = $user["username"];
+            foreach($conversations as $conversation){
+                if($chatID == $conversation["id"]){
+                    if(in_array($userID, $conversation["betweenUsers"])){
+                        foreach($conversation["messages"] as $messageIndex => $message){
+                            foreach($users as $user){   
+                                if($user["id"] == $message["sender"]){
+                                    $conversation["messages"][$messageIndex]["sender"] = $user["username"];
+                                }
                             }
                         }
+                        sendJSON($conversation, 200);
                     }
-                    sendJSON($conversation, 200);
                 }
             }
+
+            $error = ["message" => "Sorry the chat was not found."];
+            sendJSON($error, 404);
         }
 
-        $error = ["message" => "Sorry the chat was not found."];
-        sendJSON($error, 404);
-        
-    }
+        if($chatAction === "fetchChats"){
+            $userID = $data["userID"];
+            $userChats = [];
 
-    if($action === "fetchChats"){
-
-        if(!isset($requestData["userID"]) or !isset($requestData["userPassword"])){
-            $message = ["message" => "Sorry you didn't provide the right information."];
-            sendJSON($message, 400);
-        }
-
-        $userID = $requestData["userID"];
-        $userPassword = $requestData["userPassword"];
-
-        checkCredentials($userID, $userPassword);
-
-        $userChats = [];
-
-        foreach($conversations as $conversation){
-            if(in_array($userID, $conversation["betweenUsers"])){
-                $userChats[] = $conversation;
-            }
-        }
-
-        sendJSON($userChats, 200);
-    }
-
-    if($action == "createGroupChat"){
-        $conversations = $allConversations["groupChats"];
-
-        $groupName = $requestData["groupName"];
-        $groupOwner = $requestData["groupOwner"];
-        $groupOwnerPassword = $requestData["groupOwnerPassword"];
-        $betweenUsers = $requestData["betweenUsers"];
-
-        checkCredentials($groupOwner, $groupOwnerPassword);
-
-        $highestConversationID = 0;
-
-        foreach($conversations as $conversation){
-            if($conversation["id"] > $highestConversationID){
-                $highestConversationID = $conversation["id"];
-            }
-        }
-
-        $newGroupChat = [
-            "id" => $highestConversationID + 1,
-            "name" => $groupName,
-            "owner" => $groupOwner,
-            "betweenUsers" => $betweenUsers,
-            "messages" => []
-        ];
-
-        $allConversations["groupChats"][] = $newGroupChat;
-
-        $json = json_encode($allConversations, JSON_PRETTY_PRINT);
-        file_put_contents($filename, $json);
-        sendJSON($newGroupChat, 200);
-    }
-
-    if($action == "createPrivateChat"){
-        $conversations = $allConversations["privateChats"];
-
-        $userID = $requestData["userID"];
-        $userPassword = $requestData["userPassword"];
-        $betweenUsers = $requestData["betweenUsers"];
-
-        checkCredentials($userID, $userPassword);
-
-        $highestConversationID = 0;
-
-        foreach($conversations as $conversation){
-            if($conversation["id"] > $highestConversationID){
-                $highestConversationID = $conversation["id"];
-            }
-        }
-
-        $newConversation = [
-            "id" => $highestConversationID + 1,
-            "betweenUsers" => $betweenUsers,
-            "messages" => []
-        ];
-
-        $allConversations["privateChats"][] = $newConversation;
-        $json = json_encode($allConversations, JSON_PRETTY_PRINT);
-        file_put_contents($filename, $json);
-
-        sendJSON($newConversation, 200);
-
-    }
-
-    if($action === "postMessage"){
-        $userID = $requestData["message"]["sender"];
-        $typeInPlural = $type . "s";
-
-        foreach($conversations as $convoIndex => $conversation){
-            if($conversation["id"] == $chatID){
+            foreach($conversations as $conversation){
                 if(in_array($userID, $conversation["betweenUsers"])){
-                    $newMessage = $requestData["message"];
+                    $userChats[] = $conversation;
+                }
+            }
 
-                    $convoMessages = $conversation["messages"];
-                    $highestMessageID = 0;
-            
-                    foreach($convoMessages as $message){
-                        if($message["id"] > $highestMessageID){
-                            $highestMessageID = $message["id"];
+            sendJSON($userChats, 200);
+        }
+
+        if($chatAction == "createGroupChat"){
+            $conversations = $allConversations["groupChats"];
+
+            $chatName = $data["chatName"];
+            $chatOwner = $data["userID"];
+            $betweenUsers = $data["betweenUsers"];
+
+            $highestConversationID = 0;
+
+            foreach($conversations as $conversation){
+                if($conversation["id"] > $highestConversationID){
+                    $highestConversationID = $conversation["id"];
+                }
+            }
+
+            $newGroupChat = [
+                "id" => $highestConversationID + 1,
+                "name" => $chatName,
+                "ownerID" => $chatOwner,
+                "betweenUsers" => $betweenUsers,
+                "messages" => []
+            ];
+
+            $allConversations["groupChats"][] = $newGroupChat;
+
+            putInConversationsJSON($allConversations);
+            sendJSON($newGroupChat, 200);
+        }
+
+        if($chatAction == "createPrivateChat"){
+            $conversations = $allConversations["privateChats"];
+
+            $userID = $data["userID"];
+            $betweenUsers = $data["betweenUsers"];
+
+            $highestConversationID = 0;
+
+            foreach($conversations as $conversation){
+                if($conversation["id"] > $highestConversationID){
+                    $highestConversationID = $conversation["id"];
+                }
+            }
+
+            $newConversation = [
+                "id" => $highestConversationID + 1,
+                "betweenUsers" => $betweenUsers,
+                "messages" => []
+            ];
+
+            $allConversations["privateChats"][] = $newConversation;
+
+            putInConversationsJSON($allConversations);
+            sendJSON($newConversation, 200);
+        }
+
+        if($chatAction === "postMessage"){
+            $userID = $data["message"]["sender"];
+            $typeInPlural = $type . "s";
+
+            foreach($conversations as $convoIndex => $conversation){
+                if($conversation["id"] == $chatID){
+                    if(in_array($userID, $conversation["betweenUsers"])){
+                        $newMessage = $data["message"];
+
+                        $convoMessages = $conversation["messages"];
+                        $highestMessageID = 0;
+                
+                        foreach($convoMessages as $message){
+                            if($message["id"] > $highestMessageID){
+                                $highestMessageID = $message["id"];
+                            }
                         }
-                    }
-            
-                    $newMessage["id"] = $highestMessageID + 1;  
-    
-                    $allConversations[$typeInPlural][$convoIndex]["messages"][] = $newMessage;
-                            
-                    $json = json_encode($allConversations, JSON_PRETTY_PRINT);
-                    file_put_contents($filename, $json);
+                
+                        $newMessage["id"] = $highestMessageID + 1;  
         
-                    sendJSON($newMessage, 200);
+                        $allConversations[$typeInPlural][$convoIndex]["messages"][] = $newMessage;
+                                
+                        putInConversationsJSON($allConversations);
+                        sendJSON($newMessage, 200);
+                    }
                 }
             }
         }
     }
-}
 
-if($requestMethod == "DELETE"){
-    $filename = "php/conversations.json";
-    $allConversations = [
-        "privateChats" => [],
-        "groupChats" => []
-    ];
+    if($requestMethod == "DELETE"){
+        
+        $groupChats = $allConversations["groupChats"];
 
-    // Check if file exists. If it doesn't, save $users within $filename. If it exists get contents from $filename then decode and save it in $users.
-    if(!file_exists($filename)){
-        $json = json_encode($allConversations, JSON_PRETTY_PRINT);
-        file_put_contents($filename, $json);
-    }else{
-        $json = file_get_contents($filename);
-        $allConversations = json_decode($json, true);
-    }
+        $chatAction = $data["chatAction"];
+        $chatID = $data["chatID"];
+        $userID = $data["userID"];
 
-    $requestJSON = file_get_contents("php://input");
-    $requestData = json_decode($requestJSON, true);
+        if($chatAction == "deleteGroup"){
+            foreach($groupChats as $chatIndex => $chat){
+                if($chat["id"] == $chatID){
+                    if($chat["ownerID"] == $userID){
+                        unset($allConversations["groupChats"][$chatIndex]);
 
-    $groupChats = $allConversations["groupChats"];
+                        putInConversationsJSON($allConversations);
+                        sendJSON($chat, 200);
+                    }
+                }
+            }
+        }
 
-    $action = $requestData["action"];
-    $chatID = $requestData["chatID"];
-    $userID = $requestData["userID"];
-    $userPassword = $requestData["userPassword"];
+        if($chatAction == "leaveGroup"){
+            foreach($groupChats as $chatIndex => $chat){
+                if($chat["id"] == $chatID){
+                    $indexOfUserID = array_search($userID, $chat["betweenUsers"]);
+                    unset($allConversations["groupChats"][$chatIndex]["betweenUsers"][$indexOfUserID]);
 
-    checkCredentials($userID, $userPassword);
-
-    if($action == "deleteGroup"){
-        foreach($groupChats as $chatIndex => $chat){
-            if($chat["id"] == $chatID){
-                if($chat["owner"] == $userID){
-                    unset($allConversations["groupChats"][$chatIndex]);
-
-                    $json = json_encode($allConversations, JSON_PRETTY_PRINT);
-                    file_put_contents($filename, $json);
+                    putInConversationsJSON($allConversations);
                     sendJSON($chat, 200);
                 }
             }
         }
     }
 
-    if($action == "leaveGroup"){
-        foreach($groupChats as $chatIndex => $chat){
-            if($chat["id"] == $chatID){
-                $indexOfUserID = array_search($userID, $chat["betweenUsers"]);
-                unset($allConversations["groupChats"][$chatIndex]["betweenUsers"][$indexOfUserID]);
+    if($requestMethod == "PATCH"){
+        $groupChats = $allConversations["groupChats"];
 
-                $json = json_encode($allConversations, JSON_PRETTY_PRINT);
-                file_put_contents($filename, $json);
-                sendJSON($chat, 200);
-            }
-        }
-    }
-}
+        $chatAction = $data["chatAction"];
+        $chatID = $data["chatID"];
+        $userID = $data["userID"];
 
-if($requestMethod == "PATCH"){
-    $filename = "php/conversations.json";
-    $allConversations = [
-        "privateChats" => [],
-        "groupChats" => []
-    ];
+        if($chatAction == "editMembers"){
+            $updatedMembers = $data["betweenUsers"];
 
-    // Check if file exists. If it doesn't, save $users within $filename. If it exists get contents from $filename then decode and save it in $users.
-    if(!file_exists($filename)){
-        $json = json_encode($allConversations, JSON_PRETTY_PRINT);
-        file_put_contents($filename, $json);
-    }else{
-        $json = file_get_contents($filename);
-        $allConversations = json_decode($json, true);
-    }
+            foreach($groupChats as $chatIndex => $chat){
+                if($chat["id"] == $chatID){
+                    if($userID == $chat["ownerID"]){
+                        $allConversations["groupChats"][$chatIndex]["betweenUsers"] = $updatedMembers;
 
-    $requestJSON = file_get_contents("php://input");
-    $requestData = json_decode($requestJSON, true);
-
-    $groupChats = $allConversations["groupChats"];
-
-    $action = $requestData["action"];
-    $chatID = $requestData["chatID"];
-    $userID = $requestData["userID"];
-    $userPassword = $requestData["userPassword"];
-
-    checkCredentials($userID, $userPassword);
-
-    if($action == "editMembers"){
-        $updatedMembers = $requestData["betweenUsers"];
-
-        foreach($groupChats as $chatIndex => $chat){
-            if($chat["id"] == $chatID){
-                if($userID == $chat["owner"]){
-                    $allConversations["groupChats"][$chatIndex]["betweenUsers"] = $updatedMembers;
-
-                    $json = json_encode($allConversations, JSON_PRETTY_PRINT);
-                    file_put_contents($filename, $json);
-                    sendJSON($chat, 200);
+                        putInConversationsJSON($allConversations);
+                        sendJSON($chat, 200);
+                    }
                 }
             }
         }
-    }
 
-    if($action == "changeGroupName"){
-        $newGroupName = $requestData["name"];
+        if($chatAction == "changeGroupName"){
+            $newGroupName = $data["name"];
 
-        foreach($groupChats as $chatIndex => $chat){
-            if($chat["id"] == $chatID){
-                if($userID == $chat["owner"]){
-                    $allConversations["groupChats"][$chatIndex]["name"] = $newGroupName;
-                    
-                    $json = json_encode($allConversations, JSON_PRETTY_PRINT);
-                    file_put_contents($filename, $json);
-                    sendJSON($chat, 200);
+            foreach($groupChats as $chatIndex => $chat){
+                if($chat["id"] == $chatID){
+                    if($userID == $chat["ownerID"]){
+                        $allConversations["groupChats"][$chatIndex]["name"] = $newGroupName;
+                        
+                        putInConversationsJSON($allConversations);
+                        sendJSON($chat, 200);
+                    }
                 }
             }
         }
     }
 }
 ?>
-

@@ -1,7 +1,8 @@
 "use strict";
 
 function renderPostingModal(){
-    let userID = parseInt(window.localStorage.getItem("userId"));
+    const userID = parseInt(window.localStorage.getItem("userId"));
+    const userPassword = window.localStorage.getItem("userPassword");
     let mood;
     let apiCategory;
     let quoteObject;
@@ -73,7 +74,6 @@ function renderPostingModal(){
         const response = await fetch(request);
         const resource = await response.json();
         quoteObject = await resource[0];
-        console.log(quoteObject.quote);
         const quoteDiv = postMoodModal.querySelector("#quote");
         quoteDiv.textContent = quoteObject.quote;
     }
@@ -92,20 +92,21 @@ function renderPostingModal(){
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({
-                id: userID,
+                action: "shareMood",
+                userID: userID,
+                userPassword: userPassword,
                 mood: mood,
                 description: description,
-                quote: quoteObject,
+                quote: quoteObject.quote,
                 dayOfWeek: dayOfWeek,
                 timestamp: timestamp
             })
         }
         
-        const request = new Request("../php/sharemood.php", requestOptions);
-        let response = await fetch(request);
-        let resource = await response.json();
+        const response = await fetchAPI(false, requestOptions);
+        const resource = await response.json();
     
-        document.querySelector(".moodModal").classList.add("hidden");
+        postMoodModal.remove();
         renderFeedPage();
     }
 }
