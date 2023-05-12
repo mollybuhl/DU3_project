@@ -62,7 +62,7 @@ $action = $requestData["action"];
 switch($action){
     case "register":
         require_once "register.php";
-        register($requestData);
+        register($requestData, $users);
         break;
     case "login":
         login($requestData, $users);
