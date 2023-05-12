@@ -28,7 +28,7 @@ if(!file_exists($filenameUsers)){
 $json = file_get_contents($filenameUsers);
 $users = json_decode($json, true);
 
-$filenameConversations = __DIR__."/conversation.json";
+$filenameConversations = __DIR__."/conversations.json";
 $allConversations = [
     "privateChats" => [],
     "groupChats" => []
@@ -61,7 +61,6 @@ if(!$requestData["action"] == "login" || !$requestData["action"] == "register"){
 $action = $requestData["action"];
 switch($action){
     case "register":
-        require_once "register.php";
         register($requestData, $users);
         break;
     case "login":
@@ -74,15 +73,12 @@ switch($action){
         friendRequests($requestData);
         break;
     case "chat":
-        require_once "chat.php";
         chat($requestData, $users, $allConversations);
         break;
     case "shareMood":
-        require_once "sharemood.php";
         shareMood($requestData, $users);
         break;
     case "myProfile":
-        require_once "myProfile.php";
         myProfile($requestData);
         break;
 }
