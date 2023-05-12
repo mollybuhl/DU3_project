@@ -24,9 +24,9 @@ async function fetchAPI(isGET, requestOptions, createFetchModal = true){
             request = new Request("php/api.php", requestOptions);
         }
         const response = await fetch(request);
-    
+
         if(!response.ok){
-            if(body.querySelector(".fetchModal") === null){
+            if(!body.querySelector(".fetchModal")){
                 const fetchModal = document.createElement("div");
                 fetchModal.classList.add("fetchModal");
                 body.appendChild(fetchModal);
@@ -40,10 +40,13 @@ async function fetchAPI(isGET, requestOptions, createFetchModal = true){
             </div>
             `
             fetchModal.querySelector("div > button").addEventListener("click", event => fetchModal.remove());
-
+            
             return response;
         }else{
-            body.querySelector(".fetchModal").remove();
+            if(body.querySelector(".fetchModal")){
+                body.querySelector(".fetchModal").remove();
+            }
+            
             return response;
         }
     }catch(error){
