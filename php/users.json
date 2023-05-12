@@ -160,5 +160,35 @@
         "profilePicture": "..\/media\/profile_imgs\/profile_icon_1.jpg",
         "id": 7,
         "firstTime": false
+    },
+    {
+        "username": "testtest",
+        "password": "testtest",
+        "loggedFeelings": [],
+        "friends": [],
+        "friendRequests": [],
+        "posts": [],
+        "profilePicture": "..\/media\/profile_imgs\/",
+        "id": 8
+    },
+    {
+        "username": "testtest1",
+        "password": "testtest1",
+        "loggedFeelings": [],
+        "friends": [],
+        "friendRequests": [],
+        "posts": [],
+        "profilePicture": "..\/media\/profile_imgs\/profile_icon_2.jpg",
+        "id": 9
+    },
+    {
+        "username": "ojoj",
+        "password": "ojoj",
+        "loggedFeelings": [],
+        "friends": [],
+        "friendRequests": [],
+        "posts": [],
+        "profilePicture": "..\/media\/profile_imgs\/profile_icon_3.jpg",
+        "id": 10
     }
 ]
