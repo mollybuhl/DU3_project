@@ -35,8 +35,6 @@ function renderRegisterPage(){
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({
                 action: "register",
-                userID: userID,
-                userPassword: userPassword,
                 username: username,
                 password: password,
             })
