@@ -3,6 +3,11 @@
 /*
     - Connect friend chat to chat icon 
     - Action if fetch users fail
+    - Post-class colors
+    - Fade-out header
+    - Menu style selected
+    - No scroll with pop-up
+    - Friends name and img display
 */
 
 async function renderFeedPage(){
@@ -192,8 +197,8 @@ async function renderFeedPage(){
             case "Jealous":
                 newPost.classList.add("jealous");
             break;
-            case "Fearful":
-                newPost.classList.add("fearful");
+            case "Fear":
+                newPost.classList.add("fear");
             break;
         }
 

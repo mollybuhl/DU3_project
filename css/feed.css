@@ -320,6 +320,23 @@ div.post.sad{
 div.post.happy{
     border-color: #78B8A0;
 }
+div.post.angry{
+    border-color: #F98989;
+}
+div.post.couragious{
+    border-color: #F1FABB;
+}
+div.post.forgiving{
+    border-color: #EC72D9;
+}
+div.post.jealous{
+    border-color: #EFA35D;
+}
+div.post.fear{
+    border-color: #625FE0;
+}
+
+
 /*MAIN: Post image and title box*/
 div.post > div:first-child{
     display: flex;
