@@ -111,6 +111,7 @@ header.feedHeader > .friendDisplay > .friends > div{
 
     display: flex;
     justify-content: flex-start;
+    align-items: center;
     gap: 2vh;
 } 
 
@@ -123,12 +124,13 @@ div.friends > div > img{
 }
 /*Friends display: Each friend chat icon*/
 div.friends > div > div.chat_icon{
-    height: 5vh;
-    width: 5vh;
+    height: 4vh;
+    width: 4vh;
     background-image: url("../media/chat2.png");
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
+    cursor: pointer;
 }
 
 header.feedHeader > div.friendDisplay > div.friendRequestsDisplay{
@@ -147,6 +149,8 @@ header.feedHeader > div.friendDisplay > div.friendRequestsDisplay > #activeReque
 /*Each request*/
 header.feedHeader > div.friendDisplay > div.friendRequestsDisplay > #activeRequests > div{
     display: flex;
+    align-items: center;
+    gap: 2vh;
 }
 
 header.feedHeader > div.friendDisplay > div.friendRequestsDisplay > #activeRequests > div > img{
@@ -158,6 +162,19 @@ header.feedHeader > div.friendDisplay > div.friendRequestsDisplay > #activeReque
     background-repeat: no-repeat;
     background-size: contain;
 }
+
+header.feedHeader > div.friendDisplay > div.friendRequestsDisplay > #activeRequests > div > button{
+    width: 20%;
+    border-radius: 10px;
+    height: 5vh;
+    background-color: #ffffffbd;
+    font-family: aboreto;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0px 0px 10px 1px black;   
+}
+
 
 /*Friends display: Search*/
 #searchWrapper{

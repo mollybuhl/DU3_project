@@ -1,3 +1,9 @@
+"use strict";
+
+/*
+    - Connect friend chat to chat icon 
+    - Action if fetch users fail
+*/
 
 async function renderFeedPage(){
     let UserID = (Number(window.localStorage.getItem("userId"))); 
@@ -21,7 +27,7 @@ async function renderFeedPage(){
     let response = await fetchAPI(true, `action=feed&userID=${UserID}&userPassword=${password}`);
     
     if(!response.ok){
-        //Logout?
+        window.localStorage.clear();
     }
 
     let Users = await response.json();
@@ -79,7 +85,7 @@ async function renderFeedPage(){
         });
     }
     
-    //For each friend create a display with their X last posts
+    //For each friend create a display with their 7 last posts
     let friendsOfUser = User.friends;
     let friendNames = [];
 
@@ -91,7 +97,7 @@ async function renderFeedPage(){
         main.querySelector(".feedWrapper").appendChild(noPostInfoDisplay);
         
     }else{
-        friendsPostStatus = "noPosts";
+        let friendsPostStatus = "noPosts";
 
         friendsOfUser.forEach(friendId => {
             Users.forEach(user => {
@@ -237,6 +243,13 @@ async function renderFeedPage(){
             <h3>${friend["username"]}</h3>
             <div class="chat_icon"></div>
         `;
+
+        //How should this be done?
+        friendBox.querySelector(".chat_icon").addEventListener("click", renderFriendChat);
+        function renderFriendChat(){
+            
+        }
+
         document.querySelector("header > .friendDisplay > .friends").appendChild(friendBox);
     })
 
