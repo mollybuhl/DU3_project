@@ -3,7 +3,10 @@
         "username": "ossian",
         "password": "1234",
         "loggedFeelings": [],
-        "friends": [],
+        "friends": [
+            2,
+            3
+        ],
         "friendRequests": [],
         "posts": [],
         "profilePicture": "..\/media\/profile_imgs\/profile_icon_2.jpg",
@@ -27,7 +30,8 @@
         "password": "testchat2",
         "loggedFeelings": [],
         "friends": [
-            1
+            1,
+            2
         ],
         "friendRequests": [],
         "posts": [],

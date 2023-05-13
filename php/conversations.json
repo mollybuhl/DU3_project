@@ -1,45 +1,4 @@
 {
     "privateChats": [
-        {
-            "id": 1,
-            "betweenUsers": [
-                2,
-                1
-            ],
-            "messages": [
-                {
-                    "sender": 2,
-                    "text": "tja",
-                    "timestamp": "12:47, 12 May",
-                    "id": 1
-                },
-                {
-                    "sender": 2,
-                    "text": "tjena",
-                    "timestamp": "12:47, 12 May",
-                    "id": 2
-                }
-            ]
-        }
-    ],
-    "groupChats": [
-        {
-            "id": 1,
-            "name": "testklubben",
-            "ownerID": 2,
-            "betweenUsers": [
-                2,
-                1,
-                3
-            ],
-            "messages": [
-                {
-                    "sender": 1,
-                    "text": "hejsan",
-                    "timestamp": "12:48, 12 May",
-                    "id": 1
-                }
-            ]
-        }
     ]
 }
