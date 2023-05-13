@@ -3,7 +3,7 @@
 function renderRegisterPage(){
     document.querySelector("body").classList.add("bodyRegisterLogin");
     let headerButton = document.querySelector("header > .loginButton");
-    headerButton.classList.remove("hidden");
+    headerButton.classList.add("hidden");
 
     const mainDom = document.querySelector("body > main");
     mainDom.classList.add("mainRegister");
@@ -17,7 +17,7 @@ function renderRegisterPage(){
             <label for="password">Password</label>
             <input type="password" id="registerPassword" name="password" placeholder="Enter password">
         </div>
-        <p id="messageToUser"></p>
+        <p class="messageToUser"></p>
         <button>Register</button>
     </div>
     `;
@@ -43,8 +43,8 @@ function renderRegisterPage(){
             let response = await fetchAPI(false, requestOptions);
             let resource = await response.json();
         
-            const messageToUserDom = document.querySelector("#messageToUser");
-        
+            const messageToUserDom = document.querySelector(".messageToUser");
+            messageToUserDom.classList.add("visable");
             // If the response was unsuccessful for any reason, print the error message to the user. Otherwise tell the user their account has been created then redirect them to the login page.
             if(!response.ok){
                 messageToUserDom.innerHTML = resource.message;

@@ -26,29 +26,6 @@ header.headerHome > .logo{
     font-size: 25px;
 }
 
-button{
-    height: 5vh;
-    width: 25vw;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    border-radius: 40px;
-    border: none;
-    font-size: 25px;
-    font-family: aboreto; 
-    background:whitesmoke;
-    color: grey;
-
-    cursor: pointer;
-}
-
-button:hover{
-    background-color: #dcdcdc;
-    
-}
-
 .mainHome > .introduction{
     height: 60vh;
     padding: 2vh;
@@ -77,11 +54,6 @@ h4{
     text-align: left;
     font-size: 19px;
     line-height: 3vh;
-}
-
-.introduction > button{
-    width: 30vw;
-    margin-top: 2vh;
 }
 
 .introduction > .homeImage{
@@ -122,13 +94,41 @@ h4{
     object-position: center;
 }
 
+
+
+.headerHome > button, .mainHome > .introduction > button, .mainHome > .guide > button{
+    height: 5vh;
+    width: 25vw;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 40px;
+    border: none;
+    font-size: 25px;
+    font-family: aboreto; 
+    background:whitesmoke;
+    color: grey;
+
+    cursor: pointer;
+}
+
+button:hover{
+    background-color: #dcdcdc;
+    
+}
+
+.mainHome > .introduction > button{
+    width: 35vw;
+    margin-top: 2vh;
+}
+
 .mainHome > .guide > button{
     height: 8vh;
     width: 50vw;
     margin: 4vh;
 }
-
-
 
 
 

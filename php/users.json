@@ -8,5 +8,25 @@
         "posts": [],
         "profilePicture": "..\/media\/profile_imgs\/profile_icon_1.jpg",
         "id": 1
+    },
+    {
+        "username": "molly",
+        "password": "222",
+        "loggedFeelings": [],
+        "friends": [],
+        "friendRequests": [],
+        "posts": [],
+        "profilePicture": "..\/media\/profile_imgs\/profile_icon_1.jpg",
+        "id": 2
+    },
+    {
+        "username": "molly1",
+        "password": "molly1",
+        "loggedFeelings": [],
+        "friends": [],
+        "friendRequests": [],
+        "posts": [],
+        "profilePicture": "..\/media\/profile_imgs\/profile_icon_3.jpg",
+        "id": 3
     }
 ]

@@ -62,13 +62,33 @@ header > .loginButton.hidden{
     box-shadow: 0px 0px 10px 4px rgb(85, 85, 85);
 }
 
-.messageToUser{
-    padding: 1vh;
-    height: 4vh;
+.mainLogin > .wrapper > p.messageToUser, .mainRegister > .wrapper > p.messageToUser{
     width: 80%;
     text-align: center;
+
+    margin-top: 2vh;
+    border-radius: 10px;
+    padding: 1vh;
+}
+
+.messageToUser.visable{
+    background-color: white;
 }
 
 .mainRegister > .wrapper > button, .mainLogin > .wrapper > button{
     width: 35vw;
+    height: 5vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 40px;
+    border: none;
+    font-size: 25px;
+    font-family: aboreto; 
+    background:whitesmoke;
+    color: grey;
+
+    cursor: pointer;
 }
