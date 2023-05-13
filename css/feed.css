@@ -236,7 +236,10 @@ main.mainFeed{
 }
 /*MAIN: Info if nothing is posted*/
 .mainFeed > div.feedWrapper > .no_post_info{
-    color: whitesmoke;
+    background-color: #fffc;
+    color: black;
+    border-radius: 20px;
+    padding: 1vh;
     z-index: 3;
 }
 
@@ -281,6 +284,7 @@ div.post{
     background-color: #F4F4F4A8;
     min-width: 70vw;
     height: 16vh;
+    overflow: scroll;
 
     border-radius: 10px;
     box-shadow: 0px 0px 20px 2px rgb(55, 55, 55);
