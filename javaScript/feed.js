@@ -3,7 +3,6 @@
 /*
     - Connect friend chat to chat icon 
     - Action if fetch users fail
-    - Post-class colors
     - Fade-out header
     - Menu style selected
     - No scroll with pop-up
@@ -377,31 +376,29 @@ async function handleFriendRequset(requestFrom, requestTo, action){
             actionCredentials:{"requestAction": action, "requestTo": requestTo, "requestFrom": requestFrom},
         })
     }
-        let response = await fetchAPI(false, requestOptions);
-        let resource = await response.json();
     
-        // If the response was unsuccessful for any reason, print the error message to the user. Otherwise tell the user their account has been created then redirect them to the login page.
-        if(!response.ok){
-            document.querySelector("#searchWrapper > .messageToUser").textContent = `${resource.message}`;
+    let response = await fetchAPI(false, requestOptions);
+    let resource = await response.json();
+    
+    // If the response was unsuccessful for any reason, print the error message to the user. Otherwise tell the user their account has been created then redirect them to the login page.
+    if(!response.ok){
+        document.querySelector("#searchWrapper > .messageToUser").textContent = `${resource.message}`;
 
-        }else{ 
+    }else{ 
         
-            if(resource.action === "acceptRequest"){
-                document.querySelector("#searchWrapper > .messageToUser").textContent = "Friend Request Accepted";
-                renderFeedPage();
-            } 
-            if(resource.action === "declineRequest"){
-                document.querySelector("#searchWrapper > .messageToUser").textContent = "Friend Request Declined";
-                renderFeedPage();
-            }
-            if(resource.action === "sendRequest"){
-                document.querySelector("#searchWrapper > .messageToUser").textContent = `A Friend Request was sent to ${searchName}!`;
-                document.querySelector("#searchWrapper > form > input").value = "";
-            }     
-
-
+        if(resource.action === "acceptRequest"){
+            document.querySelector("#searchWrapper > .messageToUser").textContent = "Friend Request Accepted";
+            renderFeedPage();
+        } 
+        if(resource.action === "declineRequest"){
+            document.querySelector("#searchWrapper > .messageToUser").textContent = "Friend Request Declined";
+            renderFeedPage();
         }
-    
+        if(resource.action === "sendRequest"){
+            document.querySelector("#searchWrapper > .messageToUser").textContent = `A Friend Request was sent to ${requestTo}!`;
+            document.querySelector("#searchWrapper > form > input").value = "";
+        }     
+    }
 }
 
 
