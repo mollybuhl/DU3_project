@@ -38,23 +38,30 @@ if($action == "sendRequest"){
 if($action == "acceptRequest") {
 
     foreach($users as $index => $user){
-        if($user["id"] === $requestTo){
+        if($user["id"] == $requestTo){
             $users[$index]["friends"][] = $requestFrom;
+            putInUsersJSON($users);
 
             $friendRequests = $users[$index]["friendRequests"];
 
             foreach($friendRequests as $requestIndex => $request){
                 if($request == $requestFrom){
                     array_splice($users[$index]["friendRequests"], $requestIndex, 1);
-
                     putInUsersJSON($users);
-                    $message = ["message" => "Friend request accepted", "action" => "acceptRequest"];
-                    sendJSON($message);
+
+                    foreach($users as $index => $user){
+                        if($user["id"] == $requestFrom){
+                            $users[$index]["friends"][] = $requestTo;
+                            putInUsersJSON($users);
+                
+                            $message = ["message" => "Friend request accepted", "action" => "acceptRequest"];
+                            sendJSON($message);
+                        }
+                    }
                 }
             }
         }
-    }
-    
+    }  
 }
 
 if($action == "declineRequest") {

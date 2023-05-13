@@ -59,7 +59,12 @@
                 ]
             }
         ],
-        "friends": [],
+        "friends": [
+            4,
+            5,
+            6,
+            3
+        ],
         "friendRequests": [],
         "posts": [
             {
@@ -150,7 +155,18 @@
     {
         "username": "molly1",
         "password": "molly1",
-        "loggedFeelings": [],
+        "loggedFeelings": [
+            {
+                "week": "May 8-14, 2023",
+                "weekId": 1,
+                "Saturday": [
+                    {
+                        "postId": 1,
+                        "moodOfPost": "Sad"
+                    }
+                ]
+            }
+        ],
         "friends": [
             2
         ],
@@ -168,5 +184,77 @@
         ],
         "profilePicture": "..\/media\/profile_imgs\/profile_icon_3.jpg",
         "id": 3
+    },
+    {
+        "username": "molly2",
+        "password": "molly2",
+        "loggedFeelings": [],
+        "friends": [],
+        "friendRequests": [],
+        "posts": [],
+        "profilePicture": "..\/media\/profile_imgs\/profile_icon_1.jpg",
+        "id": 4
+    },
+    {
+        "username": "molly3",
+        "password": "molly3",
+        "loggedFeelings": [
+            {
+                "week": "May 8-14, 2023",
+                "weekId": 1,
+                "Saturday": [
+                    {
+                        "postId": 1,
+                        "moodOfPost": "Fear"
+                    }
+                ]
+            }
+        ],
+        "friends": [],
+        "friendRequests": [],
+        "posts": [
+            {
+                "postID": 1,
+                "userID": 5,
+                "mood": "Fear",
+                "description": "Scary!",
+                "quote": "Let us never negotiate out of fear. But let us never fear to negotiate.",
+                "dayOfWeek": "Saturday",
+                "timestamp": "15:26, 13 May"
+            }
+        ],
+        "profilePicture": "..\/media\/profile_imgs\/profile_icon_2.jpg",
+        "id": 5
+    },
+    {
+        "username": "molly4",
+        "password": "molly4",
+        "loggedFeelings": [
+            {
+                "week": "May 8-14, 2023",
+                "weekId": 1,
+                "Saturday": [
+                    {
+                        "postId": 1,
+                        "moodOfPost": "Happy"
+                    }
+                ]
+            }
+        ],
+        "friends": [],
+        "friendRequests": [],
+        "posts": [
+            {
+                "postID": 1,
+                "userID": 6,
+                "mood": "Happy",
+                "description": "HAppy days!",
+                "quote": "I believe economic growth should translate into the happiness and progress of all. Along with it, there should be development of art and culture, literature and education, science and technology. We have to see how to harness the many resources of India for achieving common good and for inclusive growth.",
+                "dayOfWeek": "Saturday",
+                "timestamp": "15:27, 13 May"
+            }
+        ],
+        "profilePicture": "..\/media\/profile_imgs\/profile_icon_3.jpg",
+        "id": 6
     }
 ]
