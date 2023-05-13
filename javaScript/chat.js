@@ -17,7 +17,14 @@ TODO:
 // Renders the chat page.
 async function renderChatPage(){
     const user = parseInt(window.localStorage.getItem("userId"));
-    const userPassword = window.localStorage.getItem("userPassword")
+    const userPassword = window.localStorage.getItem("userPassword");
+
+    
+    document.querySelector(".footerFeed > div > .postButton").parentElement.classList.remove("selected");
+    document.querySelector(".footerFeed > div > .feedButton").parentElement.classList.remove("selected");
+    document.querySelector(".footerFeed > div > .profileButton").parentElement.classList.remove("selected");
+    document.querySelector(".footerFeed > div > .chatButton").parentElement.classList.add("selected");
+
 
     const body = document.querySelector("body");
     body.removeAttribute("class");

@@ -3,6 +3,10 @@
     position: relative;
 }
 
+body.noScroll{
+    overflow: hidden;
+}
+
 /*HEADER*/
 /*HEADER: Header in feed*/
 .feedHeader{
@@ -391,7 +395,6 @@ footer.footerFeed{
     align-items: center;
 
     height: 8vh;
-    padding: 1vh;
     border-radius: 10px 10px 0 0;
     box-shadow: -5px 0px 15px 1px #272727;
     z-index: 3;
@@ -404,41 +407,38 @@ footer.footerFeed{
 
     height: 100%;
     width: 50%;
+    padding: 1vh;
     cursor: pointer;
 }
 
 /*FOOTER: Feed icon*/
-footer.footerFeed > .feedButton{
-    background-image: url(../media/feed_icon.png);
+footer.footerFeed > div > div{
+    height: 100%;
+    width: 100%;
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
+}
+
+footer.footerFeed > div > .feedButton{
+    background-image: url(../media/feed_icon.png);
 }
 
 /*FOOTER: Profile icon*/
-footer.footerFeed > .profileButton{
+footer.footerFeed > div > .profileButton{
     background-image: url(../media/profile_icon.png);
-    background-position: center;
-    background-size: contain;
-    background-repeat: no-repeat;
 }
 
 /*FOOTER: Chat icon*/
-footer.footerFeed > .chatButton{
+footer.footerFeed > div > .chatButton{
     background-image: url(../media/chat.png);
-    background-position: center;
-    background-size: contain;
-    background-repeat: no-repeat;
 }
 /*FOOTER: Post icon*/
-footer.footerFeed > .postButton{
+footer.footerFeed > div > .postButton{
     background-image: url(../media/add.png);
-    background-position: center;
-    background-size: contain;
-    background-repeat: no-repeat;
 }
 
 footer.footerFeed > div.selected{
-    background-color:  #7d7d7dd5;
+    background-color:  #4b636c;
 }
 

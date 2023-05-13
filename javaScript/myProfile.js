@@ -2,6 +2,12 @@
 
 async function renderProfilePage() {
 
+    document.querySelector(".footerFeed > div > .chatButton").parentElement.classList.remove("selected");
+    document.querySelector(".footerFeed > div > .feedButton").parentElement.classList.remove("selected");
+    document.querySelector(".footerFeed > div > .postButton").parentElement.classList.remove("selected");
+    document.querySelector(".footerFeed > div > .profileButton").parentElement.classList.add("selected");
+
+
     let userId = window.localStorage.getItem("userId");
     let userPassword = window.localStorage.getItem("userPassword");
 

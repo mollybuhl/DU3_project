@@ -3,6 +3,13 @@
 function renderPostingModal(){
     const userID = parseInt(window.localStorage.getItem("userId"));
     const userPassword = window.localStorage.getItem("userPassword");
+
+    document.querySelector(".footerFeed > div > .chatButton").parentElement.classList.remove("selected");
+    document.querySelector(".footerFeed > div > .feedButton").parentElement.classList.remove("selected");
+    document.querySelector(".footerFeed > div > .profileButton").parentElement.classList.remove("selected");
+    document.querySelector(".footerFeed > div > .postButton").parentElement.classList.add("selected");
+
+
     let mood;
     let apiCategory;
     let quoteObject;

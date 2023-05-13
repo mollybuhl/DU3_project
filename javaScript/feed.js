@@ -5,7 +5,6 @@
     - Action if fetch users fail
     - Fade-out header
     - Menu style selected
-    - No scroll with pop-up
     - Friends name and img display
 */
 
@@ -248,7 +247,7 @@ async function renderFeedPage(){
             <div class="chat_icon"></div>
         `;
 
-        //How should this be done?
+//How should this be done?
         friendBox.querySelector(".chat_icon").addEventListener("click", renderFriendChat);
         function renderFriendChat(){
 
@@ -296,11 +295,13 @@ async function renderFeedPage(){
     //Display friends pop-up by clicking friends-button
     document.querySelector("header > .friendsButton").addEventListener("click", function (){
         document.querySelector(".friendDisplay").classList.remove("hidden");
+        document.querySelector("body").classList.add("noScroll");
         document.querySelector("#searchWrapper > .messageToUser").textContent ="";
     });
 
     //Hide friends pop-up by clicking exit-button
     document.querySelector("#closeFriendDisplay").addEventListener("click", function(){
+        document.querySelector("body").classList.remove("noScroll");
         document.querySelector(".friendDisplay").classList.add("hidden");
     })
 
@@ -344,11 +345,25 @@ async function renderFeedPage(){
     //Loged in footer
     footer.classList.add("footerFeed");
     footer.innerHTML = `
-        <div class="chatButton"></div>
-        <div class="feedButton"></div>
-        <div class="postButton"></div>
-        <div class="profileButton"></div>
+        <div>
+            <div class="chatButton"></div>
+        </div>
+        <div>
+            <div class="feedButton"></div>
+        </div>
+        <div>
+            <div class="postButton"></div>
+        </div>
+        <div>
+            <div class="profileButton"></div>
+        </div>
     `;
+
+    //Select feed
+    document.querySelector(".footerFeed > div > .chatButton").parentElement.classList.remove("selected");
+    document.querySelector(".footerFeed > div > .postButton").parentElement.classList.remove("selected");
+    document.querySelector(".footerFeed > div > .profileButton").parentElement.classList.remove("selected");
+    document.querySelector(".footerFeed > div > .feedButton").parentElement.classList.add("selected");
 
     //Render feed page when clicking feed icon in menu
     document.querySelector(".feedButton").addEventListener("click", renderFeedPage);
@@ -358,7 +373,6 @@ async function renderFeedPage(){
     document.querySelector(".chatButton").addEventListener("click", renderChatPage);
     //Render profile when clicking on profile icon in menu
     document.querySelector(".profileButton").addEventListener("click", renderProfilePage);
-
 }
 
 //Send request
