@@ -22,6 +22,38 @@
                     {
                         "postId": 1,
                         "moodOfPost": "Happy"
+                    },
+                    {
+                        "postId": 2,
+                        "moodOfPost": "Angry"
+                    },
+                    {
+                        "postId": 3,
+                        "moodOfPost": "Couragious"
+                    },
+                    {
+                        "postId": 4,
+                        "moodOfPost": "Fear"
+                    },
+                    {
+                        "postId": 5,
+                        "moodOfPost": "Happy"
+                    },
+                    {
+                        "postId": 6,
+                        "moodOfPost": "Sad"
+                    },
+                    {
+                        "postId": 7,
+                        "moodOfPost": "Sad"
+                    },
+                    {
+                        "postId": 8,
+                        "moodOfPost": "Happy"
+                    },
+                    {
+                        "postId": 9,
+                        "moodOfPost": "Angry"
                     }
                 ]
             }
@@ -118,9 +150,21 @@
         "username": "molly1",
         "password": "molly1",
         "loggedFeelings": [],
-        "friends": [],
+        "friends": [
+            2
+        ],
         "friendRequests": [],
-        "posts": [],
+        "posts": [
+            {
+                "postID": 1,
+                "userID": 3,
+                "mood": "Sad",
+                "description": "It is just such a day",
+                "quote": "Let us dream of tomorrow where we can truly love from the soul, and know love as the ultimate truth at the heart of all creation.",
+                "dayOfWeek": "Saturday",
+                "timestamp": "13:30, 13 May"
+            }
+        ],
         "profilePicture": "..\/media\/profile_imgs\/profile_icon_3.jpg",
         "id": 3
     }

@@ -247,7 +247,7 @@ async function renderFeedPage(){
         //How should this be done?
         friendBox.querySelector(".chat_icon").addEventListener("click", renderFriendChat);
         function renderFriendChat(){
-            
+
         }
 
         document.querySelector("header > .friendDisplay > .friends").appendChild(friendBox);
@@ -307,7 +307,7 @@ async function renderFeedPage(){
     document.querySelector("#searchWrapper > form > button").addEventListener("click", function(event){
         event.preventDefault();
 
-        searchName = document.querySelector("#searchWrapper > form > input").value;
+        let searchName = document.querySelector("#searchWrapper > form > input").value;
         let found = false;
         
         if(searchName === User.username){
