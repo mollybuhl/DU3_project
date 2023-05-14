@@ -284,6 +284,10 @@ main.mainFeed > div.feedWrapper > div.friendsPostDisplay, main.mainFeed > div.fe
     position: relative;
 }
 
+main.mainFeed > div.feedWrapper > div.friendsPostDisplay{
+    
+}
+
 main.mainFeed > div.feedWrapper > div.friendsPostDisplay > div.friendProfileDisplay{
     display: flex;
     

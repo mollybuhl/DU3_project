@@ -371,6 +371,37 @@ async function renderFeedPage(){
     document.querySelector(".chatButton").addEventListener("click", renderChatPage);
     //Render profile when clicking on profile icon in menu
     document.querySelector(".profileButton").addEventListener("click", renderProfilePage);
+
+    function fadeOutOnScroll(element){
+        var distanceToTop = window.pageYOffset + element.getBoundingClientRect().top;
+        var elementHeight = element.offsetHeight;
+        var scrollTop = document.documentElement.scrollTop;
+
+        var opacity = 1;
+        if(scrollTop > distanceToTop){
+            opacity = .7 - (scrollTop - distanceToTop) / elementHeight;
+        }
+
+        if(opacity >= 0){
+            element.style.opacity = opacity;
+        }
+    }
+
+
+    function scrollHandler(){
+        var userDisplay = document.querySelector(".postDisplay");
+        fadeOutOnScroll(userDisplay);
+        var friendsDisplay = document.querySelectorAll(".friendsPostDisplay");
+
+        friendsDisplay.forEach(display => {
+            fadeOutOnScroll(display);
+        })
+        
+       
+        
+    }
+
+    window.addEventListener("scroll", scrollHandler);
 }
 
 //Handle friend request
