@@ -1,3 +1,9 @@
+"use strict";
+
+/*
+    - Connect friend chat to chat icon 
+    - Action if fetch users fail
+*/
 
 async function renderFeedPage(){
     let UserID = (Number(window.localStorage.getItem("userId"))); 
@@ -9,9 +15,9 @@ async function renderFeedPage(){
     let header = document.querySelector("header");
     let footer = document.querySelector("footer");
     let main = document.querySelector("main");
+    
     main.removeAttribute("class");
-
-    document.querySelector("main").classList.add("mainFeed");
+    main.classList.add("mainFeed");
     main.innerHTML = `
         <div class="backgroundImage"></div>
         <div class="feedWrapper"></div>`
@@ -20,10 +26,10 @@ async function renderFeedPage(){
     //Fetching Users
     let response = await fetchAPI(true, `action=feed&userID=${UserID}&userPassword=${password}`);
     
-    
     if(!response.ok){
-        
+        window.localStorage.clear();
     }
+
     let Users = await response.json();
     let User = Users.find(user => user.id === UserID);
     
@@ -38,9 +44,10 @@ async function renderFeedPage(){
 
         //Sort post by latest posted
         postedByUser.reverse();
-        //let users7LatestPosts = postedByUser.splice(7,1);
-        //console.log(users7LatestPosts);
-    
+        if(postedByUser.length > 7){
+            postedByUser = postedByUser.splice(0, 7);
+        }
+        
         //Create users post display
         postedByUser.forEach(post => { 
             let createdPost = createPostInFeed(User, post);
@@ -78,7 +85,7 @@ async function renderFeedPage(){
         });
     }
     
-    //For each friend create a display with their X last posts
+    //For each friend create a display with their 7 last posts
     let friendsOfUser = User.friends;
     let friendNames = [];
 
@@ -90,7 +97,7 @@ async function renderFeedPage(){
         main.querySelector(".feedWrapper").appendChild(noPostInfoDisplay);
         
     }else{
-        friendsPostStatus = "noPosts";
+        let friendsPostStatus = "noPosts";
 
         friendsOfUser.forEach(friendId => {
             Users.forEach(user => {
@@ -111,6 +118,9 @@ async function renderFeedPage(){
                         main.querySelector(".feedWrapper").appendChild(friendsPostDisplay);
         
                         posts.reverse();
+                        if(posts.length > 7){
+                            posts = posts.splice(0, 7);
+                        }
                 
                         posts.forEach(post=> {
                             friendsPostDisplay.appendChild(createPostInFeed(postedBy, post));
@@ -191,6 +201,7 @@ async function renderFeedPage(){
     }
 
     //Header
+    header.removeAttribute("class");
     header.classList.add("feedHeader");
     header.innerHTML = `
         <div class="friendDisplay hidden">
@@ -232,6 +243,13 @@ async function renderFeedPage(){
             <h3>${friend["username"]}</h3>
             <div class="chat_icon"></div>
         `;
+
+        //How should this be done?
+        friendBox.querySelector(".chat_icon").addEventListener("click", renderFriendChat);
+        function renderFriendChat(){
+
+        }
+
         document.querySelector("header > .friendDisplay > .friends").appendChild(friendBox);
     })
 
@@ -289,28 +307,34 @@ async function renderFeedPage(){
     document.querySelector("#searchWrapper > form > button").addEventListener("click", function(event){
         event.preventDefault();
 
-        searchName = document.querySelector("#searchWrapper > form > input").value;
+        let searchName = document.querySelector("#searchWrapper > form > input").value;
         let found = false;
         
-        Users.forEach(user => {
-            if(searchName === user["username"]){
-                found = true;
-                let usersCurrentFriends = User.friends;
+        if(searchName === User.username){
+            alert(`You are ${searchName}`);
+        }else{
 
-                if(usersCurrentFriends.includes(user["id"])){
-                    alert(`You are already friends with ${searchName}`);
-                }else{
-                    if(confirm(`Do you want to add ${searchName} to your Friends?`)){ 
-                        handleFriendRequset(UserID, searchName, "sendRequest");  
-                        return;                  
-                    };
+            Users.forEach(user => {
+                if(searchName === user["username"]){
+                    found = true;
+    
+                    let usersCurrentFriends = User.friends;
+    
+                    if(usersCurrentFriends.includes(user["id"])){
+                        alert(`You are already friends with ${searchName}`);
+                    }else{
+                        if(confirm(`Do you want to add ${searchName} to your Friends?`)){ 
+                            handleFriendRequset(UserID, searchName, "sendRequest");  
+                            return;                  
+                        };
+                    }
                 }
-            }
-        });
-
-        if(found === false){
-            document.querySelector("#searchWrapper > .messageToUser").textContent = "User not found";
-        };
+            });
+    
+            if(found === false){
+                document.querySelector("#searchWrapper > .messageToUser").textContent = "User not found";
+            };
+        }
     });
 
     //Loged in footer
@@ -348,14 +372,12 @@ async function handleFriendRequset(requestFrom, requestTo, action){
             actionCredentials:{"requestAction": action, "requestTo": requestTo, "requestFrom": requestFrom},
         })
     }
-
-        //const request = new Request("php/api.php", requestOptions);
         let response = await fetchAPI(false, requestOptions);
         let resource = await response.json();
     
         // If the response was unsuccessful for any reason, print the error message to the user. Otherwise tell the user their account has been created then redirect them to the login page.
         if(!response.ok){
-            document.querySelector("#searchWrapper > .messageToUser").textContent = `${response.message}`;
+            document.querySelector("#searchWrapper > .messageToUser").textContent = `${resource.message}`;
 
         }else{ 
         

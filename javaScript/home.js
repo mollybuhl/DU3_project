@@ -1,19 +1,20 @@
 
 function renderHomePage(){
-    document.querySelector("body").classList.remove("bodyRegisterLogin");
+    document.querySelector("body").removeAttribute("class");
 
     let main = document.querySelector("main");
     let header = document.querySelector("header");
     let footer = document.querySelector("footer");
 
+    header.removeAttribute("class");
     header.classList.add("headerHome");
     header.innerHTML = `
         <h3 class="logo">MoodMate</h3>
         <button class="loginButton">LOGIN</button>`;
 
-    main.classList.remove("mainLogin");
-    main.classList.remove("mainRegister");
+    main.removeAttribute("class");
     main.classList.add("mainHome");
+
     main.innerHTML =`
     <div class="introduction">
         <h4>Share your mood</h4>
@@ -37,7 +38,7 @@ function renderHomePage(){
         <p>Add your friends and see how they are feeling</p>
         <img src="../media/homePage/introPic3.png">
         <h3>4. Track your progress</h3>
-        <p>Keep track on how your mood changes over time with weekly and monthly statistics</p>
+        <p>Keep track on how your mood changes over time with weekly statistics</p>
         <img src="../media/homePage/introPic4.png">
 
         <button class="registerButton">Get Started</p>
@@ -51,7 +52,7 @@ function renderHomePage(){
 
     document.querySelector(".loginButton").addEventListener("click", renderLoginPage);
 
-    footer.classList.remove("homeFooter");
+    footer.removeAttribute("class");
     footer.classList.add("homeFooter");
     footer.innerHTML = `
         <h4 class="logo">MoodMate</h4>

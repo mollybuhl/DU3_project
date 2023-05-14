@@ -64,6 +64,8 @@ button:hover{
     display: flex;
     justify-content: center;
     align-items: center;
+
+    background-color: rgba(245, 245, 245, 0.402);
 }
 
 .fetchModal > div {

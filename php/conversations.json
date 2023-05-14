@@ -1,4 +1,33 @@
 {
-    "privateChats": [
+    "privateChats": [],
+    "groupChats": [
+        {
+            "id": 1,
+            "name": "testar igen",
+            "ownerID": 1,
+            "betweenUsers": [
+                1
+            ],
+            "messages": [
+                {
+                    "sender": 1,
+                    "text": "hej",
+                    "timestamp": "16:53, 12 May",
+                    "id": 1
+                },
+                {
+                    "sender": 1,
+                    "text": "tja",
+                    "timestamp": "16:58, 12 May",
+                    "id": 2
+                },
+                {
+                    "sender": 1,
+                    "text": "tja",
+                    "timestamp": "16:58, 12 May",
+                    "id": 3
+                }
+            ]
+        }
     ]
 }

@@ -46,7 +46,8 @@ async function callServerToLogin() {
     console.log(response);
 
     if(!response.ok) {
-        document.querySelector(".mainLogin > .wrapper >.messageToUser").innerHTML = response.message;
+        document.querySelector(".mainLogin > .wrapper >.messageToUser").classList.add("visable");
+        document.querySelector(".mainLogin > .wrapper >.messageToUser").innerHTML = resource.message;
     } else {
         window.localStorage.setItem("userPassword", document.querySelector("#loginPassword").value);
         window.localStorage.setItem("userId", `${resource.id}`);

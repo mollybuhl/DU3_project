@@ -1,40 +1,170 @@
 [
     {
         "username": "ossian",
-        "password": "1234",
+        "password": "123",
         "loggedFeelings": [],
-        "friends": [
-            2,
-            3
+        "friends": [],
+        "friendRequests": [
+            2
         ],
-        "friendRequests": [],
         "posts": [],
-        "profilePicture": "..\/media\/profile_imgs\/profile_icon_2.jpg",
+        "profilePicture": "..\/media\/profile_imgs\/profile_icon_1.jpg",
         "id": 1
     },
     {
-        "username": "testchat",
-        "password": "123",
-        "loggedFeelings": [],
-        "friends": [
-            1,
-            3
+        "username": "molly",
+        "password": "222",
+        "loggedFeelings": [
+            {
+                "week": "May 8-14, 2023",
+                "weekId": 1,
+                "Saturday": [
+                    {
+                        "postId": 1,
+                        "moodOfPost": "Happy"
+                    },
+                    {
+                        "postId": 2,
+                        "moodOfPost": "Angry"
+                    },
+                    {
+                        "postId": 3,
+                        "moodOfPost": "Couragious"
+                    },
+                    {
+                        "postId": 4,
+                        "moodOfPost": "Fear"
+                    },
+                    {
+                        "postId": 5,
+                        "moodOfPost": "Happy"
+                    },
+                    {
+                        "postId": 6,
+                        "moodOfPost": "Sad"
+                    },
+                    {
+                        "postId": 7,
+                        "moodOfPost": "Sad"
+                    },
+                    {
+                        "postId": 8,
+                        "moodOfPost": "Happy"
+                    },
+                    {
+                        "postId": 9,
+                        "moodOfPost": "Angry"
+                    }
+                ]
+            }
         ],
+        "friends": [],
         "friendRequests": [],
-        "posts": [],
+        "posts": [
+            {
+                "postID": 1,
+                "userID": 2,
+                "mood": "Happy",
+                "description": "good day",
+                "quote": "Happiness, or misery, is in the mind. It is the mind that lives.",
+                "dayOfWeek": "Saturday",
+                "timestamp": "11:1, 13 May"
+            },
+            {
+                "postID": 2,
+                "userID": 2,
+                "mood": "Angry",
+                "description": "BAd day",
+                "quote": "A lot of my humor does come from anger. It's like, you're not gonna pull one over on me - which is pretty much my motto anyways.",
+                "dayOfWeek": "Saturday",
+                "timestamp": "11:25, 13 May"
+            },
+            {
+                "postID": 3,
+                "userID": 2,
+                "mood": "Couragious",
+                "description": "Yessss",
+                "quote": "Grave was the man in years, in looks, in word, his locks were grey, yet was his courage green.",
+                "dayOfWeek": "Saturday",
+                "timestamp": "11:26, 13 May"
+            },
+            {
+                "postID": 4,
+                "userID": 2,
+                "mood": "Fear",
+                "description": "scary",
+                "quote": "If I have resistance to something, it means there's something wrong. The resistance to me is a sign of fear.",
+                "dayOfWeek": "Saturday",
+                "timestamp": "11:26, 13 May"
+            },
+            {
+                "postID": 5,
+                "userID": 2,
+                "mood": "Happy",
+                "description": "odkf",
+                "quote": "I've worked on films where the budgets are almost limitless and you're in trailers that are bigger than a hotel room. You're taken care of and the food is amazing, the quality of the job is amazing and then you work on smaller things but it never dictates my happiness or my willingness to go to work.",
+                "dayOfWeek": "Saturday",
+                "timestamp": "11:26, 13 May"
+            },
+            {
+                "postID": 6,
+                "userID": 2,
+                "mood": "Sad",
+                "description": "sad",
+                "quote": "It is not ignorance but knowledge which is the mother of wonder.",
+                "dayOfWeek": "Saturday",
+                "timestamp": "11:26, 13 May"
+            },
+            {
+                "postID": 7,
+                "userID": 2,
+                "mood": "Sad",
+                "description": "more sad",
+                "quote": "Keep all special thoughts and memories for lifetimes to come. Share these keepsakes with others to inspire hope and build from the past, which can bridge to the future.",
+                "dayOfWeek": "Saturday",
+                "timestamp": "11:27, 13 May"
+            },
+            {
+                "postID": 8,
+                "userID": 2,
+                "mood": "Happy",
+                "description": "happy again",
+                "quote": "The secret to true happiness is a combination of low expectations and insensitivity.",
+                "dayOfWeek": "Saturday",
+                "timestamp": "11:27, 13 May"
+            },
+            {
+                "postID": 9,
+                "userID": 2,
+                "mood": "Angry",
+                "description": "it is",
+                "quote": "Every time you get angry, you poison your own system.",
+                "dayOfWeek": "Saturday",
+                "timestamp": "11:28, 13 May"
+            }
+        ],
         "profilePicture": "..\/media\/profile_imgs\/profile_icon_1.jpg",
         "id": 2
     },
     {
-        "username": "testchat2",
-        "password": "testchat2",
+        "username": "molly1",
+        "password": "molly1",
         "loggedFeelings": [],
         "friends": [
-            1,
             2
         ],
         "friendRequests": [],
-        "posts": [],
+        "posts": [
+            {
+                "postID": 1,
+                "userID": 3,
+                "mood": "Sad",
+                "description": "It is just such a day",
+                "quote": "Let us dream of tomorrow where we can truly love from the soul, and know love as the ultimate truth at the heart of all creation.",
+                "dayOfWeek": "Saturday",
+                "timestamp": "13:30, 13 May"
+            }
+        ],
         "profilePicture": "..\/media\/profile_imgs\/profile_icon_3.jpg",
         "id": 3
     }

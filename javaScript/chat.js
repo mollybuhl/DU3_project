@@ -19,8 +19,21 @@ async function renderChatPage(){
     const user = parseInt(window.localStorage.getItem("userId"));
     const userPassword = window.localStorage.getItem("userPassword")
 
+    const body = document.querySelector("body");
+    body.removeAttribute("class");
+    body.classList.add("bodyFeed");
+
     const header = document.querySelector("header");
+    header.removeAttribute("class");
+    header.classList.add("feedHeader");
     header.querySelector(".friendsButton").classList.add("hidden");
+    header.querySelector(".profileInformation").removeAttribute("style");
+
+    if(header.querySelector("#settingsButton")){
+        header.querySelector("#settingsButton").remove();
+    }
+    
+    
 
     const main = document.querySelector("main");
     main.removeAttribute("class");
@@ -218,7 +231,7 @@ async function renderChatPage(){
                 chatAction: "fetchChat",
                 chatID: chatID,
                 type: type
-            });
+            }, false);
             const conversationMessages = await conversation.messages;
 
             conversationMessages.sort((a, b) => {
@@ -503,7 +516,7 @@ async function fetchFriends(userID, userPassword){
     return await resource;
 }
 
-async function fetchChatPhp(user, userPassword, method, specificInfo){
+async function fetchChatPhp(user, userPassword, method, specificInfo, fetchModal = true){
     let requestBody = {
         action: "chat",
         userID: user,
@@ -518,7 +531,7 @@ async function fetchChatPhp(user, userPassword, method, specificInfo){
         body: JSON.stringify(requestBody)
     }
 
-    const response = await fetchAPI(false, requestOptions);
+    const response = await fetchAPI(false, requestOptions, fetchModal);
     const resource = await chatResponseHandler(response);
 
     return await resource;
