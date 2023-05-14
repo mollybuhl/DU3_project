@@ -9,7 +9,7 @@ TODO:
     - CSS   
     - Fix error if two groupchats have same name
     - Small errors in code
-    - Make code more readable, extract functions? Repeated code?
+    - Make code more readable, destructure functions? Repeated code?
     - Error messages
     - Fetch feedback for user
 */
@@ -19,6 +19,7 @@ async function renderChatPage(){
     const user = parseInt(window.localStorage.getItem("userId"));
     const userPassword = window.localStorage.getItem("userPassword")
 
+    // remove classes and add new ones to body, header and main for CSS
     const body = document.querySelector("body");
     body.removeAttribute("class");
     body.classList.add("bodyFeed");
@@ -33,6 +34,7 @@ async function renderChatPage(){
         header.querySelector("#settingsButton").remove();
     }
 
+    // Change main innerHTML
     const main = document.querySelector("main");
     main.removeAttribute("class");
     main.classList.add("chatMain");
@@ -53,7 +55,7 @@ async function renderChatPage(){
     </div>
     `;
 
-    // Fetch users friends, private chats with friends and groupchats
+    // Fetch the users friends, private chats with friends and groupchats
     const userFriends = await fetchFriends(user, userPassword);
     const userGroupChats = await fetchChatPhp(user, userPassword, "POST", {
         chatAction: "fetchChats",
@@ -165,11 +167,11 @@ async function renderChatPage(){
         // Create the chatmodal that will be used to chat.
         const chatModal = document.createElement("div");
         document.querySelector("main").append(chatModal);
-        chatModal.classList.add("chatPageModal")
+        chatModal.classList.add("chatPageModal");
         const chat = document.createElement("div");
         chat.innerHTML = `
         <div id="chatTop">
-            <div>${event.target.textContent}</div>
+            <div id="chatName">${event.target.textContent}</div>
             <div id="chatTopOptions">
                 <div class="hidden" id="groupChatOptions"></div>
                 <div class="closeModal" id="closeChat"></div>
@@ -189,14 +191,16 @@ async function renderChatPage(){
             chat.querySelector("#groupChatOptions").classList.remove("hidden");
             chat.querySelector("#groupChatOptions").addEventListener("click", renderGroupChatOptions);
         }
+
+        // Add eventListeners to send message and close the chat
         chat.querySelector("#sendMessage").addEventListener("click", sendMessage);
         chat.querySelector("#closeChat").addEventListener("click", event => chatModal.remove())
 
         // fetch current chat with chatID and print them to the <div> with id #messages
         await fetchAndPrintMessages();
 
+        // This function generates a timestamp and posts the message written in the input field to the server.
         async function sendMessage(event){
-            console.log(type);
             const message = chat.querySelector("#operations > input").value;
 
             const date = new Date();
@@ -214,9 +218,11 @@ async function renderChatPage(){
                 }
             });
 
+            // When a message is sent, update the messages to see your own message instantly.
             fetchAndPrintMessages(false, true);
         }
 
+        // This function fetches all messages from the current chat and prints them to the chat. If the parameter startTimeout is true (true by default) then set a timeout, after 1 second this function will be called again. Also if the user is scrolled all the way down in the chat or this function was fetched from sendMessage, keep the user scrolled down.
         async function fetchAndPrintMessages(startTimeout = true, calledFromSendMessage = false){
             let scrollToBottom;
 
@@ -251,11 +257,14 @@ async function renderChatPage(){
                 const messageDiv = document.createElement("div");
                 messageDiv.classList.add("messageContainer");
                 messageDiv.innerHTML = `
-                <div class="messageInfo">
-                    <div class="messageUsername">${message.sender}</div>
-                    <div class="messageTimestamp">${message.timestamp}</div>
+                <div class="messageProfPic" style="background-image: url('${message.profilePicture}');"></div>
+                <div class="messageBody">
+                    <div class="messageInfo">
+                        <div class="messageUsername">${message.sender}</div>
+                        <div class="messageTimestamp">${message.timestamp}</div>
+                    </div>
+                    <div class="messageText">${message.text}</div>
                 </div>
-                <div class="messageText">${message.text}</div>
                 `;
                 messagesDiv.appendChild(messageDiv);
             })
@@ -269,6 +278,7 @@ async function renderChatPage(){
             }
         }
 
+        // This function renders the group options for the current chat, first fetch the groupchat again to fetch latest information about the chat.
         async function renderGroupChatOptions(event){
             const conversation = await fetchChatPhp(user, userPassword, "POST", {
                 chatAction: "fetchChat",
@@ -296,6 +306,7 @@ async function renderChatPage(){
             optionsDivDom.classList.add("chatPageModal", "chatOptions");
             optionsDivDom.querySelector("#closeOptions").addEventListener("click", e => optionsDivDom.remove());
 
+            // If the user is the owner of the chat, remove hidden from the buttons to change groupname and change members and add eventlisteners to them. Also make the last button be a delete button to delete the chat. The owner cannot leave the chat, it must delete it.
             if(user === ownerID){
                 const ownerOptionsDom = optionsDivDom.querySelector("#ownerOptions");
                 ownerOptionsDom.classList.remove("hidden");
@@ -315,13 +326,14 @@ async function renderChatPage(){
                     changeGroupNameDom.classList.add("chatPageModal");
 
                     changeGroupNameDom.querySelector("#confirmCancel > #cancelNameChange").addEventListener("click", event => changeGroupNameDom.remove());
-                    changeGroupNameDom.querySelector("#confirmCancel > #confirmNameChange").addEventListener("click", event => {
+                    changeGroupNameDom.querySelector("#confirmCancel > #confirmNameChange").addEventListener("click", async function(){
                         name = changeGroupNameDom.querySelector("#newGroupName").value;
-                        fetchChatPhp(user, userPassword, "PATCH", {
+                        const newName = await fetchChatPhp(user, userPassword, "PATCH", {
                             chatAction: "changeGroupName",
                             name: name,
                             chatID: chatID
                         });
+                        chat.querySelector("#chatName").textContent = newName;
                     })
                     optionsDivDom.appendChild(changeGroupNameDom);
                 })
@@ -405,6 +417,8 @@ async function renderChatPage(){
                     ownerOptionsDom.appendChild(confirmationModal);
                 })
             }
+
+            // If the user is not the owner of the chat, only show the leave groupchat button.
             if(user !== ownerID){
                 optionsDivDom.querySelector("#ownerOptions").remove();
 
@@ -439,14 +453,16 @@ async function renderChatPage(){
             chat.appendChild(optionsDivDom);
         }
 
+        // Render the chat with the scrollbar scrolled all the way down.
         const chatMessages = chat.querySelector("#messages")
         chatMessages.scrollTop = chatMessages.scrollTopMax;
     }
 
+    // This function creates a groupchat and posts it to the server.
     async function createGroupChat(event){
-        const groupChatModal = document.createElement("div");
         let betweenUsers = [user];
-
+        const groupChatModal = document.createElement("div");
+        
         groupChatModal.innerHTML = `
         <div class="modalContainer" id="createGroupChat">
             <div class="closeModal"></div>
@@ -462,6 +478,7 @@ async function renderChatPage(){
 
         groupChatModal.querySelector(".closeModal").addEventListener("click", event => groupChatModal.remove())
 
+        // Add eventlistener to render a modal to add friends to the chat.
         groupChatModal.querySelector("#addFriendsToChat").addEventListener("click", event => {
             const addFriendsModal = document.createElement("div");
             addFriendsModal.innerHTML = `
@@ -503,6 +520,7 @@ async function renderChatPage(){
             groupChatModal.appendChild(addFriendsModal);
         })
 
+        // Post the new chat to the server and render the chat page again to see the new groupchat.
         groupChatModal.querySelector("#finalizeGroupChat").addEventListener("click", async function(){
             const chatName = document.querySelector("#groupName").value;
             await fetchChatPhp(user, userPassword, "POST", {
@@ -517,6 +535,7 @@ async function renderChatPage(){
     }
 }
 
+// Fetches all friends of the user with the given userID.
 async function fetchFriends(userID, userPassword){
     const GETstring = `userID=${userID}&userPassword=${userPassword}&action=chat`
     const response = await fetchAPI(true, GETstring);
@@ -525,6 +544,7 @@ async function fetchFriends(userID, userPassword){
     return await resource;
 }
 
+// Function to make a request to the server with any requestbody. There is a premade requestbody that will be combined with the object sent as the variable specificInfo to later use that combined object for the fetch.
 async function fetchChatPhp(user, userPassword, method, specificInfo, fetchModal = true){
     let requestBody = {
         action: "chat",
@@ -546,6 +566,7 @@ async function fetchChatPhp(user, userPassword, method, specificInfo, fetchModal
     return await resource;
 }
 
+// This function handles responses, might delete later.
 async function chatResponseHandler(response){
     if(!response.ok){
         const message = await response.json().message;

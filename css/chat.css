@@ -165,7 +165,8 @@
 }
 
 .groupIcon { 
-    border-radius: 0px; 
+    border-radius: 0px;
+    background-repeat: no-repeat;
 }
 
 .ownerIcon {
@@ -236,6 +237,31 @@
 #groupChatOptions:active {
     background-color: rgba(0, 0, 0, 0.154);
     border-radius: 5px;
+}
+
+.messageProfPic {
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 6vh;
+    width: 6vh;
+}
+
+.messageContainer {
+    display: flex;
+}
+
+.messageInfo {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid rgba(111, 111, 111, 0.491);
+}
+
+.messageTimestamp {
+    font-size: 3vw;
+    color: rgba(111, 111, 111, 0.901);
 }
 
 /* Rules for groupchat options */
@@ -326,4 +352,5 @@
     background-position: center;
     height: 7vh;
     width: 7vh;
+    border-radius: 10px;
 }

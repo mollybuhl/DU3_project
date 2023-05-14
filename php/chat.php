@@ -56,6 +56,8 @@ function chat($data, $users, $allConversations){
                             foreach($users as $user){   
                                 if($user["id"] == $message["sender"]){
                                     $conversation["messages"][$messageIndex]["sender"] = $user["username"];
+                                    $profilePicURL = $user["profilePicture"];
+                                    $conversation["messages"][$messageIndex]["profilePicture"] = $profilePicURL;
                                 }
                             }
                         }
@@ -238,7 +240,7 @@ function chat($data, $users, $allConversations){
                         $allConversations["groupChats"][$chatIndex]["name"] = $newGroupName;
                         
                         putInConversationsJSON($allConversations);
-                        sendJSON($chat, 200);
+                        sendJSON($newGroupName, 200);
                     }
                 }
             }
