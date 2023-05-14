@@ -90,6 +90,11 @@ function chat($data, $users, $allConversations){
             $chatOwner = $data["userID"];
             $betweenUsers = $data["betweenUsers"];
 
+            if(strlen($chatName) > 12){
+                $error = ["message" => "The name can't be longer than 12 characters."];
+                sendJSON($error, 400);
+            }
+
             $highestConversationID = 0;
 
             foreach($conversations as $conversation){

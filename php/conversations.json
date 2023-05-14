@@ -1,5 +1,36 @@
 {
-    "privateChats": [],
+    "privateChats": [
+        {
+            "id": 1,
+            "betweenUsers": [
+                2,
+                3
+            ],
+            "messages": [
+                {
+                    "sender": 2,
+                    "text": "hej",
+                    "timestamp": "16:43, 14 May",
+                    "id": 1
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "betweenUsers": [
+                2,
+                1
+            ],
+            "messages": [
+                {
+                    "sender": 2,
+                    "text": "tja",
+                    "timestamp": "16:43, 14 May",
+                    "id": 1
+                }
+            ]
+        }
+    ],
     "groupChats": [
         {
             "id": 1,
@@ -28,6 +59,17 @@
                     "id": 3
                 }
             ]
+        },
+        {
+            "id": 2,
+            "name": "Coolt",
+            "ownerID": 2,
+            "betweenUsers": [
+                2,
+                3,
+                1
+            ],
+            "messages": []
         }
     ]
 }

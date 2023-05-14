@@ -3,10 +3,11 @@
         "username": "ossian",
         "password": "123",
         "loggedFeelings": [],
-        "friends": [],
-        "friendRequests": [
-            2
+        "friends": [
+            2,
+            3
         ],
+        "friendRequests": [],
         "posts": [],
         "profilePicture": "..\/media\/profile_imgs\/profile_icon_1.jpg",
         "id": 1
@@ -58,7 +59,10 @@
                 ]
             }
         ],
-        "friends": [],
+        "friends": [
+            1,
+            3
+        ],
         "friendRequests": [],
         "posts": [
             {
@@ -151,7 +155,8 @@
         "password": "molly1",
         "loggedFeelings": [],
         "friends": [
-            2
+            2,
+            1
         ],
         "friendRequests": [],
         "posts": [

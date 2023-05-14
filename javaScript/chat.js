@@ -32,8 +32,6 @@ async function renderChatPage(){
     if(header.querySelector("#settingsButton")){
         header.querySelector("#settingsButton").remove();
     }
-    
-    
 
     const main = document.querySelector("main");
     main.removeAttribute("class");
@@ -286,7 +284,7 @@ async function renderChatPage(){
             optionsDivDom.innerHTML = `
             <div class="modalContainer">
                 <div class="closeModal" id="closeOptions"></div>
-                <div>Chat Options</div>
+                <div id="optionsTitle">Chat Options</div>
                 
                 <span id="ownerOptions" class="hidden">
                     <button id="changeGroupName">Change Groupname</button>
@@ -345,10 +343,12 @@ async function renderChatPage(){
                     userFriends.forEach(friend => {
                         const friendDiv = document.createElement("div");
                         friendDiv.innerHTML = `
-                        <div id="profPic"></div>
+                        <div class="profPic" style="background-image: url('${friend.profilePicture}');"></div>
                         <div id="friendName">${friend.username}</div>
                         `
                         
+                        friendDiv.classList.add("friendDiv");
+
                         if(betweenUsers.includes(friend.id)){
                             friendDiv.classList.add("marked");
                         }
@@ -406,10 +406,12 @@ async function renderChatPage(){
                 })
             }
             if(user !== ownerID){
+                optionsDivDom.querySelector("#ownerOptions").remove();
+
                 const leaveDeleteButton = optionsDivDom.querySelector("#leaveDelete");
                 leaveDeleteButton.textContent = "Leave groupchat";
                 leaveDeleteButton.addEventListener("click", async function(){
-
+                    console.log("hej");
                     const confirmationModal = document.createElement("div");
                     confirmationModal.innerHTML = `
                     <div class="modalContainer">
@@ -430,6 +432,8 @@ async function renderChatPage(){
                         });
                         confirmationModal.remove();
                     });
+
+                    optionsDivDom.appendChild(confirmationModal);
                 })
             }
             chat.appendChild(optionsDivDom);
@@ -449,8 +453,8 @@ async function renderChatPage(){
             <div id="createGroupChatTitle">Creating groupchat</div>
 
             <label for="groupName" id="groupNameLabel">Name:</label>
-            <input type="text" name="groupName" id="groupName">
-            <button id="addFriendsToChat">Add members<span class="addMemberIcon"></span></button>
+            <input type="text" name="groupName" id="groupName" placeholder="Max 12 character">
+            <button id="addFriendsToChat">Select members</button>
             <button id="finalizeGroupChat">Create Groupchat!</button>
         </div>
         `
@@ -463,7 +467,7 @@ async function renderChatPage(){
             addFriendsModal.innerHTML = `
             <div class="modalContainer">
                 <div id="friendsSelector"></div>
-                <button id="confirmFriends">Close</button>
+                <button id="confirmFriends">Confirm</button>
             </div>
             `
             if(userFriends.length === 0){
@@ -474,10 +478,15 @@ async function renderChatPage(){
             userFriends.forEach(friend => {
                 const friendDiv = document.createElement("div");
                 friendDiv.innerHTML = `
-                <div id="profPic"></div>
+                <div class="profPic" style="background-image: url('${friend.profilePicture}');"></div>
                 <div id="friendName">${friend.username}</div>
                 `
-                
+                friendDiv.classList.add("friendDiv");
+
+                if(betweenUsers.includes(friend.id)){
+                    friendDiv.classList.add("marked");
+                }
+
                 friendDiv.addEventListener("click", event => {
                     if(!betweenUsers.includes(friend.id)){
                         betweenUsers.push(friend.id);
