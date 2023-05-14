@@ -1,15 +1,15 @@
 <?php
 ini_set("display_errors", 1); 
-//require_once "functions.php";
+require_once "functions.php";
 
 function feed($requestData, $users){
-    $filename = __DIR__."/users.json";
 
     // Get the method used for the request, then check to see if it's allowed with a custom funciton (checkMethod).
     $requestMethod = $_SERVER["REQUEST_METHOD"];
     $allowed = ["GET", "DELETE"];
     checkMethod($requestMethod, $allowed);
     
+
     if($requestMethod == "GET"){
         $usersLimitedAcces = [];
         foreach($users as $user){
@@ -18,6 +18,7 @@ function feed($requestData, $users){
         
         sendJSON($usersLimitedAcces);
     }
+    
     
     if($requestMethod == "DELETE"){
         if(!isset($requestData["actionCredentials"]["postID"])){

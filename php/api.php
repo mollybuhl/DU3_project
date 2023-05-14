@@ -21,7 +21,7 @@ if($requestMethod === "GET"){
 $filenameUsers = __DIR__."/users.json";
 $users = [];
 if(!file_exists($filenameUsers)){
-    $json = json_encode($users);
+    $json = json_encode($users, JSON_PRETTY_PRINT);
     file_put_contents($filenameUsers, $json);
 }
 
@@ -53,11 +53,6 @@ if(!$requestData["action"] == "login" || !$requestData["action"] == "register"){
     }    
 }
 
-//$userID = $requestData["userID"];
-//$userPassword = $requestData["userPassword"];
-//checkCredentials($userID, $userPassword, $users);
-
-
 $action = $requestData["action"];
 switch($action){
     case "register":
@@ -70,7 +65,7 @@ switch($action){
         feed($requestData, $users);
         break;
     case "friendRequests":
-        friendRequests($requestData);
+        friendRequests($requestData, $users);
         break;
     case "chat":
         chat($requestData, $users, $allConversations);

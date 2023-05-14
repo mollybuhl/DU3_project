@@ -129,24 +129,6 @@
                 "quote": "Keep all special thoughts and memories for lifetimes to come. Share these keepsakes with others to inspire hope and build from the past, which can bridge to the future.",
                 "dayOfWeek": "Saturday",
                 "timestamp": "11:27, 13 May"
-            },
-            {
-                "postID": 8,
-                "userID": 2,
-                "mood": "Happy",
-                "description": "happy again",
-                "quote": "The secret to true happiness is a combination of low expectations and insensitivity.",
-                "dayOfWeek": "Saturday",
-                "timestamp": "11:27, 13 May"
-            },
-            {
-                "postID": 9,
-                "userID": 2,
-                "mood": "Angry",
-                "description": "it is",
-                "quote": "Every time you get angry, you poison your own system.",
-                "dayOfWeek": "Saturday",
-                "timestamp": "11:28, 13 May"
             }
         ],
         "profilePicture": "..\/media\/profile_imgs\/profile_icon_1.jpg",

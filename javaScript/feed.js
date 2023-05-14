@@ -4,13 +4,12 @@
     - Connect friend chat to chat icon 
     - Action if fetch users fail
     - Fade-out header
-    - Menu style selected
     - Friends name and img display
 */
 
 async function renderFeedPage(){
     let UserID = (Number(window.localStorage.getItem("userId"))); 
-    let password = window.localStorage.getItem("userPassword");
+    let userPassword = window.localStorage.getItem("userPassword");
 
     document.querySelector("body").removeAttribute("class");
     document.querySelector("body").classList.add("bodyFeed");
@@ -19,6 +18,7 @@ async function renderFeedPage(){
     let footer = document.querySelector("footer");
     let main = document.querySelector("main");
     
+
     main.removeAttribute("class");
     main.classList.add("mainFeed");
     main.innerHTML = `
@@ -27,25 +27,26 @@ async function renderFeedPage(){
     ;
     
     //Fetching Users
-    let response = await fetchAPI(true, `action=feed&userID=${UserID}&userPassword=${password}`);
-    
+    let response = await fetchAPI(true, `action=feed&userID=${UserID}&userPassword=${userPassword}`);
     if(!response.ok){
-        window.localStorage.clear();
+//What should be done?        window.localStorage.clear();
+//filen existerar inte, fel metod, fel parametrar skickade
     }
 
     let Users = await response.json();
     let User = Users.find(user => user.id === UserID);
     
+
     let postedByUser = User.posts;
     //If user has not posted anything, display nothing.
     if(postedByUser.length > 0){
 
-        //Create a display for users 7 last posts;
+        //Create a display for user posts;
         let postDisplay = document.createElement("div");
         postDisplay.classList.add("postDisplay");
         main.querySelector(".feedWrapper").appendChild(postDisplay);
 
-        //Sort post by latest posted
+        //Sort post by latest posted, only display the seven latest posts
         postedByUser.reverse();
         if(postedByUser.length > 7){
             postedByUser = postedByUser.splice(0, 7);
@@ -69,7 +70,7 @@ async function renderFeedPage(){
                         body: JSON.stringify({
                             action: "feed",
                             userID: UserID,
-                            userPassword: password,
+                            userPassword: userPassword,
                             actionCredentials:{"feedAction": "DELETE", "postID": postID},
                         })
                     }
@@ -77,8 +78,8 @@ async function renderFeedPage(){
                         //let request = new Request("php/api.php", requestOptions);
                         let response = await fetchAPI(false, requestOptions);
 
-                        if(!response.ok){                       
-//What happens if delete post get error code
+                        if(!response.ok){ 
+                            alert(`This post could not be deleted. Error message provided: ${response.message}`);                      
                         }else{
                             renderFeedPage();
                         }
@@ -88,13 +89,13 @@ async function renderFeedPage(){
         });
     }
     
-    //For each friend create a display with their 7 last posts
+    //For each friend create a display with their 7 latest posts
     let friendsOfUser = User.friends;
     let friendNames = [];
 
     if(friendsOfUser.length === 0){
         const noPostInfoDisplay = document.createElement("div");
-        noPostInfoDisplay.classList.add("no_post_info")
+        noPostInfoDisplay.classList.add("no_post_info");
         noPostInfoDisplay.innerHTML = `<p>Add more friends to see their posts here!</p>`;
             
         main.querySelector(".feedWrapper").appendChild(noPostInfoDisplay);
@@ -105,7 +106,7 @@ async function renderFeedPage(){
         friendsOfUser.forEach(friendId => {
             Users.forEach(user => {
                 if(user.id === friendId){
-                    friendNames.push(user.username); //Neccecary?
+                    friendNames.push(user.username); 
     
                     let postedBy = user.username;
                     let posts = user.posts;
@@ -305,9 +306,6 @@ async function renderFeedPage(){
         document.querySelector(".friendDisplay").classList.add("hidden");
     })
 
-    //Display friend chat when clicking on chat-icon in the friends pop-up
-    document.querySelector("header > .friendDisplay > .friends > div > .chat_icon");
-
     //Search for friends
     document.querySelector("#searchWrapper > form > button").addEventListener("click", function(event){
         event.preventDefault();
@@ -375,10 +373,10 @@ async function renderFeedPage(){
     document.querySelector(".profileButton").addEventListener("click", renderProfilePage);
 }
 
-//Send request
+//Handle friend request
 async function handleFriendRequset(requestFrom, requestTo, action){
     let UserID = (Number(window.localStorage.getItem("userId")));
-    let password = window.localStorage.getItem("userPassword");
+    let userPassword = window.localStorage.getItem("userPassword");
 
     const requestOptions = {
         method: "PATCH",
@@ -386,7 +384,7 @@ async function handleFriendRequset(requestFrom, requestTo, action){
         body: JSON.stringify({
             action: "friendRequests",
             userID: UserID,
-            userPassword: password,
+            userPassword: userPassword,
             actionCredentials:{"requestAction": action, "requestTo": requestTo, "requestFrom": requestFrom},
         })
     }
@@ -394,7 +392,6 @@ async function handleFriendRequset(requestFrom, requestTo, action){
     let response = await fetchAPI(false, requestOptions);
     let resource = await response.json();
     
-    // If the response was unsuccessful for any reason, print the error message to the user. Otherwise tell the user their account has been created then redirect them to the login page.
     if(!response.ok){
         document.querySelector("#searchWrapper > .messageToUser").textContent = `${resource.message}`;
 
