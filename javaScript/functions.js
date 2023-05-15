@@ -25,30 +25,11 @@ async function fetchAPI(isGET, requestOptions, createFetchModal = true){
         }
         const response = await fetch(request);
 
-        if(!response.ok){
-            if(!body.querySelector(".fetchModal")){
-                const fetchModal = document.createElement("div");
-                fetchModal.classList.add("fetchModal");
-                body.appendChild(fetchModal);
-            }
-            
-            const fetchModal = body.querySelector(".fetchModal")
-            fetchModal.innerHTML = `
-            <div>
-                <div>Sorry something went wrong, please try again.</div>
-                <button>Close</button>
-            </div>
-            `
-            fetchModal.querySelector("div > button").addEventListener("click", event => fetchModal.remove());
-            
-            return response;
-        }else{
-            if(body.querySelector(".fetchModal")){
-                body.querySelector(".fetchModal").remove();
-            }
-            
-            return response;
+        if(body.querySelector(".fetchModal")){
+            body.querySelector(".fetchModal").remove();
         }
+            
+        return response;
     }catch(error){
         // Display the error with a popup
     }
