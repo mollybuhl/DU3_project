@@ -118,7 +118,8 @@ async function renderFeedPage(){
                             <div class="friendProfileDisplay">
                                 <img src="${user.profilePicture}">
                                 <h3>${user.username}</h3>
-                            </div>`
+                            </div>
+                            <div class="allPosts"></div>`
                         main.querySelector(".feedWrapper").appendChild(friendsPostDisplay);
         
                         posts.reverse();
@@ -127,7 +128,7 @@ async function renderFeedPage(){
                         }
                 
                         posts.forEach(post=> {
-                            friendsPostDisplay.appendChild(createPostInFeed(postedBy, post));
+                            friendsPostDisplay.querySelector(".allPosts").appendChild(createPostInFeed(postedBy, post));
                         });
 
                         friendsPostStatus = "posts";
@@ -373,6 +374,7 @@ async function renderFeedPage(){
     document.querySelector(".profileButton").addEventListener("click", renderProfilePage);
 
     function fadeOutOnScroll(element){
+        console.log("SCROLL");
         var distanceToTop = window.pageYOffset + element.getBoundingClientRect().top;
         var elementHeight = element.offsetHeight;
         var scrollTop = document.documentElement.scrollTop;
