@@ -175,9 +175,12 @@ async function renderProfilePage() {
         divs[i].style.display = "none";
     }
 
-    let settingsButton = document.createElement("button");
-    header.appendChild(settingsButton);
-    settingsButton.setAttribute("id", "settingsButton");
+    if(!document.querySelector("button#settingsButton")) {
+        let settingsButton = document.createElement("button");
+        header.appendChild(settingsButton);
+        settingsButton.setAttribute("id", "settingsButton");
+    }
+
     settingsButton.textContent = "Settings";
     settingsButton.addEventListener("click", renderSettingsPopup);
 
