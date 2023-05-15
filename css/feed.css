@@ -234,7 +234,7 @@ main.mainFeed{
 }
 /*MAIN: Top background image*/
 .mainFeed > div.backgroundImage{
-    background-image: url(../media/11.avif\(1\).png);
+    background-image: url(../media/loggedInBackground.png);
     background-position: center;
     background-size: cover;
     height: 30vh;
@@ -366,7 +366,7 @@ div.post > p.timestamp{
 
 /*Delete post button*/
 div.post > div > #deletePost{
-    background-image: url(../media/delete-193.png);
+    background-image: url(../media/delete.png);
     background-repeat: no-repeat;
     background-size: contain;
 
