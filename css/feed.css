@@ -68,7 +68,7 @@ header.feedHeader > .profileInformation > img{
     height: 8vh;
     width: 8vh;
 
-    border-radius: 50%;
+    border-radius: 10px;
 }
 
 /*HEADER: Friends display*/
@@ -124,7 +124,7 @@ div.friends > div > img{
     height: 10vh;
     width: 10vh;
 
-    border-radius: 50%;
+    border-radius: 10px;
 }
 /*Friends display: Each friend chat icon*/
 div.friends > div > div.chat_icon{
@@ -160,7 +160,7 @@ header.feedHeader > div.friendDisplay > div.friendRequestsDisplay > #activeReque
 header.feedHeader > div.friendDisplay > div.friendRequestsDisplay > #activeRequests > div > img{
     height: 7vh;
     width: 7vh;
-    border-radius: 50%;
+    border-radius: 10px;
     
     background-position: center;
     background-repeat: no-repeat;
@@ -295,9 +295,8 @@ main.mainFeed > div.feedWrapper > div.friendsPostDisplay > div.friendProfileDisp
 main.mainFeed > div.feedWrapper > div.friendsPostDisplay > div.friendProfileDisplay > img{
     height: 10vh;
     width: 10vh;
-    border-radius: 50%;
+    border-radius: 10px;
 }
-
 
 main.mainFeed > div.feedWrapper > div.postDisplay{
     background-color: #171717d1;
