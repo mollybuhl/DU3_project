@@ -387,7 +387,7 @@ async function renderFeedPage(){
         }
     }
 
-
+//If no posts?
     function scrollHandler(){
         var userDisplay = document.querySelector(".postDisplay");
         fadeOutOnScroll(userDisplay);
@@ -396,9 +396,6 @@ async function renderFeedPage(){
         friendsDisplay.forEach(display => {
             fadeOutOnScroll(display);
         })
-        
-       
-        
     }
 
     window.addEventListener("scroll", scrollHandler);

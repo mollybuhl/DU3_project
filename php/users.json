@@ -9,7 +9,7 @@
         ],
         "friendRequests": [],
         "posts": [],
-        "profilePicture": "..\/media\/profile_imgs\/profile_icon_1.jpg",
+        "profilePicture": "media\/profile_imgs\/profile_icon_1.jpg",
         "id": 1
     },
     {
@@ -55,6 +55,16 @@
                     {
                         "postId": 9,
                         "moodOfPost": "Angry"
+                    }
+                ]
+            },
+            {
+                "week": "May 15-21, 2023",
+                "weekId": 2,
+                "Monday": [
+                    {
+                        "postId": 7,
+                        "moodOfPost": "Forgiving"
                     }
                 ]
             }
@@ -120,9 +130,18 @@
                 "quote": "It is not ignorance but knowledge which is the mother of wonder.",
                 "dayOfWeek": "Saturday",
                 "timestamp": "11:26, 13 May"
+            },
+            {
+                "postID": 7,
+                "userID": 2,
+                "mood": "Forgiving",
+                "description": "oh",
+                "quote": "When I am able to resist the temptation to judge others, I can see them as teachers of forgiveness in my life, reminding me that I can only have peace of mind when I forgive rather than judge.",
+                "dayOfWeek": "Monday",
+                "timestamp": "10:54, 15 May"
             }
         ],
-        "profilePicture": "..\/media\/profile_imgs\/profile_icon_1.jpg",
+        "profilePicture": "media\/profile_imgs\/profile_icon_1.jpg",
         "id": 2
     },
     {
@@ -156,7 +175,7 @@
                 "timestamp": "13:30, 13 May"
             }
         ],
-        "profilePicture": "..\/media\/profile_imgs\/profile_icon_3.jpg",
+        "profilePicture": "media\/profile_imgs\/profile_icon_3.jpg",
         "id": 3
     },
     {
@@ -166,7 +185,7 @@
         "friends": [],
         "friendRequests": [],
         "posts": [],
-        "profilePicture": "..\/media\/profile_imgs\/profile_icon_1.jpg",
+        "profilePicture": "media\/profile_imgs\/profile_icon_1.jpg",
         "id": 4
     },
     {
