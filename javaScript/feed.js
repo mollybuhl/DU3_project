@@ -364,14 +364,6 @@ async function renderFeedPage(){
     document.querySelector(".footerFeed > div > .profileButton").parentElement.classList.remove("selected");
     document.querySelector(".footerFeed > div > .feedButton").parentElement.classList.add("selected");
 
-    //Render feed page when clicking feed icon in menu
-    document.querySelector(".feedButton").addEventListener("click", renderFeedPage);
-    //Render posting page when clicking add post button in menu
-    document.querySelector(".postButton").addEventListener("click", renderPostingModal);
-    //Render Chat when clicking chat icon in menu
-    document.querySelector(".chatButton").addEventListener("click", renderChatPage);
-    //Render profile when clicking on profile icon in menu
-    document.querySelector(".profileButton").addEventListener("click", renderProfilePage);
 
     function fadeOutOnScroll(element){
         console.log("SCROLL");
@@ -380,8 +372,8 @@ async function renderFeedPage(){
         var scrollTop = document.documentElement.scrollTop;
 
         var opacity = 1;
-        if(scrollTop > distanceToTop){
-            opacity = .7 - (scrollTop - distanceToTop) / elementHeight;
+        if(scrollTop > (distanceToTop - 100)){
+            opacity = .4 - (scrollTop - distanceToTop) / elementHeight;
         }
 
         if(opacity >= 0){
@@ -389,18 +381,45 @@ async function renderFeedPage(){
         }
     }
 
-//If no posts?
     function scrollHandler(){
-        var userDisplay = document.querySelector(".postDisplay");
-        fadeOutOnScroll(userDisplay);
-        var friendsDisplay = document.querySelectorAll(".friendsPostDisplay");
 
-        friendsDisplay.forEach(display => {
-            fadeOutOnScroll(display);
-        })
+        if(document.querySelector(".postDisplay")){
+            var userDisplay = document.querySelector(".postDisplay");
+            fadeOutOnScroll(userDisplay);
+        }
+        
+        if(document.querySelectorAll(".friendsPostDisplay")){
+            var friendsDisplay = document.querySelectorAll(".friendsPostDisplay");
+            friendsDisplay.forEach(display => {
+                fadeOutOnScroll(display);
+            })
+        }
     }
 
+    //Fade out at top on scroll
     window.addEventListener("scroll", scrollHandler);
+
+    //Render feed page when clicking feed icon in menu
+    document.querySelector(".feedButton").addEventListener("click", function(){
+        renderFeedPage();
+    });
+    //Render posting page when clicking add post button in menu
+    document.querySelector(".postButton").addEventListener("click",function(){
+        window.removeEventListener("scroll", scrollHandler);
+        renderPostingModal();
+    } );
+    //Render Chat when clicking chat icon in menu
+    document.querySelector(".chatButton").addEventListener("click", function (){
+        window.removeEventListener("scroll", scrollHandler);
+        renderChatPage();
+    });
+    //Render profile when clicking on profile icon in menu
+    document.querySelector(".profileButton").addEventListener("click", function(){
+        window.removeEventListener("scroll", scrollHandler);
+        renderProfilePage();
+    });
+
+    
 }
 
 //Handle friend request

@@ -267,5 +267,25 @@
         ],
         "profilePicture": "..\/media\/profile_imgs\/profile_icon_3.jpg",
         "id": 6
+    },
+    {
+        "username": "milly",
+        "password": "milly",
+        "loggedFeelings": [],
+        "friends": [],
+        "friendRequests": [],
+        "posts": [
+            {
+                "postID": 1,
+                "userID": 7,
+                "mood": "Forgiving",
+                "description": "Just becasue",
+                "quote": "If Jesus Christ was who He claimed to be, and He did die on a cross at a point of time in history, then, for all history past and all history future it is relevant because that is the very focal point for forgiveness and redemption.",
+                "dayOfWeek": "Monday",
+                "timestamp": "17:25, 15 May"
+            }
+        ],
+        "profilePicture": "media\/profile_imgs\/profile_icon_6.jpg",
+        "id": 7
     }
 ]
