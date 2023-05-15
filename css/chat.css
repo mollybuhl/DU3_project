@@ -58,7 +58,7 @@
 .iconStyle {
     background-position: center;
     background-size: contain;
-    border-radius: 100%;
+    border-radius: 10px;
     height: 6vh;
     width: 6vh;
 }
@@ -81,7 +81,7 @@
 /* First page when loading chat page */
 
 .chatMain > div.backgroundImage {
-    background-image: url(../media/11.avif\(1\).png);
+    background-image: url(../media/loggedInBackground.png);
     background-position: center;
     background-size: cover;
     height: 30vh;
@@ -203,6 +203,8 @@
     text-align: start;
     max-height: 80vh;
     overflow-y: scroll;
+    display: flex;
+    flex-direction: column-reverse;
 }
 #chat > #messages > div {
     margin: 10px;
@@ -262,6 +264,11 @@
 .messageTimestamp {
     font-size: 3vw;
     color: rgba(111, 111, 111, 0.901);
+}
+
+.messageText {
+    width: 60vw;
+    overflow-wrap: anywhere;
 }
 
 /* Rules for groupchat options */

@@ -6,8 +6,7 @@
                 2,
                 3
             ],
-            "messages": [
-            ]
+            "messages": []
         },
         {
             "id": 2,
@@ -16,7 +15,62 @@
                 1
             ],
             "messages": []
+        },
+        {
+            "id": 3,
+            "betweenUsers": [
+                2,
+                5
+            ],
+            "messages": [
+                {
+                    "sender": 2,
+                    "text": "hej",
+                    "timestamp": "22:5, 15 May",
+                    "id": 1
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "betweenUsers": [
+                2,
+                4
+            ],
+            "messages": [
+                {
+                    "sender": 2,
+                    "text": "hej",
+                    "timestamp": "22:4, 15 May",
+                    "id": 1
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "betweenUsers": [
+                2,
+                6
+            ],
+            "messages": []
         }
     ],
-    "groupChats": []
+    "groupChats": [
+        {
+            "id": 1,
+            "name": "hej",
+            "ownerID": 2,
+            "betweenUsers": [
+                2
+            ],
+            "messages": [
+                {
+                    "sender": 2,
+                    "text": "tjena",
+                    "timestamp": "22:0, 15 May",
+                    "id": 1
+                }
+            ]
+        }
+    ]
 }

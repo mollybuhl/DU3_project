@@ -225,6 +225,7 @@ async function renderChatPage(){
                 }
             });
 
+            chat.querySelector("#messageText").value = "";
             // When a message is sent, update the messages to see your own message instantly.
             fetchAndPrintMessages(false, true);
         }
@@ -247,9 +248,9 @@ async function renderChatPage(){
 
             conversationMessages.sort((a, b) => {
                 if(a.id > b.id){
-                    return 1;
-                }else{
                     return -1;
+                }else{
+                    return 1;
                 }
             });
 
