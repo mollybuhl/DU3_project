@@ -297,8 +297,8 @@ main.mainFeed > div.feedWrapper > div.friendsPostDisplay{
 
     margin-left: 10vw;
     border-radius: 10px 0 0 10px;
-    padding: 3vw;
-    padding-right: 0;
+    padding: 6vh 0 1vh;
+    
 
     position: relative;
 }
@@ -306,11 +306,17 @@ main.mainFeed > div.feedWrapper > div.friendsPostDisplay{
 main.mainFeed > div.feedWrapper > div.friendsPostDisplay > div.friendProfileDisplay{
     display: flex;
     gap: 2vh;
-    
+    position: absolute;
+    left: -1vh;
+    top: -2vh;
+    z-index: 10;
+
+    font-size: 24px;
+    color: #1d1d1d;
 } 
 main.mainFeed > div.feedWrapper > div.friendsPostDisplay > div.friendProfileDisplay > img{
-    height: 7vh;
-    width: 7vh;
+    height: 8vh;
+    width: 8vh;
     border-radius: 10px;
 }
 
@@ -319,8 +325,7 @@ main.mainFeed > div.feedWrapper > div.friendsPostDisplay > .allPosts{
     overflow-y: scroll;
     width: 100%;
     gap: 3vh;
-    padding: 1vh;
-    padding-right: 5vh;
+    padding: 1vh 5vh 1vh 2vh ;
 }
 
 main.mainFeed > div.feedWrapper > div.postDisplay{
