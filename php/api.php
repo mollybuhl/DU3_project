@@ -9,6 +9,7 @@ require_once "login.php";
 require_once "myProfile.php";
 require_once "register.php";
 require_once "sharemood.php";
+require_once "settings.php";
 
 $requestMethod = $_SERVER["REQUEST_METHOD"];
 if($requestMethod === "GET"){
@@ -76,6 +77,8 @@ switch($action){
     case "myProfile":
         myProfile($requestData);
         break;
+    case "settings":
+        editSettings();
 }
 
 

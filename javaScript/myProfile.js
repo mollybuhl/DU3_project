@@ -135,7 +135,6 @@ async function renderProfilePage() {
         </div>
         <button id="oneWeekAfter">></button>
     </div>
-    <button id="logout">Logout</button>
     `;
 
     let changeWeekButtons = document.querySelectorAll("div#calendar > button");
@@ -145,9 +144,12 @@ async function renderProfilePage() {
     }
 
     let weekdays = document.querySelectorAll("div#weekdays > div > p");
+    console.log(weekdays);
     for(let i = 0; i < weekdays.length; i++) {
         if(weekdays[i].textContent === today) {
+            console.log(today);
             weekdays[i].classList.add("today");
+            console.log(weekdays[i]);
         }
     }
 
@@ -167,8 +169,6 @@ async function renderProfilePage() {
     main.classList.add("mainProfile");
     
 
-    document.getElementById("logout").addEventListener("click", logout);
-
     let divs = document.querySelectorAll(".profileHeader > div");
 
     for(let i = 0; i < divs.length; i++) {
@@ -179,17 +179,12 @@ async function renderProfilePage() {
     header.appendChild(settingsButton);
     settingsButton.setAttribute("id", "settingsButton");
     settingsButton.textContent = "Settings";
+    settingsButton.addEventListener("click", renderSettingsPopup);
 
     //let date = `${month} ${dateOfTheMonth}, ${year}`;
     //Today's date if needed?
 
     prepareCalendar(postsOfUser, month, beginningOfWeek, storedMoods, week);
-}
-
-function logout() {
-    window.localStorage.setItem("loggedIn", "false");
-    window.localStorage.removeItem("userId");
-    renderHomePage();
 }
 
 function prepareCalendar(arrayOfPosts, month, beginningOfWeek, storedMoods, week) {
@@ -471,4 +466,123 @@ function displayRightWeek(rightWeek, storedMoods) {
     } else {
         document.querySelector("div#weekdays").textContent = "Sorry, you don't have any logged feelings";
     } 
+}
+
+function renderSettingsPopup() {
+    const main = document.querySelector("main");
+    if(!document.querySelector("#overlay")) {
+        let overlay = document.createElement("div");
+        main.appendChild(overlay);
+        overlay.setAttribute("id", "overlay");
+    } else {
+        document.querySelector("div#overlay").style.visibility = "visible";
+    }
+    
+    let overlay = document.querySelector("div#overlay");
+    overlay.innerHTML = `
+    <div id="settingsHeader">
+        <p>Settings</p>
+        <button id="closeSettings">X</button></div>
+    <div id="buttonOptions">
+        <button class="usernameButton">Change username</button>
+        <button class="passwordButton">Change password</button>
+        <button class="deleteUserButton">Delete user</button>
+        <button id="logout">Logout</button>
+    </div>
+    `;
+
+    document.getElementById("logout").addEventListener("click", logout);
+    document.getElementById("closeSettings").addEventListener("click", closeSettings);
+
+    document.querySelector("button.usernameButton").addEventListener("click", renderUsernamePopup);
+    document.querySelector("button.passwordButton").addEventListener("click", renderPasswordPopup);
+    document.querySelector("button.deleteUserButton").addEventListener("click", renderDeleteAccountPopup);
+}
+
+function logout() {
+    window.localStorage.setItem("loggedIn", "false");
+    window.localStorage.removeItem("userId");
+    renderHomePage();
+}
+
+function closeSettings() {
+    document.getElementById("overlay").style.visibility = "collapse";
+    document.querySelector("div.infoBox").style.visibility = "collapse";
+}
+
+function renderUsernamePopup() {
+
+    if(!document.querySelector("div.infoBox")) {
+        let typeInfoBox = document.createElement("div");
+        document.getElementById("overlay").appendChild(typeInfoBox);
+        typeInfoBox.classList.add("infoBox");
+    } else {
+        document.querySelector("div.infoBox").style.visibility = "visible";
+    }
+
+    let typeInfoBox = document.querySelector("div.infoBox");
+    document.querySelector("button.usernameButton").disabled = true;
+
+    typeInfoBox.innerHTML = `
+    <label for="oldUsername">Type your old username:</label>
+    <input id="oldUsername" placeholder="Existing username">
+    <label for="password">Type your password:</label>
+    <input id="password" placeholder="Password">
+    <label for="newUsername">Type a new username:</label>
+    <input id="newUsername" placeholder="New username">
+    <button id="sendChanges">Save</button>
+    `;
+
+    document.querySelector("button#sendChanges").addEventListener("click", changeUsername);
+    
+}
+
+async function changeUsername() {
+    let existingUsername = document.querySelector("input#oldUsername").value;
+    let password = document.querySelector("input#password").value;
+    let newUsername = document.querySelector("input#newUsername").value;
+    let userID = window.localStorage.getItem("userId");
+    
+    let requestDetails = {
+        method: "PATCH",
+        headers: {"Content-type": "application/json; charset=UTF-8"},
+        body: JSON.stringify({
+            userID: userID,
+            existingUsername: existingUsername,
+            userPassword: password,
+            action: "settings",
+            newUsername: newUsername
+    })};
+
+    let response = await fetchAPI(false, requestDetails);
+
+    if(!response.ok) {
+        /*let resource = await response.json();
+        if(!document.querySelector(".infoBox > .informUser")) {
+            let informUser = document.createElement("p");
+            document.querySelector("div.infoBox").appendChild(informUser);
+            informUser.classList.add("informUser");
+        } 
+
+        let informUser = document.querySelector("p.informUser");
+        informUser.textContent = resource.message;
+
+        return;*/
+
+    } 
+
+    let resource = await response.json();
+    let changedUsername = resource.newUsername;
+    document.querySelector("div#profileUsername").textContent = changedUsername;
+    document.querySelector("div.infoBox").style.visibility = "collapse";
+    document.querySelector("button.usernameButton").disabled = false;
+
+}
+
+function renderPasswordPopup() {
+
+}
+
+function renderDeleteAccountPopup() {
+
 }
