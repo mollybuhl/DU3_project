@@ -507,7 +507,9 @@ function logout() {
 
 function closeSettings() {
     document.getElementById("overlay").style.visibility = "collapse";
-    document.querySelector("div.infoBox").style.visibility = "collapse";
+    if(document.querySelector("div.infoBox") !== null) {
+        document.querySelector("div.infoBox").style.visibility = "collapse";
+    }
 }
 
 function renderUsernamePopup() {
@@ -565,9 +567,9 @@ async function changeUsername() {
         } 
 
         let informUser = document.querySelector("p.informUser");
-        informUser.textContent = resource.message;
+        informUser.textContent = resource.message;*/
 
-        return;*/
+        return;
 
     } 
 
