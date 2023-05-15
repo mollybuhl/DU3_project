@@ -167,6 +167,7 @@ async function renderProfilePage() {
     let footer = document.querySelector("footer");
     main.classList.remove("mainFeed");
     main.classList.add("mainProfile");
+    main.classList.remove("chatMain");
     
 
     let divs = document.querySelectorAll(".profileHeader > div");
