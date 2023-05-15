@@ -48,7 +48,7 @@ function register($data, $users){
         "friends" => [],
         "friendRequests" => [],
         "posts" => [],
-        "profilePicture" => "../media/profile_imgs/$profilePicture"
+        "profilePicture" => "media/profile_imgs/$profilePicture"
     ];
     
     // Add unique ID to new user
