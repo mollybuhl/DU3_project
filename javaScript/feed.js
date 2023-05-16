@@ -3,8 +3,6 @@
 /*
     - Connect friend chat to chat icon 
     - Action if fetch users fail
-    - Fade-out header
-    - Friends name and img display
 */
 
 async function renderFeedPage(){
@@ -200,6 +198,12 @@ async function renderFeedPage(){
             case "Fear":
                 newPost.classList.add("fear");
             break;
+            case "Alone":
+                newPost.classList.add("alone");
+            break;
+            case "Funny":
+                newPost.classList.add("funny");
+            break;
         }
 
         return newPost;
@@ -366,7 +370,6 @@ async function renderFeedPage(){
 
 
     function fadeOutOnScroll(element){
-        console.log("SCROLL");
         var distanceToTop = window.pageYOffset + element.getBoundingClientRect().top;
         var elementHeight = element.offsetHeight;
         var scrollTop = document.documentElement.scrollTop;
@@ -383,11 +386,13 @@ async function renderFeedPage(){
 
     function scrollHandler(){
 
+        //Will only be called if user has posted
         if(document.querySelector(".postDisplay")){
             var userDisplay = document.querySelector(".postDisplay");
             fadeOutOnScroll(userDisplay);
         }
         
+        //Will only be called if users friends have posted
         if(document.querySelectorAll(".friendsPostDisplay")){
             var friendsDisplay = document.querySelectorAll(".friendsPostDisplay");
             friendsDisplay.forEach(display => {

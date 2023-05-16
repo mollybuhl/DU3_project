@@ -139,6 +139,33 @@
                 "quote": "When I am able to resist the temptation to judge others, I can see them as teachers of forgiveness in my life, reminding me that I can only have peace of mind when I forgive rather than judge.",
                 "dayOfWeek": "Monday",
                 "timestamp": "10:54, 15 May"
+            },
+            {
+                "postID": 9,
+                "userID": 2,
+                "mood": "Jealous",
+                "description": "",
+                "quote": "Those who enjoy their own emotionally bad health and who habitually fill their own minds with the rank poisons of suspicion, jealousy and hatred, as a rule take umbrage at those who refuse to do likewise, and they find a perverted relief in trying to denigrate them.",
+                "dayOfWeek": "Tuesday",
+                "timestamp": "16:7, 16 May"
+            },
+            {
+                "postID": 10,
+                "userID": 2,
+                "mood": "Happy",
+                "description": "",
+                "quote": "Only man clogs his happiness with care, destroying what is with thoughts of what may be.",
+                "dayOfWeek": "Tuesday",
+                "timestamp": "16:9, 16 May"
+            },
+            {
+                "postID": 11,
+                "userID": 2,
+                "mood": "Funny",
+                "description": "",
+                "quote": "I've always believed that there are funny people everywhere, but they're just not comedians. In fact, some of my best comedic inspirations were not professional entertainers.",
+                "dayOfWeek": "Tuesday",
+                "timestamp": "20:8, 16 May"
             }
         ],
         "profilePicture": "media\/profile_imgs\/profile_icon_1.jpg",
@@ -271,7 +298,18 @@
     {
         "username": "milly",
         "password": "milly",
-        "loggedFeelings": [],
+        "loggedFeelings": [
+            {
+                "week": "May 15-21, 2023",
+                "weekId": 1,
+                "Monday": [
+                    {
+                        "postId": 1,
+                        "moodOfPost": "Forgiving"
+                    }
+                ]
+            }
+        ],
         "friends": [],
         "friendRequests": [],
         "posts": [

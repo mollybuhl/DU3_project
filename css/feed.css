@@ -372,6 +372,13 @@ div.post.jealous{
 div.post.fear{
     border-color: #625FE0;
 }
+div.post.alone{
+    border-color: #8b7376;
+}
+div.post.funny{
+    border-color: #859b70;
+}
+
 
 
 /*MAIN: Post image and title box*/
