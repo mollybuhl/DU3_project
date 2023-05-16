@@ -55,7 +55,7 @@ function chat($data, $users, $allConversations){
                         foreach($conversation["messages"] as $messageIndex => $message){
                             foreach($users as $user){   
                                 if($user["id"] == $message["sender"]){
-                                    $conversation["messages"][$messageIndex]["sender"] = $user["username"];
+                                    $conversation["messages"][$messageIndex]["senderName"] = $user["username"];
                                     $profilePicURL = $user["profilePicture"];
                                     $conversation["messages"][$messageIndex]["profilePicture"] = $profilePicURL;
                                 }

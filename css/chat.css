@@ -13,6 +13,7 @@
     flex-direction: column;
     padding: 25px;
     margin: 25px;
+    gap: 5px;
 }
 
 .chatPageModal {
@@ -270,6 +271,20 @@
 .messageText {
     width: 60vw;
     overflow-wrap: anywhere;
+}
+
+.messageUsername {
+    display: flex;
+    gap: 5px;
+}
+
+.ownerIconMessage.hidden {
+    display: none;
+}
+
+.ownerIconMessage {
+    height: 2vh;
+    width: 2vh;
 }
 
 /* Rules for groupchat options */

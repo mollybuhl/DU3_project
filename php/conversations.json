@@ -6,7 +6,14 @@
                 2,
                 4
             ],
-            "messages": []
+            "messages": [
+                {
+                    "sender": 2,
+                    "text": "hej",
+                    "timestamp": "14:37, 16 May",
+                    "id": 1
+                }
+            ]
         },
         {
             "id": 2,

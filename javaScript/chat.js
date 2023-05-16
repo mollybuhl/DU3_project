@@ -7,7 +7,6 @@ TODO:
     - Classes/IDs
     - Variable names
     - CSS   
-    - Fix error if two groupchats have same name
     - Small errors in code
     - Make code more readable, destructure functions? Repeated code?
     - Error messages
@@ -97,7 +96,7 @@ async function renderChatPage(event, calledFromFeed = false, friendName){
         const groupChatDom = document.createElement("div");
         groupChatDom.innerHTML = `
         <div class="iconStyle groupIcon" style="background-image: url('media/groupIcon.png');")></div>
-        <div class="chatName">${groupChat.name}</div>
+        <div data-chatid="${groupChat.id}" class="chatName">${groupChat.name}</div>
         `
         groupChatDom.querySelector(".chatName").addEventListener("click", event => event.stopPropagation());
         groupChatDom.querySelector(".iconStyle").addEventListener("click", event => event.stopPropagation());
@@ -126,6 +125,7 @@ async function renderChatPage(event, calledFromFeed = false, friendName){
         let chatID;
         let type;
         let chatName;
+        let ownerID;
 
         // If this was called from clicking a chat, find what type it was.
         if(event){
@@ -178,8 +178,11 @@ async function renderChatPage(event, calledFromFeed = false, friendName){
         // If the clicked <div> was a groupchat, find which groupchat was clicked then store that groupchats ID in chatID.
         if(type === "groupChat"){
             userGroupChats.forEach(groupChat => {
-                if(chatName === groupChat.name){
+                const targetChatID = parseInt(event.target.querySelector(".chatName").dataset.chatid);
+                console.log(targetChatID);
+                if(chatName === groupChat.name && targetChatID === groupChat.id){
                     chatID = groupChat.id;
+                    ownerID = groupChat.ownerID;
                 }
             })
         }
@@ -214,7 +217,7 @@ async function renderChatPage(event, calledFromFeed = false, friendName){
 
         // Add eventListeners to send message and close the chat
         chat.querySelector("#sendMessage").addEventListener("click", sendMessage);
-        chat.querySelector("#closeChat").addEventListener("click", function(){
+        chat.querySelector("#closeChat").addEventListener("click", event => {
             chatModal.remove();
             renderChatPage();
         })
@@ -284,12 +287,18 @@ async function renderChatPage(event, calledFromFeed = false, friendName){
                 <div class="messageProfPic" style="background-image: url('${message.profilePicture}');"></div>
                 <div class="messageBody">
                     <div class="messageInfo">
-                        <div class="messageUsername">${message.sender}</div>
+                        <div class="messageUsername">${message.senderName}<img class="ownerIconMessage hidden" src="media/ownerIcon.png"></div>
                         <div class="messageTimestamp">${message.timestamp}</div>
                     </div>
                     <div class="messageText">${message.text}</div>
                 </div>
                 `;
+                if(type === "groupChat"){
+                    if(message.sender === ownerID){
+                        messageDiv.querySelector(".ownerIconMessage").classList.remove("hidden");
+                    }
+                }
+
                 messagesDiv.appendChild(messageDiv);
             })
 
@@ -547,15 +556,18 @@ async function renderChatPage(event, calledFromFeed = false, friendName){
         // Post the new chat to the server and render the chat page again to see the new groupchat.
         groupChatModal.querySelector("#finalizeGroupChat").addEventListener("click", async function(){
             const chatName = document.querySelector("#groupName").value;
-            await fetchChatPhp(user, userPassword, "POST", {
+            const resource = await fetchChatPhp(user, userPassword, "POST", {
                 chatAction: "createGroupChat",
                 chatName: chatName,
                 betweenUsers: betweenUsers
             });
-            renderChatPage();
-        })
+            if(resource !== undefined){
+                renderChatPage();
+            }
+        });
 
         main.appendChild(groupChatModal);
+
     }
 
     if(calledFromFeed){
@@ -598,12 +610,16 @@ async function fetchChatPhp(user, userPassword, method, specificInfo, fetchModal
 // This function handles responses, might delete later.
 async function chatResponseHandler(response){
     if(!response.ok){
-        const message = await response.json().message;
+        const resource = await response.json();
         const errorModal = document.createElement("div");
         errorModal.innerHTML = `
-        <div id="errorMessage">${message}</div>
-        <button id="errorMessageButton">Close</div>
+        <div class="modalContainer">
+            <div id="errorMessage">${await resource.message}</div>
+            <button id="errorMessageButton">Close</div>
+        </div>
         `
+        errorModal.classList.add("chatPageModal");
+
         errorModal.querySelector("#errorMessageButton").addEventListener("click", event => errorModal.remove());
 
         const main = document.querySelector("main");
