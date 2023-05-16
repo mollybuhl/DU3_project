@@ -9,6 +9,8 @@ function renderPostingModal(){
     document.querySelector(".footerFeed > div > .profileButton").parentElement.classList.remove("selected");
     document.querySelector(".footerFeed > div > .postButton").parentElement.classList.add("selected");
 
+    document.querySelector("body").classList.add("noScroll");
+
 
     let mood;
     let apiCategory;

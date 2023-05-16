@@ -13,9 +13,7 @@ function shareMood($data, $users){
     $description = $data["description"];
     $quote = $data["quote"];
     $timestamp = $data["timestamp"];
-    $dayOfWeek = $data["dayOfWeek"];
-
-   
+    $dayOfWeek = $data["dayOfWeek"];  
     
     // Find the user with the same ID as in the one in the request.
     foreach($users as $index => $user){
