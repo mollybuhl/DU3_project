@@ -366,7 +366,9 @@ async function renderChatPage(event, calledFromFeed = false, friendName){
                             name: name,
                             chatID: chatID
                         });
-                        chat.querySelector("#chatName").textContent = newName;
+                        if(newName !== undefined){
+                            chat.querySelector("#chatName").textContent = newName;
+                        }
                     })
                     optionsDivDom.appendChild(changeGroupNameDom);
                 })

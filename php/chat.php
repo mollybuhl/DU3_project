@@ -233,6 +233,11 @@ function chat($data, $users, $allConversations){
 
         if($chatAction == "changeGroupName"){
             $newGroupName = $data["name"];
+            
+            if(strlen($newGroupName) > 12){
+                $error = ["message" => "The name can't be longer than 12 characters."];
+                sendJSON($error, 400);
+            }
 
             foreach($groupChats as $chatIndex => $chat){
                 if($chat["id"] == $chatID){
