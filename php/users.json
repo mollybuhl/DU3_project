@@ -80,6 +80,12 @@
                         "postId": 11,
                         "moodOfPost": "Funny"
                     }
+                ],
+                "Wednesday": [
+                    {
+                        "postId": 1,
+                        "moodOfPost": "Forgiving"
+                    }
                 ]
             }
         ],
@@ -94,92 +100,20 @@
             {
                 "postID": 1,
                 "userID": 2,
-                "mood": "Happy",
-                "description": "good day",
-                "quote": "Happiness, or misery, is in the mind. It is the mind that lives.",
-                "dayOfWeek": "Saturday",
-                "timestamp": "11:1, 13 May"
+                "mood": "Forgiving",
+                "description": "That day",
+                "quote": "How unhappy is he who cannot forgive himself.",
+                "dayOfWeek": "Wednesday",
+                "timestamp": "9:47, 17 May"
             },
             {
                 "postID": 2,
                 "userID": 2,
-                "mood": "Angry",
-                "description": "BAd day",
-                "quote": "A lot of my humor does come from anger. It's like, you're not gonna pull one over on me - which is pretty much my motto anyways.",
-                "dayOfWeek": "Saturday",
-                "timestamp": "11:25, 13 May"
-            },
-            {
-                "postID": 3,
-                "userID": 2,
-                "mood": "Couragious",
-                "description": "Yessss",
-                "quote": "Grave was the man in years, in looks, in word, his locks were grey, yet was his courage green.",
-                "dayOfWeek": "Saturday",
-                "timestamp": "11:26, 13 May"
-            },
-            {
-                "postID": 4,
-                "userID": 2,
-                "mood": "Fear",
-                "description": "scary",
-                "quote": "If I have resistance to something, it means there's something wrong. The resistance to me is a sign of fear.",
-                "dayOfWeek": "Saturday",
-                "timestamp": "11:26, 13 May"
-            },
-            {
-                "postID": 5,
-                "userID": 2,
-                "mood": "Happy",
-                "description": "odkf",
-                "quote": "I've worked on films where the budgets are almost limitless and you're in trailers that are bigger than a hotel room. You're taken care of and the food is amazing, the quality of the job is amazing and then you work on smaller things but it never dictates my happiness or my willingness to go to work.",
-                "dayOfWeek": "Saturday",
-                "timestamp": "11:26, 13 May"
-            },
-            {
-                "postID": 6,
-                "userID": 2,
-                "mood": "Sad",
-                "description": "sad",
-                "quote": "It is not ignorance but knowledge which is the mother of wonder.",
-                "dayOfWeek": "Saturday",
-                "timestamp": "11:26, 13 May"
-            },
-            {
-                "postID": 7,
-                "userID": 2,
-                "mood": "Forgiving",
-                "description": "oh",
-                "quote": "When I am able to resist the temptation to judge others, I can see them as teachers of forgiveness in my life, reminding me that I can only have peace of mind when I forgive rather than judge.",
-                "dayOfWeek": "Monday",
-                "timestamp": "10:54, 15 May"
-            },
-            {
-                "postID": 9,
-                "userID": 2,
-                "mood": "Jealous",
-                "description": "",
-                "quote": "Those who enjoy their own emotionally bad health and who habitually fill their own minds with the rank poisons of suspicion, jealousy and hatred, as a rule take umbrage at those who refuse to do likewise, and they find a perverted relief in trying to denigrate them.",
-                "dayOfWeek": "Tuesday",
-                "timestamp": "16:7, 16 May"
-            },
-            {
-                "postID": 10,
-                "userID": 2,
-                "mood": "Happy",
-                "description": "",
-                "quote": "Only man clogs his happiness with care, destroying what is with thoughts of what may be.",
-                "dayOfWeek": "Tuesday",
-                "timestamp": "16:9, 16 May"
-            },
-            {
-                "postID": 11,
-                "userID": 2,
                 "mood": "Funny",
-                "description": "",
-                "quote": "I've always believed that there are funny people everywhere, but they're just not comedians. In fact, some of my best comedic inspirations were not professional entertainers.",
-                "dayOfWeek": "Tuesday",
-                "timestamp": "20:8, 16 May"
+                "description": "I am FUNNY",
+                "quote": "Behind every great man is a woman rolling her eyes.",
+                "dayOfWeek": "Wednesday",
+                "timestamp": "9:58, 17 May"
             }
         ],
         "profilePicture": "media\/profile_imgs\/profile_icon_1.jpg",

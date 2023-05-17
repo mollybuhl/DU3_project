@@ -247,7 +247,7 @@ main.mainFeed{
 /*MAIN: Feed wrapper*/
 .mainFeed > div.feedWrapper{
     height: 100%;
-    margin-top: 20vh;
+    padding-top: 20vh;
     overflow: hidden;
 
     display: flex;
