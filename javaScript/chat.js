@@ -460,7 +460,6 @@ async function renderChatPage(event, calledFromFeed = false, friendName){
                 const leaveDeleteButton = optionsDivDom.querySelector("#leaveDelete");
                 leaveDeleteButton.textContent = "Leave groupchat";
                 leaveDeleteButton.addEventListener("click", async function(){
-                    console.log("hej");
                     const confirmationModal = document.createElement("div");
                     confirmationModal.innerHTML = `
                     <div class="modalContainer">
@@ -480,6 +479,7 @@ async function renderChatPage(event, calledFromFeed = false, friendName){
                             chatID: chatID
                         });
                         confirmationModal.remove();
+                        renderChatPage();
                     });
 
                     optionsDivDom.appendChild(confirmationModal);
