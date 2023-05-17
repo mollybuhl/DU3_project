@@ -231,7 +231,7 @@ async function renderChatPage(event, calledFromFeed = false, friendName){
 
             const date = new Date();
             const months = ["Jan.", "Feb.", "Mar.", "Apr.", "May", "June", "July", "Aug.", "Sep.", "Oct.", "Nov.", "Dec."];
-            
+
             let hours = date.getHours();
             let minutes = date.getMinutes();
             if(hours.length === 1){
@@ -634,6 +634,7 @@ async function chatResponseHandler(response){
         errorModal.classList.add("chatPageModal");
 
         errorModal.querySelector("#errorMessageButton").addEventListener("click", event => {
+            errorModal.remove();
             renderChatPage();
         });
 
