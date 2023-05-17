@@ -39,7 +39,7 @@ function renderPostingModal(){
         <button id="quoteButton">Generate quote</button>
     </div>
     <div class="shareMoodFeedbackMessage"></div>
-    <button id="postFeeling">Share feelings :)</button>
+    <button id="postFeeling">Share feelings</button>
     `
 
     const feelingsButtons = postMoodModal.querySelectorAll("#feelings > button");

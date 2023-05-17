@@ -228,7 +228,7 @@ async function renderFeedPage(){
                 <p class="messageToUser"></p>
                 <form name="searchForm">
                     <input name="searchbar" type="text" placeholder="Search">
-                    <button><img src="../media/search.png"></button>
+                    <button><img src="media/search.png"></button>
                 </form>
             </div>
         </div>
