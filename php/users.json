@@ -85,12 +85,16 @@
                 ],
                 "Wednesday": [
                     {
-                        "postId": 1,
-                        "moodOfPost": "Forgiving"
+                        "postId": 4,
+                        "moodOfPost": "Happy"
                     },
                     {
-                        "postId": 2,
-                        "moodOfPost": "Funny"
+                        "postId": 5,
+                        "moodOfPost": "Couragious"
+                    },
+                    {
+                        "postId": 6,
+                        "moodOfPost": "Jealous"
                     }
                 ]
             }
@@ -104,22 +108,31 @@
         "friendRequests": [],
         "posts": [
             {
-                "postID": 1,
+                "postID": 4,
                 "userID": 2,
-                "mood": "Forgiving",
-                "description": "That day",
-                "quote": "How unhappy is he who cannot forgive himself.",
+                "mood": "Happy",
+                "description": "happy",
+                "quote": "It is our happiness to live under the government of a PRINCE who is satisfied with ruling according to law as every other good prince will - We enjoy under his administration all the liberty that is proper and expedient for us.",
                 "dayOfWeek": "Wednesday",
-                "timestamp": "9:47, 17 May"
+                "timestamp": "14:38, 17 May"
             },
             {
-                "postID": 2,
+                "postID": 5,
                 "userID": 2,
-                "mood": "Funny",
-                "description": "I am FUNNY",
-                "quote": "Behind every great man is a woman rolling her eyes.",
+                "mood": "Couragious",
+                "description": "Yeah",
+                "quote": "Courage is the most important of all the virtues, because without courage you can't practice any other virtue consistently. You can practice any virtue erratically, but nothing consistently without courage.",
                 "dayOfWeek": "Wednesday",
-                "timestamp": "9:58, 17 May"
+                "timestamp": "14:38, 17 May"
+            },
+            {
+                "postID": 6,
+                "userID": 2,
+                "mood": "Jealous",
+                "description": "jealous",
+                "quote": "I think it's important to get your surroundings as well as yourself into a positive state - meaning surround yourself with positive people, not the kind who are negative and jealous of everything you do.",
+                "dayOfWeek": "Wednesday",
+                "timestamp": "14:38, 17 May"
             }
         ],
         "profilePicture": "media\/profile_imgs\/profile_icon_1.jpg",

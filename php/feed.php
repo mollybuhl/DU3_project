@@ -31,18 +31,36 @@ function feed($requestData, $users){
     
         foreach($users as $indexUser => $user){
             if($user["id"] == $userID){
-    
+
                 $userPosts = $users[$indexUser]["posts"];
                 foreach($userPosts as $indexPost => $userPost){
     
                     if($userPost["postID"] == $postID){
                         array_splice($users[$indexUser]["posts"], $indexPost, 1);
                        
+                        $userLoggedFeelings = $user["loggedFeelings"];
+                        foreach($userLoggedFeelings as $weekIndex => $weeklyLoggedFeelings){
+                            foreach ($weeklyLoggedFeelings as $weekKeyIndex => $weekKey) {
+                                if(is_array($weekKey)){
+                                    foreach($weekKey as $postIndex => $post){
+                                        if($post["postId"] == $postID){
+                                            $daylyPosts = $users["$indexUser"]["loggedFeelings"][$weekIndex][$weekKeyIndex];
+                                            echo json_encode($daylyPosts);
+                                            array_splice($daylyPosts, $postIndex, 1);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
                         putInUsersJSON($users);
                         $message = ["message" => "Post Deleted"];
                         sendJSON($message);
                     } 
                 }
+                
+                $message = ["message" => "This post was not found."];
+                sendJSON($message, 400); 
             }
         }
     }
