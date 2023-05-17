@@ -66,6 +66,20 @@
                         "postId": 7,
                         "moodOfPost": "Forgiving"
                     }
+                ],
+                "Tuesday": [
+                    {
+                        "postId": 9,
+                        "moodOfPost": "Jealous"
+                    },
+                    {
+                        "postId": 10,
+                        "moodOfPost": "Happy"
+                    },
+                    {
+                        "postId": 11,
+                        "moodOfPost": "Funny"
+                    }
                 ]
             }
         ],
@@ -325,5 +339,15 @@
         ],
         "profilePicture": "media\/profile_imgs\/profile_icon_6.jpg",
         "id": 7
+    },
+    {
+        "username": "molly1010",
+        "password": "molly1010",
+        "loggedFeelings": [],
+        "friends": [],
+        "friendRequests": [],
+        "posts": [],
+        "profilePicture": "media\/profile_imgs\/profile_icon_4.jpg",
+        "id": 8
     }
 ]
