@@ -231,7 +231,16 @@ async function renderChatPage(event, calledFromFeed = false, friendName){
 
             const date = new Date();
             const months = ["Jan.", "Feb.", "Mar.", "Apr.", "May", "June", "July", "Aug.", "Sep.", "Oct.", "Nov.", "Dec."];
-            let timestamp = `${date.getHours()}:${date.getMinutes()}, ${date.getDate()} ${months[date.getMonth()]}`
+            
+            let hours = date.getHours();
+            let minutes = date.getMinutes();
+            if(hours.length === 1){
+                hours = `0${date.getHours()}`;
+            }
+            if(minutes.length === 1){
+                minutes = `0${date.getMinutes()}`;
+            }
+            let timestamp = `${hours}:${minutes}, ${date.getDate()} ${months[date.getMonth()]}`
 
             await fetchChatPhp(user, userPassword, "POST", {
                 chatAction: "postMessage",
@@ -368,7 +377,9 @@ async function renderChatPage(event, calledFromFeed = false, friendName){
                         });
                         if(newName !== undefined){
                             chat.querySelector("#chatName").textContent = newName;
+                            changeGroupNameDom.remove();
                         }
+
                     })
                     optionsDivDom.appendChild(changeGroupNameDom);
                 })
@@ -622,7 +633,9 @@ async function chatResponseHandler(response){
         `
         errorModal.classList.add("chatPageModal");
 
-        errorModal.querySelector("#errorMessageButton").addEventListener("click", event => errorModal.remove());
+        errorModal.querySelector("#errorMessageButton").addEventListener("click", event => {
+            renderChatPage();
+        });
 
         const main = document.querySelector("main");
         main.appendChild(errorModal);

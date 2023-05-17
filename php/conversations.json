@@ -21,7 +21,26 @@
                 2,
                 3
             ],
-            "messages": []
+            "messages": [
+                {
+                    "sender": 3,
+                    "text": "hej",
+                    "timestamp": "15:12, 17 May",
+                    "id": 1
+                },
+                {
+                    "sender": 2,
+                    "text": "hwj",
+                    "timestamp": "15:12, 17 May",
+                    "id": 2
+                },
+                {
+                    "sender": 2,
+                    "text": "tjena",
+                    "timestamp": "17:16, 17 May",
+                    "id": 3
+                }
+            ]
         },
         {
             "id": 3,
@@ -55,5 +74,31 @@
             "messages": []
         }
     ],
-    "groupChats": []
+    "groupChats": [
+        {
+            "id": 1,
+            "name": "hej",
+            "ownerID": 3,
+            "betweenUsers": [
+                3
+            ],
+            "messages": []
+        },
+        {
+            "id": 2,
+            "name": "hejsan",
+            "ownerID": 2,
+            "betweenUsers": [
+                2
+            ],
+            "messages": [
+                {
+                    "sender": 2,
+                    "text": "hej",
+                    "timestamp": "17:13, 17 May",
+                    "id": 1
+                }
+            ]
+        }
+    ]
 }
