@@ -4,16 +4,45 @@
             "id": 1,
             "betweenUsers": [
                 2,
-                3
+                4
             ],
             "messages": [
+                {
+                    "sender": 2,
+                    "text": "hej",
+                    "timestamp": "14:37, 16 May",
+                    "id": 1
+                }
             ]
         },
         {
             "id": 2,
             "betweenUsers": [
                 2,
-                1
+                3
+            ],
+            "messages": []
+        },
+        {
+            "id": 3,
+            "betweenUsers": [
+                2,
+                6
+            ],
+            "messages": [
+                {
+                    "sender": 2,
+                    "text": "hej",
+                    "timestamp": "0:21, 16 May",
+                    "id": 1
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "betweenUsers": [
+                2,
+                5
             ],
             "messages": []
         }

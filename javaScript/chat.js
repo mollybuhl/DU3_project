@@ -7,7 +7,6 @@ TODO:
     - Classes/IDs
     - Variable names
     - CSS   
-    - Fix error if two groupchats have same name
     - Small errors in code
     - Make code more readable, destructure functions? Repeated code?
     - Error messages
@@ -15,10 +14,10 @@ TODO:
 */
 
 // Renders the chat page.
-async function renderChatPage(){
+async function renderChatPage(event, calledFromFeed = false, friendName){
     const user = parseInt(window.localStorage.getItem("userId"));
     const userPassword = window.localStorage.getItem("userPassword");
-
+    
     
     document.querySelector(".footerFeed > div > .postButton").parentElement.classList.remove("selected");
     document.querySelector(".footerFeed > div > .feedButton").parentElement.classList.remove("selected");
@@ -97,7 +96,7 @@ async function renderChatPage(){
         const groupChatDom = document.createElement("div");
         groupChatDom.innerHTML = `
         <div class="iconStyle groupIcon" style="background-image: url('media/groupIcon.png');")></div>
-        <div class="chatName">${groupChat.name}</div>
+        <div data-chatid="${groupChat.id}" class="chatName">${groupChat.name}</div>
         `
         groupChatDom.querySelector(".chatName").addEventListener("click", event => event.stopPropagation());
         groupChatDom.querySelector(".iconStyle").addEventListener("click", event => event.stopPropagation());
@@ -118,21 +117,41 @@ async function renderChatPage(){
     // Add eventListener to create group chat button.
     main.querySelector("#addGroupChat").addEventListener("click", createGroupChat);
 
+
     // This function renders a chat with the person or group that was clicked.
     async function renderChat(event){
+
         // Declaring chatID and type here to use it later when fetching chats.
         let chatID;
         let type;
-        
-        // If the clicked <div> was a private chat/friend chat, find which friend that was clicked then find the chat that is between the user and that friend, then store that chats ID in chatID. If it's the first time a chat was opened between the user and the friend, create a new chat between them.
-        if(event.target.classList.contains("privateChat")){
-            const target = event.target.querySelector(".chatName");
-            type = "privateChat";
-            const clickedFriendUsername = target.textContent;
+        let chatName;
+        let ownerID;
 
-            let friendObject
+        // If this was called from clicking a chat, find what type it was.
+        if(event){
+            if(event.target.classList.contains("privateChat")){
+                type = "privateChat";
+            }
+            if(event.target.classList.contains("groupChat")){
+                type = "groupChat";
+            }
+        }
+    
+        // If this function wasn't called from feed, get the name of the chat from the event.target.
+        if(!calledFromFeed){
+            const target = event.target.querySelector(".chatName");
+            chatName = target.textContent;
+        }
+        // If called from feed, set the chatName to the name sent when calling the renderChatPage function, and set type to "privateChat" because it will always be a privateChat.
+        if(calledFromFeed){
+            chatName = friendName;
+            type = "privateChat";
+        }
+        // If the clicked <div> was a private chat/friend chat, find which friend that was clicked then find the chat that is between the user and that friend, then store that chats ID in chatID. If it's the first time a chat was opened between the user and the friend, create a new chat between them.
+        if(type === "privateChat"){
+            let friendObject;
             userFriends.forEach(friend => {
-                if(friend.username === clickedFriendUsername){
+                if(friend.username === chatName){
                     userPrivateChats.forEach(chat => {
                         if(chat.betweenUsers.includes(friend.id)){
                             chatID = chat.id;
@@ -157,18 +176,15 @@ async function renderChatPage(){
         }
 
         // If the clicked <div> was a groupchat, find which groupchat was clicked then store that groupchats ID in chatID.
-        if(event.target.classList.contains("groupChat")){
-            const target = event.target.querySelector(".chatName");
-            type = "groupChat";
-            
-            const clickedGroupChat = target.textContent;
-
+        if(type === "groupChat"){
             userGroupChats.forEach(groupChat => {
-                if(clickedGroupChat === groupChat.name){
+                const targetChatID = parseInt(event.target.querySelector(".chatName").dataset.chatid);
+                console.log(targetChatID);
+                if(chatName === groupChat.name && targetChatID === groupChat.id){
                     chatID = groupChat.id;
+                    ownerID = groupChat.ownerID;
                 }
             })
-
         }
 
         // Create the chatmodal that will be used to chat.
@@ -178,7 +194,7 @@ async function renderChatPage(){
         const chat = document.createElement("div");
         chat.innerHTML = `
         <div id="chatTop">
-            <div id="chatName">${event.target.textContent}</div>
+            <div id="chatName">${chatName}</div>
             <div id="chatTopOptions">
                 <div class="hidden" id="groupChatOptions"></div>
                 <div class="closeModal" id="closeChat"></div>
@@ -201,7 +217,10 @@ async function renderChatPage(){
 
         // Add eventListeners to send message and close the chat
         chat.querySelector("#sendMessage").addEventListener("click", sendMessage);
-        chat.querySelector("#closeChat").addEventListener("click", event => chatModal.remove())
+        chat.querySelector("#closeChat").addEventListener("click", event => {
+            chatModal.remove();
+            renderChatPage();
+        })
 
         // fetch current chat with chatID and print them to the <div> with id #messages
         await fetchAndPrintMessages();
@@ -225,6 +244,7 @@ async function renderChatPage(){
                 }
             });
 
+            chat.querySelector("#messageText").value = "";
             // When a message is sent, update the messages to see your own message instantly.
             fetchAndPrintMessages(false, true);
         }
@@ -247,9 +267,9 @@ async function renderChatPage(){
 
             conversationMessages.sort((a, b) => {
                 if(a.id > b.id){
-                    return 1;
-                }else{
                     return -1;
+                }else{
+                    return 1;
                 }
             });
 
@@ -267,12 +287,18 @@ async function renderChatPage(){
                 <div class="messageProfPic" style="background-image: url('${message.profilePicture}');"></div>
                 <div class="messageBody">
                     <div class="messageInfo">
-                        <div class="messageUsername">${message.sender}</div>
+                        <div class="messageUsername">${message.senderName}<img class="ownerIconMessage hidden" src="media/ownerIcon.png"></div>
                         <div class="messageTimestamp">${message.timestamp}</div>
                     </div>
                     <div class="messageText">${message.text}</div>
                 </div>
                 `;
+                if(type === "groupChat"){
+                    if(message.sender === ownerID){
+                        messageDiv.querySelector(".ownerIconMessage").classList.remove("hidden");
+                    }
+                }
+
                 messagesDiv.appendChild(messageDiv);
             })
 
@@ -340,7 +366,9 @@ async function renderChatPage(){
                             name: name,
                             chatID: chatID
                         });
-                        chat.querySelector("#chatName").textContent = newName;
+                        if(newName !== undefined){
+                            chat.querySelector("#chatName").textContent = newName;
+                        }
                     })
                     optionsDivDom.appendChild(changeGroupNameDom);
                 })
@@ -530,15 +558,23 @@ async function renderChatPage(){
         // Post the new chat to the server and render the chat page again to see the new groupchat.
         groupChatModal.querySelector("#finalizeGroupChat").addEventListener("click", async function(){
             const chatName = document.querySelector("#groupName").value;
-            await fetchChatPhp(user, userPassword, "POST", {
+            const resource = await fetchChatPhp(user, userPassword, "POST", {
                 chatAction: "createGroupChat",
                 chatName: chatName,
                 betweenUsers: betweenUsers
             });
-            renderChatPage();
-        })
+            if(resource !== undefined){
+                renderChatPage();
+            }
+        });
 
         main.appendChild(groupChatModal);
+
+    }
+
+    if(calledFromFeed){
+        document.querySelector(".friendDisplay").classList.add("hidden");
+        renderChat();
     }
 }
 
@@ -576,12 +612,16 @@ async function fetchChatPhp(user, userPassword, method, specificInfo, fetchModal
 // This function handles responses, might delete later.
 async function chatResponseHandler(response){
     if(!response.ok){
-        const message = await response.json().message;
+        const resource = await response.json();
         const errorModal = document.createElement("div");
         errorModal.innerHTML = `
-        <div id="errorMessage">${message}</div>
-        <button id="errorMessageButton">Close</div>
+        <div class="modalContainer">
+            <div id="errorMessage">${await resource.message}</div>
+            <button id="errorMessageButton">Close</div>
+        </div>
         `
+        errorModal.classList.add("chatPageModal");
+
         errorModal.querySelector("#errorMessageButton").addEventListener("click", event => errorModal.remove());
 
         const main = document.querySelector("main");
