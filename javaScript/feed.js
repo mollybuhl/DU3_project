@@ -3,8 +3,6 @@
 /*
     - Connect friend chat to chat icon 
     - Action if fetch users fail
-    - Fade-out header
-    - Friends name and img display
 */
 
 async function renderFeedPage(){
@@ -118,7 +116,8 @@ async function renderFeedPage(){
                             <div class="friendProfileDisplay">
                                 <img src="${user.profilePicture}">
                                 <h3>${user.username}</h3>
-                            </div>`
+                            </div>
+                            <div class="allPosts"></div>`
                         main.querySelector(".feedWrapper").appendChild(friendsPostDisplay);
         
                         posts.reverse();
@@ -127,7 +126,7 @@ async function renderFeedPage(){
                         }
                 
                         posts.forEach(post=> {
-                            friendsPostDisplay.appendChild(createPostInFeed(postedBy, post));
+                            friendsPostDisplay.querySelector(".allPosts").appendChild(createPostInFeed(postedBy, post));
                         });
 
                         friendsPostStatus = "posts";
@@ -198,6 +197,12 @@ async function renderFeedPage(){
             break;
             case "Fear":
                 newPost.classList.add("fear");
+            break;
+            case "Alone":
+                newPost.classList.add("alone");
+            break;
+            case "Funny":
+                newPost.classList.add("funny");
             break;
         }
 
@@ -363,14 +368,6 @@ async function renderFeedPage(){
     document.querySelector(".footerFeed > div > .profileButton").parentElement.classList.remove("selected");
     document.querySelector(".footerFeed > div > .feedButton").parentElement.classList.add("selected");
 
-    //Render feed page when clicking feed icon in menu
-    document.querySelector(".feedButton").addEventListener("click", renderFeedPage);
-    //Render posting page when clicking add post button in menu
-    document.querySelector(".postButton").addEventListener("click", renderPostingModal);
-    //Render Chat when clicking chat icon in menu
-    document.querySelector(".chatButton").addEventListener("click", renderChatPage);
-    //Render profile when clicking on profile icon in menu
-    document.querySelector(".profileButton").addEventListener("click", renderProfilePage);
 
     function fadeOutOnScroll(element){
         var distanceToTop = window.pageYOffset + element.getBoundingClientRect().top;
@@ -378,8 +375,8 @@ async function renderFeedPage(){
         var scrollTop = document.documentElement.scrollTop;
 
         var opacity = 1;
-        if(scrollTop > distanceToTop){
-            opacity = .7 - (scrollTop - distanceToTop) / elementHeight;
+        if(scrollTop > (distanceToTop - 100)){
+            opacity = .4 - (scrollTop - distanceToTop) / elementHeight;
         }
 
         if(opacity >= 0){
@@ -387,18 +384,47 @@ async function renderFeedPage(){
         }
     }
 
-//If no posts?
     function scrollHandler(){
-        var userDisplay = document.querySelector(".postDisplay");
-        fadeOutOnScroll(userDisplay);
-        var friendsDisplay = document.querySelectorAll(".friendsPostDisplay");
 
-        friendsDisplay.forEach(display => {
-            fadeOutOnScroll(display);
-        })
+        //Will only be called if user has posted
+        if(document.querySelector(".postDisplay")){
+            var userDisplay = document.querySelector(".postDisplay");
+            fadeOutOnScroll(userDisplay);
+        }
+        
+        //Will only be called if users friends have posted
+        if(document.querySelectorAll(".friendsPostDisplay")){
+            var friendsDisplay = document.querySelectorAll(".friendsPostDisplay");
+            friendsDisplay.forEach(display => {
+                fadeOutOnScroll(display);
+            })
+        }
     }
 
+    //Fade out at top on scroll
     window.addEventListener("scroll", scrollHandler);
+
+    //Render feed page when clicking feed icon in menu
+    document.querySelector(".feedButton").addEventListener("click", function(){
+        renderFeedPage();
+    });
+    //Render posting page when clicking add post button in menu
+    document.querySelector(".postButton").addEventListener("click",function(){
+        window.removeEventListener("scroll", scrollHandler);
+        renderPostingModal();
+    } );
+    //Render Chat when clicking chat icon in menu
+    document.querySelector(".chatButton").addEventListener("click", function (){
+        window.removeEventListener("scroll", scrollHandler);
+        renderChatPage();
+    });
+    //Render profile when clicking on profile icon in menu
+    document.querySelector(".profileButton").addEventListener("click", function(){
+        window.removeEventListener("scroll", scrollHandler);
+        renderProfilePage();
+    });
+
+    
 }
 
 //Handle friend request
