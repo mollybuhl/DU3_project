@@ -283,5 +283,15 @@
         "posts": [],
         "profilePicture": "media\/profile_imgs\/profile_icon_4.jpg",
         "id": 8
+    },
+    {
+        "username": "hej",
+        "password": "hej",
+        "loggedFeelings": [],
+        "friends": [],
+        "friendRequests": [],
+        "posts": [],
+        "profilePicture": "media\/profile_imgs\/profile_icon_1.jpg",
+        "id": 9
     }
 ]
