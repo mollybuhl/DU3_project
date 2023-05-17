@@ -32,14 +32,10 @@ main > .moodModal > div#feelings{
     width: 10vh;
     cursor: pointer;
 
-    font-size: 12px;
-}
-
-#feelings > button:hover{
-    background-color: rgb(154, 154, 154);
-}
-#feelings > button.selected{
-    background-color: rgb(107, 107, 107);
+    font-size: 13px;
+    font-family: aboreto;
+    box-shadow: 0px 0px 10px 5px rgb(40, 40, 40);
+    border: none;
 }
 
 #feelings > button.sad{
@@ -52,6 +48,7 @@ main > .moodModal > div#feelings{
     background-color: #F98989;
 }
 #feelings > button.couragious{
+    font-size: 11px;
     background-color: #F1FABB;
 }
 #feelings > button.forgiving{
@@ -63,12 +60,55 @@ main > .moodModal > div#feelings{
 #feelings > button.fear{
     background-color: #625FE0;
 }
+#feelings > button.alone{
+    background-color: #a2868a;
+}
+#feelings > button.funny{
+    background-color: #94ad7c;
+}
+
+#feelings > button.sad:hover{
+    background-color: #4b9aac;
+}
+#feelings > button.happy:hover{
+    background-color: #a8c08a;
+}
+#feelings > button.angry:hover{
+    background-color: #cd6060;
+}
+#feelings > button.couragious:hover{
+    background-color: #c9d48b;
+}
+#feelings > button.forgiving:hover{
+    background-color: #cb54b9;
+}
+#feelings > button.jealous:hover{
+    background-color: #d08947;
+}
+#feelings > button.fear:hover{
+    background-color: #4b49cb;
+}
+#feelings > button.alone:hover{
+    background-color: #8b7376;
+}
+#feelings > button.funny:hover{
+    background-color: #859b70;
+}
+
+#feelings > button.selected{
+    box-shadow: 0px 0px 10px 3px whitesmoke;
+}
+
+#feelings > button.selected:hover{
+    box-shadow: 0px 0px 10px 3px whitesmoke;
+}
 
 div.moodModal > input#description{
     width: 100%;
     height: 5vh;
-    border-radius: 10px;
+    border-radius: 20px;
     border: none;
+    padding: 1vh;
 }
 
 #quote{
@@ -84,9 +124,30 @@ button#quoteButton{
     font-size: 12px;
 
     margin: 1vh;
+    border-radius: 20px;
+
+    font-family: Merlinda;
+    font-size: 13px;
+    background-color: #252525bf;
+    color: white;
+    border: none;
+    box-shadow: 0px 0px 5px 2px #bcbcbc;
+    cursor: pointer;
+}
+
+button#quoteButton:hover{
+    box-shadow: 0px 0px 5px 4px #bcbcbc;
+}
+
+div.moodModal > div.shareMoodFeedbackMessage{
+    min-height: 4vh;
 }
 
 button#postFeeling{
     width: 50vw;
+    height: 5vh;
+    border-radius: 20px;
+    font-family: aboreto;
+    font-size: 18px;
 }
 

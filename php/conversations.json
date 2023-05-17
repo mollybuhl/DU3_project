@@ -45,6 +45,14 @@
                 5
             ],
             "messages": []
+        },
+        {
+            "id": 5,
+            "betweenUsers": [
+                1,
+                2
+            ],
+            "messages": []
         }
     ],
     "groupChats": []

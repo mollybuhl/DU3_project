@@ -247,7 +247,7 @@ main.mainFeed{
 /*MAIN: Feed wrapper*/
 .mainFeed > div.feedWrapper{
     height: 100%;
-    margin-top: 20vh;
+    padding-top: 20vh;
     overflow: hidden;
 
     display: flex;
@@ -265,7 +265,7 @@ main.mainFeed{
 }
 
 /*MAIN: friendPostDisplay*/
-main.mainFeed > div.feedWrapper > div.friendsPostDisplay, main.mainFeed > div.feedWrapper > div.postDisplay {
+main.mainFeed > div.feedWrapper > div.postDisplay {
     min-height: 20vh;
     width: 100%;
     background-color: #d9d9d978;
@@ -285,17 +285,47 @@ main.mainFeed > div.feedWrapper > div.friendsPostDisplay, main.mainFeed > div.fe
 }
 
 main.mainFeed > div.feedWrapper > div.friendsPostDisplay{
+    min-height: 20vh;
+    width: 100%;
+    background-color: #d9d9d978;
+    z-index: 1;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1vw;
+
+    margin-left: 10vw;
+    border-radius: 10px 0 0 10px;
+    padding: 6vh 0 1vh;
     
+
+    position: relative;
 }
 
 main.mainFeed > div.feedWrapper > div.friendsPostDisplay > div.friendProfileDisplay{
     display: flex;
-    
+    gap: 2vh;
+    position: absolute;
+    left: -1vh;
+    top: -2vh;
+    z-index: 10;
+
+    font-size: 24px;
+    color: #1d1d1d;
 } 
 main.mainFeed > div.feedWrapper > div.friendsPostDisplay > div.friendProfileDisplay > img{
-    height: 10vh;
-    width: 10vh;
+    height: 8vh;
+    width: 8vh;
     border-radius: 10px;
+}
+
+main.mainFeed > div.feedWrapper > div.friendsPostDisplay > .allPosts{
+    display: flex;
+    overflow-y: scroll;
+    width: 100%;
+    gap: 3vh;
+    padding: 1vh 5vh 1vh 2vh ;
 }
 
 main.mainFeed > div.feedWrapper > div.postDisplay{
@@ -311,7 +341,7 @@ div.post{
     overflow: scroll;
 
     border-radius: 10px;
-    box-shadow: 0px 0px 20px 2px rgb(55, 55, 55);
+    box-shadow: 0px 0px 10px 2px rgb(55, 55, 55);
     border-left: 10px solid whitesmoke;
     padding: 1vh;
 
@@ -342,6 +372,13 @@ div.post.jealous{
 div.post.fear{
     border-color: #625FE0;
 }
+div.post.alone{
+    border-color: #8b7376;
+}
+div.post.funny{
+    border-color: #859b70;
+}
+
 
 
 /*MAIN: Post image and title box*/
