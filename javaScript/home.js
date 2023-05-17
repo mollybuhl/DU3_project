@@ -1,13 +1,19 @@
 
 function renderHomePage(){
+    document.querySelector("body").removeAttribute("class");
+
     let main = document.querySelector("main");
     let header = document.querySelector("header");
     let footer = document.querySelector("footer");
 
-    header.classList.add("home");
+    header.removeAttribute("class");
+    header.classList.add("headerHome");
     header.innerHTML = `
-    <h3 class="logo">MoodMate</h3>
-    <button class="loginButton">LOGIN</button>`
+        <h3 class="logo">MoodMate</h3>
+        <button class="loginButton">LOGIN</button>`;
+
+    main.removeAttribute("class");
+    main.classList.add("mainHome");
 
     main.innerHTML =`
     <div class="introduction">
@@ -23,17 +29,17 @@ function renderHomePage(){
     <div class="guide">
         <h2>How it works</h3>
         <h3>1. Rate your current mood</h3>
-        <p>Select the feeling that best fit you right now<p>
-        <p>IMAGE</p>
+        <p>Select the feeling that best fit you right now</p>
+        <img src="media/homePage/introPic1.png">
         <h3>2. Describe your Feelings</h3>
         <p>Try to explain why you are feeling this way</p>
-        <p>IMAGE</p>
+        <img src="media/homePage/introPic2.png">
         <h3>3. Share with Friends</h3>
-        <p>Share your mood with your frinds and have a look at how they're feeling </p>
-        <p>IMAGE</p>
+        <p>Add your friends and see how they are feeling</p>
+        <img src="media/homePage/introPic3.png">
         <h3>4. Track your progress</h3>
-        <p>Keep track on how your mood changes over time with weekly and monthly statistics</p>
-        <p>IMAGE</p>
+        <p>Keep track on how your mood changes over time with weekly statistics</p>
+        <img src="media/homePage/introPic4.png">
 
         <button class="registerButton">Get Started</p>
     </div>
@@ -46,6 +52,7 @@ function renderHomePage(){
 
     document.querySelector(".loginButton").addEventListener("click", renderLoginPage);
 
+    footer.removeAttribute("class");
     footer.classList.add("homeFooter");
     footer.innerHTML = `
         <h4 class="logo">MoodMate</h4>

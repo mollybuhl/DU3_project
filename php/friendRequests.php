@@ -2,16 +2,11 @@
 
 require_once "functions.php";
 
-function friendRequests($requestData){
+function friendRequests($requestData, $users){
     // Get the method used for the request, then check to see if it's allowed with a custom funciton (checkMethod).
     $requestMethod = $_SERVER["REQUEST_METHOD"];
     $allowed = ["PATCH"];
-    checkMethod($requestMethod, $allowed);
-
-    $filename = __DIR__."/users.json";
-    $users = [];
-    $json = file_get_contents($filename);
-    $users = json_decode($json, true);    
+    checkMethod($requestMethod, $allowed);  
 
     $requestFrom = $requestData["actionCredentials"]["requestFrom"];
     $requestTo = $requestData["actionCredentials"]["requestTo"];
@@ -38,7 +33,7 @@ if($action == "sendRequest"){
 if($action == "acceptRequest") {
 
     foreach($users as $index => $user){
-        if($user["id"] === $requestTo){
+        if($user["id"] == $requestTo){
             $users[$index]["friends"][] = $requestFrom;
 
             $friendRequests = $users[$index]["friendRequests"];
@@ -47,14 +42,19 @@ if($action == "acceptRequest") {
                 if($request == $requestFrom){
                     array_splice($users[$index]["friendRequests"], $requestIndex, 1);
 
-                    putInUsersJSON($users);
-                    $message = ["message" => "Friend request accepted", "action" => "acceptRequest"];
-                    sendJSON($message);
+                    foreach($users as $index => $user){
+                        if($user["id"] == $requestFrom){
+                            $users[$index]["friends"][] = $requestTo;
+                            putInUsersJSON($users);
+                
+                            $message = ["message" => "Friend request accepted", "action" => "acceptRequest"];
+                            sendJSON($message);
+                        }
+                    }
                 }
             }
         }
-    }
-    
+    }  
 }
 
 if($action == "declineRequest") {

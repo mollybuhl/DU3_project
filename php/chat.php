@@ -55,7 +55,9 @@ function chat($data, $users, $allConversations){
                         foreach($conversation["messages"] as $messageIndex => $message){
                             foreach($users as $user){   
                                 if($user["id"] == $message["sender"]){
-                                    $conversation["messages"][$messageIndex]["sender"] = $user["username"];
+                                    $conversation["messages"][$messageIndex]["senderName"] = $user["username"];
+                                    $profilePicURL = $user["profilePicture"];
+                                    $conversation["messages"][$messageIndex]["profilePicture"] = $profilePicURL;
                                 }
                             }
                         }
@@ -69,8 +71,10 @@ function chat($data, $users, $allConversations){
         }
 
         if($chatAction === "fetchChats"){
+
             $userID = $data["userID"];
             $userChats = [];
+
 
             foreach($conversations as $conversation){
                 if(in_array($userID, $conversation["betweenUsers"])){
@@ -87,6 +91,11 @@ function chat($data, $users, $allConversations){
             $chatName = $data["chatName"];
             $chatOwner = $data["userID"];
             $betweenUsers = $data["betweenUsers"];
+
+            if(strlen($chatName) > 12){
+                $error = ["message" => "The name can't be longer than 12 characters."];
+                sendJSON($error, 400);
+            }
 
             $highestConversationID = 0;
 
@@ -224,6 +233,11 @@ function chat($data, $users, $allConversations){
 
         if($chatAction == "changeGroupName"){
             $newGroupName = $data["name"];
+            
+            if(strlen($newGroupName) > 12){
+                $error = ["message" => "The name can't be longer than 12 characters."];
+                sendJSON($error, 400);
+            }
 
             foreach($groupChats as $chatIndex => $chat){
                 if($chat["id"] == $chatID){
@@ -231,7 +245,7 @@ function chat($data, $users, $allConversations){
                         $allConversations["groupChats"][$chatIndex]["name"] = $newGroupName;
                         
                         putInConversationsJSON($allConversations);
-                        sendJSON($chat, 200);
+                        sendJSON($newGroupName, 200);
                     }
                 }
             }

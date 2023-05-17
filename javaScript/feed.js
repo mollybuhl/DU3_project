@@ -1,41 +1,55 @@
+"use strict";
 
-let UserID = (Number(window.localStorage.getItem("userId"))); 
-let password = window.localStorage.getItem("userPassword");
+/*
+    - Connect friend chat to chat icon 
+    - Action if fetch users fail
+*/
 
 async function renderFeedPage(){
+    let UserID = (Number(window.localStorage.getItem("userId"))); 
+    let userPassword = window.localStorage.getItem("userPassword");
+
+    document.querySelector("body").removeAttribute("class");
+    document.querySelector("body").classList.add("bodyFeed");
+    
     let header = document.querySelector("header");
     let footer = document.querySelector("footer");
     let main = document.querySelector("main");
+    
 
-    document.querySelector("body").classList.add("bodyFeed");
-    document.querySelector("main").classList.add("mainFeed");
+    main.removeAttribute("class");
+    main.classList.add("mainFeed");
     main.innerHTML = `
         <div class="backgroundImage"></div>
         <div class="feedWrapper"></div>`
     ;
     
     //Fetching Users
-    let response = await fetchAPI(true, "action=feed&userID=2&userPassword=222");
+    let response = await fetchAPI(true, `action=feed&userID=${UserID}&userPassword=${userPassword}`);
     if(!response.ok){
-        
+//What should be done?        window.localStorage.clear();
+//filen existerar inte, fel metod, fel parametrar skickade
     }
+
     let Users = await response.json();
     let User = Users.find(user => user.id === UserID);
     
+
     let postedByUser = User.posts;
     //If user has not posted anything, display nothing.
     if(postedByUser.length > 0){
 
-        //Create a display for users 7 last posts;
+        //Create a display for user posts;
         let postDisplay = document.createElement("div");
         postDisplay.classList.add("postDisplay");
         main.querySelector(".feedWrapper").appendChild(postDisplay);
 
-        //Sort post by latest posted
+        //Sort post by latest posted, only display the seven latest posts
         postedByUser.reverse();
-        //let users7LatestPosts = postedByUser.splice(7,1);
-        //console.log(users7LatestPosts);
-    
+        if(postedByUser.length > 7){
+            postedByUser = postedByUser.splice(0, 7);
+        }
+        
         //Create users post display
         postedByUser.forEach(post => { 
             let createdPost = createPostInFeed(User, post);
@@ -54,7 +68,7 @@ async function renderFeedPage(){
                         body: JSON.stringify({
                             action: "feed",
                             userID: UserID,
-                            userPassword: password,
+                            userPassword: userPassword,
                             actionCredentials:{"feedAction": "DELETE", "postID": postID},
                         })
                     }
@@ -62,8 +76,8 @@ async function renderFeedPage(){
                         //let request = new Request("php/api.php", requestOptions);
                         let response = await fetchAPI(false, requestOptions);
 
-                        if(!response.ok){                       
-//What happens if delete post get error code
+                        if(!response.ok){ 
+                            alert(`This post could not be deleted. Error message provided: ${response.message}`);                      
                         }else{
                             renderFeedPage();
                         }
@@ -73,24 +87,24 @@ async function renderFeedPage(){
         });
     }
     
-    //For each friend create a display with their X last posts
+    //For each friend create a display with their 7 latest posts
     let friendsOfUser = User.friends;
     let friendNames = [];
 
     if(friendsOfUser.length === 0){
         const noPostInfoDisplay = document.createElement("div");
-        noPostInfoDisplay.classList.add("no_post_info")
+        noPostInfoDisplay.classList.add("no_post_info");
         noPostInfoDisplay.innerHTML = `<p>Add more friends to see their posts here!</p>`;
             
         main.querySelector(".feedWrapper").appendChild(noPostInfoDisplay);
         
     }else{
-        friendsPostStatus = "noPosts";
+        let friendsPostStatus = "noPosts";
 
         friendsOfUser.forEach(friendId => {
             Users.forEach(user => {
                 if(user.id === friendId){
-                    friendNames.push(user.username); //Neccecary?
+                    friendNames.push(user.username); 
     
                     let postedBy = user.username;
                     let posts = user.posts;
@@ -102,13 +116,17 @@ async function renderFeedPage(){
                             <div class="friendProfileDisplay">
                                 <img src="${user.profilePicture}">
                                 <h3>${user.username}</h3>
-                            </div>`
+                            </div>
+                            <div class="allPosts"></div>`
                         main.querySelector(".feedWrapper").appendChild(friendsPostDisplay);
         
                         posts.reverse();
+                        if(posts.length > 7){
+                            posts = posts.splice(0, 7);
+                        }
                 
                         posts.forEach(post=> {
-                            friendsPostDisplay.appendChild(createPostInFeed(postedBy, post));
+                            friendsPostDisplay.querySelector(".allPosts").appendChild(createPostInFeed(postedBy, post));
                         });
 
                         friendsPostStatus = "posts";
@@ -177,8 +195,14 @@ async function renderFeedPage(){
             case "Jealous":
                 newPost.classList.add("jealous");
             break;
-            case "Fearful":
-                newPost.classList.add("fearful");
+            case "Fear":
+                newPost.classList.add("fear");
+            break;
+            case "Alone":
+                newPost.classList.add("alone");
+            break;
+            case "Funny":
+                newPost.classList.add("funny");
             break;
         }
 
@@ -186,6 +210,7 @@ async function renderFeedPage(){
     }
 
     //Header
+    header.removeAttribute("class");
     header.classList.add("feedHeader");
     header.innerHTML = `
         <div class="friendDisplay hidden">
@@ -203,7 +228,7 @@ async function renderFeedPage(){
                 <p class="messageToUser"></p>
                 <form name="searchForm">
                     <input name="searchbar" type="text" placeholder="Search">
-                    <button><img src="../media/search.png"></button>
+                    <button><img src="media/search.png"></button>
                 </form>
             </div>
         </div>
@@ -227,6 +252,13 @@ async function renderFeedPage(){
             <h3>${friend["username"]}</h3>
             <div class="chat_icon"></div>
         `;
+
+//How should this be done?
+        friendBox.querySelector(".chat_icon").addEventListener("click", renderFriendChat);
+        function renderFriendChat(){
+            renderChatPage(null, true, friend["username"]);
+        }
+
         document.querySelector("header > .friendDisplay > .friends").appendChild(friendBox);
     })
 
@@ -269,69 +301,136 @@ async function renderFeedPage(){
     //Display friends pop-up by clicking friends-button
     document.querySelector("header > .friendsButton").addEventListener("click", function (){
         document.querySelector(".friendDisplay").classList.remove("hidden");
+        document.querySelector("body").classList.add("noScroll");
         document.querySelector("#searchWrapper > .messageToUser").textContent ="";
     });
 
     //Hide friends pop-up by clicking exit-button
     document.querySelector("#closeFriendDisplay").addEventListener("click", function(){
+        document.querySelector("body").classList.remove("noScroll");
         document.querySelector(".friendDisplay").classList.add("hidden");
     })
-
-    //Display friend chat when clicking on chat-icon in the friends pop-up
-    document.querySelector("header > .friendDisplay > .friends > div > .chat_icon");
 
     //Search for friends
     document.querySelector("#searchWrapper > form > button").addEventListener("click", function(event){
         event.preventDefault();
 
-        searchName = document.querySelector("#searchWrapper > form > input").value;
+        let searchName = document.querySelector("#searchWrapper > form > input").value;
         let found = false;
         
-        Users.forEach(user => {
-            if(searchName === user["username"]){
-                found = true;
-                let usersCurrentFriends = User.friends;
+        if(searchName === User.username){
+            alert(`You are ${searchName}`);
+        }else{
 
-                if(usersCurrentFriends.includes(user["id"])){
-                    alert(`You are already friends with ${searchName}`);
-                }else{
-                    if(confirm(`Do you want to add ${searchName} to your Friends?`)){ 
-                        handleFriendRequset(UserID, searchName, "sendRequest");  
-                        return;                  
-                    };
+            Users.forEach(user => {
+                if(searchName === user["username"]){
+                    found = true;
+    
+                    let usersCurrentFriends = User.friends;
+    
+                    if(usersCurrentFriends.includes(user["id"])){
+                        alert(`You are already friends with ${searchName}`);
+                    }else{
+                        if(confirm(`Do you want to add ${searchName} to your Friends?`)){ 
+                            handleFriendRequset(UserID, searchName, "sendRequest");  
+                            return;                  
+                        };
+                    }
                 }
-            }
-        });
-
-        if(found === false){
-            document.querySelector("#searchWrapper > .messageToUser").textContent = "User not found";
-        };
+            });
+    
+            if(found === false){
+                document.querySelector("#searchWrapper > .messageToUser").textContent = "User not found";
+            };
+        }
     });
 
     //Loged in footer
     footer.classList.add("footerFeed");
     footer.innerHTML = `
-        <div class="chatButton"></div>
-        <div class="feedButton"></div>
-        <div class="postButton"></div>
-        <div class="profileButton"></div>
+        <div>
+            <div class="chatButton"></div>
+        </div>
+        <div>
+            <div class="feedButton"></div>
+        </div>
+        <div>
+            <div class="postButton"></div>
+        </div>
+        <div>
+            <div class="profileButton"></div>
+        </div>
     `;
 
-    //Render feed page when clicking feed icon in menu
-    document.querySelector(".feedButton").addEventListener("click", renderFeedPage);
-    //Render posting page when clicking add post button in menu
-    document.querySelector(".postButton").addEventListener("click", renderPostingModal);
-    //Render Chat when clicking chat icon in menu
-    document.querySelector(".chatButton").addEventListener("click", renderChatPage);
-    //Render profile when clicking on profile icon in menu
-    document.querySelector(".profileButton").addEventListener("click", renderProfilePage);
+    //Select feed
+    document.querySelector(".footerFeed > div > .chatButton").parentElement.classList.remove("selected");
+    document.querySelector(".footerFeed > div > .postButton").parentElement.classList.remove("selected");
+    document.querySelector(".footerFeed > div > .profileButton").parentElement.classList.remove("selected");
+    document.querySelector(".footerFeed > div > .feedButton").parentElement.classList.add("selected");
 
+
+    function fadeOutOnScroll(element){
+        var distanceToTop = window.pageYOffset + element.getBoundingClientRect().top;
+        var elementHeight = element.offsetHeight;
+        var scrollTop = document.documentElement.scrollTop;
+
+        var opacity = 1;
+        if(scrollTop > (distanceToTop - 100)){
+            opacity = .4 - (scrollTop - distanceToTop) / elementHeight;
+        }
+
+        if(opacity >= 0){
+            element.style.opacity = opacity;
+        }
+    }
+
+    function scrollHandler(){
+
+        //Will only be called if user has posted
+        if(document.querySelector(".postDisplay")){
+            var userDisplay = document.querySelector(".postDisplay");
+            fadeOutOnScroll(userDisplay);
+        }
+        
+        //Will only be called if users friends have posted
+        if(document.querySelectorAll(".friendsPostDisplay")){
+            var friendsDisplay = document.querySelectorAll(".friendsPostDisplay");
+            friendsDisplay.forEach(display => {
+                fadeOutOnScroll(display);
+            })
+        }
+    }
+
+    //Fade out at top on scroll
+    window.addEventListener("scroll", scrollHandler);
+
+    //Render feed page when clicking feed icon in menu
+    document.querySelector(".feedButton").addEventListener("click", function(){
+        renderFeedPage();
+    });
+    //Render posting page when clicking add post button in menu
+    document.querySelector(".postButton").addEventListener("click",function(){
+        window.removeEventListener("scroll", scrollHandler);
+        renderPostingModal();
+    } );
+    //Render Chat when clicking chat icon in menu
+    document.querySelector(".chatButton").addEventListener("click", function (){
+        window.removeEventListener("scroll", scrollHandler);
+        renderChatPage();
+    });
+    //Render profile when clicking on profile icon in menu
+    document.querySelector(".profileButton").addEventListener("click", function(){
+        window.removeEventListener("scroll", scrollHandler);
+        renderProfilePage();
+    });
+
+    
 }
 
-//Send request
+//Handle friend request
 async function handleFriendRequset(requestFrom, requestTo, action){
     let UserID = (Number(window.localStorage.getItem("userId")));
-    let password = window.localStorage.getItem("userPassword");
+    let userPassword = window.localStorage.getItem("userPassword");
 
     const requestOptions = {
         method: "PATCH",
@@ -339,37 +438,32 @@ async function handleFriendRequset(requestFrom, requestTo, action){
         body: JSON.stringify({
             action: "friendRequests",
             userID: UserID,
-            userPassword: password,
+            userPassword: userPassword,
             actionCredentials:{"requestAction": action, "requestTo": requestTo, "requestFrom": requestFrom},
         })
     }
-
-        //const request = new Request("php/api.php", requestOptions);
-        let response = await fetchAPI(false, requestOptions);
-        let resource = await response.json();
     
-        // If the response was unsuccessful for any reason, print the error message to the user. Otherwise tell the user their account has been created then redirect them to the login page.
-        if(!response.ok){
-            document.querySelector("#searchWrapper > .messageToUser").textContent = `${response.message}`;
+    let response = await fetchAPI(false, requestOptions);
+    let resource = await response.json();
+    
+    if(!response.ok){
+        document.querySelector("#searchWrapper > .messageToUser").textContent = `${resource.message}`;
 
-        }else{ 
+    }else{ 
         
-            if(resource.action === "acceptRequest"){
-                document.querySelector("#searchWrapper > .messageToUser").textContent = "Friend Request Accepted";
-                renderFeedPage();
-            } 
-            if(resource.action === "declineRequest"){
-                document.querySelector("#searchWrapper > .messageToUser").textContent = "Friend Request Declined";
-                renderFeedPage();
-            }
-            if(resource.action === "sendRequest"){
-                document.querySelector("#searchWrapper > .messageToUser").textContent = `A Friend Request was sent to ${searchName}!`;
-                document.querySelector("#searchWrapper > form > input").value = "";
-            }     
-
-
+        if(resource.action === "acceptRequest"){
+            document.querySelector("#searchWrapper > .messageToUser").textContent = "Friend Request Accepted";
+            renderFeedPage();
+        } 
+        if(resource.action === "declineRequest"){
+            document.querySelector("#searchWrapper > .messageToUser").textContent = "Friend Request Declined";
+            renderFeedPage();
         }
-    
+        if(resource.action === "sendRequest"){
+            document.querySelector("#searchWrapper > .messageToUser").textContent = `A Friend Request was sent to ${requestTo}!`;
+            document.querySelector("#searchWrapper > form > input").value = "";
+        }     
+    }
 }
 
 

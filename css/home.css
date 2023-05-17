@@ -6,37 +6,30 @@ h1, h2, h3, h4{
 
 .logo{
     font-family: Merlinda;
+    cursor: pointer;
 }
 
-header.home{
+header.headerHome{
     padding: 0vh 2vh;
 
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    position: relative;
+
+    background-color: transparent;
+    z-index: 1;
 }
 
-button{
-    height: 4vh;
-    width: 20vw;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    border-radius: 40px;
-    border: 1px solid black;
-    font-size: 18px;
-    font-family: aboreto; 
+header.headerHome > .logo{
+    font-size: 25px;
 }
 
-button:hover{
-    background-color: #bababa;
-}
-
-.introduction{
+.mainHome > .introduction{
     height: 60vh;
     padding: 2vh;
+    padding-top: 4vh;
 
     display: flex;
     flex-direction: column;
@@ -44,25 +37,23 @@ button:hover{
     align-items: flex-start;
 }
 
-.introduction > h1{
+.mainHome > .introduction > h1{
  text-align: left;
  font-size: 28px;
  line-height: 5vh;
- margin-top: 0;
+ margin: 0;
 }
 
 h4{
     color: grey;
     margin: 0;
-    font-size: 12px;
+    font-size: 14px;
 }
 
 .introduction > p{
     text-align: left;
-}
-
-.introduction > button{
-    width: 30vw;
+    font-size: 19px;
+    line-height: 3vh;
 }
 
 .introduction > .homeImage{
@@ -74,7 +65,7 @@ h4{
     width: 10vh;
 }
 
-.guide{
+.mainHome > .guide{
     padding: 2vh;
     background-color: #B9DBC3;
 
@@ -84,8 +75,59 @@ h4{
     align-items: center;
 }
 
-.guide > button{
-    width: 40vw;
+.mainHome > .guide > h2{
+    font-size: 30px;
+}
+
+.mainHome > .guide > p{
+    margin-top: 0;
+    color: #4f4f4f;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.mainHome > .guide > img{
+    border-radius: 50%;
+    height: 25vh;
+    width: 25vh;
+
+    object-fit: cover;
+    object-position: center;
+}
+
+
+
+.headerHome > button, .mainHome > .introduction > button, .mainHome > .guide > button{
+    height: 5vh;
+    width: 25vw;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 40px;
+    border: none;
+    font-size: 25px;
+    font-family: aboreto; 
+    background:whitesmoke;
+    color: grey;
+
+    cursor: pointer;
+}
+
+button:hover{
+    background-color: #dcdcdc;
+    
+}
+
+.mainHome > .introduction > button{
+    width: 35vw;
+    margin-top: 2vh;
+}
+
+.mainHome > .guide > button{
+    height: 8vh;
+    width: 50vw;
+    margin: 4vh;
 }
 
 

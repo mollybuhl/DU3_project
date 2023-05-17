@@ -3,6 +3,10 @@
     position: relative;
 }
 
+body.noScroll{
+    overflow: hidden;
+}
+
 /*HEADER*/
 /*HEADER: Header in feed*/
 .feedHeader{
@@ -64,7 +68,7 @@ header.feedHeader > .profileInformation > img{
     height: 8vh;
     width: 8vh;
 
-    border-radius: 50%;
+    border-radius: 10px;
 }
 
 /*HEADER: Friends display*/
@@ -111,6 +115,7 @@ header.feedHeader > .friendDisplay > .friends > div{
 
     display: flex;
     justify-content: flex-start;
+    align-items: center;
     gap: 2vh;
 } 
 
@@ -119,16 +124,17 @@ div.friends > div > img{
     height: 10vh;
     width: 10vh;
 
-    border-radius: 50%;
+    border-radius: 10px;
 }
 /*Friends display: Each friend chat icon*/
 div.friends > div > div.chat_icon{
-    height: 5vh;
-    width: 5vh;
+    height: 4vh;
+    width: 4vh;
     background-image: url("../media/chat2.png");
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
+    cursor: pointer;
 }
 
 header.feedHeader > div.friendDisplay > div.friendRequestsDisplay{
@@ -147,17 +153,32 @@ header.feedHeader > div.friendDisplay > div.friendRequestsDisplay > #activeReque
 /*Each request*/
 header.feedHeader > div.friendDisplay > div.friendRequestsDisplay > #activeRequests > div{
     display: flex;
+    align-items: center;
+    gap: 2vh;
 }
 
 header.feedHeader > div.friendDisplay > div.friendRequestsDisplay > #activeRequests > div > img{
     height: 7vh;
     width: 7vh;
-    border-radius: 50%;
+    border-radius: 10px;
     
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
 }
+
+header.feedHeader > div.friendDisplay > div.friendRequestsDisplay > #activeRequests > div > button{
+    width: 20%;
+    border-radius: 10px;
+    height: 5vh;
+    background-color: #ffffffbd;
+    font-family: aboreto;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0px 0px 10px 1px black;   
+}
+
 
 /*Friends display: Search*/
 #searchWrapper{
@@ -213,7 +234,7 @@ main.mainFeed{
 }
 /*MAIN: Top background image*/
 .mainFeed > div.backgroundImage{
-    background-image: url(../media/11.avif\(1\).png);
+    background-image: url(../media/loggedInBackground.png);
     background-position: center;
     background-size: cover;
     height: 30vh;
@@ -226,7 +247,7 @@ main.mainFeed{
 /*MAIN: Feed wrapper*/
 .mainFeed > div.feedWrapper{
     height: 100%;
-    margin-top: 20vh;
+    padding-top: 20vh;
     overflow: hidden;
 
     display: flex;
@@ -236,12 +257,15 @@ main.mainFeed{
 }
 /*MAIN: Info if nothing is posted*/
 .mainFeed > div.feedWrapper > .no_post_info{
-    color: whitesmoke;
+    background-color: #fffc;
+    color: black;
+    border-radius: 20px;
+    padding: 1vh;
     z-index: 3;
 }
 
 /*MAIN: friendPostDisplay*/
-main.mainFeed > div.feedWrapper > div.friendsPostDisplay, main.mainFeed > div.feedWrapper > div.postDisplay {
+main.mainFeed > div.feedWrapper > div.postDisplay {
     min-height: 20vh;
     width: 100%;
     background-color: #d9d9d978;
@@ -260,16 +284,49 @@ main.mainFeed > div.feedWrapper > div.friendsPostDisplay, main.mainFeed > div.fe
     position: relative;
 }
 
-main.mainFeed > div.feedWrapper > div.friendsPostDisplay > div.friendProfileDisplay{
+main.mainFeed > div.feedWrapper > div.friendsPostDisplay{
+    min-height: 20vh;
+    width: 100%;
+    background-color: #d9d9d978;
+    z-index: 1;
+
     display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1vw;
+
+    margin-left: 10vw;
+    border-radius: 10px 0 0 10px;
+    padding: 6vh 0 1vh;
     
-} 
-main.mainFeed > div.feedWrapper > div.friendsPostDisplay > div.friendProfileDisplay > img{
-    height: 10vh;
-    width: 10vh;
-    border-radius: 50%;
+
+    position: relative;
 }
 
+main.mainFeed > div.feedWrapper > div.friendsPostDisplay > div.friendProfileDisplay{
+    display: flex;
+    gap: 2vh;
+    position: absolute;
+    left: -1vh;
+    top: -2vh;
+    z-index: 10;
+
+    font-size: 24px;
+    color: #1d1d1d;
+} 
+main.mainFeed > div.feedWrapper > div.friendsPostDisplay > div.friendProfileDisplay > img{
+    height: 8vh;
+    width: 8vh;
+    border-radius: 10px;
+}
+
+main.mainFeed > div.feedWrapper > div.friendsPostDisplay > .allPosts{
+    display: flex;
+    overflow-y: scroll;
+    width: 100%;
+    gap: 3vh;
+    padding: 1vh 5vh 1vh 2vh ;
+}
 
 main.mainFeed > div.feedWrapper > div.postDisplay{
     background-color: #171717d1;
@@ -281,9 +338,10 @@ div.post{
     background-color: #F4F4F4A8;
     min-width: 70vw;
     height: 16vh;
+    overflow: scroll;
 
     border-radius: 10px;
-    box-shadow: 0px 0px 20px 2px rgb(55, 55, 55);
+    box-shadow: 0px 0px 10px 2px rgb(55, 55, 55);
     border-left: 10px solid whitesmoke;
     padding: 1vh;
 
@@ -299,6 +357,30 @@ div.post.sad{
 div.post.happy{
     border-color: #78B8A0;
 }
+div.post.angry{
+    border-color: #F98989;
+}
+div.post.couragious{
+    border-color: #F1FABB;
+}
+div.post.forgiving{
+    border-color: #EC72D9;
+}
+div.post.jealous{
+    border-color: #EFA35D;
+}
+div.post.fear{
+    border-color: #625FE0;
+}
+div.post.alone{
+    border-color: #8b7376;
+}
+div.post.funny{
+    border-color: #859b70;
+}
+
+
+
 /*MAIN: Post image and title box*/
 div.post > div:first-child{
     display: flex;
@@ -320,7 +402,7 @@ div.post > p.timestamp{
 
 /*Delete post button*/
 div.post > div > #deletePost{
-    background-image: url(../media/delete-193.png);
+    background-image: url(../media/delete.png);
     background-repeat: no-repeat;
     background-size: contain;
 
@@ -353,7 +435,6 @@ footer.footerFeed{
     align-items: center;
 
     height: 8vh;
-    padding: 1vh;
     border-radius: 10px 10px 0 0;
     box-shadow: -5px 0px 15px 1px #272727;
     z-index: 3;
@@ -366,41 +447,38 @@ footer.footerFeed{
 
     height: 100%;
     width: 50%;
+    padding: 1vh;
     cursor: pointer;
 }
 
 /*FOOTER: Feed icon*/
-footer.footerFeed > .feedButton{
-    background-image: url(../media/feed_icon.png);
+footer.footerFeed > div > div{
+    height: 100%;
+    width: 100%;
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
+}
+
+footer.footerFeed > div > .feedButton{
+    background-image: url(../media/feed_icon.png);
 }
 
 /*FOOTER: Profile icon*/
-footer.footerFeed > .profileButton{
+footer.footerFeed > div > .profileButton{
     background-image: url(../media/profile_icon.png);
-    background-position: center;
-    background-size: contain;
-    background-repeat: no-repeat;
 }
 
 /*FOOTER: Chat icon*/
-footer.footerFeed > .chatButton{
+footer.footerFeed > div > .chatButton{
     background-image: url(../media/chat.png);
-    background-position: center;
-    background-size: contain;
-    background-repeat: no-repeat;
 }
 /*FOOTER: Post icon*/
-footer.footerFeed > .postButton{
+footer.footerFeed > div > .postButton{
     background-image: url(../media/add.png);
-    background-position: center;
-    background-size: contain;
-    background-repeat: no-repeat;
 }
 
 footer.footerFeed > div.selected{
-    background-color:  #7d7d7dd5;
+    background-color:  #4b636c;
 }
 

@@ -1,97 +1,175 @@
 [
     {
-        "username": "test",
-        "password": "test",
+        "username": "ossian",
+        "password": "123",
         "loggedFeelings": [],
         "friends": [
             2,
-            3,
-            4,
-            6
+            3
         ],
-        "friendRequests": [],
-        "posts": [
-            {
-                "postID": 1,
-                "userID": 2,
-                "mood": "Sad",
-                "description": "Ice cream!!!",
-                "quote": "Houston, we have a problem",
-                "timestamp": "06-05-2023"
-            },
-            {
-                "postID": 2,
-                "userID": 2,
-                "mood": "Happy",
-                "description": "Good day to be alive",
-                "quote": "Houston, we have a problem",
-                "timestamp": "26-04-2023"
-            }
+        "friendRequests": [
+            2
         ],
-        "profilePicture": "..\/media\/profile_img.avif",
-        "firstTime": false,
+        "posts": [],
+        "profilePicture": "media\/profile_imgs\/profile_icon_1.jpg",
         "id": 1
     },
     {
         "username": "molly",
         "password": "222",
-        "loggedFeelings": [],
+        "loggedFeelings": [
+            {
+                "week": "May 8-14, 2023",
+                "weekId": 1,
+                "Saturday": [
+                    {
+                        "postId": 1,
+                        "moodOfPost": "Happy"
+                    },
+                    {
+                        "postId": 2,
+                        "moodOfPost": "Angry"
+                    },
+                    {
+                        "postId": 3,
+                        "moodOfPost": "Couragious"
+                    },
+                    {
+                        "postId": 4,
+                        "moodOfPost": "Fear"
+                    },
+                    {
+                        "postId": 5,
+                        "moodOfPost": "Happy"
+                    },
+                    {
+                        "postId": 6,
+                        "moodOfPost": "Sad"
+                    },
+                    {
+                        "postId": 7,
+                        "moodOfPost": "Sad"
+                    },
+                    {
+                        "postId": 8,
+                        "moodOfPost": "Happy"
+                    },
+                    {
+                        "postId": 9,
+                        "moodOfPost": "Angry"
+                    }
+                ]
+            },
+            {
+                "week": "May 15-21, 2023",
+                "weekId": 2,
+                "Monday": [
+                    {
+                        "postId": 7,
+                        "moodOfPost": "Forgiving"
+                    }
+                ],
+                "Tuesday": [
+                    {
+                        "postId": 9,
+                        "moodOfPost": "Jealous"
+                    },
+                    {
+                        "postId": 10,
+                        "moodOfPost": "Happy"
+                    },
+                    {
+                        "postId": 11,
+                        "moodOfPost": "Funny"
+                    }
+                ],
+                "Wednesday": [
+                    {
+                        "postId": 4,
+                        "moodOfPost": "Happy"
+                    },
+                    {
+                        "postId": 5,
+                        "moodOfPost": "Couragious"
+                    },
+                    {
+                        "postId": 6,
+                        "moodOfPost": "Jealous"
+                    }
+                ]
+            }
+        ],
         "friends": [
-            1,
-            3,
-            4
+            4,
+            5,
+            6,
+            3
         ],
         "friendRequests": [],
         "posts": [
             {
-                "postID": 2,
+                "postID": 4,
                 "userID": 2,
-                "mood": "Sad",
-                "description": "No ice cream",
-                "quote": "Houston, we have a problem",
-                "timestamp": "16:42, 7 May"
+                "mood": "Happy",
+                "description": "happy",
+                "quote": "It is our happiness to live under the government of a PRINCE who is satisfied with ruling according to law as every other good prince will - We enjoy under his administration all the liberty that is proper and expedient for us.",
+                "dayOfWeek": "Wednesday",
+                "timestamp": "14:38, 17 May"
             },
             {
-                "postID": 2,
+                "postID": 5,
                 "userID": 2,
-                "mood": "Sad",
-                "description": "No ice cream",
-                "quote": "Houston, we have a problem",
-                "timestamp": "16:42, 7 May"
+                "mood": "Couragious",
+                "description": "Yeah",
+                "quote": "Courage is the most important of all the virtues, because without courage you can't practice any other virtue consistently. You can practice any virtue erratically, but nothing consistently without courage.",
+                "dayOfWeek": "Wednesday",
+                "timestamp": "14:38, 17 May"
+            },
+            {
+                "postID": 6,
+                "userID": 2,
+                "mood": "Jealous",
+                "description": "jealous",
+                "quote": "I think it's important to get your surroundings as well as yourself into a positive state - meaning surround yourself with positive people, not the kind who are negative and jealous of everything you do.",
+                "dayOfWeek": "Wednesday",
+                "timestamp": "14:38, 17 May"
             }
         ],
-        "profilePicture": "..\/media\/profile_img.avif",
-        "firstTime": false,
+        "profilePicture": "media\/profile_imgs\/profile_icon_1.jpg",
         "id": 2
     },
     {
         "username": "molly1",
         "password": "molly1",
-        "loggedFeelings": [],
-        "friends": [],
-        "friendRequests": [
-            6
+        "loggedFeelings": [
+            {
+                "week": "May 8-14, 2023",
+                "weekId": 1,
+                "Saturday": [
+                    {
+                        "postId": 1,
+                        "moodOfPost": "Sad"
+                    }
+                ]
+            }
         ],
+        "friends": [
+            2,
+            1
+        ],
+        "friendRequests": [],
         "posts": [
             {
                 "postID": 1,
                 "userID": 3,
                 "mood": "Sad",
-                "description": "No ice cream",
-                "quote": "Houston, we have a problem",
-                "timestamp": "03-05-2023"
-            },
-            {
-                "postID": 2,
-                "userID": 3,
-                "mood": "Happy",
-                "description": "Hiking today!",
-                "quote": "Houston, we have a problem",
-                "timestamp": "05-05-2023"
+                "description": "It is just such a day",
+                "quote": "Let us dream of tomorrow where we can truly love from the soul, and know love as the ultimate truth at the heart of all creation.",
+                "dayOfWeek": "Saturday",
+                "timestamp": "13:30, 13 May"
             }
         ],
-        "profilePicture": "..\/media\/profile_img.avif",
-        "firstTime": false,
+        "profilePicture": "media\/profile_imgs\/profile_icon_3.jpg",
         "id": 3
     },
     {
@@ -100,65 +178,139 @@
         "loggedFeelings": [],
         "friends": [],
         "friendRequests": [],
-        "posts": [
-            {
-                "postID": 1,
-                "userID": 4,
-                "mood": "Sad",
-                "description": "No ice cream",
-                "quote": "Houston, we have a problem",
-                "timestamp": "03-05-2023"
-            },
-            {
-                "postID": 2,
-                "userID": 4,
-                "mood": "Happy",
-                "description": "Hiking today!",
-                "quote": "Houston, we have a problem",
-                "timestamp": "05-05-2023"
-            }
-        ],
-        "conversations": [],
-        "profilePicture": "..\/media\/profile_imgs\/profile_icon_1.jpg",
-        "firstTime": false,
+        "posts": [],
+        "profilePicture": "media\/profile_imgs\/profile_icon_1.jpg",
         "id": 4
     },
     {
         "username": "molly3",
         "password": "molly3",
-        "loggedFeelings": [],
-        "friends": [],
-        "friendRequests": [
-            2
+        "loggedFeelings": [
+            {
+                "week": "May 8-14, 2023",
+                "weekId": 1,
+                "Saturday": [
+                    {
+                        "postId": 1,
+                        "moodOfPost": "Fear"
+                    }
+                ]
+            }
         ],
-        "posts": [],
-        "conversations": [],
-        "profilePicture": "..\/media\/profile_imgs\/profile_icon_1.jpg",
-        "firstTime": false,
+        "friends": [],
+        "friendRequests": [],
+        "posts": [
+            {
+                "postID": 1,
+                "userID": 5,
+                "mood": "Fear",
+                "description": "Scary!",
+                "quote": "Let us never negotiate out of fear. But let us never fear to negotiate.",
+                "dayOfWeek": "Saturday",
+                "timestamp": "15:26, 13 May"
+            },
+            {
+                "postID": 1,
+                "userID": 3,
+                "mood": "Sad",
+                "description": "It is just such a day",
+                "quote": "Let us dream of tomorrow where we can truly love from the soul, and know love as the ultimate truth at the heart of all creation.",
+                "dayOfWeek": "Saturday",
+                "timestamp": "13:30, 13 May"
+            }
+        ],
+        "profilePicture": "..\/media\/profile_imgs\/profile_icon_2.jpg",
         "id": 5
     },
     {
-        "username": "Ossian",
-        "password": "1234",
-        "loggedFeelings": [],
+        "username": "molly4",
+        "password": "molly4",
+        "loggedFeelings": [
+            {
+                "week": "May 8-14, 2023",
+                "weekId": 1,
+                "Saturday": [
+                    {
+                        "postId": 1,
+                        "moodOfPost": "Happy"
+                    }
+                ]
+            }
+        ],
         "friends": [],
         "friendRequests": [],
-        "posts": [],
-        "conversations": [],
-        "profilePicture": "..\/media\/profile_imgs\/profile_icon_1.jpg",
-        "firstTime": false,
+        "posts": [
+            {
+                "postID": 1,
+                "userID": 6,
+                "mood": "Happy",
+                "description": "HAppy days!",
+                "quote": "I believe economic growth should translate into the happiness and progress of all. Along with it, there should be development of art and culture, literature and education, science and technology. We have to see how to harness the many resources of India for achieving common good and for inclusive growth.",
+                "dayOfWeek": "Saturday",
+                "timestamp": "15:27, 13 May"
+            },
+            {
+                "postID": 1,
+                "userID": 3,
+                "mood": "Sad",
+                "description": "It is just such a day",
+                "quote": "Let us dream of tomorrow where we can truly love from the soul, and know love as the ultimate truth at the heart of all creation.",
+                "dayOfWeek": "Saturday",
+                "timestamp": "13:30, 13 May"
+            }
+        ],
+        "profilePicture": "..\/media\/profile_imgs\/profile_icon_3.jpg",
         "id": 6
     },
     {
-        "username": "testar",
-        "password": "testar",
+        "username": "milly",
+        "password": "milly",
+        "loggedFeelings": [
+            {
+                "week": "May 15-21, 2023",
+                "weekId": 1,
+                "Monday": [
+                    {
+                        "postId": 1,
+                        "moodOfPost": "Forgiving"
+                    }
+                ]
+            }
+        ],
+        "friends": [],
+        "friendRequests": [],
+        "posts": [
+            {
+                "postID": 1,
+                "userID": 7,
+                "mood": "Forgiving",
+                "description": "Just becasue",
+                "quote": "If Jesus Christ was who He claimed to be, and He did die on a cross at a point of time in history, then, for all history past and all history future it is relevant because that is the very focal point for forgiveness and redemption.",
+                "dayOfWeek": "Monday",
+                "timestamp": "17:25, 15 May"
+            }
+        ],
+        "profilePicture": "media\/profile_imgs\/profile_icon_6.jpg",
+        "id": 7
+    },
+    {
+        "username": "molly1010",
+        "password": "molly1010",
         "loggedFeelings": [],
         "friends": [],
         "friendRequests": [],
         "posts": [],
-        "conversations": [],
-        "profilePicture": "..\/media\/profile_imgs\/profile_icon_1.jpg",
-        "id": 7,
-        "firstTime": false
+        "profilePicture": "media\/profile_imgs\/profile_icon_4.jpg",
+        "id": 8
+    },
+    {
+        "username": "hej",
+        "password": "hej",
+        "loggedFeelings": [],
+        "friends": [],
+        "friendRequests": [],
+        "posts": [],
+        "profilePicture": "media\/profile_imgs\/profile_icon_1.jpg",
+        "id": 9
     }
 ]

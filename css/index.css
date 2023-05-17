@@ -29,8 +29,22 @@ main{
     overflow: scroll;
 }
 
-footer{
-    height: 7vh;
+.homeFooter{
+    height: 10vh;
+    box-sizing: border-box;
+    background-color: rgb(251, 246, 239);
+}
+.homeFooter > h4{
+    font-size: 20px;
+    padding-top: 2vh;
+    margin: 0;
+}
+
+.homeFooter > p{
+    color:#4c4c4c;
+    font-size: 12px;
+    margin: 0;
+    padding: 1vh;
 }
 
 button{
@@ -40,3 +54,30 @@ button:hover{
     background-color: grey;
 }
 
+.fetchModal {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: rgba(245, 245, 245, 0.402);
+}
+
+.fetchModal > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    background-color: whitesmoke;
+    border: 1px solid black;
+    border-radius: 10px;
+
+    padding: 20px;
+    gap: 10px;
+}

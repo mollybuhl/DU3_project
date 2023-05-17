@@ -2,6 +2,12 @@
 
 async function renderProfilePage() {
 
+    document.querySelector(".footerFeed > div > .chatButton").parentElement.classList.remove("selected");
+    document.querySelector(".footerFeed > div > .feedButton").parentElement.classList.remove("selected");
+    document.querySelector(".footerFeed > div > .postButton").parentElement.classList.remove("selected");
+    document.querySelector(".footerFeed > div > .profileButton").parentElement.classList.add("selected");
+
+
     let userId = window.localStorage.getItem("userId");
     let userPassword = window.localStorage.getItem("userPassword");
 
@@ -129,7 +135,6 @@ async function renderProfilePage() {
         </div>
         <button id="oneWeekAfter">></button>
     </div>
-    <button id="logout">Logout</button>
     `;
 
     let changeWeekButtons = document.querySelectorAll("div#calendar > button");
@@ -143,12 +148,14 @@ async function renderProfilePage() {
 
     /*for(let i = 0; i < weekdays.length; i++) {
         if(weekdays[i].textContent === today) {
+            console.log(today);
             weekdays[i].classList.add("today");
+            console.log(weekdays[i]);
         }
     }*/ //Funkar inte!!
 
     let profilePictureDiv = document.getElementById("profilePicture");
-    profilePictureDiv.style.backgroundImage = `url(../media/${profilePicture})`;
+    profilePictureDiv.style.backgroundImage = `url(${profilePicture})`;
 
     //Remove classes from other pages
     let body = document.querySelector("body");
@@ -161,9 +168,8 @@ async function renderProfilePage() {
     let footer = document.querySelector("footer");
     main.classList.remove("mainFeed");
     main.classList.add("mainProfile");
+    main.classList.remove("chatMain");
     
-
-    document.getElementById("logout").addEventListener("click", logout);
 
     let divs = document.querySelectorAll(".profileHeader > div");
 
@@ -171,21 +177,19 @@ async function renderProfilePage() {
         divs[i].style.display = "none";
     }
 
-    let settingsButton = document.createElement("button");
-    header.appendChild(settingsButton);
-    settingsButton.setAttribute("id", "settingsButton");
+    if(!document.querySelector("button#settingsButton")) {
+        let settingsButton = document.createElement("button");
+        header.appendChild(settingsButton);
+        settingsButton.setAttribute("id", "settingsButton");
+    }
+
     settingsButton.textContent = "Settings";
+    settingsButton.addEventListener("click", renderSettingsPopup);
 
     //let date = `${month} ${dateOfTheMonth}, ${year}`;
     //Today's date if needed?
 
     prepareCalendar(postsOfUser, month, beginningOfWeek, storedMoods, week);
-}
-
-function logout() {
-    window.localStorage.setItem("loggedIn", "false");
-    window.localStorage.removeItem("userId");
-    renderHomePage();
 }
 
 function prepareCalendar(arrayOfPosts, month, beginningOfWeek, storedMoods, week) {
@@ -409,58 +413,307 @@ function displayRightWeek(rightWeek, storedMoods) {
     
     `;
 
-    for(let i = 0; i < storedMoods.length; i++) {
-        if(storedMoods[i].week === rightWeek) {
-            let weekId = storedMoods[i].weekId;
-            document.querySelector("#calendar > #calendarWeek").setAttribute("class", `${weekId}`);
-            document.querySelector("#calendar > #calendarWeek").textContent = `${rightWeek}`;
-            let weekdays = document.querySelectorAll("#weekdays > div > p");
-            let weekMoods = storedMoods[i];
-            let rightDay;
-    
-            for(let key in weekMoods) {
-                if(key === "week" || key === "weekId") {
-                    continue;
-                }
-            
-                let weekdayKeyName = key;
-                let firstTwoWords = weekdayKeyName.substring(0, 2);
-                console.log(firstTwoWords);
-    
-                let weekdayKeyArray = weekMoods[key];
-                console.log(weekdayKeyArray);
-    
-    
-                for(let ii = 0; ii < weekdays.length; ii++) {
-                    if(firstTwoWords === weekdays[ii].textContent) {
-                        rightDay = weekdays[ii];
-                        console.log(rightDay);
+    console.log(storedMoods);
+    if(storedMoods.length >= 1) {
+        for(let i = 0; i < storedMoods.length; i++) {
+            if(storedMoods[i].week === rightWeek) {
+                let weekId = storedMoods[i].weekId;
+                document.querySelector("#calendar > #calendarWeek").setAttribute("class", `${weekId}`);
+                document.querySelector("#calendar > #calendarWeek").textContent = `${rightWeek}`;
+                let weekdays = document.querySelectorAll("#weekdays > div > p");
+                let weekMoods = storedMoods[i];
+                let rightDay;
+        
+                for(let key in weekMoods) {
+                    if(key === "week" || key === "weekId") {
+                        continue;
                     }
-                }       
                 
-                let parentOfParagraph = rightDay.parentNode;
-                for(let i = 0; i < weekdayKeyArray.length; i++) {
-                    let moodOfDay = document.createElement("div");
-                    parentOfParagraph.appendChild(moodOfDay);
-                    moodOfDay.classList.add("feeling");
-
-                    if(weekdayKeyArray[i].moodOfPost === "Happy") {
-                        moodOfDay.classList.add("happy");
-                    } else if(weekdayKeyArray[i].moodOfPost === "Sad") {
-                        moodOfDay.classList.add("sad");
-                    } else if(weekdayKeyArray[i].moodOfPost === "Angry") {
-                        moodOfDay.classList.add("angry");
-                    } else if(weekdayKeyArray[i].moodOfPost === "Jealous") {
-                        moodOfDay.classList.add("jealous");
-                    } else if(weekdayKeyArray[i].moodOfPost === "Couragious") {
-                        moodOfDay.classList.add("couragious");
-                    } else if(weekdayKeyArray[i].moodOfPost === "Fear") {
-                        moodOfDay.classList.add("fear");
-                    } else if(weekdayKeyArray[i].moodOfPost === "Forgiving") {
-                        moodOfDay.classList.add("forgiving");
+                    let weekdayKeyName = key;
+                    let firstTwoWords = weekdayKeyName.substring(0, 2);
+                    console.log(firstTwoWords);
+        
+                    let weekdayKeyArray = weekMoods[key];
+                    console.log(weekdayKeyArray);
+        
+        
+                    for(let ii = 0; ii < weekdays.length; ii++) {
+                        if(firstTwoWords === weekdays[ii].textContent) {
+                            rightDay = weekdays[ii];
+                            console.log(rightDay);
+                        }
+                    }       
+                    
+                    let parentOfParagraph = rightDay.parentNode;
+                    for(let i = 0; i < weekdayKeyArray.length; i++) {
+                        let moodOfDay = document.createElement("div");
+                        parentOfParagraph.appendChild(moodOfDay);
+                        moodOfDay.classList.add("feeling");
+    
+                        if(weekdayKeyArray[i].moodOfPost === "Happy") {
+                            moodOfDay.classList.add("happy");
+                        } else if(weekdayKeyArray[i].moodOfPost === "Sad") {
+                            moodOfDay.classList.add("sad");
+                        } else if(weekdayKeyArray[i].moodOfPost === "Angry") {
+                            moodOfDay.classList.add("angry");
+                        } else if(weekdayKeyArray[i].moodOfPost === "Jealous") {
+                            moodOfDay.classList.add("jealous");
+                        } else if(weekdayKeyArray[i].moodOfPost === "Couragious") {
+                            moodOfDay.classList.add("couragious");
+                        } else if(weekdayKeyArray[i].moodOfPost === "Fear") {
+                            moodOfDay.classList.add("fear");
+                        } else if(weekdayKeyArray[i].moodOfPost === "Forgiving") {
+                            moodOfDay.classList.add("forgiving");
+                        }
                     }
                 }
-            }
-        }  
-    }  
+            }  
+        }
+    } else {
+        document.querySelector("div#weekdays").textContent = "Sorry, you don't have any logged feelings";
+    } 
+}
+
+function renderSettingsPopup() {
+    const main = document.querySelector("main");
+    if(!document.querySelector("#overlay")) {
+        let overlay = document.createElement("div");
+        main.appendChild(overlay);
+        overlay.setAttribute("id", "overlay");
+    } else {
+        document.querySelector("div#overlay").style.visibility = "visible";
+    }
+    
+    let overlay = document.querySelector("div#overlay");
+    overlay.innerHTML = `
+    <div id="settingsHeader">
+        <p>Settings</p>
+        <button id="closeSettings">X</button></div>
+    <div id="buttonOptions">
+        <button class="usernameButton">Change username</button>
+        <button class="passwordButton">Change password</button>
+        <button class="deleteUserButton">Delete user</button>
+        <button id="logout">Logout</button>
+    </div>
+    `;
+
+    document.getElementById("logout").addEventListener("click", logout);
+    document.getElementById("closeSettings").addEventListener("click", closeSettings);
+
+    document.querySelector("button.usernameButton").addEventListener("click", renderUsernamePopup);
+    document.querySelector("button.passwordButton").addEventListener("click", renderPasswordPopup);
+    document.querySelector("button.deleteUserButton").addEventListener("click", renderDeleteAccountPopup);
+}
+
+function logout() {
+    window.localStorage.setItem("loggedIn", "false");
+    window.localStorage.removeItem("userId");
+    renderHomePage();
+}
+
+function closeSettings() {
+    document.getElementById("overlay").style.visibility = "collapse";
+    if(document.querySelector("div.infoBox") !== null) {
+        document.querySelector("div.infoBox").style.visibility = "collapse";
+    }
+}
+
+function renderUsernamePopup() {
+    let currentlyActive = document.querySelector("button.usernameButton");
+    enableButtons(currentlyActive);
+    if(!document.querySelector("div.infoBox")) {
+        let typeInfoBox = document.createElement("div");
+        document.getElementById("overlay").appendChild(typeInfoBox);
+        typeInfoBox.classList.add("infoBox");
+    } else {
+        document.querySelector("div.infoBox").style.visibility = "visible";
+    }
+
+    let typeInfoBox = document.querySelector("div.infoBox");
+    typeInfoBox.setAttribute("id", "changeUsername");
+
+    typeInfoBox.innerHTML = `
+    <div id="closeInfoBox">X</div>
+    <label for="username">Type your current username:</label>
+    <input id="username" placeholder="Current username">
+    <label for="password">Type your password:</label>
+    <input id="password" placeholder="Password">
+    <label for="newUsername">Type a new username:</label>
+    <input id="newUsername" placeholder="New username">
+    <button id="sendChanges">Save</button>
+    `;
+
+    document.querySelector("button#sendChanges").addEventListener("click", makeAccountChanges);
+    document.querySelector("div#closeInfoBox").addEventListener("click", closeInfoBox);
+    
+}
+
+function renderPasswordPopup() {
+    let currentlyActive = document.querySelector("button.passwordButton");
+    enableButtons(currentlyActive);
+
+    if(!document.querySelector("div.infoBox")) {
+        let typeInfoBox = document.createElement("div");
+        document.getElementById("overlay").appendChild(typeInfoBox);
+        typeInfoBox.classList.add("infoBox");
+    } else {
+        document.querySelector("div.infoBox").style.visibility = "visible";
+    }
+
+    let typeInfoBox = document.querySelector("div.infoBox");
+    typeInfoBox.setAttribute("id", "changePassword");
+
+    typeInfoBox.innerHTML = `
+    <div id="closeInfoBox">X</div>
+    <label for="username">Type your username:</label>
+    <input id="username" placeholder="Username">
+    <label for="password">Type your current password:</label>
+    <input id="password" placeholder="Password">
+    <label for="newPassword">Type a new password:</label>
+    <input id="newPassword" placeholder="New password">
+    <button id="sendChanges">Save</button>
+    `;
+
+    document.querySelector("button#sendChanges").addEventListener("click", makeAccountChanges);
+    document.querySelector("div#closeInfoBox").addEventListener("click", closeInfoBox);
+
+}
+
+function renderDeleteAccountPopup() {
+    let currentlyActive = document.querySelector("button.deleteUserButton");
+    enableButtons(currentlyActive);
+
+    if(!document.querySelector("div.infoBox")) {
+        let typeInfoBox = document.createElement("div");
+        document.getElementById("overlay").appendChild(typeInfoBox);
+        typeInfoBox.classList.add("infoBox");
+    } else {
+        document.querySelector("div.infoBox").style.visibility = "visible";
+    }
+
+    let typeInfoBox = document.querySelector("div.infoBox");
+    typeInfoBox.setAttribute("id", "deleteAccount");
+    typeInfoBox.innerHTML = `
+    <div id="closeInfoBox">X</div>
+    <label for="username">Type your username:</label>
+    <input id="username" placeholder="Username">
+    <label for="password">Type your password:</label>
+    <input id="password" placeholder="Password">
+    <button id="sendChanges">Delete account</button>
+    `;
+
+    document.querySelector("button#sendChanges").addEventListener("click", makeAccountChanges);
+    document.querySelector("div#closeInfoBox").addEventListener("click", closeInfoBox);
+
+}
+
+function enableButtons(exceptFor) {
+    let allButtons = document.querySelectorAll("div#overlay > #buttonOptions > button");
+    for(let i = 0; i < allButtons.length; i++) {
+        if(allButtons[i] === exceptFor) {
+            allButtons[i].disabled = true;
+            continue;
+        }
+
+        allButtons[i].disabled = false;
+    }
+}
+
+function closeInfoBox() {
+    document.querySelector("div.infoBox").style.visibility = "collapse";
+    enableButtons();
+
+}
+
+async function makeAccountChanges(event) {
+    let infoBoxId = event.originalTarget.parentElement.id;
+    let userID = window.localStorage.getItem("userId");
+    let requestDetails;
+
+    if(infoBoxId === "changeUsername") {
+        let username = document.querySelector("input#username").value;
+        let password = document.querySelector("input#password").value;
+        let newUsername = document.querySelector("input#newUsername").value;
+        
+        
+        requestDetails = {
+            method: "PATCH",
+            headers: {"Content-type": "application/json; charset=UTF-8"},
+            body: JSON.stringify({
+                userID: userID,
+                username: username,
+                userPassword: password,
+                action: "settings",
+                newUsername: newUsername
+            })
+        };
+    } else if(infoBoxId === "changePassword") {
+        let username = document.querySelector("input#username").value;
+        let password = document.querySelector("input#password").value;
+        let newPassword = document.querySelector("input#newPassword").value;
+
+        requestDetails = {
+            method: "PATCH",
+            headers: {"Content-type": "application/json; charset=UTF-8"},
+            body: JSON.stringify({
+                userID: userID,
+                username: username,
+                userPassword: password,
+                action: "settings",
+                newPassword: newPassword
+            })
+        };
+
+    } else if(infoBoxId === "deleteAccount") {
+        let username = document.querySelector("input#username").value;
+        let password = document.querySelector("input#password").value;
+        console.log(username);
+        console.log(password);
+
+        requestDetails = {
+            method: "DELETE",
+            headers: {"Content-type": "application/json; charset=UTF-8"},
+            body: JSON.stringify({
+                userID: userID,
+                username: username,
+                userPassword: password,
+                action: "settings",
+            })
+        };
+    }
+
+
+    let response = await fetchAPI(false, requestDetails);
+
+    if(!response.ok) {
+        let resource = await response.json();
+        if(!document.querySelector("div.infoBox > .informUser")) {
+            let informUser = document.createElement("p");
+            document.querySelector("div.infoBox").appendChild(informUser);
+            informUser.classList.add("informUser");
+        } 
+
+        let informUser = document.querySelector("p.informUser");
+        informUser.textContent = resource.message;
+
+        return;
+
+    } 
+
+    let resource = await response.json();
+    if(resource.newUsername) {
+        document.querySelector("div#profileUsername").textContent = resource.newUsername;
+    } else if(resource.deletedAccount) {
+        setTimeout(renderHomePage, 4500);
+    }
+    
+    document.querySelector("div.infoBox").removeAttribute("id");
+    document.querySelector("div.infoBox").innerHTML = `
+    <div id="closeInfoBox">X</div>
+    <p>${resource.message}</p>
+    `;
+
+    document.querySelector("div#closeInfoBox").addEventListener("click", closeInfoBox);
+    enableButtons();
+
 }

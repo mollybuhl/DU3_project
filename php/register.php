@@ -25,12 +25,12 @@ function register($data, $users){
     }
     
     //Randomise profile image
-    $folder = "../media/profile_imgs";
+    $folder = dirname(__DIR__) . "/media/profile_imgs";
     $imageSources = scandir($folder);
     $images = [];
     
     foreach($imageSources as $imageSource){
-        if(str_contains($imageSource, ".jpg")){
+        if(strstr($imageSource, ".jpg") != false){
             array_push($images, $imageSource);
         }
     }
@@ -48,7 +48,7 @@ function register($data, $users){
         "friends" => [],
         "friendRequests" => [],
         "posts" => [],
-        "profilePicture" => "../media/profile_imgs/$profilePicture"
+        "profilePicture" => "media/profile_imgs/$profilePicture"
     ];
     
     // Add unique ID to new user
