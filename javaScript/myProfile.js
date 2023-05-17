@@ -139,16 +139,18 @@ async function renderProfilePage() {
     }
 
     let weekdays = document.querySelectorAll("div#weekdays > div > p");
-    for(let i = 0; i < weekdays.length; i++) {
+    console.log(weekdays);
+
+    /*for(let i = 0; i < weekdays.length; i++) {
         if(weekdays[i].textContent === today) {
             weekdays[i].classList.add("today");
         }
-    }
+    }*/ //Funkar inte!!
 
     let profilePictureDiv = document.getElementById("profilePicture");
     profilePictureDiv.style.backgroundImage = `url(../media/${profilePicture})`;
 
-    
+    //Remove classes from other pages
     let body = document.querySelector("body");
     body.classList.remove("bodyFeed");
     body.classList.add("profileBody");
