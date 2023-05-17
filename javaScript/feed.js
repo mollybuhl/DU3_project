@@ -1,7 +1,6 @@
 "use strict";
 
 /*
-    - Connect friend chat to chat icon 
     - Action if fetch users fail
 */
 
@@ -26,15 +25,17 @@ async function renderFeedPage(){
     
     //Fetching Users
     let response = await fetchAPI(true, `action=feed&userID=${UserID}&userPassword=${userPassword}`);
-    if(!response.ok){
-//What should be done?        window.localStorage.clear();
-//filen existerar inte, fel metod, fel parametrar skickade
+    let Users = await response.json();
+
+    //If no users are registered, clear localstorage and load homepage
+    if(Users.length === 0){
+        window.localStorage.setItem("loggedIn", "false");
+        window.localStorage.removeItem("userId");
+        renderHomePage();
     }
 
-    let Users = await response.json();
     let User = Users.find(user => user.id === UserID);
     
-
     let postedByUser = User.posts;
     //If user has not posted anything, display nothing.
     if(postedByUser.length > 0){

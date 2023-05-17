@@ -3,7 +3,6 @@
 function shareMood($data, $users){
     require_once "functions.php";
 
-    // Get the method used for the request, then check to see if it's allowed with a custom funciton (checkMethod).
     $requestMethod = $_SERVER["REQUEST_METHOD"];
     $allowed = ["POST"];
     checkMethod($requestMethod, $allowed);

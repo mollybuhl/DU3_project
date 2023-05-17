@@ -52,13 +52,11 @@ function feed($requestData, $users){
                                 }
                             }
                         }
-
                         putInUsersJSON($users);
                         $message = ["message" => "Post Deleted"];
                         sendJSON($message);
                     } 
                 }
-                
                 $message = ["message" => "This post was not found."];
                 sendJSON($message, 400); 
             }
