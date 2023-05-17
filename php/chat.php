@@ -55,7 +55,7 @@ function chat($data, $users, $allConversations){
                         foreach($conversation["messages"] as $messageIndex => $message){
                             foreach($users as $user){   
                                 if($user["id"] == $message["sender"]){
-                                    $conversation["messages"][$messageIndex]["sender"] = $user["username"];
+                                    $conversation["messages"][$messageIndex]["senderName"] = $user["username"];
                                     $profilePicURL = $user["profilePicture"];
                                     $conversation["messages"][$messageIndex]["profilePicture"] = $profilePicURL;
                                 }
@@ -233,6 +233,11 @@ function chat($data, $users, $allConversations){
 
         if($chatAction == "changeGroupName"){
             $newGroupName = $data["name"];
+            
+            if(strlen($newGroupName) > 12){
+                $error = ["message" => "The name can't be longer than 12 characters."];
+                sendJSON($error, 400);
+            }
 
             foreach($groupChats as $chatIndex => $chat){
                 if($chat["id"] == $chatID){

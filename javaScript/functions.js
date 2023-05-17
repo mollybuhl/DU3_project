@@ -28,7 +28,7 @@ async function fetchAPI(isGET, requestOptions, createFetchModal = true){
         if(body.querySelector(".fetchModal")){
             body.querySelector(".fetchModal").remove();
         }
-            
+
         return response;
     }catch(error){
         // Display the error with a popup
