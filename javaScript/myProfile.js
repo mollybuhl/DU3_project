@@ -145,6 +145,7 @@ async function renderProfilePage() {
 
     let weekdays = document.querySelectorAll("div#weekdays > div > p");
     console.log(weekdays);
+
     for(let i = 0; i < weekdays.length; i++) {
         if(weekdays[i].textContent === today) {
             console.log(today);
@@ -411,6 +412,7 @@ function displayRightWeek(rightWeek, storedMoods) {
         <div id="sundayContainer"><p>Su</p></div>
     
     `;
+
     console.log(storedMoods);
     if(storedMoods.length >= 1) {
         for(let i = 0; i < storedMoods.length; i++) {
@@ -517,6 +519,38 @@ function closeSettings() {
 }
 
 function renderUsernamePopup() {
+    let currentlyActive = document.querySelector("button.usernameButton");
+    enableButtons(currentlyActive);
+    if(!document.querySelector("div.infoBox")) {
+        let typeInfoBox = document.createElement("div");
+        document.getElementById("overlay").appendChild(typeInfoBox);
+        typeInfoBox.classList.add("infoBox");
+    } else {
+        document.querySelector("div.infoBox").style.visibility = "visible";
+    }
+
+    let typeInfoBox = document.querySelector("div.infoBox");
+    typeInfoBox.setAttribute("id", "changeUsername");
+
+    typeInfoBox.innerHTML = `
+    <div id="closeInfoBox">X</div>
+    <label for="username">Type your current username:</label>
+    <input id="username" placeholder="Current username">
+    <label for="password">Type your password:</label>
+    <input id="password" placeholder="Password">
+    <label for="newUsername">Type a new username:</label>
+    <input id="newUsername" placeholder="New username">
+    <button id="sendChanges">Save</button>
+    `;
+
+    document.querySelector("button#sendChanges").addEventListener("click", makeAccountChanges);
+    document.querySelector("div#closeInfoBox").addEventListener("click", closeInfoBox);
+    
+}
+
+function renderPasswordPopup() {
+    let currentlyActive = document.querySelector("button.passwordButton");
+    enableButtons(currentlyActive);
 
     if(!document.querySelector("div.infoBox")) {
         let typeInfoBox = document.createElement("div");
@@ -527,68 +561,159 @@ function renderUsernamePopup() {
     }
 
     let typeInfoBox = document.querySelector("div.infoBox");
-    document.querySelector("button.usernameButton").disabled = true;
+    typeInfoBox.setAttribute("id", "changePassword");
 
     typeInfoBox.innerHTML = `
-    <label for="oldUsername">Type your old username:</label>
-    <input id="oldUsername" placeholder="Existing username">
-    <label for="password">Type your password:</label>
+    <div id="closeInfoBox">X</div>
+    <label for="username">Type your username:</label>
+    <input id="username" placeholder="Username">
+    <label for="password">Type your current password:</label>
     <input id="password" placeholder="Password">
-    <label for="newUsername">Type a new username:</label>
-    <input id="newUsername" placeholder="New username">
+    <label for="newPassword">Type a new password:</label>
+    <input id="newPassword" placeholder="New password">
     <button id="sendChanges">Save</button>
     `;
 
-    document.querySelector("button#sendChanges").addEventListener("click", changeUsername);
-    
+    document.querySelector("button#sendChanges").addEventListener("click", makeAccountChanges);
+    document.querySelector("div#closeInfoBox").addEventListener("click", closeInfoBox);
+
 }
 
-async function changeUsername() {
-    let existingUsername = document.querySelector("input#oldUsername").value;
-    let password = document.querySelector("input#password").value;
-    let newUsername = document.querySelector("input#newUsername").value;
+function renderDeleteAccountPopup() {
+    let currentlyActive = document.querySelector("button.deleteUserButton");
+    enableButtons(currentlyActive);
+
+    if(!document.querySelector("div.infoBox")) {
+        let typeInfoBox = document.createElement("div");
+        document.getElementById("overlay").appendChild(typeInfoBox);
+        typeInfoBox.classList.add("infoBox");
+    } else {
+        document.querySelector("div.infoBox").style.visibility = "visible";
+    }
+
+    let typeInfoBox = document.querySelector("div.infoBox");
+    typeInfoBox.setAttribute("id", "deleteAccount");
+    typeInfoBox.innerHTML = `
+    <div id="closeInfoBox">X</div>
+    <label for="username">Type your username:</label>
+    <input id="username" placeholder="Username">
+    <label for="password">Type your password:</label>
+    <input id="password" placeholder="Password">
+    <button id="sendChanges">Delete account</button>
+    `;
+
+    document.querySelector("button#sendChanges").addEventListener("click", makeAccountChanges);
+    document.querySelector("div#closeInfoBox").addEventListener("click", closeInfoBox);
+
+}
+
+function enableButtons(exceptFor) {
+    let allButtons = document.querySelectorAll("div#overlay > #buttonOptions > button");
+    for(let i = 0; i < allButtons.length; i++) {
+        if(allButtons[i] === exceptFor) {
+            allButtons[i].disabled = true;
+            continue;
+        }
+
+        allButtons[i].disabled = false;
+    }
+}
+
+function closeInfoBox() {
+    document.querySelector("div.infoBox").style.visibility = "collapse";
+    enableButtons();
+
+}
+
+async function makeAccountChanges(event) {
+    let infoBoxId = event.originalTarget.parentElement.id;
     let userID = window.localStorage.getItem("userId");
-    
-    let requestDetails = {
-        method: "PATCH",
-        headers: {"Content-type": "application/json; charset=UTF-8"},
-        body: JSON.stringify({
-            userID: userID,
-            existingUsername: existingUsername,
-            userPassword: password,
-            action: "settings",
-            newUsername: newUsername
-    })};
+    let requestDetails;
+
+    if(infoBoxId === "changeUsername") {
+        let username = document.querySelector("input#username").value;
+        let password = document.querySelector("input#password").value;
+        let newUsername = document.querySelector("input#newUsername").value;
+        
+        
+        requestDetails = {
+            method: "PATCH",
+            headers: {"Content-type": "application/json; charset=UTF-8"},
+            body: JSON.stringify({
+                userID: userID,
+                username: username,
+                userPassword: password,
+                action: "settings",
+                newUsername: newUsername
+            })
+        };
+    } else if(infoBoxId === "changePassword") {
+        let username = document.querySelector("input#username").value;
+        let password = document.querySelector("input#password").value;
+        let newPassword = document.querySelector("input#newPassword").value;
+
+        requestDetails = {
+            method: "PATCH",
+            headers: {"Content-type": "application/json; charset=UTF-8"},
+            body: JSON.stringify({
+                userID: userID,
+                username: username,
+                userPassword: password,
+                action: "settings",
+                newPassword: newPassword
+            })
+        };
+
+    } else if(infoBoxId === "deleteAccount") {
+        let username = document.querySelector("input#username").value;
+        let password = document.querySelector("input#password").value;
+        console.log(username);
+        console.log(password);
+
+        requestDetails = {
+            method: "DELETE",
+            headers: {"Content-type": "application/json; charset=UTF-8"},
+            body: JSON.stringify({
+                userID: userID,
+                username: username,
+                userPassword: password,
+                action: "settings",
+            })
+        };
+    }
+
 
     let response = await fetchAPI(false, requestDetails);
 
     if(!response.ok) {
-        /*let resource = await response.json();
-        if(!document.querySelector(".infoBox > .informUser")) {
+        let resource = await response.json();
+        if(!document.querySelector("div.infoBox > .informUser")) {
             let informUser = document.createElement("p");
             document.querySelector("div.infoBox").appendChild(informUser);
             informUser.classList.add("informUser");
         } 
 
         let informUser = document.querySelector("p.informUser");
-        informUser.textContent = resource.message;*/
+        informUser.textContent = resource.message;
 
         return;
 
     } 
 
     let resource = await response.json();
-    let changedUsername = resource.newUsername;
-    document.querySelector("div#profileUsername").textContent = changedUsername;
-    document.querySelector("div.infoBox").style.visibility = "collapse";
-    document.querySelector("button.usernameButton").disabled = false;
+    if(resource.newUsername) {
+        document.querySelector("div#profileUsername").textContent = resource.newUsername;
+    } else if(resource.deletedAccount) {
+        setTimeout(renderHomePage, 4500);
+    }
+    
+    document.querySelector("div.infoBox").removeAttribute("id");
+    document.querySelector("div.infoBox").innerHTML = `
+    <div id="closeInfoBox">X</div>
+    <p>${resource.message}</p>
+    `;
 
-}
-
-function renderPasswordPopup() {
-
-}
-
-function renderDeleteAccountPopup() {
+    document.querySelector("div#closeInfoBox").addEventListener("click", closeInfoBox);
+    enableButtons();
 
 }
