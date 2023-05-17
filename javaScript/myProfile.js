@@ -154,7 +154,7 @@ async function renderProfilePage() {
     }
 
     let profilePictureDiv = document.getElementById("profilePicture");
-    profilePictureDiv.style.backgroundImage = `url(../media/${profilePicture})`;
+    profilePictureDiv.style.backgroundImage = `url(${profilePicture})`;
 
     
     let body = document.querySelector("body");
