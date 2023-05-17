@@ -7,7 +7,9 @@
             2,
             3
         ],
-        "friendRequests": [],
+        "friendRequests": [
+            2
+        ],
         "posts": [],
         "profilePicture": "media\/profile_imgs\/profile_icon_1.jpg",
         "id": 1
@@ -85,6 +87,10 @@
                     {
                         "postId": 1,
                         "moodOfPost": "Forgiving"
+                    },
+                    {
+                        "postId": 2,
+                        "moodOfPost": "Funny"
                     }
                 ]
             }
