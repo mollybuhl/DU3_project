@@ -141,7 +141,7 @@ function deleteUserAccount($userData) {
                 $usersArrayJSON = json_encode($usersArray, JSON_PRETTY_PRINT);
                 file_put_contents($filename, $usersArrayJSON);
                 $message = [
-                    "message" => "Your account was successfully deleted. You will now be directed to the home page",
+                    "message" => "Your account was successfully deleted. You will now be directed to the start page",
                     "deletedAccount" => true
                 ];
 
