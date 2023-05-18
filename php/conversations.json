@@ -39,6 +39,12 @@
                     "text": "tjena",
                     "timestamp": "17:16, 17 May",
                     "id": 3
+                },
+                {
+                    "sender": 2,
+                    "text": "tja",
+                    "timestamp": "00:21, 18 May",
+                    "id": 4
                 }
             ]
         },
