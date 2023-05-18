@@ -204,28 +204,44 @@ function prepareCalendar(arrayOfPosts, month, beginningOfWeek, storedMoods, week
     }
     console.log(currentMonthPosts);
     let dayCounter = beginningOfWeek; 
+    console.log(dayCounter);
     while(dayCounter <= beginningOfWeek + 6) {
         console.log(dayCounter);
         for(let i = 0; i < currentMonthPosts.length; i++) {
-            let potentialNewPost = currentMonthPosts[i];
             let timestampOfPost = currentMonthPosts[i].timestamp;
             let dayOfPosting = currentMonthPosts[i].dayOfWeek;
-            let moodInPost = currentMonthPosts[i].mood;
-            console.log(moodInPost);
+            let moodOfPost = currentMonthPosts[i].mood;
+            let postId = currentMonthPosts[i].postID;
+
+            if(moodOfPost === null || moodOfPost === "") {
+                return;
+            }
+
             if(timestampOfPost.includes(` ${dayCounter} `)) {
                 let weekExists = false;
                 for(let i = 0; i < storedMoods.length; i++) {
                     if(storedMoods[i].week === week) {
-                        if(storedMoods[i][`${dayOfPosting}`]) {
-                            let arrayForWeekdayKey = storedMoods[i][`${dayOfPosting}`];
-                            console.log(arrayForWeekdayKey);
-                            addMoodToDay(potentialNewPost, arrayForWeekdayKey);
-                        } else {
-                            storedMoods[i][`${dayOfPosting}`] = [];
-                            let arrayForWeekdayKey = storedMoods[i][`${dayOfPosting}`];
-                            addMoodToDay(potentialNewPost, arrayForWeekdayKey);
-                        }
                         weekExists = true;
+                        let postAlreadyExists = false;
+                        let weekMoods = storedMoods[i];
+                        for(let key in weekMoods) {
+                            if(key === "week" || key === "weekId") {
+                                continue;
+                            }
+                            console.log(key);
+                          
+                            let postObject = weekMoods[key];
+                            if(postObject.postId === postId) {
+                                postAlreadyExists = true;
+                            }
+                        }
+                        if(!postAlreadyExists) {
+                            storedMoods[i][`post${postId}`] = {
+                                postId: postId,
+                                dayOfWeek: dayOfPosting,
+                                moodOfPost: moodOfPost
+                            }
+                        }
                     }
                 }
 
@@ -238,10 +254,11 @@ function prepareCalendar(arrayOfPosts, month, beginningOfWeek, storedMoods, week
 
                     for(let i = 0; i < storedMoods.length; i++) {
                         if(storedMoods[i].week === week) {
-                            storedMoods[i][`${dayOfPosting}`] = [];
-                            let arrayForWeekdayKey = storedMoods[i][`${dayOfPosting}`];
-                            console.log(arrayForWeekdayKey);
-                            addMoodToDay(potentialNewPost, arrayForWeekdayKey);
+                            storedMoods[i][`post${postId}`] = {
+                                postId: postId,
+                                dayOfWeek: dayOfPosting,
+                                moodOfPost: moodOfPost
+                            }
                         }
                     }
                 }
@@ -255,49 +272,21 @@ function prepareCalendar(arrayOfPosts, month, beginningOfWeek, storedMoods, week
     let rightWeek = document.querySelector("#calendar > #calendarWeek").textContent;
     displayRightWeek(rightWeek, storedMoods);
 
-    
+    let userPassword = window.localStorage.getItem("userPassword");
+    let userId = window.localStorage.getItem("userId");
 
-            let userPassword = window.localStorage.getItem("userPassword");
-            let userId = window.localStorage.getItem("userId");
+    let requestDetails = {
+        method: "POST",
+        headers: {"Content-type": "application/json; charset=UTF-8"},
+        body: JSON.stringify({
+            userID: userId,
+            userPassword: userPassword,
+            action: "myProfile",
+            storedMoods: storedMoods
+    })};
 
-            let requestDetails = {
-                method: "POST",
-                headers: {"Content-type": "application/json; charset=UTF-8"},
-                body: JSON.stringify({
-                    userID: userId,
-                    userPassword: userPassword,
-                    action: "myProfile",
-                    storedMoods: storedMoods
-            })};
-
-            fetchAPI(false, requestDetails);
+    fetchAPI(false, requestDetails);
 }   
-
-function addMoodToDay(potentialNewPost, arrayForWeekdayKey) {
-    let idOfPotentialNewPost = potentialNewPost.postID;
-    let moodOfPost = potentialNewPost.mood;
-
-    let postAlreadyStored = false;
-    if(arrayForWeekdayKey.length > 0) {
-        for(let i = 0; i < arrayForWeekdayKey.length; i++) {
-            let storedPostId = arrayForWeekdayKey[i].postId;
-            if(idOfPotentialNewPost === storedPostId) {
-                postAlreadyStored = true;
-            }
-        }
-    }
-
-    if(moodOfPost === null || moodOfPost === "") {
-        return;
-    }
-
-    if(postAlreadyStored === false) {
-        arrayForWeekdayKey.push({
-            postId: idOfPotentialNewPost,
-            moodOfPost: moodOfPost
-        });
-    }
-}
 
 async function findWeekForCalendar(event) {
     let userId = window.localStorage.getItem("userId");
@@ -428,9 +417,9 @@ function displayRightWeek(rightWeek, storedMoods) {
                     if(key === "week" || key === "weekId") {
                         continue;
                     }
-                
-                    let weekdayKeyName = key;
-                    let firstTwoWords = weekdayKeyName.substring(0, 2);
+                    console.log(key);
+                    let dayOfWeek = weekMoods[key].dayOfWeek;
+                    let firstTwoWords = dayOfWeek.substring(0, 2);
                     console.log(firstTwoWords);
         
                     let weekdayKeyArray = weekMoods[key];
@@ -444,27 +433,26 @@ function displayRightWeek(rightWeek, storedMoods) {
                         }
                     }       
                     
+                    let moodOfPost = weekMoods[key].moodOfPost;
                     let parentOfParagraph = rightDay.parentNode;
-                    for(let i = 0; i < weekdayKeyArray.length; i++) {
-                        let moodOfDay = document.createElement("div");
-                        parentOfParagraph.appendChild(moodOfDay);
-                        moodOfDay.classList.add("feeling");
-    
-                        if(weekdayKeyArray[i].moodOfPost === "Happy") {
-                            moodOfDay.classList.add("happy");
-                        } else if(weekdayKeyArray[i].moodOfPost === "Sad") {
-                            moodOfDay.classList.add("sad");
-                        } else if(weekdayKeyArray[i].moodOfPost === "Angry") {
-                            moodOfDay.classList.add("angry");
-                        } else if(weekdayKeyArray[i].moodOfPost === "Jealous") {
-                            moodOfDay.classList.add("jealous");
-                        } else if(weekdayKeyArray[i].moodOfPost === "Couragious") {
-                            moodOfDay.classList.add("couragious");
-                        } else if(weekdayKeyArray[i].moodOfPost === "Fear") {
-                            moodOfDay.classList.add("fear");
-                        } else if(weekdayKeyArray[i].moodOfPost === "Forgiving") {
-                            moodOfDay.classList.add("forgiving");
-                        }
+                    let moodOfDay = document.createElement("div");
+                    parentOfParagraph.appendChild(moodOfDay);
+                    moodOfDay.classList.add("feeling");
+
+                    if(moodOfPost === "Happy") {
+                        moodOfDay.classList.add("happy");
+                    } else if(moodOfPost === "Sad") {
+                        moodOfDay.classList.add("sad");
+                    } else if(moodOfPost === "Angry") {
+                        moodOfDay.classList.add("angry");
+                    } else if(moodOfPost === "Jealous") {
+                        moodOfDay.classList.add("jealous");
+                    } else if(moodOfPost === "Couragious") {
+                        moodOfDay.classList.add("couragious");
+                    } else if(moodOfPost === "Fear") {
+                        moodOfDay.classList.add("fear");
+                    } else if(moodOfPost === "Forgiving") {
+                        moodOfDay.classList.add("forgiving");
                     }
                 }
             }  
