@@ -1,6 +1,6 @@
 /* General CSS rules that are applied on many elements */
 .chatMain {
-    font-family: Aboreto;
+    font-family: Georgia;
 }
 
 .modalContainer {
@@ -112,6 +112,7 @@
     flex-direction: column;
     align-items: center;
     background-color: #d9d9d978;
+    font-family: aboreto;
     width: 100%;
     border-radius: 10px;
     height: 35vh;
@@ -122,7 +123,6 @@
 #privateChats > p, #groupChats > #groupChatsTop > p {
     max-width: 100%;
     text-align: start;
-    font-family: Aboreto;
     padding: 10px;
     margin: 0;
 }
@@ -153,10 +153,10 @@
 
 .groupChat, .privateChat {
     display: flex;
-    font-family: Aboreto;
     text-align: start;
     padding: 15px;
     align-items: center;
+    font-family: Helvetica;
     gap: 10px;
     background-color: #F4F4F4A8;
     border-radius: 10px;
@@ -249,6 +249,7 @@
     background-repeat: no-repeat;
     height: 6vh;
     width: 6vh;
+    border-radius: 10px;
 }
 
 .messageContainer {
