@@ -121,7 +121,15 @@ function renderPostingModal(){
         const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
         const months = ["Jan.", "Feb.", "Mar.", "Apr.", "May", "June", "July", "Aug.", "Sep.", "Oct.", "Nov.", "Dec."];
     
-        let timestamp = `${date.getHours()}:${date.getMinutes()}, ${date.getDate()} ${months[date.getMonth()]}`
+        let hours = `${date.getHours()}`;
+        let minutes = `${date.getMinutes()}`;
+        if(hours.length === 1){
+            hours = `0${date.getHours()}`;
+        }
+        if(minutes.length === 1){
+            minutes = `0${date.getMinutes()}`;
+        }
+        let timestamp = `${hours}:${minutes}, ${date.getDate()} ${months[date.getMonth()]}`
         let dayOfWeek = weekdays[date.getDay()];
     
         const description = document.querySelector("#description").value;
