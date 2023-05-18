@@ -206,7 +206,6 @@ function prepareCalendar(arrayOfPosts, month, beginningOfWeek, storedMoods, week
     let dayCounter = beginningOfWeek; 
     console.log(dayCounter);
     while(dayCounter <= beginningOfWeek + 6) {
-        console.log(dayCounter);
         for(let i = 0; i < currentMonthPosts.length; i++) {
             let timestampOfPost = currentMonthPosts[i].timestamp;
             let dayOfPosting = currentMonthPosts[i].dayOfWeek;
