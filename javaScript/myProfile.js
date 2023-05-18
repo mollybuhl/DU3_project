@@ -213,7 +213,7 @@ function prepareCalendar(arrayOfPosts, month, beginningOfWeek, storedMoods, week
             let postId = currentMonthPosts[i].postID;
 
             if(moodOfPost === null || moodOfPost === "") {
-                return;
+                continue;
             }
 
             if(timestampOfPost.includes(` ${dayCounter} `)) {
