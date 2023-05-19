@@ -92,6 +92,16 @@
                         "postId": 2,
                         "moodOfPost": "Funny"
                     }
+                ],
+                "Thursday": [
+                    {
+                        "postId": 3,
+                        "moodOfPost": "Sad"
+                    },
+                    {
+                        "postId": 4,
+                        "moodOfPost": "Forgiving"
+                    }
                 ]
             }
         ],
