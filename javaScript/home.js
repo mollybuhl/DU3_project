@@ -30,16 +30,16 @@ function renderHomePage(){
         <h2>How it works</h3>
         <h3>1. Rate your current mood</h3>
         <p>Select the feeling that best fit you right now</p>
-        <img src="media/homePage/introPic1.png">
+        <img src="media/homePage/introPic1.jpg">
         <h3>2. Describe your Feelings</h3>
         <p>Try to explain why you are feeling this way</p>
-        <img src="media/homePage/introPic2.png">
+        <img src="media/homePage/introPic2.jpg">
         <h3>3. Share with Friends</h3>
         <p>Add your friends and see how they are feeling</p>
-        <img src="media/homePage/introPic3.png">
+        <img src="media/homePage/introPic3.jpg">
         <h3>4. Track your progress</h3>
         <p>Keep track on how your mood changes over time with weekly statistics</p>
-        <img src="media/homePage/introPic4.png">
+        <img src="media/homePage/introPic4.jpg">
 
         <button class="registerButton">Get Started</p>
     </div>

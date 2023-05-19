@@ -95,6 +95,10 @@
                     {
                         "postId": 6,
                         "moodOfPost": "Jealous"
+                    },
+                    {
+                        "postId": 7,
+                        "moodOfPost": "Forgiving"
                     }
                 ]
             }
