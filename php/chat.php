@@ -210,7 +210,7 @@ function chat($data, $users, $allConversations){
             foreach($groupChats as $chatIndex => $chat){
                 if($chat["id"] == $chatID){
                     $indexOfUserID = array_search($userID, $chat["betweenUsers"]);
-                    unset($allConversations["groupChats"][$chatIndex]["betweenUsers"][$indexOfUserID]);
+                    array_splice($allConversations["groupChats"][$chatIndex]["betweenUsers"], $indexOfUserID, 1);
 
                     putInConversationsJSON($allConversations);
                     sendJSON($chat, 200);
