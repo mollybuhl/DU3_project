@@ -1,32 +1,39 @@
 [
     {
-        "username": "molly",
-        "password": "222",
-        "loggedFeelings": [
-            {
-                "week": "May 15-21, 2023",
-                "weekId": 1,
-                "post1": {
-                    "postId": 1,
-                    "dayOfWeek": "Friday",
-                    "moodOfPost": "Forgiving"
-                }
-            }
+        "username": "ella",
+        "password": "ella",
+        "loggedFeelings": [],
+        "friends": [
+            4
         ],
-        "friends": [],
         "friendRequests": [],
-        "posts": [
-            {
-                "postID": 1,
-                "userID": 1,
-                "mood": "Forgiving",
-                "description": "Forgiving kind of day",
-                "quote": "God's forgiveness allows us to be honest with ourselves. We recognize our imperfections, admit our failures, and plead to God for clemency.",
-                "dayOfWeek": "Friday",
-                "timestamp": "08:24, 19 May"
-            }
+        "posts": [],
+        "profilePicture": "media\/profile_imgs\/profile_icon_5.jpg",
+        "id": 2
+    },
+    {
+        "username": "molly",
+        "password": "molly",
+        "loggedFeelings": [],
+        "friends": [
+            2,
+            4
         ],
-        "profilePicture": "media\/profile_imgs\/profile_icon_4.jpg",
-        "id": 1
+        "friendRequests": [],
+        "posts": [],
+        "profilePicture": "media\/profile_imgs\/profile_icon_5.jpg",
+        "id": 3
+    },
+    {
+        "username": "molly2",
+        "password": "molly2",
+        "loggedFeelings": [],
+        "friends": [
+            2
+        ],
+        "friendRequests": [],
+        "posts": [],
+        "profilePicture": "media\/profile_imgs\/profile_icon_5.jpg",
+        "id": 4
     }
 ]
