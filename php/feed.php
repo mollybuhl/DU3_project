@@ -36,18 +36,16 @@ function feed($requestData, $users){
                 foreach($userPosts as $indexPost => $userPost){
     
                     if($userPost["postID"] == $postID){
+                        //Remove from "posts" key
                         array_splice($users[$indexUser]["posts"], $indexPost, 1);
                        
+                        //Remove from "loggedFeelings" key
                         $userLoggedFeelings = $user["loggedFeelings"];
                         foreach($userLoggedFeelings as $weekIndex => $weeklyLoggedFeelings){
-                            foreach ($weeklyLoggedFeelings as $weekKeyIndex => $weekKey) {
-                                if(is_array($weekKey)){
-                                    foreach($weekKey as $postIndex => $post){
-                                        if($post["postId"] == $postID){
-                                            $daylyPosts = $users["$indexUser"]["loggedFeelings"][$weekIndex][$weekKeyIndex];
-                                            echo json_encode($daylyPosts);
-                                            array_splice($daylyPosts, $postIndex, 1);
-                                        }
+                            foreach ($weeklyLoggedFeelings as $postKeyIndex => $post) {
+                                if(is_array($post)){
+                                    if($post["postId"] == $postID){
+                                        unset($users[$indexUser]["loggedFeelings"][$weekIndex][$postKeyIndex]);
                                     }
                                 }
                             }
