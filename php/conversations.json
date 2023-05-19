@@ -1,47 +1,4 @@
 {
     "privateChats": [],
-    "groupChats": [
-        {
-            "id": 1,
-            "name": "TEST",
-            "ownerID": 3,
-            "betweenUsers": [
-                2,
-                3,
-                4
-            ],
-            "messages": [
-                {
-                    "sender": 3,
-                    "text": "HELLO!!!",
-                    "timestamp": "11:12, 19 May",
-                    "id": 1
-                },
-                {
-                    "sender": 3,
-                    "text": "HEY",
-                    "timestamp": "11:26, 19 May",
-                    "id": 2
-                }
-            ]
-        },
-        {
-            "id": 2,
-            "name": "TEST2",
-            "ownerID": 2,
-            "betweenUsers": [
-                2,
-                3,
-                4
-            ],
-            "messages": [
-                {
-                    "sender": 2,
-                    "text": "NYTT TEST!!",
-                    "timestamp": "11:19, 19 May",
-                    "id": 1
-                }
-            ]
-        }
-    ]
+    "groupChats": []
 }

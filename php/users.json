@@ -1,39 +1,26 @@
 [
     {
-        "username": "ella",
-        "password": "ella",
+        "username": "molly2",
+        "password": "molly2",
         "loggedFeelings": [],
         "friends": [
-            4
+            5
         ],
         "friendRequests": [],
         "posts": [],
         "profilePicture": "media\/profile_imgs\/profile_icon_5.jpg",
-        "id": 2
+        "id": 4
     },
     {
         "username": "molly",
         "password": "molly",
         "loggedFeelings": [],
         "friends": [
-            2,
             4
         ],
         "friendRequests": [],
         "posts": [],
         "profilePicture": "media\/profile_imgs\/profile_icon_5.jpg",
-        "id": 3
-    },
-    {
-        "username": "molly2",
-        "password": "molly2",
-        "loggedFeelings": [],
-        "friends": [
-            2
-        ],
-        "friendRequests": [],
-        "posts": [],
-        "profilePicture": "media\/profile_imgs\/profile_icon_5.jpg",
-        "id": 4
+        "id": 5
     }
 ]

@@ -165,7 +165,7 @@ function deleteUserAccount($userData) {
                 }
 
                 //Groupchats
-                /*foreach($groupChats as $groupIndex => $group){
+                foreach($groupChats as $groupIndex => $group){
 
                     if($group["ownerID"] == $userId){
                         array_splice($conversations["groupChats"], $groupIndex, 1);
@@ -173,11 +173,11 @@ function deleteUserAccount($userData) {
                         $groupMembers = $group["betweenUsers"];
                         foreach ($groupMembers as $memberIndex => $member) {
                             if($member == $userId){
-                                array_splice($conversations["groupChats"]["betweenUsers"], $memberIndex, 1); 
+                                array_splice($conversations["groupChats"][$groupIndex]["betweenUsers"], $memberIndex, 1); 
                             }
                         }
                     }
-                }*/
+                }
 
                 $usersArrayJSON = json_encode($usersArray, JSON_PRETTY_PRINT);
                 file_put_contents($filename, $usersArrayJSON);
