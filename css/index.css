@@ -66,6 +66,7 @@ button:hover{
     align-items: center;
 
     background-color: rgba(245, 245, 245, 0.402);
+    z-index: 20;
 }
 
 .fetchModal > div {
