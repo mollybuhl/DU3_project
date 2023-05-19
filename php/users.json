@@ -100,6 +100,16 @@
                         "postId": 7,
                         "moodOfPost": "Forgiving"
                     }
+                ],
+                "Thursday": [
+                    {
+                        "postId": 3,
+                        "moodOfPost": "Sad"
+                    },
+                    {
+                        "postId": 4,
+                        "moodOfPost": "Forgiving"
+                    }
                 ]
             }
         ],
