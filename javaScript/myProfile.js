@@ -691,6 +691,8 @@ async function makeAccountChanges(event) {
     if(resource.newUsername) {
         document.querySelector("div#profileUsername").textContent = resource.newUsername;
     } else if(resource.deletedAccount) {
+        window.localStorage.setItem("loggedIn", "false");
+        window.localStorage.removeItem("userId");
         setTimeout(renderHomePage, 4500);
     }
     

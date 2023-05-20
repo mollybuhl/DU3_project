@@ -3,24 +3,10 @@
         "username": "molly2",
         "password": "molly2",
         "loggedFeelings": [],
-        "friends": [
-            5
-        ],
+        "friends": [],
         "friendRequests": [],
         "posts": [],
         "profilePicture": "media\/profile_imgs\/profile_icon_5.jpg",
         "id": 4
-    },
-    {
-        "username": "molly",
-        "password": "molly",
-        "loggedFeelings": [],
-        "friends": [
-            4
-        ],
-        "friendRequests": [],
-        "posts": [],
-        "profilePicture": "media\/profile_imgs\/profile_icon_5.jpg",
-        "id": 5
     }
 ]
