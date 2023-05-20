@@ -3,10 +3,32 @@
         "username": "molly2",
         "password": "molly2",
         "loggedFeelings": [],
-        "friends": [],
+        "friends": [5],
         "friendRequests": [],
-        "posts": [],
+        "posts": [
+            {
+                "postID": 1,
+                "userID": 4,
+                "mood": "Angry",
+                "description": "",
+                "quote": "Anger and intolerance are the enemies of correct understanding.",
+                "dayOfWeek": "Saturday",
+                "timestamp": "10:51, 20 May"
+            }
+        ],
         "profilePicture": "media\/profile_imgs\/profile_icon_5.jpg",
         "id": 4
+    },
+    {
+        "username": "molly",
+        "password": "222",
+        "loggedFeelings": [],
+        "friends": [4],
+        "friendRequests": [
+            
+        ],
+        "posts": [],
+        "profilePicture": "media\/profile_imgs\/profile_icon_2.jpg",
+        "id": 5
     }
 ]

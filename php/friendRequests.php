@@ -58,7 +58,7 @@ if($action == "acceptRequest") {
 
 if($action == "declineRequest") {
     foreach($users as $index => $user){
-        if($user["id"] === $userTo){
+        if($user["id"] === $requestTo){
 
             $friendRequests = $users[$index]["friendRequests"];
 
