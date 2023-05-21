@@ -2,8 +2,30 @@
     {
         "username": "molly2",
         "password": "molly2",
-        "loggedFeelings": [],
-        "friends": [5],
+        "loggedFeelings": [
+            {
+                "week": "May 15-21, 2023",
+                "weekId": 1,
+                "post1": {
+                    "postId": 1,
+                    "dayOfWeek": "Saturday",
+                    "moodOfPost": "Angry"
+                },
+                "post2": {
+                    "postId": 2,
+                    "dayOfWeek": "Sunday",
+                    "moodOfPost": "Forgiving"
+                },
+                "post3": {
+                    "postId": 3,
+                    "dayOfWeek": "Sunday",
+                    "moodOfPost": "Couragious"
+                }
+            }
+        ],
+        "friends": [
+            5
+        ],
         "friendRequests": [],
         "posts": [
             {
@@ -14,6 +36,24 @@
                 "quote": "Anger and intolerance are the enemies of correct understanding.",
                 "dayOfWeek": "Saturday",
                 "timestamp": "10:51, 20 May"
+            },
+            {
+                "postID": 2,
+                "userID": 4,
+                "mood": "Forgiving",
+                "description": "hej",
+                "quote": "It is easier to forgive an enemy than to forgive a friend.",
+                "dayOfWeek": "Sunday",
+                "timestamp": "16:04, 21 May"
+            },
+            {
+                "postID": 3,
+                "userID": 4,
+                "mood": "Couragious",
+                "description": "test",
+                "quote": "Above all, we must realize that no arsenal, or no weapon in the arsenals of the world, is so formidable as the will and moral courage of free men and women. It is a weapon our adversaries in today's world do not have.",
+                "dayOfWeek": "Sunday",
+                "timestamp": "16:25, 21 May"
             }
         ],
         "profilePicture": "media\/profile_imgs\/profile_icon_5.jpg",
@@ -23,10 +63,10 @@
         "username": "molly",
         "password": "222",
         "loggedFeelings": [],
-        "friends": [4],
-        "friendRequests": [
-            
+        "friends": [
+            4
         ],
+        "friendRequests": [],
         "posts": [],
         "profilePicture": "media\/profile_imgs\/profile_icon_2.jpg",
         "id": 5

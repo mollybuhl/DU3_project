@@ -453,6 +453,24 @@ function displayRightWeek(rightWeek, storedMoods) {
                     } else if(moodOfPost === "Forgiving") {
                         moodOfDay.classList.add("forgiving");
                     }
+
+                    moodOfDay.addEventListener("click", event => {
+                        if(document.querySelector(".moodPopup")){
+                            document.querySelector(".moodPopup").remove();
+                        }
+                        
+                        const moodPopup = document.createElement("div");
+                        moodPopup.innerHTML = `
+                        <div class="popupContainer">
+                            <div>This color means: <br>${moodOfPost}</div>
+                        </div>
+                        `
+                        moodPopup.classList.add("moodPopup");
+                        document.querySelector("#calendar").appendChild(moodPopup);
+                        setTimeout(function(){
+                            moodPopup.remove();
+                        }, 2500)
+                    })
                 }
             }  
         }
