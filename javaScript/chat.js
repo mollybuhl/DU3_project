@@ -484,7 +484,7 @@ async function renderGroupChatOptions(userID, userPassword, chatID, type, userFr
     optionsDivDom.classList.add("chatPageModal", "chatOptions");
     optionsDivDom.querySelector("#closeOptions").addEventListener("click", e => optionsDivDom.remove());
 
-    // If the user is the owner of the chat, remove hidden from the buttons to change groupname and change members and add eventlisteners to them. Also make the last button be a delete button to delete the chat. The owner cannot leave the chat, it must delete it.
+    // If the user is the owner of the chat, remove hidden from the buttons to change groupname and change members and add eventlisteners to them. Also make the last button be a delete button to delete the chat. The owner cannot leave the chat, they must delete it to leave it.
     if(userID === ownerID){
         const ownerOptionsDom = optionsDivDom.querySelector("#ownerOptions");
         ownerOptionsDom.classList.remove("hidden");
