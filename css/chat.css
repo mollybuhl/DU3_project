@@ -65,11 +65,11 @@
     width: 6vh;
 }
 
-.addMemberIcon {
-    background-image: url(../media/addfriend.png);
+#memberList {
+    background-image: url(../media/groupIcon.png);
     background-size: cover;
-    height: 2vh;
-    width: 2vh;
+    height: 3vh;
+    width: 3vh;
 }
 
 #confirmCancel {
@@ -286,6 +286,15 @@
 .ownerIconMessage {
     height: 2vh;
     width: 2vh;
+}
+
+#members {
+    display: flex;
+    flex-direction: column;
+    max-height: 25vh;
+    overflow-y: scroll;
+    margin-bottom: 10px;
+    gap: 10px;
 }
 
 /* Rules for groupchat options */

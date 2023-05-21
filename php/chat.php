@@ -95,9 +95,19 @@ function chat($data, $users, $allConversations){
             $userID = $data["userID"];
             $userChats = [];
 
-            // Find all the chats that the user is a part of and put them in $userChats.
+            // Find all the chats that the user is a part of and put them in $userChats. Also find all the users in users.json to put some information about each member to render the members list for the chat.
             foreach($conversations as $conversation){
                 if(in_array($userID, $conversation["betweenUsers"])){
+                    $members = [];
+                    foreach($conversation["betweenUsers"] as $user){
+                        foreach($users as $userObject){
+                            if($userObject["id"] == $user){
+                                $member = ["id" => $userObject["id"], "username" => $userObject["username"], "profilePicture" => $userObject["profilePicture"]];
+                                $members[] = $member;
+                            }
+                        }
+                    }
+                    $conversation["members"] = $members;
                     $userChats[] = $conversation;
                 }
             }
@@ -152,16 +162,31 @@ function chat($data, $users, $allConversations){
                 }
             }
 
+            // Find all members assoicative arrays in users.json and put information about them to make the members list work on a newly created chat.
+            $members = [];
+            foreach($betweenUsers as $user){
+                foreach($users as $userObject){
+                    if($userObject["id"] == $user){
+                        $member = ["id" => $userObject["id"], "username" => $userObject["username"], "profilePicture" => $userObject["profilePicture"]];
+                        $members[] = $member;
+                    }
+                }
+            }
+        
             $newConversation = [
                 "id" => $highestConversationID + 1,
                 "betweenUsers" => $betweenUsers,
                 "messages" => []
             ];
 
+            $copyOfNewConvo = $newConversation;
+
+            $copyOfNewConvo["members"] = $members;
+
             $allConversations["privateChats"][] = $newConversation;
 
             putInConversationsJSON($allConversations);
-            sendJSON($newConversation, 200);
+            sendJSON($copyOfNewConvo, 200);
         }
 
         // If chatAction is "postMessage"

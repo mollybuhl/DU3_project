@@ -3,12 +3,10 @@
 /* 
 
 TODO:
-    - New comments
     - Classes/IDs
     - Variable names
     - CSS
     - Small errors in code
-    - Group member list?
 */
 
 // Renders the chat page.
@@ -126,6 +124,7 @@ async function renderChatPage(event, calledFromFeed = false, friendName){
         let type;
         let chatName;
         let ownerID;
+        let members;
 
         // If this was called from clicking a chat, find what type it was.
         if(event){
@@ -155,6 +154,7 @@ async function renderChatPage(event, calledFromFeed = false, friendName){
                     userPrivateChats.forEach(chat => {
                         if(chat.betweenUsers.includes(friend.id)){
                             chatID = chat.id;
+                            members = chat.members;
                         }
                     })
                     friendObject = friend;
@@ -168,6 +168,7 @@ async function renderChatPage(event, calledFromFeed = false, friendName){
                     betweenUsers: [user, friendObject.id]
                 });
                 chatID = createdChat.id;
+                members = createdChat.members;
                 userPrivateChats = await fetchChatPhp(user, userPassword, "POST",{
                     chatAction: "fetchChats",
                     type: type
@@ -183,6 +184,7 @@ async function renderChatPage(event, calledFromFeed = false, friendName){
                 if(chatName === groupChat.name && targetChatID === groupChat.id){
                     chatID = groupChat.id;
                     ownerID = groupChat.ownerID;
+                    members = groupChat.members;
                 }
             })
         }
@@ -196,6 +198,7 @@ async function renderChatPage(event, calledFromFeed = false, friendName){
         <div id="chatTop">
             <div id="chatName">${chatName}</div>
             <div id="chatTopOptions">
+                <div id="memberList"></div>
                 <div class="hidden" id="groupChatOptions"></div>
                 <div class="closeModal" id="closeChat"></div>
             </div>
@@ -217,10 +220,41 @@ async function renderChatPage(event, calledFromFeed = false, friendName){
             });
         }
 
-        // Add eventListeners to send message and close the chat
+        // Add eventListeners to send message.
         chat.querySelector("#sendMessage").addEventListener("click", function(){
             sendMessage(user, userPassword, type, ownerID, chatID);
         });
+        // Add eventListener for the member list, once you click the icon to show all members in a chat, render a modal and display all members in the chat in the modal.
+        chat.querySelector("#memberList").addEventListener("click", event => {
+            const membersModal = document.createElement("div");
+            membersModal.innerHTML = `
+            <div class="modalContainer">
+                <div id="members"></div>
+                <button class="close">Close</button>
+            </div>
+            `
+            membersModal.querySelector(".close").addEventListener("click", event => membersModal.remove());
+            membersModal.classList.add("chatPageModal");
+
+            members.forEach(member => {
+                const memberDiv = document.createElement("div");
+                memberDiv.innerHTML = `
+                <div class="profPic" style="background-image: url('${member.profilePicture}');"></div>
+                <div class="memberName">${member.username}</div>
+                <div class="ownerIcon hidden"></div>
+                `
+                memberDiv.classList.add("friendDiv");
+
+                if(ownerID){
+                    if(member.id == ownerID){
+                        memberDiv.querySelector(".ownerIcon").classList.remove("hidden");
+                    }
+                }
+                membersModal.querySelector("#members").appendChild(memberDiv);
+            })
+            chat.appendChild(membersModal);
+        })
+        // eventListener to close chat.
         chat.querySelector("#closeChat").addEventListener("click", event => {
             chatModal.remove();
             renderChatPage();
@@ -244,6 +278,7 @@ async function renderChatPage(event, calledFromFeed = false, friendName){
     }
 }
 
+// Generate a timestamp and send the message in the textarea element to the server with the timestamp.
 async function sendMessage(user, userPassword, type, ownerID, chatID){
     const message = document.querySelector("#operations > textarea").value;
 
@@ -278,16 +313,15 @@ async function sendMessage(user, userPassword, type, ownerID, chatID){
 
 // This function fetches all messages from the current chat and prints them to the chat. If the parameter startTimeout is true (true by default) then set a timeout, after 1 second this function will be called again. Also if the user is scrolled all the way down in the chat or this function was fetched from sendMessage, keep the user scrolled down.
 async function fetchAndPrintMessages(chatID, type, user, userPassword, ownerID, startTimeout = true, calledFromSendMessage = false){
-    let scrollToBottom;
-    let timeout;
-
     if(!document.querySelector("#chat")){
         return;
     }
 
+    let scrollToBottom;
+    let timeout;
+
     document.querySelector("#closeChat").addEventListener("click", event => clearTimeout(timeout));
 
-    console.log(startTimeout);
     const conversation = await fetchChatPhp(user, userPassword, "POST", {
         chatAction: "fetchChat",
         chatID: chatID,
@@ -343,6 +377,7 @@ async function fetchAndPrintMessages(chatID, type, user, userPassword, ownerID, 
     }
 }
 
+// This function renders a modal for the user to use to create a groupchat.
 async function createGroupChat(userID, userPassword, userFriends){
     let betweenUsers = [userID];
     const groupChatModal = document.createElement("div");
@@ -611,7 +646,7 @@ async function fetchFriends(userID, userPassword){
     return await resource;
 }
 
-// Function to make a request to the server with any requestbody. There is a premade requestbody that will be combined with the object sent as the variable specificInfo to later use that combined object for the fetch.
+// Function to make a request to the server with any requestbody. There is a premade requestbody that will be combined with the object sent as the variable specificInfo to later use that combined object for the fetch. Object.assign() is the method used to combine the two objects..
 async function fetchChatPhp(user, userPassword, method, specificInfo, fetchModal = true){
     let requestBody = {
         action: "chat",
@@ -633,7 +668,7 @@ async function fetchChatPhp(user, userPassword, method, specificInfo, fetchModal
     return await resource;
 }
 
-// This function handles responses, might delete later.
+// This function handles responses, creates a popup that displays an error if it occurs.
 async function chatResponseHandler(response){
     if(!response.ok){
         const resource = await response.json();
