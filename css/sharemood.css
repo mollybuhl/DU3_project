@@ -49,7 +49,7 @@ main > .moodModal > div#feelings{
 #feelings > button.angry{
     background-color: #F98989;
 }
-#feelings > button.couragious{
+#feelings > button.courageous{
     font-size: 10px;
     background-color: #F1FABB;
 }
@@ -79,7 +79,7 @@ main > .moodModal > div#feelings{
 #feelings > button.angry:hover{
     background-color: #cd6060;
 }
-#feelings > button.couragious:hover{
+#feelings > button.courageous:hover{
     background-color: #c9d48b;
 }
 #feelings > button.forgiving:hover{

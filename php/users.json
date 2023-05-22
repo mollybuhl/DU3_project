@@ -19,7 +19,7 @@
                 "post3": {
                     "postId": 3,
                     "dayOfWeek": "Sunday",
-                    "moodOfPost": "Couragious"
+                    "moodOfPost": "Courageous"
                 }
             }
         ],
@@ -49,7 +49,7 @@
             {
                 "postID": 3,
                 "userID": 4,
-                "mood": "Couragious",
+                "mood": "Courageous",
                 "description": "test",
                 "quote": "Above all, we must realize that no arsenal, or no weapon in the arsenals of the world, is so formidable as the will and moral courage of free men and women. It is a weapon our adversaries in today's world do not have.",
                 "dayOfWeek": "Sunday",
@@ -71,6 +71,20 @@
                     "dayOfWeek": "Monday",
                     "moodOfPost": "Fear"
                 }
+            },
+            {
+                "week": "May 22 - 28, 2023",
+                "weekId": 2,
+                "post1": {
+                    "postId": 1,
+                    "dayOfWeek": "Monday",
+                    "moodOfPost": "Fear"
+                },
+                "post2": {
+                    "postId": 2,
+                    "dayOfWeek": "Monday",
+                    "moodOfPost": "Funny"
+                }
             }
         ],
         "friends": [
@@ -86,6 +100,15 @@
                 "quote": "Fix reason firmly in her seat, and call to her tribunal every fact, every opinion. Question with boldness even the existence of a God because, if there be one, he must more approve of the homage of reason, than that of blindfolded fear.",
                 "dayOfWeek": "Monday",
                 "timestamp": "11:01, 22 May"
+            },
+            {
+                "postID": 2,
+                "userID": 5,
+                "mood": "Funny",
+                "description": "",
+                "quote": "It's a real primal thing, watching someone get hurt. It's funny and accessible.",
+                "dayOfWeek": "Monday",
+                "timestamp": "11:12, 22 May"
             }
         ],
         "profilePicture": "media\/profile_imgs\/profile_icon_2.jpg",

@@ -25,7 +25,7 @@ function renderPostingModal(){
         <button class="sad">Sad</button>
         <button class="happy">Happy</button>
         <button class="angry">Angry</button>
-        <button class="couragious">Couragious</button>
+        <button class="courageous">Courageous</button>
         <button class="forgiving">Forgiving</button>
         <button class="jealous">Jealous</button>
         <button class="fear">Fear</button>
@@ -63,7 +63,7 @@ function renderPostingModal(){
                 case "Angry":
                     apiCategory = "anger";
                     break;
-                case "Couragious":
+                case "Courageous":
                     apiCategory = "courage";
                     break;
                 case "Forgiving":

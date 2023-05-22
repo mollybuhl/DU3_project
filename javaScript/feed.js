@@ -206,8 +206,8 @@ async function renderFeedPage(){
             case "Angry":
                 newPost.classList.add("angry");
             break;
-            case "Couragious":
-                newPost.classList.add("couragious");
+            case "Courageous":
+                newPost.classList.add("courageous");
             break;
             case "Forgiving":
                 newPost.classList.add("forgiving");

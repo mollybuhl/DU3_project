@@ -18,7 +18,7 @@ function renderHomePage(){
     main.innerHTML =`
     <div class="introduction">
         <h4>Share your mood</h4>
-        <h1>Build a deeper connection with your frinds</h1>
+        <h1>Build a deeper connection with your friends</h1>
 
         <p>Share your daily emotions with your friends and build a deeper understanding for eachother.
         Stay on top of your own mental health by keeping track on your own mood over time.</p>
