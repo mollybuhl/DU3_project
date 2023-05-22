@@ -2,12 +2,13 @@ body.bodyRegisterLogin{
     background-color: #B9DBC3;
 }
 
-.mainRegister, main.mainLogin{
-    height: 82vh;
-}
-
 header > .loginButton.hidden{
     display: none;
+}
+
+/*MAIN*/
+.mainRegister, main.mainLogin{
+    height: 82vh;
 }
 
 .mainRegister > .wrapper, .mainLogin > .wrapper{

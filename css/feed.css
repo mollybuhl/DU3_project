@@ -7,7 +7,6 @@ body.noScroll{
     overflow: hidden;
 }
 
-/*HEADER*/
 /*HEADER: Header in feed*/
 .feedHeader{
     display: flex;
@@ -105,7 +104,6 @@ header.feedHeader > .friendDisplay > div:first-child{
     cursor: pointer;
 }
 
-
 /*Friends display: Each friend on list*/
 header.feedHeader > .friendDisplay > .friends > div{
     width: 80%;
@@ -137,17 +135,8 @@ div.friends > div > div.chat_icon{
     cursor: pointer;
 }
 
-header.feedHeader > div.friendDisplay > div.friendRequestsDisplay{
-
-}
-
-
 header.feedHeader > div.friendDisplay > div.friendRequestsDisplay.hidden{
     display: none;
-}
-
-header.feedHeader > div.friendDisplay > div.friendRequestsDisplay > #activeRequests{
-    
 }
 
 /*Each request*/
@@ -178,7 +167,6 @@ header.feedHeader > div.friendDisplay > div.friendRequestsDisplay > #activeReque
     cursor: pointer;
     box-shadow: 0px 0px 10px 1px black;   
 }
-
 
 /*Friends display: Search*/
 #searchWrapper{

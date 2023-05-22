@@ -43,7 +43,6 @@ async function callServerToLogin() {
 
     let response = await fetchAPI(false, requestOptions);
     let resource = await response.json();
-    console.log(response);
 
     if(!response.ok) {
         document.querySelector(".mainLogin > .wrapper >.messageToUser").classList.add("visable");

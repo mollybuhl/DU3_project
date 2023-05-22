@@ -1,9 +1,5 @@
 "use strict";
 
-/*
-    - Action if fetch users fail
-*/
-
 async function renderFeedPage(){
     let UserID = (Number(window.localStorage.getItem("userId"))); 
     let userPassword = window.localStorage.getItem("userPassword");
@@ -14,7 +10,7 @@ async function renderFeedPage(){
     let header = document.querySelector("header");
     let footer = document.querySelector("footer");
     let main = document.querySelector("main");
-    
+
 
     main.removeAttribute("class");
     main.classList.add("mainFeed");
@@ -37,7 +33,7 @@ async function renderFeedPage(){
     let User = Users.find(user => user.id === UserID);
     
     let postedByUser = User.posts;
-    //If user has not posted anything, display nothing.
+    //If user has not posted anything, display nothing, otherwise create post display.
     if(postedByUser.length > 0){
 
         //Create a display for user posts;
@@ -51,11 +47,12 @@ async function renderFeedPage(){
             postedByUser = postedByUser.splice(0, 7);
         }
         
-        //Create users post display
+        //Display each of users posts
         postedByUser.forEach(post => { 
             let createdPost = createPostInFeed(User, post);
             postDisplay.appendChild(createdPost);
     
+            //Display confirm delete post pop up when clicking on delete post button
             createdPost.querySelector("#deletePost").addEventListener("click", deletePopUp);
     
             function deletePopUp (event){
@@ -73,11 +70,13 @@ async function renderFeedPage(){
                 `;
                 main.appendChild(confirmDelete);
 
+                //Remove pop-up when user click NO
                 confirmDelete.querySelector("button.confirmDeleteNo").addEventListener("click", closePopUp);
                 function closePopUp(){
                     confirmDelete.remove();
                 }
                 
+                //Delete post when user click YES
                 confirmDelete.querySelector("button.confirmDeleteYes").addEventListener("click", deletePost);
                 async function deletePost(){
                     
@@ -107,10 +106,10 @@ async function renderFeedPage(){
         });
     }
     
-    //For each friend create a display with their 7 latest posts
     let friendsOfUser = User.friends;
     let friendNames = [];
 
+    //If user has no friends display add friends message. Otherwise, create display for each friends latest posts.
     if(friendsOfUser.length === 0){
         const noPostInfoDisplay = document.createElement("div");
         noPostInfoDisplay.classList.add("no_post_info");
@@ -155,7 +154,7 @@ async function renderFeedPage(){
             })
         });
 
-        //If you have friends but no one has posted
+        //If you have friends but no one has posted display add more firends message
         if(friendsPostStatus === "noPosts"){
             const noPostInfoDisplay = document.createElement("div");
             noPostInfoDisplay.classList.add("no_post_info")
@@ -273,7 +272,6 @@ async function renderFeedPage(){
             <div class="chat_icon"></div>
         `;
 
-//How should this be done?
         friendBox.querySelector(".chat_icon").addEventListener("click", renderFriendChat);
         function renderFriendChat(){
             renderChatPage(null, true, friend["username"]);
@@ -282,6 +280,7 @@ async function renderFeedPage(){
         document.querySelector("header > .friendDisplay > .friends").appendChild(friendBox);
     })
 
+    //Friend requests
     if(User.friendRequests.length > 0){
         document.querySelector("div.notificationFriendRequest").classList.remove("hidden");
         document.querySelector(".friendRequestsDisplay").classList.remove("hidden");
@@ -300,6 +299,7 @@ async function renderFeedPage(){
                     `;
                     document.querySelector(".friendRequestsDisplay > #activeRequests").appendChild(singleFriendRequest);
 
+                    //Confirm Decline freind request pop-up
                     singleFriendRequest.querySelector(".friendRequestsDisplay > #activeRequests > div > #declineFriendRequest").addEventListener("click", declineFriendRequest);
                     function declineFriendRequest(event){
 
@@ -316,17 +316,20 @@ async function renderFeedPage(){
                         `;
                         main.appendChild(confirmHandleRequest);
 
+                        //Remove pop-up if user click NO
                         confirmHandleRequest.querySelector("button.confirmHandleRequestNo").addEventListener("click", closeAcceptFriendRequestPopUp);
                         function closeAcceptFriendRequestPopUp(){
                             confirmHandleRequest.remove();
                         }
 
+                        //Decline request if user click YES
                         confirmHandleRequest.querySelector("button.confirmHandleRequestYes").addEventListener("click", acceptFriendRequest);
                         function acceptFriendRequest(){
                             handleFriendRequset(friendRequest, User.id, "declineRequest");
                         }
                     }
 
+                    //Confirm Accept friend request pop-up
                     singleFriendRequest.querySelector(".friendRequestsDisplay > #activeRequests > div > #acceptFriendRequest").addEventListener("click", acceptFriendRequestPopUp);
                     function acceptFriendRequestPopUp(event){
 
@@ -343,11 +346,13 @@ async function renderFeedPage(){
                         `;
                         main.appendChild(confirmHandleRequest);
 
+                        //Remove pop-up if user click NO
                         confirmHandleRequest.querySelector("button.confirmHandleRequestNo").addEventListener("click", closeAcceptFriendRequestPopUp);
                         function closeAcceptFriendRequestPopUp(){
                             confirmHandleRequest.remove();
                         }
 
+                        //Accept request if user click YES
                         confirmHandleRequest.querySelector("button.confirmHandleRequestYes").addEventListener("click", acceptFriendRequest);
                         function acceptFriendRequest(){
                             handleFriendRequset(friendRequest, User.id, "acceptRequest");
@@ -378,6 +383,7 @@ async function renderFeedPage(){
         let searchName = document.querySelector("#searchWrapper > form > input").value;
         let found = false;
         
+        //Inform if user search for themself
         if(searchName === User.username){
             let handelSearch = document.createElement("div");
             handelSearch.classList.add("handelSearch");
@@ -403,6 +409,7 @@ async function renderFeedPage(){
     
                     let usersCurrentFriends = User.friends;
     
+                    //Inform if user is already friends with the person they search for
                     if(usersCurrentFriends.includes(user["id"])){
                         let handelSearch = document.createElement("div");
                         handelSearch.classList.add("handelSearch");
@@ -435,11 +442,13 @@ async function renderFeedPage(){
                         `;
                         main.appendChild(handelSearch);
 
+                        //Remove pop-up if user click NO
                         handelSearch.querySelector("button.handelSearchNo").addEventListener("click", closehandelSearchPopUp);
                         function closehandelSearchPopUp(){
                             handelSearch.remove();
                         }
 
+                        //Send frine request if user click YES
                         handelSearch.querySelector("button.handelSearchYes").addEventListener("click", sendRequest);
                         function sendRequest(){
                             handleFriendRequset(UserID, searchName, "sendRequest");  
@@ -455,7 +464,7 @@ async function renderFeedPage(){
         }
     });
 
-    //Loged in footer
+    //FOOTER
     footer.classList.add("footerFeed");
     footer.innerHTML = `
         <div>
@@ -478,7 +487,7 @@ async function renderFeedPage(){
     document.querySelector(".footerFeed > div > .profileButton").parentElement.classList.remove("selected");
     document.querySelector(".footerFeed > div > .feedButton").parentElement.classList.add("selected");
 
-
+    //Fade out post display when reaching header
     function fadeOutOnScroll(element){
         var distanceToTop = window.pageYOffset + element.getBoundingClientRect().top;
         var elementHeight = element.offsetHeight;
@@ -496,13 +505,13 @@ async function renderFeedPage(){
 
     function scrollHandler(){
 
-        //Will only be called if user has posted
+        //Fade out users own posts
         if(document.querySelector(".postDisplay")){
             var userDisplay = document.querySelector(".postDisplay");
             fadeOutOnScroll(userDisplay);
         }
         
-        //Will only be called if users friends have posted
+        //Fade out users friends posts
         if(document.querySelectorAll(".friendsPostDisplay")){
             var friendsDisplay = document.querySelectorAll(".friendsPostDisplay");
             friendsDisplay.forEach(display => {
@@ -511,7 +520,7 @@ async function renderFeedPage(){
         }
     }
 
-    //Fade out at top on scroll
+    //Call to fade out post display when reaching header
     window.addEventListener("scroll", scrollHandler);
 
     //Render feed page when clicking feed icon in menu
@@ -532,9 +541,7 @@ async function renderFeedPage(){
     document.querySelector(".profileButton").addEventListener("click", function(){
         window.removeEventListener("scroll", scrollHandler);
         renderProfilePage();
-    });
-
-    
+    }); 
 }
 
 //Handle friend request
@@ -558,9 +565,7 @@ async function handleFriendRequset(requestFrom, requestTo, action){
     
     if(!response.ok){
         document.querySelector("#searchWrapper > .messageToUser").textContent = `${resource.message}`;
-
     }else{ 
-        
         if(resource.action === "acceptRequest"){
             document.querySelector("#searchWrapper > .messageToUser").textContent = "Friend Request Accepted";
             renderFeedPage();

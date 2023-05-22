@@ -1,8 +1,7 @@
 <?php
-ini_set("display_errors", 1); 
-require_once "functions.php";
 
 function feed($requestData, $users){
+    require_once "functions.php";
 
     // Get the method used for the request, then check to see if it's allowed with a custom funciton (checkMethod).
     $requestMethod = $_SERVER["REQUEST_METHOD"];
@@ -36,10 +35,10 @@ function feed($requestData, $users){
                 foreach($userPosts as $indexPost => $userPost){
     
                     if($userPost["postID"] == $postID){
-                        //Remove from "posts" key
+                        //Remove from users posts
                         array_splice($users[$indexUser]["posts"], $indexPost, 1);
                        
-                        //Remove from "loggedFeelings" key
+                        //Remove from users "loggedFeelings" 
                         $userLoggedFeelings = $user["loggedFeelings"];
                         foreach($userLoggedFeelings as $weekIndex => $weeklyLoggedFeelings){
                             foreach ($weeklyLoggedFeelings as $postKeyIndex => $post) {

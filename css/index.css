@@ -29,24 +29,6 @@ main{
     overflow: scroll;
 }
 
-.homeFooter{
-    height: 10vh;
-    box-sizing: border-box;
-    background-color: rgb(251, 246, 239);
-}
-.homeFooter > h4{
-    font-size: 20px;
-    padding-top: 2vh;
-    margin: 0;
-}
-
-.homeFooter > p{
-    color:#4c4c4c;
-    font-size: 12px;
-    margin: 0;
-    padding: 1vh;
-}
-
 button{
     box-shadow: 0px 0px 10px 1px rgb(55, 55, 55);
 }
@@ -54,6 +36,7 @@ button:hover{
     background-color: grey;
 }
 
+/*FETCH MODAL*/
 .fetchModal {
     position: absolute;
     top: 0;

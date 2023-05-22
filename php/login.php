@@ -3,13 +3,8 @@
 require_once "functions.php";
 
 function login($requestData, $users){
-    //$loginInfoJSON = file_get_contents("php://input");
-    //$loginInfo = json_decode($loginInfoJSON, true);
-
     $loginUsername = $requestData["username"];
     $loginPassword = $requestData["password"];
-    //$usersArrayJSON = file_get_contents(__DIR__."/users.json");
-    //$usersArray = json_decode($usersArrayJSON, true);
     
     for($i = 0; $i < count($users); $i++) {
         $user = $users[$i];
@@ -26,6 +21,4 @@ function login($requestData, $users){
     $errorMessage = ["message" => "Wrong username or password"];
     sendJSON($errorMessage, 404);
 }
-
-
 ?>

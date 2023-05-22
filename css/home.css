@@ -1,5 +1,3 @@
-
-
 h1, h2, h3, h4{
     font-family: aboreto;
 }
@@ -9,6 +7,8 @@ h1, h2, h3, h4{
     cursor: pointer;
 }
 
+
+/*HEADER*/
 header.headerHome{
     padding: 0vh 2vh;
 
@@ -26,6 +26,7 @@ header.headerHome > .logo{
     font-size: 25px;
 }
 
+/*MAIN*/
 .mainHome > .introduction{
     height: 60vh;
     padding: 2vh;
@@ -94,8 +95,6 @@ h4{
     object-position: center;
 }
 
-
-
 .headerHome > button, .mainHome > .introduction > button, .mainHome > .guide > button{
     height: 5vh;
     width: 30vw;
@@ -130,7 +129,24 @@ button:hover{
     margin: 4vh;
 }
 
+/*FOOTER*/
+.homeFooter{
+    height: 10vh;
+    box-sizing: border-box;
+    background-color: rgb(251, 246, 239);
+}
+.homeFooter > h4{
+    font-size: 20px;
+    padding-top: 2vh;
+    margin: 0;
+}
 
+.homeFooter > p{
+    color:#4c4c4c;
+    font-size: 12px;
+    margin: 0;
+    padding: 1vh;
+}
 
 
 

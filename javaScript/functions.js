@@ -10,10 +10,10 @@ async function fetchAPI(isGET, requestOptions, createFetchModal = true){
         const fetchModal = document.createElement("div");
         fetchModal.classList.add("fetchModal");
         fetchModal.innerHTML = `
-        <div>
-            <div>Fetching information...</div>
-        </div>
-        `
+            <div>
+                <div>Fetching information...</div>
+            </div>
+        `;
         body.appendChild(fetchModal);
     }
     try{
