@@ -15,6 +15,11 @@ function chatNotFound(){
     sendJSON($error, 404);
 }
 
+function badRequestKeys(){
+    $error = ["message" => "Sorry, you didn't provide all the required keys for this request"];
+    sendJSON($error, 400);
+}
+
 function chat($data, $users, $allConversations){
     require_once "functions.php";
 
@@ -67,6 +72,9 @@ function chat($data, $users, $allConversations){
         // If chatAction is "fetchChat"
         if($chatAction === "fetchChat"){
             $userID = $data["userID"];
+            if(!isset($data["type"]) or !isset($data["chatID"])){
+                badRequestKeys();
+            }
 
             // First find the conversation that matches with the chatID sent in the request. Then add the name and profilepictureURL of the sender in each message within the chat/conversation.
             foreach($conversations as $conversation){
@@ -91,6 +99,9 @@ function chat($data, $users, $allConversations){
 
         // If chatAction is "fetchChats"
         if($chatAction === "fetchChats"){
+            if(!isset($data["type"])){
+                badRequestKeys();
+            }
 
             $userID = $data["userID"];
             $userChats = [];
@@ -117,6 +128,10 @@ function chat($data, $users, $allConversations){
 
         // If chatAction is "createGroupChat", create a new groupChat with the sent information and put it in conversations.json.
         if($chatAction == "createGroupChat"){
+            if(!isset($data["chatName"]) or !isset($data["betweenUsers"])){
+                badRequestKeys();
+            }
+
             $conversations = $allConversations["groupChats"];
 
             $chatName = $data["chatName"];
@@ -149,6 +164,10 @@ function chat($data, $users, $allConversations){
 
         // If chatAction is "createPrivateChat", create a new privateChat between the users sent in $betweenUsers and put it in conversations.json.
         if($chatAction == "createPrivateChat"){
+            if(!isset($data["betweenUsers"])){
+                badRequestKeys();
+            }
+
             $conversations = $allConversations["privateChats"];
 
             $userID = $data["userID"];

@@ -1,6 +1,81 @@
 {
     "privateChats": [
+        {
+            "id": 1,
+            "betweenUsers": [
+                4,
+                2
+            ],
+            "messages": [
+                {
+                    "sender": 4,
+                    "text": "hej",
+                    "timestamp": "18:03, 22 May",
+                    "id": 1
+                },
+                {
+                    "sender": 4,
+                    "text": "hej",
+                    "timestamp": "18:04, 22 May",
+                    "id": 2
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "betweenUsers": [
+                4,
+                6
+            ],
+            "messages": []
+        }
     ],
     "groupChats": [
+        {
+            "id": 1,
+            "name": "hehj",
+            "ownerID": 4,
+            "betweenUsers": [
+                4
+            ],
+            "messages": [
+                {
+                    "sender": 4,
+                    "text": "hej",
+                    "timestamp": "18:21, 22 May",
+                    "id": 1
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "name": "hej",
+            "ownerID": 4,
+            "betweenUsers": [
+                4,
+                2,
+                6
+            ],
+            "messages": []
+        },
+        {
+            "id": 3,
+            "name": "hejsa",
+            "ownerID": 4,
+            "betweenUsers": [
+                4,
+                2
+            ],
+            "messages": []
+        },
+        {
+            "id": 4,
+            "name": "he",
+            "ownerID": 4,
+            "betweenUsers": [
+                4
+            ],
+            "messages": []
+        }
     ]
 }

@@ -39,9 +39,18 @@ function register($data, $users){
     $index = rand(0,($count - 1));
     
     $profilePicture = $images[$index];
+
+    // Add unique ID to new user
+    $highestID = 0;
+    foreach($users as $user){
+        if($user["id"] > $highestID){
+            $highestID = $user["id"];
+        }
+    }
     
     // Associative array of the newly created user that is added to the array $users.
     $newUser = [
+        "id" => $highestID + 1,
         "username" => $username,
         "password" => $password,
         "loggedFeelings" => [],
@@ -51,14 +60,7 @@ function register($data, $users){
         "profilePicture" => "media/profile_imgs/$profilePicture"
     ];
     
-    // Add unique ID to new user
-    $highestID = 0;
-    foreach($users as $user){
-        if($user["id"] > $highestID){
-            $highestID = $user["id"];
-        }
-    }
-    $newUser["id"] = $highestID + 1;
+
     
     $users[] = $newUser;
     
