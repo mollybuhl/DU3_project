@@ -8,13 +8,13 @@ function myProfile() {
     checkMethod($requestMethod, $allowedMethods);
 
     if($requestMethod == "GET") {
-        getProfile();
+        getProfileInfo();
     } else if($requestMethod == "POST") {
         getOrStoreUserMoods();
     }
 }
 
-function getProfile() {
+function getProfileInfo() {
     if(isset($_GET["userID"])) {
         $activeUserId = $_GET["userID"];
     }
@@ -30,8 +30,6 @@ function getProfile() {
             $rightUser = [
                 "profilePicture" => $user["profilePicture"], 
                 "username" => $user["username"], 
-                "postsOfUser" => $user["posts"],
-                "storedMoods" => $user["loggedFeelings"]
             ];
             sendJSON($rightUser);
         }
@@ -76,11 +74,14 @@ function getOrStoreUserMoods() {
             $savedUserId = $user["id"];
             if($savedUserId == $activeUserId) {
                 $rightUserMoods = [
-                    "storedMoods" => $user["loggedFeelings"]
+                    "storedMoods" => $user["loggedFeelings"],
+                    "postsOfUser" => $user["posts"]
                 ];
                 sendJSON($rightUserMoods);
             }
         }
+        $errorMessage = ["message" => "Something went wrong. Please reload the page."];
+        sendJSON($errorMessage, 400);
     }
 }
 ?>

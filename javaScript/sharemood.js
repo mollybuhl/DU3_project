@@ -177,6 +177,7 @@ function renderPostingModal(){
                         document.querySelector(".shareMoodFeedbackMessage").textContent = resource.message;
                     }else{
                         postMoodModal.remove();
+                        storeMoodInArray();
                         renderFeedPage();
                     }
                 }catch(error){
