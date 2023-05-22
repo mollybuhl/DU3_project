@@ -83,7 +83,7 @@
 /* First page when loading chat page */
 
 .chatMain > div.backgroundImage {
-    background-image: url(../media/loggedInBackground.png);
+    background-image: url(../media/loggedInBackground.jpg);
     background-position: center;
     background-size: cover;
     height: 30vh;

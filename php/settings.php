@@ -112,10 +112,8 @@ function changePassword($userData) {
 
 function deleteUserAccount($userData) {
     $filename = __DIR__."/users.json";
-    if(file_exists($filename)) {
-        $usersArrayJSON = file_get_contents($filename);
-    }
-
+        
+    $usersArrayJSON = file_get_contents($filename);
     $usersArray = json_decode($usersArrayJSON, true);
     $username = $userData["username"];
     $userId = $userData["userID"];
@@ -144,8 +142,56 @@ function deleteUserAccount($userData) {
             }
 
             if($deleted) {
+
+                //Delete user from friendlists
+                foreach ($usersArray as $userIndex => $user) {
+                    $userFriends = $user["friends"];
+                    foreach ($userFriends as $friendIndex => $friend) {
+                        if($friend == $userId){
+                            array_splice($usersArray[$userIndex]["friends"], $friendIndex, 1);
+                        }
+                    }
+                }
+
+                //Delete users conversations
+                $filenameConversation = __DIR__."/conversations.json";
+                $conversationsJSON = file_get_contents($filenameConversation);
+                $conversations = json_decode($conversationsJSON, true);
+                $privateChats = $conversations["privateChats"];
+                $groupChats = $conversations["groupChats"];
+
+                //Private conversations
+                foreach($privateChats as $chatIndex => $chat){
+                    $betweenUsers = $chat["betweenUsers"];
+                    foreach($betweenUsers as $chatUserIndex => $chatUser){
+                        if($chatUser == $userId){
+                            array_splice($conversations["privateChats"], $chatIndex, 1);
+                        }
+                    }
+                }
+
+                //Groupchats
+                foreach($groupChats as $groupIndex => $group){
+
+                    if($group["ownerID"] == $userId){
+                        array_splice($conversations["groupChats"], $groupIndex, 1);
+                    }else{
+                        $groupMembers = $group["betweenUsers"];
+                        foreach ($groupMembers as $memberIndex => $member) {
+                            if($member == $userId){
+                                array_splice($conversations["groupChats"][$groupIndex]["betweenUsers"], $memberIndex, 1); 
+                            }
+                        }
+                    }
+                }
+
                 $usersArrayJSON = json_encode($usersArray, JSON_PRETTY_PRINT);
                 file_put_contents($filename, $usersArrayJSON);
+
+                $conversations = json_encode($conversations, JSON_PRETTY_PRINT);
+                file_put_contents($filenameConversation, $conversations);
+
+
                 $message = [
                     "message" => "Your account was successfully deleted. You will now be directed to the start page",
                     "deletedAccount" => true

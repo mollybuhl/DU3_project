@@ -3,18 +3,19 @@
 function chat($data, $users, $allConversations){
     require_once "functions.php";
 
+    // Check method
     $requestMethod = $_SERVER["REQUEST_METHOD"];
     $allowed = ["POST", "GET", "DELETE", "PATCH"];
     checkMethod($requestMethod, $allowed);
 
+    // If request method is GET
     if($requestMethod == "GET"){
-
-        // Get the logged in userID from the parameter sent with GET request.
         $userID = $data["userID"];
 
-        // Find the logged in user in users array.
+        // Find the user with the ID in variable userID, then find all the users that are friends with the user. Return all the friends objects, without the password and friends keys.
         foreach($users as $user1){
             if($user1["id"] == $userID){
+
                 $userFriends = [];
                 foreach($users as $user2){
                     if(in_array($user2["id"], $user1["friends"])){
@@ -29,9 +30,11 @@ function chat($data, $users, $allConversations){
 
     }
 
+    // If request method is POST
     if($requestMethod == "POST"){
         $chatAction = $data["chatAction"];
 
+        // If the type key is sent in the body, get the right array depending on which chat type (privateChat/groupChat)
         if(isset($data["type"])){
             $type = $data["type"];
 
@@ -42,13 +45,16 @@ function chat($data, $users, $allConversations){
                 $conversations = $allConversations["groupChats"];
             }
         }
+
         if(isset($data["chatID"])){
             $chatID = $data["chatID"];
         }
 
+        // If chatAction is "fetchChat"
         if($chatAction === "fetchChat"){
             $userID = $data["userID"];
 
+            // First find the conversation that matches with the chatID sent in the request. Then add the name and profilepictureURL of the sender in each message within the chat/conversation.
             foreach($conversations as $conversation){
                 if($chatID == $conversation["id"]){
                     if(in_array($userID, $conversation["betweenUsers"])){
@@ -70,12 +76,13 @@ function chat($data, $users, $allConversations){
             sendJSON($error, 404);
         }
 
+        // If chatAction is "fetchChats"
         if($chatAction === "fetchChats"){
 
             $userID = $data["userID"];
             $userChats = [];
 
-
+            // Find all the chats that the user is a part of and put them in $userChats.
             foreach($conversations as $conversation){
                 if(in_array($userID, $conversation["betweenUsers"])){
                     $userChats[] = $conversation;
@@ -85,6 +92,7 @@ function chat($data, $users, $allConversations){
             sendJSON($userChats, 200);
         }
 
+        // If chatAction is "createGroupChat", create a new groupChat with the sent information and put it in conversations.json.
         if($chatAction == "createGroupChat"){
             $conversations = $allConversations["groupChats"];
 
@@ -119,6 +127,7 @@ function chat($data, $users, $allConversations){
             sendJSON($newGroupChat, 200);
         }
 
+        // If chatAction is "createPrivateChat", create a new privateChat between the users sent in $betweenUsers and put it in conversations.json.
         if($chatAction == "createPrivateChat"){
             $conversations = $allConversations["privateChats"];
 
@@ -145,6 +154,7 @@ function chat($data, $users, $allConversations){
             sendJSON($newConversation, 200);
         }
 
+        // If chatAction is "postMessage"
         if($chatAction === "postMessage"){
             $userID = $data["message"]["sender"];
             $typeInPlural = $type . "s";
@@ -200,7 +210,7 @@ function chat($data, $users, $allConversations){
             foreach($groupChats as $chatIndex => $chat){
                 if($chat["id"] == $chatID){
                     $indexOfUserID = array_search($userID, $chat["betweenUsers"]);
-                    unset($allConversations["groupChats"][$chatIndex]["betweenUsers"][$indexOfUserID]);
+                    array_splice($allConversations["groupChats"][$chatIndex]["betweenUsers"], $indexOfUserID, 1);
 
                     putInConversationsJSON($allConversations);
                     sendJSON($chat, 200);

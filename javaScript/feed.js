@@ -1,7 +1,6 @@
 "use strict";
 
 /*
-    - Connect friend chat to chat icon 
     - Action if fetch users fail
 */
 
@@ -26,15 +25,17 @@ async function renderFeedPage(){
     
     //Fetching Users
     let response = await fetchAPI(true, `action=feed&userID=${UserID}&userPassword=${userPassword}`);
-    if(!response.ok){
-//What should be done?        window.localStorage.clear();
-//filen existerar inte, fel metod, fel parametrar skickade
+    let Users = await response.json();
+
+    //If no users are registered, clear localstorage and load homepage
+    if(Users.length === 0){
+        window.localStorage.setItem("loggedIn", "false");
+        window.localStorage.removeItem("userId");
+        renderHomePage();
     }
 
-    let Users = await response.json();
     let User = Users.find(user => user.id === UserID);
     
-
     let postedByUser = User.posts;
     //If user has not posted anything, display nothing.
     if(postedByUser.length > 0){
@@ -55,13 +56,33 @@ async function renderFeedPage(){
             let createdPost = createPostInFeed(User, post);
             postDisplay.appendChild(createdPost);
     
-            createdPost.querySelector("#deletePost").addEventListener("click", deletePost);
+            createdPost.querySelector("#deletePost").addEventListener("click", deletePopUp);
     
-            async function deletePost (event){
+            function deletePopUp (event){
 
-                if(confirm("Would you like to delete this post?")){
-                    let postID = post.postID;
+                let confirmDelete = document.createElement("div");
+                confirmDelete.classList.add("confirmDelete");
+                confirmDelete.innerHTML =`
+                    <div>
+                        <h3> Would you like to delete this post?</h3>
+                        <div>
+                            <button class="confirmDeleteYes">YES</button>
+                            <button class="confirmDeleteNo">NO</button>
+                        </div>
+                    </div>
+                `;
+                main.appendChild(confirmDelete);
+
+                confirmDelete.querySelector("button.confirmDeleteNo").addEventListener("click", closePopUp);
+                function closePopUp(){
+                    confirmDelete.remove();
+                }
                 
+                confirmDelete.querySelector("button.confirmDeleteYes").addEventListener("click", deletePost);
+                async function deletePost(){
+                    
+                    let postID = post.postID;
+                    
                     const requestOptions = {
                         method: "DELETE",
                         headers: {"Content-Type": "application/json"},
@@ -72,15 +93,14 @@ async function renderFeedPage(){
                             actionCredentials:{"feedAction": "DELETE", "postID": postID},
                         })
                     }
-        
-                        //let request = new Request("php/api.php", requestOptions);
-                        let response = await fetchAPI(false, requestOptions);
-
-                        if(!response.ok){ 
-                            alert(`This post could not be deleted. Error message provided: ${response.message}`);                      
-                        }else{
-                            renderFeedPage();
-                        }
+            
+                    let response = await fetchAPI(false, requestOptions);
+    
+                    if(!response.ok){ 
+                        alert(`This post could not be deleted. Error message provided: ${response.message}`);                      
+                    }else{
+                        renderFeedPage();
+                    }
                     
                 }
             }
@@ -282,14 +302,54 @@ async function renderFeedPage(){
 
                     singleFriendRequest.querySelector(".friendRequestsDisplay > #activeRequests > div > #declineFriendRequest").addEventListener("click", declineFriendRequest);
                     function declineFriendRequest(event){
-                        if(confirm(`Do you want to remove friend request from ${user.username}?`)){
+
+                        let confirmHandleRequest = document.createElement("div");
+                        confirmHandleRequest.classList.add("confirmHandleRequest");
+                        confirmHandleRequest.innerHTML =`
+                            <div>
+                                <h3> Do you want to remove friend request from ${user.username}?</h3>
+                                <div>
+                                    <button class="confirmHandleRequestYes">YES</button>
+                                    <button class="confirmHandleRequestNo">NO</button>
+                                </div>
+                            </div>
+                        `;
+                        main.appendChild(confirmHandleRequest);
+
+                        confirmHandleRequest.querySelector("button.confirmHandleRequestNo").addEventListener("click", closeAcceptFriendRequestPopUp);
+                        function closeAcceptFriendRequestPopUp(){
+                            confirmHandleRequest.remove();
+                        }
+
+                        confirmHandleRequest.querySelector("button.confirmHandleRequestYes").addEventListener("click", acceptFriendRequest);
+                        function acceptFriendRequest(){
                             handleFriendRequset(friendRequest, User.id, "declineRequest");
                         }
                     }
 
-                    singleFriendRequest.querySelector(".friendRequestsDisplay > #activeRequests > div > #acceptFriendRequest").addEventListener("click", acceptFriendRequest);
-                    function acceptFriendRequest(event){
-                        if(confirm(`Do you want to add ${user.username} to your friends?`)){
+                    singleFriendRequest.querySelector(".friendRequestsDisplay > #activeRequests > div > #acceptFriendRequest").addEventListener("click", acceptFriendRequestPopUp);
+                    function acceptFriendRequestPopUp(event){
+
+                        let confirmHandleRequest = document.createElement("div");
+                        confirmHandleRequest.classList.add("confirmHandleRequest");
+                        confirmHandleRequest.innerHTML =`
+                            <div>
+                                <h3> Do you want to add ${user.username} to your friends?</h3>
+                                <div>
+                                    <button class="confirmHandleRequestYes">YES</button>
+                                    <button class="confirmHandleRequestNo">NO</button>
+                                </div>
+                            </div>
+                        `;
+                        main.appendChild(confirmHandleRequest);
+
+                        confirmHandleRequest.querySelector("button.confirmHandleRequestNo").addEventListener("click", closeAcceptFriendRequestPopUp);
+                        function closeAcceptFriendRequestPopUp(){
+                            confirmHandleRequest.remove();
+                        }
+
+                        confirmHandleRequest.querySelector("button.confirmHandleRequestYes").addEventListener("click", acceptFriendRequest);
+                        function acceptFriendRequest(){
                             handleFriendRequset(friendRequest, User.id, "acceptRequest");
                         }
                     }
@@ -319,7 +379,22 @@ async function renderFeedPage(){
         let found = false;
         
         if(searchName === User.username){
-            alert(`You are ${searchName}`);
+            let handelSearch = document.createElement("div");
+            handelSearch.classList.add("handelSearch");
+            handelSearch.innerHTML =`
+                <div>
+                    <h3>You are ${searchName}</h3>
+                    <div>
+                        <button class="handelSearchYes">OK</button>
+                    </div>
+                </div>
+            `;
+            main.appendChild(handelSearch);
+           
+            handelSearch.querySelector("button").addEventListener("click", closehandelSearchPopUp);
+            function closehandelSearchPopUp(){
+                handelSearch.remove();
+            }
         }else{
 
             Users.forEach(user => {
@@ -329,12 +404,47 @@ async function renderFeedPage(){
                     let usersCurrentFriends = User.friends;
     
                     if(usersCurrentFriends.includes(user["id"])){
-                        alert(`You are already friends with ${searchName}`);
+                        let handelSearch = document.createElement("div");
+                        handelSearch.classList.add("handelSearch");
+                        handelSearch.innerHTML =`
+                            <div>
+                                <h3>You are already friends with ${searchName}</h3>
+                                <div>
+                                    <button class="handelSearchYes">OK</button>
+                                </div>
+                            </div>
+                        `;
+                        main.appendChild(handelSearch);
+           
+                        handelSearch.querySelector("button").addEventListener("click", closehandelSearchPopUp);
+                        function closehandelSearchPopUp(){
+                            handelSearch.remove();
+                        }
                     }else{
-                        if(confirm(`Do you want to add ${searchName} to your Friends?`)){ 
+
+                        let handelSearch = document.createElement("div");
+                        handelSearch.classList.add("handelSearch");
+                        handelSearch.innerHTML =`
+                            <div>
+                                <h3> Do you want to add ${user.username} to your friends?</h3>
+                                <div>
+                                    <button class="handelSearchYes">YES</button>
+                                    <button class="handelSearchNo">NO</button>
+                                </div>
+                            </div>
+                        `;
+                        main.appendChild(handelSearch);
+
+                        handelSearch.querySelector("button.handelSearchNo").addEventListener("click", closehandelSearchPopUp);
+                        function closehandelSearchPopUp(){
+                            handelSearch.remove();
+                        }
+
+                        handelSearch.querySelector("button.handelSearchYes").addEventListener("click", sendRequest);
+                        function sendRequest(){
                             handleFriendRequset(UserID, searchName, "sendRequest");  
-                            return;                  
-                        };
+                            handelSearch.remove();
+                        }
                     }
                 }
             });

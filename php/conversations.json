@@ -3,79 +3,8 @@
         {
             "id": 1,
             "betweenUsers": [
-                2,
-                4
-            ],
-            "messages": [
-                {
-                    "sender": 2,
-                    "text": "hej",
-                    "timestamp": "14:37, 16 May",
-                    "id": 1
-                }
-            ]
-        },
-        {
-            "id": 2,
-            "betweenUsers": [
-                2,
-                3
-            ],
-            "messages": [
-                {
-                    "sender": 3,
-                    "text": "hej",
-                    "timestamp": "15:12, 17 May",
-                    "id": 1
-                },
-                {
-                    "sender": 2,
-                    "text": "hwj",
-                    "timestamp": "15:12, 17 May",
-                    "id": 2
-                },
-                {
-                    "sender": 2,
-                    "text": "tjena",
-                    "timestamp": "17:16, 17 May",
-                    "id": 3
-                },
-                {
-                    "sender": 2,
-                    "text": "tja",
-                    "timestamp": "00:21, 18 May",
-                    "id": 4
-                }
-            ]
-        },
-        {
-            "id": 3,
-            "betweenUsers": [
-                2,
-                6
-            ],
-            "messages": [
-                {
-                    "sender": 2,
-                    "text": "hej",
-                    "timestamp": "0:21, 16 May",
-                    "id": 1
-                }
-            ]
-        },
-        {
-            "id": 4,
-            "betweenUsers": [
-                2,
+                4,
                 5
-            ],
-            "messages": []
-        },
-        {
-            "id": 5,
-            "betweenUsers": [
-                1,
-                2
             ],
             "messages": []
         }
@@ -83,28 +12,13 @@
     "groupChats": [
         {
             "id": 1,
-            "name": "hej",
-            "ownerID": 3,
+            "name": "Max",
+            "ownerID": 4,
             "betweenUsers": [
-                3
+                4,
+                5
             ],
             "messages": []
-        },
-        {
-            "id": 2,
-            "name": "hejsan",
-            "ownerID": 2,
-            "betweenUsers": [
-                2
-            ],
-            "messages": [
-                {
-                    "sender": 2,
-                    "text": "hej",
-                    "timestamp": "17:13, 17 May",
-                    "id": 1
-                }
-            ]
         }
     ]
 }

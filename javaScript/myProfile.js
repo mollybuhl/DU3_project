@@ -471,6 +471,24 @@ function displayRightWeek(rightWeek, storedMoods) {
                             moodOfDay.classList.add("funny");
                             break;
                     }
+
+                    moodOfDay.addEventListener("click", event => {
+                        if(document.querySelector(".moodPopup")){
+                            document.querySelector(".moodPopup").remove();
+                        }
+                        
+                        const moodPopup = document.createElement("div");
+                        moodPopup.innerHTML = `
+                        <div class="popupContainer">
+                            <div>This color means: <br>${moodOfPost}</div>
+                        </div>
+                        `
+                        moodPopup.classList.add("moodPopup");
+                        document.querySelector("#calendar").appendChild(moodPopup);
+                        setTimeout(function(){
+                            moodPopup.remove();
+                        }, 2500)
+                    })
                 }
             }  
         }
@@ -688,7 +706,6 @@ function renderSettingsPopup() {
         <button id="logout">Logout</button>
     </div>
     `;
-
     document.querySelector("#overlay").scrollIntoView();
     document.querySelector("body.profileBody").style.overflow = "hidden";
     
@@ -904,6 +921,8 @@ async function makeAccountChanges(event) {
     if(resource.newUsername) {
         document.querySelector("div#profileUsername").textContent = resource.newUsername;
     } else if(resource.deletedAccount) {
+        window.localStorage.setItem("loggedIn", "false");
+        window.localStorage.removeItem("userId");
         setTimeout(renderHomePage, 4500);
     }
     

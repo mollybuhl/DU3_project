@@ -92,10 +92,22 @@ function renderPostingModal(){
 
     async function fetchQuote(){
         const quoteDiv = postMoodModal.querySelector("#quote > #generatedQuote");
+        const body = document.querySelector("body");
+
 
         if(apiCategory === undefined){
             quoteDiv.textContent = "Please begin with selecting your current mood";
         }else{
+
+            const fetchModal = document.createElement("div");
+            fetchModal.classList.add("fetchModal");
+            fetchModal.innerHTML = `
+            <div>
+                <div>Fetching quote...</div>
+            </div>
+            `
+            body.appendChild(fetchModal);
+
             const request = new Request(`https://api.api-ninjas.com/v1/quotes?category=${apiCategory}`, {
                 headers: {"X-Api-Key": "LXZX6kL0y3UveciOxVZfHw==emA1EeSTrBmKlT1R"}
             })
@@ -105,12 +117,15 @@ function renderPostingModal(){
                 const resource = await response.json();
                 quoteObject = await resource[0];
         
+                body.querySelector(".fetchModal").remove();
+
                 if(!response.ok){
                     quoteDiv.textContent = resource.message;
                 }else{
                     quoteDiv.textContent = quoteObject.quote;
                 }
             }catch(error){
+                body.querySelector(".fetchModal").remove();
                 quoteDiv.textContent = "Something went wrong, please try again later";
             }
         }

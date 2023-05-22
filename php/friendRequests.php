@@ -3,7 +3,6 @@
 require_once "functions.php";
 
 function friendRequests($requestData, $users){
-    // Get the method used for the request, then check to see if it's allowed with a custom funciton (checkMethod).
     $requestMethod = $_SERVER["REQUEST_METHOD"];
     $allowed = ["PATCH"];
     checkMethod($requestMethod, $allowed);  
@@ -59,7 +58,7 @@ if($action == "acceptRequest") {
 
 if($action == "declineRequest") {
     foreach($users as $index => $user){
-        if($user["id"] === $userTo){
+        if($user["id"] === $requestTo){
 
             $friendRequests = $users[$index]["friendRequests"];
 

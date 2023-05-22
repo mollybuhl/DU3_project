@@ -128,8 +128,8 @@ div.friends > div > img{
 }
 /*Friends display: Each friend chat icon*/
 div.friends > div > div.chat_icon{
-    height: 4vh;
-    width: 4vh;
+    height: 6vh;
+    width: 6vh;
     background-image: url("../media/chat2.png");
     background-size: contain;
     background-repeat: no-repeat;
@@ -234,7 +234,7 @@ main.mainFeed{
 }
 /*MAIN: Top background image*/
 .mainFeed > div.backgroundImage{
-    background-image: url(../media/loggedInBackground.png);
+    background-image: url(../media/loggedInBackground.jpg);
     background-position: center;
     background-size: cover;
     height: 30vh;
@@ -379,8 +379,6 @@ div.post.funny{
     border-color: #859b70;
 }
 
-
-
 /*MAIN: Post image and title box*/
 div.post > div:first-child{
     display: flex;
@@ -408,6 +406,42 @@ div.post > div > #deletePost{
 
     height: 2vh;
     width: 2vh;
+}
+
+/*Confirm delete pop-up*/
+main > div.confirmDelete, main > div.confirmHandleRequest, main > div.handelSearch{
+    background-color: rgba(0, 0, 0, 0.4);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9;
+}
+main > div.confirmDelete > div, main > div.confirmHandleRequest > div, main > div.handelSearch > div{
+    background-color: whitesmoke;
+    width: 80%;
+    height: 15vh;
+    border-radius: 10px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    z-index: 10;
+
+    border-radius: 10px;
+    border: 1px solid black;
+}
+
+main > div.confirmDelete > div > div > button, main > div.confirmHandleRequest > div > div > button, main > div.handelSearch > div > div > button{
+    width: 20vw;
+    border-radius: 10px;
+    border: none;
 }
 
 /*MAIN: Each post h3 & h5 headings*/

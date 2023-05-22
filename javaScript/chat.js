@@ -3,10 +3,10 @@
 /* 
 
 TODO:
-    - Comments
+    - Comments PHP
     - Classes/IDs
     - Variable names
-    - CSS   
+    - CSS
     - Small errors in code
     - Make code more readable, destructure functions? Repeated code?
     - Error messages
