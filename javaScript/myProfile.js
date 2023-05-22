@@ -26,146 +26,6 @@ async function renderProfilePage() {
     let profilePicture = resource.profilePicture;
     let username = resource.username;
 
-    /*let year = new Date().getFullYear();
-    let dateOfTheMonth = new Date().getDate();
-    
-    let month = "";
-    let endOfMonth = "";
-    let lastMonth = "";
-    let nextMonth = "";
-    let endOfLastMonth = "";
-
-    switch(new Date().getMonth()) {
-        case 0:
-            month = "January";
-            endOfMonth = 31;
-            lastMonth = "December";
-            endOfLastMonth = 31;
-            nextMonth = "February";
-            break;
-        case 1:
-            month = "February";
-            endOfMonth = 28;
-            lastMonth = "January";
-            endOfLastMonth = 31;
-            nextMonth = "March";
-            break;
-        case 2:
-            month = "March";
-            endOfMonth = 31;
-            lastMonth = "February";
-            endOfLastMonth = 28;
-            nextMonth = "April";
-            break;
-        case 3:
-            month = "April";
-            endOfMonth = 30;
-            lastMonth = "March";
-            endOfLastMonth = 31;
-            nextMonth = "May";
-            break;
-        case 4: 
-            month = "May";
-            endOfMonth = 31;
-            lastMonth = "April";
-            endOfLastMonth = 30;
-            nextMonth = "June";
-            break;
-        case 5: 
-            month = "June";
-            endOfMonth = 30;
-            lastMonth = "May";
-            endOfLastMonth = 31;
-            nextMonth = "July";
-            break;
-        case 6:
-            month = "July";
-            endOfMonth = 31;
-            lastMonth = "June";
-            endOfLastMonth = 30;
-            nextMonth = "August";
-            break;
-        case 7:
-            month = "August";
-            endOfMonth = 31;
-            lastMonth = "July";
-            endOfLastMonth = 31;
-            nextMonth = "September";
-            break;
-        case 8: 
-            month = "September";
-            endOfMonth = 30;
-            lastMonth = "August";
-            endOfLastMonth = 31;
-            nextMonth = "October";
-            break;
-        case 9: 
-            month = "October";
-            endOfMonth = 31;
-            lastMonth = "September";
-            endOfLastMonth = 30;
-            nextMonth = "November";
-            break;
-        case 10:
-            month = "November";
-            endOfMonth = 30;
-            lastMonth = "October";
-            endOfLastMonth = 31;
-            nextMonth = "December";
-            break;
-        case 11:
-            month = "December";
-            endOfMonth = 31;
-            lastMonth = "November";
-            endOfLastMonth = 30;
-            nextMonth = "January";
-            break;
-    }
-
-    let beginningOfWeek = "";
-    let endOfWeek = "";
-    let today = "";
-
-    switch(new Date().getDay()) {
-        case 0:
-            beginningOfWeek = dateOfTheMonth - 6;
-            endOfWeek = dateOfTheMonth;
-            today = "Su";
-            break;
-        case 1:
-            beginningOfWeek = dateOfTheMonth;
-            endOfWeek = dateOfTheMonth + 6;
-            today = "Mo";
-            break;
-        case 2:
-            beginningOfWeek = dateOfTheMonth - 1;
-            endOfWeek = dateOfTheMonth + 5;
-            today = "Tu";
-            break;
-        case 3:
-            beginningOfWeek = dateOfTheMonth - 2;
-            endOfWeek = dateOfTheMonth + 4;
-            today = "We";
-            break;
-        case 4: 
-            beginningOfWeek = dateOfTheMonth - 3;
-            endOfWeek = dateOfTheMonth + 3;
-            today = "Th";
-            break;
-        case 5: 
-            beginningOfWeek = dateOfTheMonth - 4;
-            endOfWeek = dateOfTheMonth + 2;
-            today = "Fr";
-            break;
-        case 6:
-            beginningOfWeek = dateOfTheMonth - 5;
-            endOfWeek = dateOfTheMonth + 1;
-            today = "Sa";
-            break;
-    }
-    
-    let week = `${month} ${beginningOfWeek} - ${endOfWeek}, ${year}`;*/
-
     main.innerHTML = `
     <div id="profilePicture"></div>
     <div id="profileUsername">${username}</div>
@@ -195,12 +55,6 @@ async function renderProfilePage() {
     document.querySelector("button#oneWeekAfter").addEventListener("click", findWeekForCalendar);
 
     let weekdays = document.querySelectorAll("div#weekdays > div > p");
-
-    /*for(let i = 0; i < weekdays.length; i++) {
-        if(weekdays[i].textContent === today) {
-            weekdays[i].classList.add("today");
-        }
-    }*/
 
     let profilePictureDiv = document.getElementById("profilePicture");
     profilePictureDiv.style.backgroundImage = `url(${profilePicture})`;
@@ -235,7 +89,6 @@ async function renderProfilePage() {
     settingsButton.textContent = "Settings";
     settingsButton.addEventListener("click", renderSettingsPopup);
 
-    //let week = await makeWeekIntoArray(beginningOfWeek, endOfWeek, month, endOfMonth, lastMonth, endOfLastMonth, nextMonth, year);
     storeMoodInArray();
 }
 
