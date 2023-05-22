@@ -6,6 +6,15 @@
     font-family: Aboreto;
     src: url("../fonts/Aboreto-Regular.ttf")
 }
+@font-face {
+    font-family: Ysabeu;
+    src: url("../fonts/YsabeauLight.ttf")
+}
+.fontYsabeu {
+    font-family: Ysabeu;
+    font-weight: bold;
+}
+
 
 *{
     box-sizing: border-box;

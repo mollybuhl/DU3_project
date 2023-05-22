@@ -134,7 +134,7 @@ async function renderFeedPage(){
                         friendsPostDisplay.innerHTML = `
                             <div class="friendProfileDisplay">
                                 <img src="${user.profilePicture}">
-                                <h3>${user.username}</h3>
+                                <h3 class="fontYsabeu">${user.username}</h3>
                             </div>
                             <div class="allPosts"></div>`
                         main.querySelector(".feedWrapper").appendChild(friendsPostDisplay);
@@ -253,7 +253,7 @@ async function renderFeedPage(){
         </div>
         <div class="profileInformation">
             <img src="${User["profilePicture"]}">
-            <h3>${User["username"]}</h3>
+            <h3 class="fontYsabeu">${User["username"]}</h3>
         </div>
         
         <div class="friendsButton">

@@ -28,7 +28,7 @@ async function renderProfilePage() {
 
     main.innerHTML = `
     <div id="profilePicture"></div>
-    <div id="profileUsername">${username}</div>
+    <div id="profileUsername" class="fontYsabeu">${username}</div>
     <p id="calendarWeek"></p>
     <div id="calendarAndButtons">
         <button id="oneWeekBefore"><</button>

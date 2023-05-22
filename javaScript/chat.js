@@ -1,7 +1,6 @@
 "use strict";
 
-/* 
-
+/*
 TODO:
     - Classes/IDs
     - Variable names
@@ -75,7 +74,7 @@ async function renderChatPage(event, calledFromFeed = false, friendName){
         const friendDivDom = document.createElement("div");
         friendDivDom.innerHTML = `
         <div class="iconStyle" style="background-image: url('${friendObject.profilePicture}');")></div>
-        <div class="chatName">${friendObject.username}</div>
+        <div class="chatName fontYsabeu">${friendObject.username}</div>
         `
         friendDivDom.querySelector(".chatName").addEventListener("click", event => event.stopPropagation());
         friendDivDom.querySelector(".iconStyle").addEventListener("click", event => event.stopPropagation());
