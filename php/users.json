@@ -3,7 +3,9 @@
         "username": "molly2",
         "password": "molly2",
         "loggedFeelings": [],
-        "friends": [5],
+        "friends": [
+            5
+        ],
         "friendRequests": [],
         "posts": [
             {
@@ -23,10 +25,10 @@
         "username": "molly",
         "password": "222",
         "loggedFeelings": [],
-        "friends": [4],
-        "friendRequests": [
-            
+        "friends": [
+            4
         ],
+        "friendRequests": [],
         "posts": [],
         "profilePicture": "media\/profile_imgs\/profile_icon_2.jpg",
         "id": 5
