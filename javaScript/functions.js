@@ -31,6 +31,6 @@ async function fetchAPI(isGET, requestOptions, createFetchModal = true){
 
         return response;
     }catch(error){
-        // Display the error with a popup
+        alert(`Something went wrong, ${error.message}`);
     }
 }
