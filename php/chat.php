@@ -1,4 +1,19 @@
 <?php
+function checkNameLength($name){
+    if(strlen($name) > 12){
+        $error = ["message" => "The name can't be longer than 12 characters."];
+        sendJSON($error, 400);
+    }
+    if(strlen($name) < 2){
+        $error = ["message" => "The name has to be at least two characters long"];
+        sendJSON($error, 400);
+    }
+}
+
+function chatNotFound(){
+    $error = ["message" => "Sorry, the chat was not found."];
+    sendJSON($error, 404);
+}
 
 function chat($data, $users, $allConversations){
     require_once "functions.php";
@@ -27,7 +42,6 @@ function chat($data, $users, $allConversations){
                 sendJSON($userFriends, 200);
             }
         }
-
     }
 
     // If request method is POST
@@ -72,8 +86,7 @@ function chat($data, $users, $allConversations){
                 }
             }
 
-            $error = ["message" => "Sorry the chat was not found."];
-            sendJSON($error, 404);
+            chatNotFound();
         }
 
         // If chatAction is "fetchChats"
@@ -82,9 +95,19 @@ function chat($data, $users, $allConversations){
             $userID = $data["userID"];
             $userChats = [];
 
-            // Find all the chats that the user is a part of and put them in $userChats.
+            // Find all the chats that the user is a part of and put them in $userChats. Also find all the users in users.json to put some information about each member to render the members list for the chat.
             foreach($conversations as $conversation){
                 if(in_array($userID, $conversation["betweenUsers"])){
+                    $members = [];
+                    foreach($conversation["betweenUsers"] as $user){
+                        foreach($users as $userObject){
+                            if($userObject["id"] == $user){
+                                $member = ["id" => $userObject["id"], "username" => $userObject["username"], "profilePicture" => $userObject["profilePicture"]];
+                                $members[] = $member;
+                            }
+                        }
+                    }
+                    $conversation["members"] = $members;
                     $userChats[] = $conversation;
                 }
             }
@@ -100,10 +123,7 @@ function chat($data, $users, $allConversations){
             $chatOwner = $data["userID"];
             $betweenUsers = $data["betweenUsers"];
 
-            if(strlen($chatName) > 12){
-                $error = ["message" => "The name can't be longer than 12 characters."];
-                sendJSON($error, 400);
-            }
+            checkNameLength($chatName);
 
             $highestConversationID = 0;
 
@@ -142,16 +162,31 @@ function chat($data, $users, $allConversations){
                 }
             }
 
+            // Find all members assoicative arrays in users.json and put information about them to make the members list work on a newly created chat.
+            $members = [];
+            foreach($betweenUsers as $user){
+                foreach($users as $userObject){
+                    if($userObject["id"] == $user){
+                        $member = ["id" => $userObject["id"], "username" => $userObject["username"], "profilePicture" => $userObject["profilePicture"]];
+                        $members[] = $member;
+                    }
+                }
+            }
+        
             $newConversation = [
                 "id" => $highestConversationID + 1,
                 "betweenUsers" => $betweenUsers,
                 "messages" => []
             ];
 
+            $copyOfNewConvo = $newConversation;
+
+            $copyOfNewConvo["members"] = $members;
+
             $allConversations["privateChats"][] = $newConversation;
 
             putInConversationsJSON($allConversations);
-            sendJSON($newConversation, 200);
+            sendJSON($copyOfNewConvo, 200);
         }
 
         // If chatAction is "postMessage"
@@ -159,6 +194,7 @@ function chat($data, $users, $allConversations){
             $userID = $data["message"]["sender"];
             $typeInPlural = $type . "s";
 
+            // find the chat with the chatID sent in the request, then add the new message to the messages array within that chat.
             foreach($conversations as $convoIndex => $conversation){
                 if($conversation["id"] == $chatID){
                     if(in_array($userID, $conversation["betweenUsers"])){
@@ -182,9 +218,11 @@ function chat($data, $users, $allConversations){
                     }
                 }
             }
+            chatNotFound();
         }
     }
 
+    // If requestMethod is DELETE
     if($requestMethod == "DELETE"){
         
         $groupChats = $allConversations["groupChats"];
@@ -193,6 +231,7 @@ function chat($data, $users, $allConversations){
         $chatID = $data["chatID"];
         $userID = $data["userID"];
 
+        // If chatAction is "deleteGroup", find the chat with the chatID sent in the request, and remove it.
         if($chatAction == "deleteGroup"){
             foreach($groupChats as $chatIndex => $chat){
                 if($chat["id"] == $chatID){
@@ -204,8 +243,10 @@ function chat($data, $users, $allConversations){
                     }
                 }
             }
+            chatNotFound();
         }
 
+        // If chatAction is "leaveGroup", find the chat with the chatID sent in the request, and remove $userID from the betweenUsers array in that chat.
         if($chatAction == "leaveGroup"){
             foreach($groupChats as $chatIndex => $chat){
                 if($chat["id"] == $chatID){
@@ -216,6 +257,7 @@ function chat($data, $users, $allConversations){
                     sendJSON($chat, 200);
                 }
             }
+            chatNotFound();
         }
     }
 
@@ -226,6 +268,7 @@ function chat($data, $users, $allConversations){
         $chatID = $data["chatID"];
         $userID = $data["userID"];
 
+        // If chatAction is "editMembers", find the chat with the chatID sent in the request, and set the betweenUsers array sent in the request as the new betweenUsers array in the chat object, then return the updated chat object.
         if($chatAction == "editMembers"){
             $updatedMembers = $data["betweenUsers"];
 
@@ -239,15 +282,14 @@ function chat($data, $users, $allConversations){
                     }
                 }
             }
+            chatNotFound();
         }
 
+        // If chatAction is "changeGroupName", find the chat with the chatID sent in the request, and set the name to the new name sent in the request, then return the new name. 
         if($chatAction == "changeGroupName"){
             $newGroupName = $data["name"];
             
-            if(strlen($newGroupName) > 12){
-                $error = ["message" => "The name can't be longer than 12 characters."];
-                sendJSON($error, 400);
-            }
+            checkNameLength($newGroupName);
 
             foreach($groupChats as $chatIndex => $chat){
                 if($chat["id"] == $chatID){
@@ -259,6 +301,7 @@ function chat($data, $users, $allConversations){
                     }
                 }
             }
+            chatNotFound();
         }
     }
 }
