@@ -75,10 +75,16 @@ function changePassword($userData) {
     $userId = $userData["userID"];
     $typedInPassword = $userData["userPassword"];
     $newPassword = $userData["newPassword"];
+    $newPasswordCopy = $userData["newPasswordCopy"];
 
-    if($username == "" || $typedInPassword == "" || $newPassword == "") {
-        $message = ["message" => "You didn't fill in all the slots"];
-        sendJSON($message, 400);
+    if($username == "" || $typedInPassword == "" || $newPassword == "" || $newPasswordCopy == "") {
+        $errorMessage = ["message" => "You didn't fill in all the slots"];
+        sendJSON($errorMessage, 400);
+    }
+
+    if($newPassword != $newPasswordCopy) {
+        $errorMessage = ["message" => "The new password is not the same in both input fields"];
+        sendJSON($errorMessage, 400);
     }
 
     for($i = 0; $i < count($usersArray); $i++) {

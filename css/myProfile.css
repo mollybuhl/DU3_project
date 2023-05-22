@@ -1,3 +1,8 @@
+.profileBody {
+    position: relative;
+    height: 100vh;
+}
+
 .profileBody #profilePicture {
     background-position: center;
     background-size: cover;
@@ -7,24 +12,68 @@
     border-radius: 10px;
     background-color: rgb(11, 128, 89);
     margin-bottom: 2vh;
-    margin-top: 10vh;
+    margin-top: 10px;
 }
 
-#weekdays {
-    display: flex;
+.mainProfile #profileUsername {
+    font-family: "Aboreto";
+    margin-top: 5.2px;
+    font-weight: bold;
+    font-size: 18.5px;
 }
 
-.profileBody #weekdays > div {
-    margin: 0 2.7vw;
+.mainProfile #calendarWeek {
+    margin-bottom: 13px;
+    height: 20px;
+    font-family: "Merlinda";
+    font-weight: bold;
+    font-size: 17px;
+}
+
+.mainProfile #weekdays {
     display: flex;
-    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 25px;
+}
+
+.mainProfile #calendarAndButtons {
+    display: flex;
+    flex-direction: row;
+}
+
+.mainProfile #calendarAndButtons button {
+    height: 24px;
+    width: 25px;
+    color: black;
+    font-size: 15.7px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Merlinda";
+}
+
+.mainProfile #calendarAndButtons button:disabled {
+    cursor: not-allowed;
+    background-color: rgb(193, 193, 193);
+
 }
 
 .profileBody #weekdays > div > p {
     margin: 0;
+    width: 24px;
+    font-size: 15.5px;
+    font-family: "Merlinda";
 }
 
-.profileBody > main {
+.profileBody #weekdays > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 2.5px;
+    width: 28px;
+}
+
+.profileBody > .mainProfile {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -32,16 +81,30 @@
 }
 
 .profileBody  #weekdays .today {
-    padding: 1vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border-radius: 50%;
-    background-color: rgb(130, 210, 183);
+    background-color: #C0EA89;
     font-weight: bold;
+    padding-bottom: 4px;
+    height: 24px;
+    padding-top: 3.5px;
 }
 
 .profileBody #calendar {
-    margin-bottom: 5vh;
+    margin: 0 8.2px 8vh 8.2px;
+
 }
 
+.profileBody #calendar #messageToUser {
+    font-family: "Merlinda";
+    font-size: 15px;
+}
+
+.mainProfile #calendarAndButtons {
+    width: 300px;
+}
 
 .profileHeader {
     display: flex;
@@ -51,12 +114,11 @@
 }
 
 header.profileHeader > #settingsButton {
-    width: 24vw;
+    width: 80px;
     font-size: 4.2vw;
-}
-
-.mainProfile #calendarWeek {
-    margin-bottom: 1.7vh;
+    font-family: "Aboreto";
+    margin-right: 12px;
+    padding: 2.8px;
 }
 
 .mainProfile .feeling {
@@ -66,32 +128,44 @@ header.profileHeader > #settingsButton {
     margin: 1vw;
 }
 
+.mainProfile .feeling:nth-of-type(1) {
+    margin-top: 5px;
+}
+
 .mainProfile .happy {
-    background-color: aquamarine;
+    background-color: #D5E4C1;
 }
 
 .mainProfile .sad {
-    background-color: blue;
+    background-color: #7DD1E4;
 }
 
 .mainProfile .angry {
-    background-color: red;
+    background-color: #F98989;
 }
 
 .mainProfile .jealous {
-    background-color: grey;
+    background-color: #EFA35D;
 }
 
 .mainProfile .couragious {
-    background-color: aqua;
+    background-color: #f7f179;
 }
 
 .mainProfile .fear {
-    background-color: orange;
+    background-color: #625FE0;
 }
 
 .mainProfile .forgiving {
-    background-color: green;
+    background-color: #EC72D9;
+}
+
+.mainProfile .alone {
+    background-color: #a2868a;
+}
+
+.mainProfile .funny {
+    background-color: #7a9d58;
 }
 
 .mainProfile #overlay {
@@ -111,60 +185,116 @@ header.profileHeader > #settingsButton {
 }
 
 .mainProfile #settingsHeader p {
-    font-size: 27px;
-    margin: 0;
-    padding: 2vh;
+    font-size: 30px;
+    margin: 9px 0 0 99px;
+    padding: 0;
+    font-family: "Merlinda";
+    color: white;
 }
 
-.mainProfile #settingsHeader button {
+.mainProfile #settingsHeader > div {
     width: 4vh;
     font-size: 17px;
     height: 4.5vh;
+    background-image: url("../media/exit.png");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin: 0 9.7px 9px 0;
+    cursor: pointer;
 }
 
 .mainProfile #buttonOptions {
-    display: flex;
-    flex-direction: column;
-    align-items: left;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    height: 150px;
+    width: 260px;
+    position: relative;
+    left: 39px;
+    top: 29px;
 }
 
 
 .mainProfile #buttonOptions button {
-    margin: 1.4vh;
-    width: 12.5vh;
-    font-size: 2vh;
+    margin: 15px;
+    width: 100px;
+    height: 45px;
+    font-size: 14px;
+    font-family: "Aboreto";
+}
+
+.mainProfile #buttonOptions button:disabled {
+    background-color: rgb(193, 193, 193);
+}
+
+.mainProfile #buttonOptions > .usernameButton {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+}
+
+.mainProfile #buttonOptions > .passwordButton {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+}
+
+.mainProfile #buttonOptions > .deleteUserButton {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+}
+
+.mainProfile #buttonOptions > #logout {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
 }
 
 #overlay .infoBox {
-    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: rgba(130, 210, 183, 0.8);
-    margin: 42px 42px 35px 42px;
+    background-color: rgb(130, 210, 183);
     padding: 12px;
+    padding-top: 18px;
     border-radius: 10px;
+    position: relative;
+    margin: 0 34px;
+    top: 57px;
+    font-family: "Merlinda";
+    font-size: 14px;
 }
 
 #overlay .infoBox * {
-    width: 170px;
+    width: 218px;
+    margin-bottom: 2px;
 }
 
-#overlay .infoBox label:nth-of-type(2) {
-    margin-top: 5px;
+#overlay .infoBox input {
+    height: 25px;
 }
+
+#overlay .infoBox label:not(.infoBox > .first) {
+    margin-top: 6px;
+}
+
 
 #overlay .infoBox #sendChanges {
     margin-top: 8px;
     max-width: 85px;
+    font-family: "Aboreto";
+    font-size: 14px;
+    font-weight: bold;
+    min-height: 25px;
 }
 
 .mainProfile #overlay .infoBox #closeInfoBox {
-    max-width: fit-content;
     position: absolute;
-    right: 10px;
-    top: 7px;
+    right: 9.2px;
+    top: 8px;
     cursor: pointer;
-    border: 1px solid black;
     padding: 0 2.8px;
+    background-image: url("../media/X.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 17px;
+    height: 17px;
 }
