@@ -210,6 +210,10 @@ function chat($data, $users, $allConversations){
 
         // If chatAction is "postMessage"
         if($chatAction === "postMessage"){
+            if(!isset($data["type"]) or !isset($data["chatID"]) or !isset($data["message"])){
+                badRequestKeys();
+            }
+
             $userID = $data["message"]["sender"];
             $typeInPlural = $type . "s";
 
@@ -243,7 +247,10 @@ function chat($data, $users, $allConversations){
 
     // If requestMethod is DELETE
     if($requestMethod == "DELETE"){
-        
+        if(!isset($data["chatID"])){
+            badRequestKeys();
+        }
+
         $groupChats = $allConversations["groupChats"];
 
         $chatAction = $data["chatAction"];
@@ -289,6 +296,10 @@ function chat($data, $users, $allConversations){
 
         // If chatAction is "editMembers", find the chat with the chatID sent in the request, and set the betweenUsers array sent in the request as the new betweenUsers array in the chat object, then return the updated chat object.
         if($chatAction == "editMembers"){
+            if(!isset($data["betweenUsers"]) or !isset($data["chatID"])){
+                badRequestKeys();
+            }
+
             $updatedMembers = $data["betweenUsers"];
 
             foreach($groupChats as $chatIndex => $chat){
@@ -306,6 +317,10 @@ function chat($data, $users, $allConversations){
 
         // If chatAction is "changeGroupName", find the chat with the chatID sent in the request, and set the name to the new name sent in the request, then return the new name. 
         if($chatAction == "changeGroupName"){
+            if(!isset($data["name"]) or !isset($data["chatID"])){
+                badRequestKeys();
+            }
+
             $newGroupName = $data["name"];
             
             checkNameLength($newGroupName);
