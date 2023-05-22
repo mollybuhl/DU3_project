@@ -119,7 +119,7 @@ async function renderChatPage(event, calledFromFeed = false, friendName){
     // This function renders a chat with the person or group that was clicked.
     async function renderChat(event){
 
-        // Declaring chatID and type here to use it later when fetching chats.
+        // Declaring variables here to have access to them throughout the whole function.
         let chatID;
         let type;
         let chatName;
@@ -146,7 +146,7 @@ async function renderChatPage(event, calledFromFeed = false, friendName){
             chatName = friendName;
             type = "privateChat";
         }
-        // If the clicked <div> was a private chat/friend chat, find which friend that was clicked then find the chat that is between the user and that friend, then store that chats ID in chatID. If it's the first time a chat was opened between the user and the friend, create a new chat between them.
+        // If the chat is a private chat/friend chat, find which friend that was clicked then find the chat that is between the user and that friend, then store that chats ID in chatID. If it's the first time a chat was opened between the user and the friend, create a new chat between them.
         if(type === "privateChat"){
             let friendObject;
             userFriends.forEach(friend => {
@@ -176,7 +176,7 @@ async function renderChatPage(event, calledFromFeed = false, friendName){
             }
         }
 
-        // If the clicked <div> was a groupchat, find which groupchat was clicked then store that groupchats ID in chatID.
+        // If the chat is a groupchat, find which groupchat was clicked then store that groupchats ID in chatID.
         if(type === "groupChat"){
             userGroupChats.forEach(groupChat => {
                 const targetChatID = parseInt(event.target.querySelector(".chatName").dataset.chatid);
@@ -212,7 +212,7 @@ async function renderChatPage(event, calledFromFeed = false, friendName){
         chat.setAttribute("id", "chat");
         chatModal.appendChild(chat);
 
-        // If the clicked chat is a groupchat, add groupchat options button.
+        // If the chat is a groupchat, add groupchat options button.
         if(type === "groupChat"){
             chat.querySelector("#groupChatOptions").classList.remove("hidden");
             chat.querySelector("#groupChatOptions").addEventListener("click", function(){
@@ -260,13 +260,9 @@ async function renderChatPage(event, calledFromFeed = false, friendName){
             renderChatPage();
         })
 
-        // fetch current chat with chatID and print them to the <div> with id #messages
+        // fetch current chat with chatID and print them to the <div> with id messages
         await fetchAndPrintMessages(chatID, type, user, userPassword, ownerID);
 
-        // This function generates a timestamp and posts the message written in the input field to the server.
-
-
-        // This function creates a groupchat and posts it to the server.
         // Render the chat with the scrollbar scrolled all the way down.
         const chatMessages = chat.querySelector("#messages")
         chatMessages.scrollTop = chatMessages.scrollTopMax;
@@ -313,6 +309,7 @@ async function sendMessage(user, userPassword, type, ownerID, chatID){
 
 // This function fetches all messages from the current chat and prints them to the chat. If the parameter startTimeout is true (true by default) then set a timeout, after 1 second this function will be called again. Also if the user is scrolled all the way down in the chat or this function was fetched from sendMessage, keep the user scrolled down.
 async function fetchAndPrintMessages(chatID, type, user, userPassword, ownerID, startTimeout = true, calledFromSendMessage = false){
+    // If the chat is closed, stop the function.
     if(!document.querySelector("#chat")){
         return;
     }
@@ -320,8 +317,10 @@ async function fetchAndPrintMessages(chatID, type, user, userPassword, ownerID, 
     let scrollToBottom;
     let timeout;
 
+    // When you close the chat, clear the timeout so it doesn't keep fetching the chat.
     document.querySelector("#closeChat").addEventListener("click", event => clearTimeout(timeout));
 
+    // Fetch the chat to get it's messages.
     const conversation = await fetchChatPhp(user, userPassword, "POST", {
         chatAction: "fetchChat",
         chatID: chatID,
@@ -329,6 +328,7 @@ async function fetchAndPrintMessages(chatID, type, user, userPassword, ownerID, 
     }, false);
     const conversationMessages = await conversation.messages;
 
+    // Sort messages so they are shown in the correct order.
     conversationMessages.sort((a, b) => {
         if(a.id > b.id){
             return -1;
@@ -337,6 +337,7 @@ async function fetchAndPrintMessages(chatID, type, user, userPassword, ownerID, 
         }
     });
 
+    // Check if the user is scrolled all the way down, or they sent a message, if so, keep the user scrolled down.
     const messagesDiv = chat.querySelector("#messages");
     if(messagesDiv.scrollTop === messagesDiv.scrollTopMax || calledFromSendMessage){
         scrollToBottom = true;
@@ -344,6 +345,7 @@ async function fetchAndPrintMessages(chatID, type, user, userPassword, ownerID, 
 
     messagesDiv.innerHTML = "";
 
+    // Create a <div> for each message and display the message in that <div>
     conversationMessages.forEach(message => {
         const messageDiv = document.createElement("div");
         messageDiv.classList.add("messageContainer");
@@ -357,6 +359,7 @@ async function fetchAndPrintMessages(chatID, type, user, userPassword, ownerID, 
             <div class="messageText">${message.text}</div>
         </div>
         `;
+        // If its a groupchat and the user is the owner, put a crown next to their name.
         if(type === "groupChat"){
             if(message.sender === ownerID){
                 messageDiv.querySelector(".ownerIconMessage").classList.remove("hidden");
@@ -366,10 +369,12 @@ async function fetchAndPrintMessages(chatID, type, user, userPassword, ownerID, 
         messagesDiv.appendChild(messageDiv);
     })
 
+    // Scrolls the user all the way down.
     if(scrollToBottom){
         messagesDiv.scrollTop = messagesDiv.scrollTopMax;
     }
 
+    // If startTimeout is true, start a timeout to call this function again in one second.
     if(startTimeout){
         timeout = setTimeout(async function(){
             await fetchAndPrintMessages(chatID, type, user, userPassword, ownerID);
@@ -511,6 +516,7 @@ async function renderGroupChatOptions(userID, userPassword, chatID, type, userFr
                     name: name,
                     chatID: chatID
                 });
+                // If the response was ok and the fetch didn't return undefined as the resource, update the groupname on the chat window.
                 if(newName !== undefined){
                     chat.querySelector("#chatName").textContent = newName;
                     changeGroupNameDom.remove();
