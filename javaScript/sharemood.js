@@ -153,38 +153,37 @@ function renderPostingModal(){
             postMoodModal.querySelector("#quote > #generatedQuote").textContent = "Please select a quote before posting";
         }else{
 
-            if(confirm("Share Mood with Friends?")){
-                const requestOptions = {
-                    method: "POST",
-                    headers: {"Content-Type": "application/json"},
-                    body: JSON.stringify({
-                        action: "shareMood",
-                        userID: userID,
-                        userPassword: userPassword,
-                        mood: mood,
-                        description: description,
-                        quote: quoteObject.quote,
-                        dayOfWeek: dayOfWeek,
-                        timestamp: timestamp
-                    })
-                }
+            const requestOptions = {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({
+                    action: "shareMood",
+                    userID: userID,
+                    userPassword: userPassword,
+                    mood: mood,
+                    description: description,
+                    quote: quoteObject.quote,
+                    dayOfWeek: dayOfWeek,
+                    timestamp: timestamp
+                })
+            }
         
-                try{
-                    const response = await fetchAPI(false, requestOptions);
-                    const resource = await response.json();
-                
-                    if(!response.ok){
-                        document.querySelector(".shareMoodFeedbackMessage").textContent = resource.message;
-                    }else{
-                        postMoodModal.remove();
-                        storeMoodInArray();
-                        renderFeedPage();
-                    }
-                }catch(error){
-                    document.querySelector(".shareMoodFeedbackMessage").textContent = "Something went wrong, please try again later";
+            try{
+                const response = await fetchAPI(false, requestOptions);
+                const resource = await response.json();
+            
+                if(!response.ok){
+                    document.querySelector(".shareMoodFeedbackMessage").textContent = resource.message;
+                }else{
+                    postMoodModal.remove();
+                    storeMoodInArray();
+                    renderFeedPage();
                 }
+            }catch(error){
+                document.querySelector(".shareMoodFeedbackMessage").textContent = "Something went wrong, please try again later";
             }
         }
+        
     }
 }
 
