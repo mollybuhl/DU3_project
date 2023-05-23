@@ -21,6 +21,7 @@
     display: none;
 }
 
+/*Feelings buttons display*/
 main > .moodModal > div#feelings{
     display: grid;
     grid-template-columns: repeat(3, 1fr);
