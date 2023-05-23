@@ -277,6 +277,10 @@ async function renderChatPage(event, calledFromFeed = false, friendName){
 async function sendMessage(user, userPassword, type, ownerID, chatID){
     const message = document.querySelector("#operations > textarea").value;
 
+    if(message === ""){
+        return;
+    }
+
     const date = new Date();
     const months = ["Jan.", "Feb.", "Mar.", "Apr.", "May", "June", "July", "Aug.", "Sep.", "Oct.", "Nov.", "Dec."];
 
