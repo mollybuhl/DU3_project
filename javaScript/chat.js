@@ -13,7 +13,7 @@ async function renderChatPage(event, calledFromFeed = false, friendName){
     const user = parseInt(window.localStorage.getItem("userId"));
     const userPassword = window.localStorage.getItem("userPassword");
     
-    
+    // Select Chat icon in Menu
     document.querySelector(".footerFeed > div > .postButton").parentElement.classList.remove("selected");
     document.querySelector(".footerFeed > div > .feedButton").parentElement.classList.remove("selected");
     document.querySelector(".footerFeed > div > .profileButton").parentElement.classList.remove("selected");

@@ -34,6 +34,27 @@
                 6
             ],
             "messages": []
+        },
+        {
+            "id": 3,
+            "betweenUsers": [
+                5,
+                4
+            ],
+            "messages": [
+                {
+                    "sender": 5,
+                    "text": "Hello",
+                    "timestamp": "17:07, 23 May",
+                    "id": 1
+                },
+                {
+                    "sender": 5,
+                    "text": "Hur \u00e4r l\u00e4get?",
+                    "timestamp": "17:07, 23 May",
+                    "id": 2
+                }
+            ]
         }
     ],
     "groupChats": [
@@ -47,6 +68,23 @@
                 2
             ],
             "messages": []
+        },
+        {
+            "id": 2,
+            "name": "Test 2",
+            "ownerID": 5,
+            "betweenUsers": [
+                5,
+                4
+            ],
+            "messages": [
+                {
+                    "sender": 5,
+                    "text": "Hello testtest\n",
+                    "timestamp": "17:08, 23 May",
+                    "id": 1
+                }
+            ]
         }
     ]
 }
