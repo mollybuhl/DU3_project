@@ -10,7 +10,7 @@ async function renderProfilePage() {
 
     let userId = window.localStorage.getItem("userId");
     let userPassword = window.localStorage.getItem("userPassword");
-
+    
     let getParameters = `userID=${userId}&userPassword=${userPassword}&action=myProfile`;
     let response = await fetchAPI(true, getParameters);
 
@@ -50,11 +50,8 @@ async function renderProfilePage() {
     `;
 
     document.querySelector("p#messageToUser").style.display = "none";
-
     document.querySelector("button#oneWeekBefore").addEventListener("click", findWeekForCalendar);
     document.querySelector("button#oneWeekAfter").addEventListener("click", findWeekForCalendar);
-
-    let weekdays = document.querySelectorAll("div#weekdays > div > p");
 
     let profilePictureDiv = document.getElementById("profilePicture");
     profilePictureDiv.style.backgroundImage = `url(${profilePicture})`;
@@ -101,7 +98,7 @@ async function makeWeekIntoArray(beginningOfWeek, endOfWeek, month, endOfMonth, 
         body: JSON.stringify({
             userID: userId,
             userPassword: userPassword,
-            action: "myProfile",
+            action: "myProfile"
     })};
 
     let response = await fetchAPI(false, requestDetails, false);
@@ -126,22 +123,18 @@ async function makeWeekIntoArray(beginningOfWeek, endOfWeek, month, endOfMonth, 
     for(let i = beginningOfWeekInt; i <= endOfWeekInt; i++) {
         arrayOfWeekDates.push(i);
     }
-    console.log(arrayOfWeekDates);
     for(let i = 0; i < arrayOfWeekDates.length; i++) {
         if(arrayOfWeekDates[i].toString() === "0" || arrayOfWeekDates[i].toString().includes("-")) {
-            console.log(arrayOfWeekDates[i]);
             arrayOfWeekDates.splice(i, 1);
             intoLastMonth = true;
             i = i - 1;
         } else if(arrayOfWeekDates[i] === endOfMonth) {
             intoNextMonth = true;
-            console.log(endOfMonth);
             arrayOfWeekDates.splice(i + 1);
             break;
         }
     }
 
-    console.log(arrayOfWeekDates);
     if(intoLastMonth !== undefined) {
         arrayOfWeekDates.unshift(endOfLastMonth);
         while(arrayOfWeekDates.length < 7) {
@@ -180,9 +173,6 @@ async function makeWeekIntoArray(beginningOfWeek, endOfWeek, month, endOfMonth, 
 
     }
     
-    console.log(arrayOfWeekDates);
-    console.log(week);
-
     return week;
 }
 
@@ -256,8 +246,6 @@ function prepareCalendar(arrayOfPosts, month, beginningOfWeek, storedMoods, week
         dayCounter++;
     }
 
-    console.log(storedMoods);
-
     let rightWeek = week;
     if(document.querySelector(".mainProfile") !== null) {
         displayRightWeek(rightWeek, storedMoods);
@@ -310,37 +298,10 @@ async function findWeekForCalendar(event) {
         for(let i = 0; i < storedMoodsArray.length; i++) {
             let weekIdInArray = storedMoodsArray[i].weekId;
             if(currentWeekId === weekIdInArray) {
-                if(weekIdInArray === 1) {
-                    document.querySelector("p#messageToUser").style.display = "block";
-                    document.querySelector("p#messageToUser").textContent = "No earlier logged moods";
-                    let minusOneId = weekIdInArray - 1;
-                    document.querySelector("p#calendarWeek").setAttribute("class", `${minusOneId}`);
-                    document.querySelector("p#calendarWeek").textContent = "";
-                    document.querySelector("button#oneWeekBefore").disabled = true;
-
-                    let weekdaysContainer = document.querySelectorAll("#weekdays > div");
-                    for(let i = 0; i < weekdaysContainer.length; i++) {
-                        let childrenArray = weekdaysContainer[i].childNodes;
-                        for(let ii = 0; ii < childrenArray.length; ii++) {
-                            if(childrenArray[ii].tagName === "DIV") {
-                                childrenArray[ii].remove();
-                                ii = ii - 1;
-                            }
-                        }
-                    }
-
-                    let weekdaysParagraphs = document.querySelectorAll("#weekdays div > p");
-                    for(let i = 0; i < weekdaysParagraphs.length; i++) {
-                        if(weekdaysParagraphs[i].classList.contains("today")) {
-                            weekdaysParagraphs[i].removeAttribute("class");
-                            
-                        }
-                    }
-                } else {
-                    let idOfCurrentWeek = weekIdInArray;
-                    idOfWantedWeek = idOfCurrentWeek - 1;
-                    document.querySelector("p#calendarWeek").setAttribute("class", `${idOfWantedWeek}`);
-                }
+                let idOfCurrentWeek = weekIdInArray;
+                idOfWantedWeek = idOfCurrentWeek - 1;
+                document.querySelector("p#calendarWeek").setAttribute("class", `${idOfWantedWeek}`);
+                
             }
         }
 
@@ -361,12 +322,8 @@ async function findWeekForCalendar(event) {
         let idOfWantedWeek;
 
         for(let i = 0; i < storedMoodsArray.length; i++) {
-
             let weekIdInArray = storedMoodsArray[i].weekId;
             if(weekIdInArray === currentWeekId) {
-                idOfWantedWeek = currentWeekId + 1;
-                document.querySelector("p#calendarWeek").setAttribute("class", `${idOfWantedWeek}`);
-            } else if(currentWeekId === 0) {
                 idOfWantedWeek = currentWeekId + 1;
                 document.querySelector("p#calendarWeek").setAttribute("class", `${idOfWantedWeek}`);
             }
@@ -418,7 +375,7 @@ function displayRightWeek(rightWeek, storedMoods) {
 
             if(!postsExistForWeek) {
                 document.querySelector("p#messageToUser").style.display = "block";
-                document.querySelector("p#messageToUser").textContent = "You don't have any logged feelings this week";
+                document.querySelector("p#messageToUser").textContent = "No logged feelings this week";
             }
 
             let weekId = storedMoods[i].weekId;
@@ -500,6 +457,11 @@ function displayRightWeek(rightWeek, storedMoods) {
     }
 
     let idOfCurrentWeek = document.querySelector("p#calendarWeek").classList[0];
+    document.querySelector("button#oneWeekBefore").removeAttribute("title");
+    document.querySelector("button#oneWeekAfter").removeAttribute("title");
+    document.querySelector("button#oneWeekBefore").disabled = false;
+    document.querySelector("button#oneWeekAfter").disabled = false;
+
     if(parseInt(idOfCurrentWeek) === storedMoods.length) {
         let today = getToday();
         for(let i = 0; i < weekdaysParagraphs.length; i++) {
@@ -509,7 +471,16 @@ function displayRightWeek(rightWeek, storedMoods) {
         }
 
         document.querySelector("button#oneWeekAfter").disabled = true;
-    }
+        document.querySelector("button#oneWeekAfter").setAttribute("title", "No later logged weeks");
+
+        if(parseInt(idOfCurrentWeek) === 1) {
+            document.querySelector("button#oneWeekBefore").disabled = true;
+            document.querySelector("button#oneWeekBefore").setAttribute("title", "No previous logged weeks");
+        }
+    } else if(parseInt(idOfCurrentWeek) === 1) {
+        document.querySelector("button#oneWeekBefore").disabled = true;
+        document.querySelector("button#oneWeekBefore").setAttribute("title", "No previous logged weeks");
+    } 
 }
 
 function storeMoodInArray() {
@@ -782,7 +753,7 @@ function renderPasswordPopup() {
         <label class="first" for="username">Type your username:</label>
         <input id="username" placeholder="Username">
         <label for="password">Type your current password:</label>
-        <input id="password" placeholder="Password">
+        <input id="password" type="password" placeholder="Password">
         <label for="newPassword">Type your new password:</label>
         <input id="newPassword" type="password" placeholder="New password">
         <label for="newPassword">Type your new password again:</label>
@@ -925,14 +896,24 @@ async function makeAccountChanges(event) {
     } else if(resource.deletedAccount) {
         window.localStorage.setItem("loggedIn", "false");
         window.localStorage.removeItem("userId");
+
+        document.querySelector("div.infoBox").innerHTML = `
+        <p id="aboutAccount">${resource.message}</p>
+        `;
+
         setTimeout(renderHomePage, 4500);
+        return;
     }
     
     document.querySelector("div.infoBox").removeAttribute("id");
     document.querySelector("div.infoBox").innerHTML = `
-    <div id="closeInfoBox">X</div>
+    <div id="closeInfoBox"></div>
     <p>${resource.message}</p>
     `;
+
+    document.querySelector("div.infoBox > p").style.marginBottom = "11px";
+    document.querySelector("div.infoBox > p").style.fontSize = "14.5px";
+
 
     document.querySelector("div#closeInfoBox").addEventListener("click", closeInfoBox);
     enableButtons();
