@@ -274,7 +274,7 @@ async function renderFeedPage(){
 
         friendBox.querySelector(".chat_icon").addEventListener("click", renderFriendChat);
         function renderFriendChat(){
-            renderChatPage(null, true, friend["username"]);
+            renderChatPage(true, friend["username"]);
         }
 
         document.querySelector("header > .friendDisplay > .friends").appendChild(friendBox);

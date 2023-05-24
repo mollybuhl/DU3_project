@@ -17,6 +17,8 @@ function renderRegisterPage(){
                 <input type="text" id="registerUsername" name="username" placeholder="Enter username">
                 <label for="password">Password</label>
                 <input type="password" id="registerPassword" name="password" placeholder="Enter password">
+                <label for="confirmPassword">Confirm password</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Please confirm your password">
             </div>
             <p class="messageToUser"></p>
             <button>Register</button>
@@ -29,6 +31,14 @@ function renderRegisterPage(){
     async function onClickRegister(){
         const username = document.querySelector("#registerUsername").value;
         const password = document.querySelector("#registerPassword").value;
+        const confirmPassword = document.querySelector("#confirmPassword").value;
+
+        if(confirmPassword !== password){
+            const messageToUserDom = document.querySelector(".messageToUser");
+            messageToUserDom.textContent = "The passwords didn't match, please try again."
+            messageToUserDom.classList.add("visable");
+            return;
+        }
     
         // The options sent with the register request.
         const requestOptions = {
