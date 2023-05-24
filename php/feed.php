@@ -10,12 +10,80 @@ function feed($requestData, $users){
     
 
     if($requestMethod == "GET"){
-        $usersLimitedAcces = [];
+
+        if(!isset($requestData["feedAction"])){
+            $message = ["message" => "No feedAction was provided"];
+            sendJSON($message, 400);
+        };
+
+        $loggedInUserID = $requestData["userID"];
+        $loggedInUser;
+        $loggedInUserLimitedAcces;
+
         foreach($users as $user){
-            $usersLimitedAcces[] = ["id" => $user["id"], "username" => $user["username"], "friends" => $user["friends"], "friendRequests" => $user["friendRequests"], "posts" => $user["posts"], "profilePicture" => $user["profilePicture"]];
+            if($user["id"] == $loggedInUserID){
+                $loggedInUser = $user;
+                $loggedInUserLimitedAcces = ["id" => $user["id"], "username" => $user["username"], "friends" => $user["friends"], "friendRequests" => $user["friendRequests"], "posts" => $user["posts"], "profilePicture" => $user["profilePicture"]];
+            }
         }
         
-        sendJSON($usersLimitedAcces);
+
+        if($requestData["feedAction"] == "getUserInfo"){
+    
+            $loggedInUserFriends = $loggedInUser["friends"];
+            $loggedInUserFriendsLimitedAcces = []; 
+            foreach($users as $userIndex => $user){
+                if(in_array($user["id"], $loggedInUserFriends)){
+                    $loggedInUserFriendsLimitedAcces[] = ["id" => $user["id"], "username" => $user["username"], "friends" => $user["friends"], "friendRequests" => $user["friendRequests"], "posts" => $user["posts"], "profilePicture" => $user["profilePicture"]];
+                }
+            }    
+            
+            $usersLimitedAcces = ["user" => $loggedInUserLimitedAcces, "userFriends" => $loggedInUserFriendsLimitedAcces];
+            sendJSON($usersLimitedAcces);
+        }
+
+        if($requestData["feedAction"] == "getFriendRequestInfo"){
+            $friendRequests = $loggedInUser["friendRequests"];
+            $friendRequestsUsersLimitedAcces = [];
+
+            foreach($friendRequests as $request){
+                foreach($users as $user){
+                    if($user["id"] == $request){
+                        $friendRequestsUsersLimitedAcces[] = ["id" => $user["id"], "username" => $user["username"], "profilePicture" => $user["profilePicture"]];
+                    }
+                }
+            }
+            sendJSON($friendRequestsUsersLimitedAcces);
+        }
+
+        if($requestData["feedAction"] == "searchUser"){
+
+            if(!isset($requestData["searchInput"])){
+                $message = ["message" => "No searchInput was provided, try again later"];
+                sendJSON($message, 400);
+            };
+            
+            $searchInput = $requestData["searchInput"];
+
+            foreach($users as $index => $user){
+                if($user["username"] == $searchInput){
+
+                    if(in_array($user["id"], $loggedInUser["friends"])){
+                        $username = $user["username"];
+                        $message = ["message" => "You are already friends with $username"];
+                        sendJSON($message, 400);
+                    }else{
+                        $searchUserLimitedAcces = ["id" => $user["id"], "username" => $user["username"]];
+                        sendJSON($searchUserLimitedAcces);
+                    }
+
+                }
+            }
+
+            $message = ["message" => "No user with the name $searchInput was found"];
+            sendJSON($message, 404);
+        }
+        
     }
     
     

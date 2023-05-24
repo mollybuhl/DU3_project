@@ -23,8 +23,14 @@
                 }
             }
         ],
-        "friends": [],
-        "friendRequests": [],
+        "friends": [
+            5,
+            5
+        ],
+        "friendRequests": [
+            6,
+            7
+        ],
         "posts": [
             {
                 "postID": 1,
@@ -67,8 +73,63 @@
                 "weekId": 1
             }
         ],
-        "friends": [],
+        "friends": [
+            4,
+            6
+        ],
         "friendRequests": [],
+        "posts": [],
+        "profilePicture": "media\/profile_imgs\/profile_icon_2.jpg"
+    },
+    {
+        "id": 6,
+        "username": "mella",
+        "password": "mella",
+        "loggedFeelings": [
+            {
+                "week": "May 22 - 28, 2023",
+                "weekId": 1,
+                "post1": {
+                    "postId": 1,
+                    "dayOfWeek": "Wednesday",
+                    "moodOfPost": "Jealous"
+                }
+            }
+        ],
+        "friends": [
+            5,
+            5
+        ],
+        "friendRequests": [
+            7
+        ],
+        "posts": [
+            {
+                "postID": 1,
+                "userID": 6,
+                "mood": "Jealous",
+                "description": "",
+                "quote": "Jealousy is all the fun you think they had.",
+                "dayOfWeek": "Wednesday",
+                "timestamp": "18:19, 24 May"
+            }
+        ],
+        "profilePicture": "media\/profile_imgs\/profile_icon_4.jpg"
+    },
+    {
+        "id": 7,
+        "username": "emma",
+        "password": "emma",
+        "loggedFeelings": [
+            {
+                "week": "May 22 - 28, 2023",
+                "weekId": 1
+            }
+        ],
+        "friends": [],
+        "friendRequests": [
+            5
+        ],
         "posts": [],
         "profilePicture": "media\/profile_imgs\/profile_icon_2.jpg"
     }
