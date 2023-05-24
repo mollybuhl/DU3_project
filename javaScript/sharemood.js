@@ -20,27 +20,27 @@ function renderPostingModal(){
     postMoodModal.classList.add("moodModal");
 
     postMoodModal.innerHTML = `
-    <h2>How are you currently feeling?</h2>
-    <div id="feelings">
-        <button class="sad">Sad</button>
-        <button class="happy">Happy</button>
-        <button class="angry">Angry</button>
-        <button class="courageous">Courageous</button>
-        <button class="forgiving">Forgiving</button>
-        <button class="jealous">Jealous</button>
-        <button class="fear">Fear</button>
-        <button class="alone">Alone</button>
-        <button class="funny">Funny</button>
-    </div>
-    <h3>Why you feel this way?</h3>
-    <input id="description" type="text" name="description" placeholder="I'm feeling like this because..">
-    <div id="quote">
-        <p id="generatedQuote"></p>
-        <button id="quoteButton">Generate quote</button>
-    </div>
-    <div class="shareMoodFeedbackMessage"></div>
-    <button id="postFeeling">Share feelings</button>
-    `
+        <h2>How are you currently feeling?</h2>
+        <div id="feelings">
+            <button class="sad">Sad</button>
+            <button class="happy">Happy</button>
+            <button class="angry">Angry</button>
+            <button class="courageous">Courageous</button>
+            <button class="forgiving">Forgiving</button>
+            <button class="jealous">Jealous</button>
+            <button class="fear">Fear</button>
+            <button class="alone">Alone</button>
+            <button class="funny">Funny</button>
+        </div>
+        <h3>Why you feel this way?</h3>
+        <input id="description" type="text" name="description" placeholder="I'm feeling like this because..">
+        <div id="quote">
+            <p id="generatedQuote"></p>
+            <button id="quoteButton">Generate quote</button>
+        </div>
+        <div class="shareMoodFeedbackMessage"></div>
+        <button id="postFeeling">Share feelings</button>
+    `;
 
     const feelingsButtons = postMoodModal.querySelectorAll("#feelings > button");
 

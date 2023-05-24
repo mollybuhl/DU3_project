@@ -1,7 +1,7 @@
 "use strict";
 
 async function renderFeedPage(){
-    let UserID = (Number(window.localStorage.getItem("userId"))); 
+    let UserID = Number(window.localStorage.getItem("userId")); 
     let userPassword = window.localStorage.getItem("userPassword");
 
     document.querySelector("body").removeAttribute("class");

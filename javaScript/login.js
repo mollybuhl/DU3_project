@@ -31,7 +31,7 @@ async function callServerToLogin() {
     const username = document.querySelector("#loginUsername").value;
     const password = document.querySelector("#loginPassword").value;
 
-    let requestOptions = ("../php/login.php", {
+    let requestOptions = {
         method: "POST",
         headers: {"Content-type": "application/json; charset=UTF-8"},
         body: JSON.stringify({
@@ -39,7 +39,7 @@ async function callServerToLogin() {
             password: password,
             action: "login"
         })
-    });
+    };
 
     let response = await fetchAPI(false, requestOptions);
     let resource = await response.json();

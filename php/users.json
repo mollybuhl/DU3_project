@@ -23,9 +23,7 @@
                 }
             }
         ],
-        "friends": [
-            5
-        ],
+        "friends": [],
         "friendRequests": [],
         "posts": [
             {
@@ -60,58 +58,18 @@
         "id": 4
     },
     {
-        "username": "molly",
+        "id": 5,
+        "username": "mollyt",
         "password": "222",
         "loggedFeelings": [
             {
-                "week": "May 22-28, 2023",
-                "weekId": 1,
-                "post1": {
-                    "postId": 1,
-                    "dayOfWeek": "Monday",
-                    "moodOfPost": "Fear"
-                }
-            },
-            {
                 "week": "May 22 - 28, 2023",
-                "weekId": 2,
-                "post1": {
-                    "postId": 1,
-                    "dayOfWeek": "Monday",
-                    "moodOfPost": "Fear"
-                },
-                "post2": {
-                    "postId": 2,
-                    "dayOfWeek": "Monday",
-                    "moodOfPost": "Funny"
-                }
+                "weekId": 1
             }
         ],
-        "friends": [
-            4
-        ],
+        "friends": [],
         "friendRequests": [],
-        "posts": [
-            {
-                "postID": 1,
-                "userID": 5,
-                "mood": "Fear",
-                "description": "",
-                "quote": "Fix reason firmly in her seat, and call to her tribunal every fact, every opinion. Question with boldness even the existence of a God because, if there be one, he must more approve of the homage of reason, than that of blindfolded fear.",
-                "dayOfWeek": "Monday",
-                "timestamp": "11:01, 22 May"
-            },
-            {
-                "postID": 2,
-                "userID": 5,
-                "mood": "Funny",
-                "description": "",
-                "quote": "It's a real primal thing, watching someone get hurt. It's funny and accessible.",
-                "dayOfWeek": "Monday",
-                "timestamp": "11:12, 22 May"
-            }
-        ],
-        "profilePicture": "media\/profile_imgs\/profile_icon_2.jpg",
-        "id": 5
+        "posts": [],
+        "profilePicture": "media\/profile_imgs\/profile_icon_2.jpg"
     }
 ]
