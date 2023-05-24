@@ -869,6 +869,8 @@ async function makeAccountChanges(event) {
                     action: "settings",
                 })
             };
+        } else {
+            return;
         }
     }
 
