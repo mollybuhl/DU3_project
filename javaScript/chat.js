@@ -83,7 +83,7 @@ async function renderChatPage(calledFromFeed = false, friendName){
         const groupChatDom = document.createElement("div");
         groupChatDom.innerHTML = `
             <div class="iconStyle groupIcon" style="background-image: url('media/groupIcon.png');")></div>
-            <div data-chatid="${groupChat.id}" class="chatName">${groupChat.name}</div>
+            <div data-chatid="${groupChat.id}" class="chatName fontYsabeu">${groupChat.name}</div>
         `
         groupChatDom.querySelector(".chatName").addEventListener("click", event => event.stopPropagation());
         groupChatDom.querySelector(".iconStyle").addEventListener("click", event => event.stopPropagation());
@@ -186,7 +186,7 @@ async function renderChatPage(calledFromFeed = false, friendName){
         const chat = document.createElement("div");
         chat.innerHTML = `
             <div id="chatTop">
-                <div id="chatName">${chatName}</div>
+                <div id="chatName" class="fontYsabeu">${chatName}</div>
                 <div id="chatTopOptions">
                     <div id="memberList"></div>
                     <div class="hidden" id="groupChatOptions"></div>
@@ -230,7 +230,7 @@ async function renderChatPage(calledFromFeed = false, friendName){
                 const memberDiv = document.createElement("div");
                 memberDiv.innerHTML = `
                     <div class="profPic" style="background-image: url('${member.profilePicture}');"></div>
-                    <div class="memberName">${member.username}</div>
+                    <div class="memberName fontYsabeu">${member.username}</div>
                     <div class="ownerIcon hidden"></div>
                 `
                 memberDiv.classList.add("friendDiv");
@@ -347,7 +347,7 @@ async function fetchAndPrintMessages(chatID, type, user, userPassword, ownerID, 
             <div class="messageProfPic" style="background-image: url('${message.profilePicture}');"></div>
             <div class="messageBody">
                 <div class="messageInfo">
-                    <div class="messageUsername">${message.senderName}<img class="ownerIconMessage hidden" src="media/ownerIcon.png"></div>
+                    <div class="messageUsername fontYsabeu">${message.senderName}<img class="ownerIconMessage hidden" src="media/ownerIcon.png"></div>
                     <div class="messageTimestamp">${message.timestamp}</div>
                 </div>
                 <div class="messageText">${message.text}</div>
@@ -414,7 +414,7 @@ async function createGroupChat(userID, userPassword, userFriends){
             const friendDiv = document.createElement("div");
             friendDiv.innerHTML = `
                 <div class="profPic" style="background-image: url('${friend.profilePicture}');"></div>
-                <div id="friendName">${friend.username}</div>
+                <div id="friendName" class="fontYsabeu">${friend.username}</div>
             `
             friendDiv.classList.add("friendDiv");
 
@@ -539,7 +539,7 @@ async function renderGroupChatOptions(userID, userPassword, chatID, type, userFr
                 const friendDiv = document.createElement("div");
                 friendDiv.innerHTML = `
                     <div class="profPic" style="background-image: url('${friend.profilePicture}');"></div>
-                    <div id="friendName">${friend.username}</div>
+                    <div id="friendName" class="fontYsabeu">${friend.username}</div>
                 `
                 
                 friendDiv.classList.add("friendDiv");
