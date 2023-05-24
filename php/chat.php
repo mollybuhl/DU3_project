@@ -15,6 +15,11 @@ function chatNotFound(){
     sendJSON($error, 404);
 }
 
+function badRequestKeys(){
+    $error = ["message" => "Sorry, you didn't provide all the required keys for this request"];
+    sendJSON($error, 400);
+}
+
 function chat($data, $users, $allConversations){
     require_once "functions.php";
 
@@ -67,6 +72,9 @@ function chat($data, $users, $allConversations){
         // If chatAction is "fetchChat"
         if($chatAction === "fetchChat"){
             $userID = $data["userID"];
+            if(!isset($data["type"]) or !isset($data["chatID"])){
+                badRequestKeys();
+            }
 
             // First find the conversation that matches with the chatID sent in the request. Then add the name and profilepictureURL of the sender in each message within the chat/conversation.
             foreach($conversations as $conversation){
@@ -91,6 +99,9 @@ function chat($data, $users, $allConversations){
 
         // If chatAction is "fetchChats"
         if($chatAction === "fetchChats"){
+            if(!isset($data["type"])){
+                badRequestKeys();
+            }
 
             $userID = $data["userID"];
             $userChats = [];
@@ -117,6 +128,10 @@ function chat($data, $users, $allConversations){
 
         // If chatAction is "createGroupChat", create a new groupChat with the sent information and put it in conversations.json.
         if($chatAction == "createGroupChat"){
+            if(!isset($data["chatName"]) or !isset($data["betweenUsers"])){
+                badRequestKeys();
+            }
+
             $conversations = $allConversations["groupChats"];
 
             $chatName = $data["chatName"];
@@ -149,6 +164,10 @@ function chat($data, $users, $allConversations){
 
         // If chatAction is "createPrivateChat", create a new privateChat between the users sent in $betweenUsers and put it in conversations.json.
         if($chatAction == "createPrivateChat"){
+            if(!isset($data["betweenUsers"])){
+                badRequestKeys();
+            }
+
             $conversations = $allConversations["privateChats"];
 
             $userID = $data["userID"];
@@ -191,6 +210,10 @@ function chat($data, $users, $allConversations){
 
         // If chatAction is "postMessage"
         if($chatAction === "postMessage"){
+            if(!isset($data["type"]) or !isset($data["chatID"]) or !isset($data["message"])){
+                badRequestKeys();
+            }
+
             $userID = $data["message"]["sender"];
             $typeInPlural = $type . "s";
 
@@ -224,7 +247,10 @@ function chat($data, $users, $allConversations){
 
     // If requestMethod is DELETE
     if($requestMethod == "DELETE"){
-        
+        if(!isset($data["chatID"])){
+            badRequestKeys();
+        }
+
         $groupChats = $allConversations["groupChats"];
 
         $chatAction = $data["chatAction"];
@@ -270,6 +296,10 @@ function chat($data, $users, $allConversations){
 
         // If chatAction is "editMembers", find the chat with the chatID sent in the request, and set the betweenUsers array sent in the request as the new betweenUsers array in the chat object, then return the updated chat object.
         if($chatAction == "editMembers"){
+            if(!isset($data["betweenUsers"]) or !isset($data["chatID"])){
+                badRequestKeys();
+            }
+
             $updatedMembers = $data["betweenUsers"];
 
             foreach($groupChats as $chatIndex => $chat){
@@ -287,6 +317,10 @@ function chat($data, $users, $allConversations){
 
         // If chatAction is "changeGroupName", find the chat with the chatID sent in the request, and set the name to the new name sent in the request, then return the new name. 
         if($chatAction == "changeGroupName"){
+            if(!isset($data["name"]) or !isset($data["chatID"])){
+                badRequestKeys();
+            }
+
             $newGroupName = $data["name"];
             
             checkNameLength($newGroupName);

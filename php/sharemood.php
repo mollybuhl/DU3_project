@@ -40,9 +40,8 @@ function shareMood($data, $users){
     
             $users[$index]["posts"][] = $newPost;
     
-            // Encode $users and save it in $filename, then send the new post.
             putInUsersJSON($users);
-            sendJSON($newPost, 200);
+            sendJSON($newPost);
         }
     }
 }

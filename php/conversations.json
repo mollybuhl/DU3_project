@@ -1,6 +1,90 @@
 {
     "privateChats": [
+        {
+            "id": 1,
+            "betweenUsers": [
+                4,
+                2
+            ],
+            "messages": [
+                {
+                    "sender": 4,
+                    "text": "hej",
+                    "timestamp": "18:03, 22 May",
+                    "id": 1
+                },
+                {
+                    "sender": 4,
+                    "text": "hej",
+                    "timestamp": "18:04, 22 May",
+                    "id": 2
+                },
+                {
+                    "sender": 4,
+                    "text": "he",
+                    "timestamp": "19:30, 22 May",
+                    "id": 3
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "betweenUsers": [
+                4,
+                6
+            ],
+            "messages": []
+        },
+        {
+            "id": 3,
+            "betweenUsers": [
+                5,
+                4
+            ],
+            "messages": [
+                {
+                    "sender": 5,
+                    "text": "Hello",
+                    "timestamp": "17:07, 23 May",
+                    "id": 1
+                },
+                {
+                    "sender": 5,
+                    "text": "Hur \u00e4r l\u00e4get?",
+                    "timestamp": "17:07, 23 May",
+                    "id": 2
+                }
+            ]
+        }
     ],
     "groupChats": [
+        {
+            "id": 1,
+            "name": "hejsan",
+            "ownerID": 4,
+            "betweenUsers": [
+                4,
+                6,
+                2
+            ],
+            "messages": []
+        },
+        {
+            "id": 2,
+            "name": "Test 2",
+            "ownerID": 5,
+            "betweenUsers": [
+                5,
+                4
+            ],
+            "messages": [
+                {
+                    "sender": 5,
+                    "text": "Hello testtest\n",
+                    "timestamp": "17:08, 23 May",
+                    "id": 1
+                }
+            ]
+        }
     ]
 }

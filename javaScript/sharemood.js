@@ -99,6 +99,7 @@ function renderPostingModal(){
             quoteDiv.textContent = "Please begin with selecting your current mood";
         }else{
 
+            //Inform user about fetching quote
             const fetchModal = document.createElement("div");
             fetchModal.classList.add("fetchModal");
             fetchModal.innerHTML = `
@@ -150,7 +151,7 @@ function renderPostingModal(){
         const description = document.querySelector("#description").value;
 
         if(quoteObject === undefined){
-            postMoodModal.querySelector("#quote > #generatedQuote").textContent = "Please select a quote before posting";
+            postMoodModal.querySelector("#quote > #generatedQuote").textContent = "Please select a Mood and quote before posting";
         }else{
 
             const requestOptions = {
