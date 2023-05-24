@@ -23,13 +23,14 @@ function getProfileInfo() {
         $usersArrayJSON = file_get_contents(__DIR__."/users.json");
         $usersArray = json_decode($usersArrayJSON, true);
     }
+
     
     foreach($usersArray as $user) {
         $savedUserId = $user["id"];
         if($savedUserId == $activeUserId) {
             $rightUser = [
                 "profilePicture" => $user["profilePicture"], 
-                "username" => $user["username"], 
+                "username" => $user["username"] 
             ];
             sendJSON($rightUser);
         }
@@ -57,10 +58,17 @@ function getOrStoreUserMoods() {
             $arrayUserId = $user["id"];
             if($arrayUserId == $rightUserId) {
                 $usersArray[$index]["loggedFeelings"] = $calendarData;
-                $usersArrayJSON = json_encode($usersArray, JSON_PRETTY_PRINT);
-                file_put_contents($filename, $usersArrayJSON);
-                $message = ["message" => "Storing the moods was successfull"];
-                sendJSON($message);
+
+                if($usersArray[$index]["loggedFeelings"] == $calendarData) {
+                    $usersArrayJSON = json_encode($usersArray, JSON_PRETTY_PRINT);
+                    file_put_contents($filename, $usersArrayJSON);
+                    $message = ["message" => "Storing the moods was successfull"];
+                    sendJSON($message);
+                } else {
+                    $errorMessage = ["message" => "Could not save the moods of the user"];
+                    sendJSON($errorMessage, 400);
+                }
+                
             }
         }
     } else {
@@ -73,15 +81,16 @@ function getOrStoreUserMoods() {
         foreach($usersArray as $user) {
             $savedUserId = $user["id"];
             if($savedUserId == $activeUserId) {
-                $rightUserMoods = [
+                $userMoodsAndPosts = [
                     "storedMoods" => $user["loggedFeelings"],
                     "postsOfUser" => $user["posts"]
                 ];
-                sendJSON($rightUserMoods);
+                sendJSON($userMoodsAndPosts);
             }
         }
-        $errorMessage = ["message" => "Something went wrong. Please reload the page."];
-        sendJSON($errorMessage, 400);
+
+        $errorMessage = ["message" => "Unable to find user"];
+        sendJSON($errorMessage, 404);
     }
 }
 ?>

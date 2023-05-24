@@ -42,7 +42,7 @@
 }
 
 .mainProfile #calendarAndButtons button {
-    height: 24px;
+    height: 27px;
     width: 25px;
     color: black;
     font-size: 15.7px;
@@ -50,12 +50,12 @@
     justify-content: center;
     align-items: center;
     font-family: "Merlinda";
+    cursor: pointer;
 }
 
 .mainProfile #calendarAndButtons button:disabled {
-    cursor: not-allowed;
-    background-color: rgb(193, 193, 193);
-
+    background-color: rgb(184, 184, 184);
+    cursor: default;
 }
 
 .profileBody #weekdays > div > p {
@@ -115,18 +115,28 @@
 }
 
 header.profileHeader > #settingsButton {
-    width: 80px;
-    font-size: 4.2vw;
+    width: 25px;
+    height: 25px;
     font-family: "Aboreto";
-    margin-right: 12px;
+    margin-top: 2.7px;
+    margin-right: 8.5px;
     padding: 2.8px;
+    cursor: pointer;
+    background-image: url("../media/settingsIcon.png");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
 .mainProfile .feeling {
     border-radius: 50%;
-    width: 5vw;
-    height: 5vw;
-    margin: 1vw;
+    width: 17px;
+    height: 17px;
+    margin-top: 5.4px;
+}
+
+.mainProfile .feeling:nth-of-type(1) {
+    margin-top: 5.6px;
 }
 
 .mainProfile .moodPopup {
@@ -162,7 +172,7 @@ header.profileHeader > #settingsButton {
     background-color: #EFA35D;
 }
 
-.mainProfile .ccourageous {
+.mainProfile .courageous {
     background-color: #f7f179;
 }
 
@@ -311,4 +321,16 @@ header.profileHeader > #settingsButton {
     background-repeat: no-repeat;
     width: 17px;
     height: 17px;
+}
+
+.infoBox > #aboutAccount {
+    margin: 0 0 7px 0;
+}
+
+#overlay #changePassword {
+    top: 31px;
+}
+
+.infoBox > p.informUser {
+    width: 230px;
 }

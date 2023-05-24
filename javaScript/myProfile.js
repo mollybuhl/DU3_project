@@ -11,7 +11,7 @@ async function renderProfilePage() {
 
     let userId = window.localStorage.getItem("userId");
     let userPassword = window.localStorage.getItem("userPassword");
-
+    
     let getParameters = `userID=${userId}&userPassword=${userPassword}&action=myProfile`;
     let response = await fetchAPI(true, getParameters);
 
@@ -51,11 +51,8 @@ async function renderProfilePage() {
     `;
 
     document.querySelector("p#messageToUser").style.display = "none";
-
     document.querySelector("button#oneWeekBefore").addEventListener("click", findWeekForCalendar);
     document.querySelector("button#oneWeekAfter").addEventListener("click", findWeekForCalendar);
-
-    let weekdays = document.querySelectorAll("div#weekdays > div > p");
 
     let profilePictureDiv = document.getElementById("profilePicture");
     profilePictureDiv.style.backgroundImage = `url(${profilePicture})`;
@@ -81,13 +78,12 @@ async function renderProfilePage() {
         divs[i].style.display = "none";
     }
 
-    if(!document.querySelector("button#settingsButton")) {
-        let settingsButton = document.createElement("button");
+    if(!document.querySelector("div#settingsButton")) {
+        let settingsButton = document.createElement("div");
         header.appendChild(settingsButton);
         settingsButton.setAttribute("id", "settingsButton");
     }
 
-    settingsButton.textContent = "Settings";
     settingsButton.addEventListener("click", renderSettingsPopup);
 
     storeMoodInArray();
@@ -96,14 +92,14 @@ async function renderProfilePage() {
 async function makeWeekIntoArray(beginningOfWeek, endOfWeek, month, endOfMonth, lastMonth, endOfLastMonth, nextMonth, year) {
     let userPassword = window.localStorage.getItem("userPassword");
     let userId = window.localStorage.getItem("userId");
-
+    
     let requestDetails = {
         method: "POST",
         headers: {"Content-type": "application/json; charset=UTF-8"},
         body: JSON.stringify({
             userID: userId,
             userPassword: userPassword,
-            action: "myProfile",
+            action: "myProfile"
     })};
 
     let response = await fetchAPI(false, requestDetails, false);
@@ -128,22 +124,18 @@ async function makeWeekIntoArray(beginningOfWeek, endOfWeek, month, endOfMonth, 
     for(let i = beginningOfWeekInt; i <= endOfWeekInt; i++) {
         arrayOfWeekDates.push(i);
     }
-    console.log(arrayOfWeekDates);
     for(let i = 0; i < arrayOfWeekDates.length; i++) {
         if(arrayOfWeekDates[i].toString() === "0" || arrayOfWeekDates[i].toString().includes("-")) {
-            console.log(arrayOfWeekDates[i]);
             arrayOfWeekDates.splice(i, 1);
             intoLastMonth = true;
             i = i - 1;
         } else if(arrayOfWeekDates[i] === endOfMonth) {
             intoNextMonth = true;
-            console.log(endOfMonth);
             arrayOfWeekDates.splice(i + 1);
             break;
         }
     }
 
-    console.log(arrayOfWeekDates);
     if(intoLastMonth !== undefined) {
         arrayOfWeekDates.unshift(endOfLastMonth);
         while(arrayOfWeekDates.length < 7) {
@@ -182,9 +174,6 @@ async function makeWeekIntoArray(beginningOfWeek, endOfWeek, month, endOfMonth, 
 
     }
     
-    console.log(arrayOfWeekDates);
-    console.log(week);
-
     return week;
 }
 
@@ -258,8 +247,6 @@ function prepareCalendar(arrayOfPosts, month, beginningOfWeek, storedMoods, week
         dayCounter++;
     }
 
-    console.log(storedMoods);
-
     let rightWeek = week;
     if(document.querySelector(".mainProfile") !== null) {
         displayRightWeek(rightWeek, storedMoods);
@@ -312,29 +299,10 @@ async function findWeekForCalendar(event) {
         for(let i = 0; i < storedMoodsArray.length; i++) {
             let weekIdInArray = storedMoodsArray[i].weekId;
             if(currentWeekId === weekIdInArray) {
-                if(weekIdInArray === 1) {
-                    document.querySelector("p#messageToUser").style.display = "block";
-                    document.querySelector("p#messageToUser").textContent = "No earlier logged moods";
-                    let minusOneId = weekIdInArray - 1;
-                    document.querySelector("p#calendarWeek").setAttribute("class", `${minusOneId}`);
-                    document.querySelector("p#calendarWeek").textContent = "";
-                    document.querySelector("button#oneWeekBefore").disabled = true;
-
-                    let weekdaysContainer = document.querySelectorAll("#weekdays > div");
-                    for(let i = 0; i < weekdaysContainer.length; i++) {
-                        let childrenArray = weekdaysContainer[i].childNodes;
-                        for(let ii = 0; ii < childrenArray.length; ii++) {
-                            if(childrenArray[ii].tagName === "DIV") {
-                                childrenArray[ii].remove();
-                                ii = ii - 1;
-                            }
-                        }
-                    }
-                } else {
-                    let idOfCurrentWeek = weekIdInArray;
-                    idOfWantedWeek = idOfCurrentWeek - 1;
-                    document.querySelector("p#calendarWeek").setAttribute("class", `${idOfWantedWeek}`);
-                }
+                let idOfCurrentWeek = weekIdInArray;
+                idOfWantedWeek = idOfCurrentWeek - 1;
+                document.querySelector("p#calendarWeek").setAttribute("class", `${idOfWantedWeek}`);
+                
             }
         }
 
@@ -355,12 +323,8 @@ async function findWeekForCalendar(event) {
         let idOfWantedWeek;
 
         for(let i = 0; i < storedMoodsArray.length; i++) {
-
             let weekIdInArray = storedMoodsArray[i].weekId;
             if(weekIdInArray === currentWeekId) {
-                idOfWantedWeek = currentWeekId + 1;
-                document.querySelector("p#calendarWeek").setAttribute("class", `${idOfWantedWeek}`);
-            } else if(currentWeekId === 0) {
                 idOfWantedWeek = currentWeekId + 1;
                 document.querySelector("p#calendarWeek").setAttribute("class", `${idOfWantedWeek}`);
             }
@@ -400,105 +364,105 @@ function displayRightWeek(rightWeek, storedMoods) {
         }
     }
 
-    if(storedMoods.length >= 1) {
-        for(let i = 0; i < storedMoods.length; i++) {
-            if(storedMoods[i].week === rightWeek) {
-                let rightArrayObject = storedMoods[i];
-                let postsExistForWeek = false;
-                for(let key in rightArrayObject) {
-                    if(key.includes("post")) {
-                        postsExistForWeek = true;
-                    }
+    for(let i = 0; i < storedMoods.length; i++) {
+        if(storedMoods[i].week === rightWeek) {
+            let rightArrayObject = storedMoods[i];
+            let postsExistForWeek = false;
+            for(let key in rightArrayObject) {
+                if(key.includes("post")) {
+                    postsExistForWeek = true;
+                }
+            }
+
+            if(!postsExistForWeek) {
+                document.querySelector("p#messageToUser").style.display = "block";
+                document.querySelector("p#messageToUser").textContent = "No logged feelings this week";
+            }
+
+            let weekId = storedMoods[i].weekId;
+            document.querySelector("#calendarWeek").setAttribute("class", `${weekId}`);
+            document.querySelector("#calendarWeek").textContent = `${rightWeek}`;
+            let weekdays = document.querySelectorAll("#weekdays > div > p");
+            let weekMoods = storedMoods[i];
+            let rightDay;
+    
+            for(let key in weekMoods) {
+                if(key === "week" || key === "weekId") {
+                    continue;
                 }
 
-                if(!postsExistForWeek) {
-                    document.querySelector("p#messageToUser").style.display = "block";
-                    document.querySelector("p#messageToUser").textContent = "You don't have any logged feelings this week.\nPost a feeling if you wish!";
-                }
-
-                let weekId = storedMoods[i].weekId;
-                document.querySelector("#calendarWeek").setAttribute("class", `${weekId}`);
-                document.querySelector("#calendarWeek").textContent = `${rightWeek}`;
-                let weekdays = document.querySelectorAll("#weekdays > div > p");
-                let weekMoods = storedMoods[i];
-                let rightDay;
-        
-                for(let key in weekMoods) {
-                    if(key === "week" || key === "weekId") {
-                        continue;
+                let dayOfWeek = weekMoods[key].dayOfWeek;
+                let firstTwoWords = dayOfWeek.substring(0, 2);
+            
+                for(let ii = 0; ii < weekdays.length; ii++) {
+                    if(firstTwoWords === weekdays[ii].textContent) {
+                        rightDay = weekdays[ii];
                     }
-
-                    let dayOfWeek = weekMoods[key].dayOfWeek;
-                    let firstTwoWords = dayOfWeek.substring(0, 2);
+                }       
                 
-                    for(let ii = 0; ii < weekdays.length; ii++) {
-                        if(firstTwoWords === weekdays[ii].textContent) {
-                            rightDay = weekdays[ii];
-                        }
-                    }       
-                    
-                    let moodOfPost = weekMoods[key].moodOfPost;
-                    let parentOfParagraph = rightDay.parentNode;
-                    let moodOfDay = document.createElement("div");
-                    parentOfParagraph.appendChild(moodOfDay);
-                    moodOfDay.classList.add("feeling");
+                let moodOfPost = weekMoods[key].moodOfPost;
+                let parentOfParagraph = rightDay.parentNode;
+                let moodOfDay = document.createElement("div");
+                parentOfParagraph.appendChild(moodOfDay);
+                moodOfDay.classList.add("feeling");
 
-                    switch(moodOfPost) {
-                        case "Happy":
-                            moodOfDay.classList.add("happy");
-                            break;
-                        case "Sad":
-                            moodOfDay.classList.add("sad");
-                            break;
-                        case "Angry":
-                            moodOfDay.classList.add("angry");
-                            break;
-                        case "Jealous":
-                            moodOfDay.classList.add("jealous");
-                            break;
-                        case "Couragious":
-                            moodOfDay.classList.add("couragious");
-                            break;
-                        case "Fear":
-                            moodOfDay.classList.add("fear");
-                            break;
-                        case "Forgiving":
-                            moodOfDay.classList.add("forgiving");
-                            break;
-                        case "Alone":
-                            moodOfDay.classList.add("alone");
-                            break;
-                        case "Funny":
-                            moodOfDay.classList.add("funny");
-                            break;
-                    }
-
-                    moodOfDay.addEventListener("click", event => {
-                        if(document.querySelector(".moodPopup")){
-                            document.querySelector(".moodPopup").remove();
-                        }
-                        
-                        const moodPopup = document.createElement("div");
-                        moodPopup.innerHTML = `
-                        <div class="popupContainer">
-                            <div>This color means: <br>${moodOfPost}</div>
-                        </div>
-                        `
-                        moodPopup.classList.add("moodPopup");
-                        document.querySelector("#calendar").appendChild(moodPopup);
-                        setTimeout(function(){
-                            moodPopup.remove();
-                        }, 2500)
-                    })
+                switch(moodOfPost) {
+                    case "Happy":
+                        moodOfDay.classList.add("happy");
+                        break;
+                    case "Sad":
+                        moodOfDay.classList.add("sad");
+                        break;
+                    case "Angry":
+                        moodOfDay.classList.add("angry");
+                        break;
+                    case "Jealous":
+                        moodOfDay.classList.add("jealous");
+                        break;
+                    case "Courageous":
+                        moodOfDay.classList.add("courageous");
+                        break;
+                    case "Fear":
+                        moodOfDay.classList.add("fear");
+                        break;
+                    case "Forgiving":
+                        moodOfDay.classList.add("forgiving");
+                        break;
+                    case "Alone":
+                        moodOfDay.classList.add("alone");
+                        break;
+                    case "Funny":
+                        moodOfDay.classList.add("funny");
+                        break;
                 }
-            }  
-        }
-    } else {
-        document.querySelector("p#messageToUser").style.display = "block";
-        document.querySelector("p#messageToUser").textContent = "Sorry, you don't have any logged feelings";
-    } 
+
+                moodOfDay.addEventListener("click", event => {
+                    if(document.querySelector(".moodPopup")){
+                        document.querySelector(".moodPopup").remove();
+                    }
+                    
+                    const moodPopup = document.createElement("div");
+                    moodPopup.innerHTML = `
+                    <div class="popupContainer">
+                        <div>This color means: <br>${moodOfPost}</div>
+                    </div>
+                    `
+                    moodPopup.classList.add("moodPopup");
+                    document.querySelector("#calendar").appendChild(moodPopup);
+                    setTimeout(function(){
+                        moodPopup.remove();
+                    }, 2500)
+                })
+            }
+        }  
+    }
 
     let idOfCurrentWeek = document.querySelector("p#calendarWeek").classList[0];
+    document.querySelector("button#oneWeekBefore").removeAttribute("title");
+    document.querySelector("button#oneWeekAfter").removeAttribute("title");
+    document.querySelector("button#oneWeekBefore").disabled = false;
+    document.querySelector("button#oneWeekAfter").disabled = false;
+
     if(parseInt(idOfCurrentWeek) === storedMoods.length) {
         let today = getToday();
         for(let i = 0; i < weekdaysParagraphs.length; i++) {
@@ -508,7 +472,16 @@ function displayRightWeek(rightWeek, storedMoods) {
         }
 
         document.querySelector("button#oneWeekAfter").disabled = true;
-    }
+        document.querySelector("button#oneWeekAfter").setAttribute("title", "No later logged weeks");
+
+        if(parseInt(idOfCurrentWeek) === 1) {
+            document.querySelector("button#oneWeekBefore").disabled = true;
+            document.querySelector("button#oneWeekBefore").setAttribute("title", "No previous logged weeks");
+        }
+    } else if(parseInt(idOfCurrentWeek) === 1) {
+        document.querySelector("button#oneWeekBefore").disabled = true;
+        document.querySelector("button#oneWeekBefore").setAttribute("title", "No previous logged weeks");
+    } 
 }
 
 function storeMoodInArray() {
@@ -781,7 +754,7 @@ function renderPasswordPopup() {
         <label class="first" for="username">Type your username:</label>
         <input id="username" placeholder="Username">
         <label for="password">Type your current password:</label>
-        <input id="password" placeholder="Password">
+        <input id="password" type="password" placeholder="Password">
         <label for="newPassword">Type your new password:</label>
         <input id="newPassword" type="password" placeholder="New password">
         <label for="newPassword">Type your new password again:</label>
@@ -897,6 +870,8 @@ async function makeAccountChanges(event) {
                     action: "settings",
                 })
             };
+        } else {
+            return;
         }
     }
 
@@ -924,14 +899,24 @@ async function makeAccountChanges(event) {
     } else if(resource.deletedAccount) {
         window.localStorage.setItem("loggedIn", "false");
         window.localStorage.removeItem("userId");
+
+        document.querySelector("div.infoBox").innerHTML = `
+        <p id="aboutAccount">${resource.message}</p>
+        `;
+
         setTimeout(renderHomePage, 4500);
+        return;
     }
     
     document.querySelector("div.infoBox").removeAttribute("id");
     document.querySelector("div.infoBox").innerHTML = `
-    <div id="closeInfoBox">X</div>
+    <div id="closeInfoBox"></div>
     <p>${resource.message}</p>
     `;
+
+    document.querySelector("div.infoBox > p").style.marginBottom = "11px";
+    document.querySelector("div.infoBox > p").style.fontSize = "14.5px";
+
 
     document.querySelector("div#closeInfoBox").addEventListener("click", closeInfoBox);
     enableButtons();

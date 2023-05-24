@@ -120,86 +120,93 @@ function deleteUserAccount($userData) {
     $typedInPassword = $userData["userPassword"];
 
     if($username == "" || $typedInPassword == "") {
-        $message = ["message" => "You didn't fill in all of the slots"];
+        $message = ["message" => "You didn't fill in all the slots"];
         sendJSON($message, 400);
     }
 
+    $userFound = false;
     for($i = 0; $i < count($usersArray); $i++) {
         $storedUserId = $usersArray[$i]["id"];
         $storedUsername = $usersArray[$i]["username"];
         $storedPassword = $usersArray[$i]["password"];
 
         if($storedUserId == $userId && $storedUsername == $username && $storedPassword == $typedInPassword) {
+            $userFound = true;
             array_splice($usersArray, $i, 1);
             $deleted = true;
-            foreach($usersArray as $user) {
-                $userIdInArray = $user["id"];
-                if($userIdInArray == $userId) {
-                    $deleted = false;
-                    $errorMessage = ["message" => "Account wasn't able to be deleted"];
-                    sendJSON($errorMessage, 500);
+        }
+    }
+    if(!$userFound) {
+        $errorMessage = ["message" => "You typed in the wrong username or password"];
+        sendJSON($errorMessage, 404);
+    }   
+
+    foreach($usersArray as $user) {
+        $userIdInArray = $user["id"];
+        if($userIdInArray == $userId) {
+            $deleted = false;
+            $errorMessage = ["message" => "The account wasn't able to be deleted"];
+            sendJSON($errorMessage, 500);
+        }
+    }  
+
+    if($deleted) {
+
+        //Delete user from friendlists
+        foreach ($usersArray as $userIndex => $user) {
+            $userFriends = $user["friends"];
+            foreach ($userFriends as $friendIndex => $friend) {
+                if($friend == $userId){
+                    array_splice($usersArray[$userIndex]["friends"], $friendIndex, 1);
                 }
-            }
-
-            if($deleted) {
-
-                //Delete user from friendlists
-                foreach ($usersArray as $userIndex => $user) {
-                    $userFriends = $user["friends"];
-                    foreach ($userFriends as $friendIndex => $friend) {
-                        if($friend == $userId){
-                            array_splice($usersArray[$userIndex]["friends"], $friendIndex, 1);
-                        }
-                    }
-                }
-
-                //Delete users conversations
-                $filenameConversation = __DIR__."/conversations.json";
-                $conversationsJSON = file_get_contents($filenameConversation);
-                $conversations = json_decode($conversationsJSON, true);
-                $privateChats = $conversations["privateChats"];
-                $groupChats = $conversations["groupChats"];
-
-                //Private conversations
-                foreach($privateChats as $chatIndex => $chat){
-                    $betweenUsers = $chat["betweenUsers"];
-                    foreach($betweenUsers as $chatUserIndex => $chatUser){
-                        if($chatUser == $userId){
-                            array_splice($conversations["privateChats"], $chatIndex, 1);
-                        }
-                    }
-                }
-
-                //Groupchats
-                foreach($groupChats as $groupIndex => $group){
-
-                    if($group["ownerID"] == $userId){
-                        array_splice($conversations["groupChats"], $groupIndex, 1);
-                    }else{
-                        $groupMembers = $group["betweenUsers"];
-                        foreach ($groupMembers as $memberIndex => $member) {
-                            if($member == $userId){
-                                array_splice($conversations["groupChats"][$groupIndex]["betweenUsers"], $memberIndex, 1); 
-                            }
-                        }
-                    }
-                }
-
-                $usersArrayJSON = json_encode($usersArray, JSON_PRETTY_PRINT);
-                file_put_contents($filename, $usersArrayJSON);
-
-                $conversations = json_encode($conversations, JSON_PRETTY_PRINT);
-                file_put_contents($filenameConversation, $conversations);
-
-
-                $message = [
-                    "message" => "Your account was successfully deleted. You will now be directed to the start page",
-                    "deletedAccount" => true
-                ];
-
-                sendJSON($message);
             }
         }
-    }    
-}
+
+        //Delete users conversations
+        $filenameConversation = __DIR__."/conversations.json";
+        $conversationsJSON = file_get_contents($filenameConversation);
+        $conversations = json_decode($conversationsJSON, true);
+        $privateChats = $conversations["privateChats"];
+        $groupChats = $conversations["groupChats"];
+
+        //Private conversations
+        foreach($privateChats as $chatIndex => $chat){
+            $betweenUsers = $chat["betweenUsers"];
+            foreach($betweenUsers as $chatUserIndex => $chatUser){
+                if($chatUser == $userId){
+                    array_splice($conversations["privateChats"], $chatIndex, 1);
+                }
+            }
+        }
+
+        //Groupchats
+        foreach($groupChats as $groupIndex => $group){
+
+            if($group["ownerID"] == $userId){
+                array_splice($conversations["groupChats"], $groupIndex, 1);
+            }else{
+                $groupMembers = $group["betweenUsers"];
+                foreach ($groupMembers as $memberIndex => $member) {
+                    if($member == $userId){
+                        array_splice($conversations["groupChats"][$groupIndex]["betweenUsers"], $memberIndex, 1); 
+                    }
+                }
+            }
+        }
+
+        $usersArrayJSON = json_encode($usersArray, JSON_PRETTY_PRINT);
+        file_put_contents($filename, $usersArrayJSON);
+
+        $conversations = json_encode($conversations, JSON_PRETTY_PRINT);
+        file_put_contents($filenameConversation, $conversations);
+
+
+        $message = [
+            "message" => "Your account was successfully deleted. You will now be directed to the start page",
+            "deletedAccount" => true
+        ];
+
+        sendJSON($message);
+    }      
+}    
 ?>
