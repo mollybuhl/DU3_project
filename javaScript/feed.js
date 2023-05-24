@@ -19,18 +19,17 @@ async function renderFeedPage(){
         <div class="feedWrapper"></div>`
     ;
     
-    //Fetching Users
-    let response = await fetchAPI(true, `action=feed&userID=${UserID}&userPassword=${userPassword}`);
-    let Users = await response.json();
-
-    //If no users are registered, clear localstorage and load homepage
-    if(Users.length === 0){
+    //Fetching User and User friends
+    let response = await fetchAPI(true, `action=feed&userID=${UserID}&userPassword=${userPassword}&feedAction=getUserInfo`);
+    if(!response.ok){
         window.localStorage.setItem("loggedIn", "false");
         window.localStorage.removeItem("userId");
         renderHomePage();
     }
+    let resource = await response.json();
 
-    let User = Users.find(user => user.id === UserID);
+    let User = resource.user;
+    let friendsOfUser = resource.userFriends;
     
     let postedByUser = User.posts;
     //If user has not posted anything, display nothing, otherwise create post display.
@@ -106,9 +105,7 @@ async function renderFeedPage(){
         });
     }
     
-    let friendsOfUser = User.friends;
     let friendNames = [];
-
     //If user has no friends display add friends message. Otherwise, create display for each friends latest posts.
     if(friendsOfUser.length === 0){
         const noPostInfoDisplay = document.createElement("div");
@@ -120,38 +117,35 @@ async function renderFeedPage(){
     }else{
         let friendsPostStatus = "noPosts";
 
-        friendsOfUser.forEach(friendId => {
-            Users.forEach(user => {
-                if(user.id === friendId){
-                    friendNames.push(user.username); 
-    
-                    let postedBy = user.username;
-                    let posts = user.posts;
+        friendsOfUser.forEach(friend => {
 
-                    if(posts.length > 0){
-                        let friendsPostDisplay = document.createElement("div");
-                        friendsPostDisplay.classList.add("friendsPostDisplay");
-                        friendsPostDisplay.innerHTML = `
-                            <div class="friendProfileDisplay">
-                                <img src="${user.profilePicture}">
-                                <h3 class="fontYsabeu">${user.username}</h3>
-                            </div>
-                            <div class="allPosts"></div>`
-                        main.querySelector(".feedWrapper").appendChild(friendsPostDisplay);
-        
-                        posts.reverse();
-                        if(posts.length > 7){
-                            posts = posts.splice(0, 7);
-                        }
-                
-                        posts.forEach(post=> {
-                            friendsPostDisplay.querySelector(".allPosts").appendChild(createPostInFeed(postedBy, post));
-                        });
+            friendNames.push(friend.username);
 
-                        friendsPostStatus = "posts";
-                    }
+            let postedBy = friend.username;
+            let posts = friend.posts;
+
+            if(posts.length > 0){
+                let friendsPostDisplay = document.createElement("div");
+                friendsPostDisplay.classList.add("friendsPostDisplay");
+                friendsPostDisplay.innerHTML = `
+                    <div class="friendProfileDisplay">
+                        <img src="${friend.profilePicture}">
+                        <h3 class="fontYsabeu">${friend.username}</h3>
+                    </div>
+                    <div class="allPosts"></div>`
+                main.querySelector(".feedWrapper").appendChild(friendsPostDisplay);
+
+                posts.reverse();
+                if(posts.length > 7){
+                    posts = posts.splice(0, 7);
                 }
-            })
+        
+                posts.forEach(post=> {
+                    friendsPostDisplay.querySelector(".allPosts").appendChild(createPostInFeed(postedBy, post));
+                });
+
+                friendsPostStatus = "posts";
+            }
         });
 
         //If you have friends but no one has posted display add more firends message
@@ -263,7 +257,7 @@ async function renderFeedPage(){
 
     //Add each friend to friend list.
     friendNames.forEach(name => {
-        let friend = Users.find(user => user.username === name);
+        let friend = friendsOfUser.find(friend => friend.username === name);
 
         let friendBox = document.createElement("div");
         friendBox.innerHTML = `
@@ -282,85 +276,91 @@ async function renderFeedPage(){
 
     //Friend requests
     if(User.friendRequests.length > 0){
+        //Display notification
         document.querySelector("div.notificationFriendRequest").classList.remove("hidden");
         document.querySelector(".friendRequestsDisplay").classList.remove("hidden");
 
-        let activeFriendRequests = User.friendRequests;
-        activeFriendRequests.forEach(friendRequest => {
+        //Request for friend-requests username and profile picture
+        let response = await fetchAPI(true, `action=feed&userID=${UserID}&userPassword=${userPassword}&feedAction=getFriendRequestInfo`);
+        if(!response.ok){
+           document.querySelector("header > .friendDisplay >.friends").innerHTML =`
+            <p>Something went wrong, please try again later</p>
+           `
+        }else{
+            let friendRequestUsers = await response.json();
 
-            Users.forEach(user => {
-                if(user.id === friendRequest){
-                    const singleFriendRequest = document.createElement("div");
-                    singleFriendRequest.innerHTML = `
-                        <img src="${user.profilePicture}"> 
-                        <h3>${user.username}</h3>
-                        <button id="acceptFriendRequest">Accept</button>
-                        <button id="declineFriendRequest">Decline</button>
-                    `;
-                    document.querySelector(".friendRequestsDisplay > #activeRequests").appendChild(singleFriendRequest);
+            friendRequestUsers.forEach(friendRequestUser => {
 
-                    //Confirm Decline freind request pop-up
-                    singleFriendRequest.querySelector(".friendRequestsDisplay > #activeRequests > div > #declineFriendRequest").addEventListener("click", declineFriendRequest);
-                    function declineFriendRequest(event){
+                const singleFriendRequest = document.createElement("div");
+                singleFriendRequest.innerHTML = `
+                    <img src="${friendRequestUser.profilePicture}"> 
+                    <h3>${friendRequestUser.username}</h3>
+                    <button id="acceptFriendRequest">Accept</button>
+                    <button id="declineFriendRequest">Decline</button>
+                `;
+                document.querySelector(".friendRequestsDisplay > #activeRequests").appendChild(singleFriendRequest);
 
-                        let confirmHandleRequest = document.createElement("div");
-                        confirmHandleRequest.classList.add("confirmHandleRequest");
-                        confirmHandleRequest.innerHTML =`
+                //Confirm Decline freind request pop-up
+                singleFriendRequest.querySelector(".friendRequestsDisplay > #activeRequests > div > #declineFriendRequest").addEventListener("click", declineFriendRequest);
+                function declineFriendRequest(event){
+
+                    let confirmHandleRequest = document.createElement("div");
+                    confirmHandleRequest.classList.add("confirmHandleRequest");
+                    confirmHandleRequest.innerHTML =`
+                        <div>
+                            <h3> Do you want to remove friend request from ${friendRequestUser.username}?</h3>
                             <div>
-                                <h3> Do you want to remove friend request from ${user.username}?</h3>
-                                <div>
-                                    <button class="confirmHandleRequestYes">YES</button>
-                                    <button class="confirmHandleRequestNo">NO</button>
-                                </div>
+                                <button class="confirmHandleRequestYes">YES</button>
+                                <button class="confirmHandleRequestNo">NO</button>
                             </div>
-                        `;
-                        main.appendChild(confirmHandleRequest);
+                        </div>
+                    `;
+                    main.appendChild(confirmHandleRequest);
 
-                        //Remove pop-up if user click NO
-                        confirmHandleRequest.querySelector("button.confirmHandleRequestNo").addEventListener("click", closeAcceptFriendRequestPopUp);
-                        function closeAcceptFriendRequestPopUp(){
-                            confirmHandleRequest.remove();
-                        }
-
-                        //Decline request if user click YES
-                        confirmHandleRequest.querySelector("button.confirmHandleRequestYes").addEventListener("click", acceptFriendRequest);
-                        function acceptFriendRequest(){
-                            handleFriendRequset(friendRequest, User.id, "declineRequest");
-                        }
+                    //Remove pop-up if user click NO
+                    confirmHandleRequest.querySelector("button.confirmHandleRequestNo").addEventListener("click", closeAcceptFriendRequestPopUp);
+                    function closeAcceptFriendRequestPopUp(){
+                        confirmHandleRequest.remove();
                     }
 
-                    //Confirm Accept friend request pop-up
-                    singleFriendRequest.querySelector(".friendRequestsDisplay > #activeRequests > div > #acceptFriendRequest").addEventListener("click", acceptFriendRequestPopUp);
-                    function acceptFriendRequestPopUp(event){
+                    //Decline request if user click YES
+                    confirmHandleRequest.querySelector("button.confirmHandleRequestYes").addEventListener("click", acceptFriendRequest);
+                    function acceptFriendRequest(){
+                        handleFriendRequset(friendRequestUser.id, User.id, "declineRequest");
+                    }
+                }
 
-                        let confirmHandleRequest = document.createElement("div");
-                        confirmHandleRequest.classList.add("confirmHandleRequest");
-                        confirmHandleRequest.innerHTML =`
+                //Confirm Accept friend request pop-up
+                singleFriendRequest.querySelector(".friendRequestsDisplay > #activeRequests > div > #acceptFriendRequest").addEventListener("click", acceptFriendRequestPopUp);
+                function acceptFriendRequestPopUp(event){
+
+                    let confirmHandleRequest = document.createElement("div");
+                    confirmHandleRequest.classList.add("confirmHandleRequest");
+                    confirmHandleRequest.innerHTML =`
+                        <div>
+                            <h3> Do you want to add ${friendRequestUser.username} to your friends?</h3>
                             <div>
-                                <h3> Do you want to add ${user.username} to your friends?</h3>
-                                <div>
-                                    <button class="confirmHandleRequestYes">YES</button>
-                                    <button class="confirmHandleRequestNo">NO</button>
-                                </div>
+                                <button class="confirmHandleRequestYes">YES</button>
+                                <button class="confirmHandleRequestNo">NO</button>
                             </div>
-                        `;
-                        main.appendChild(confirmHandleRequest);
+                        </div>
+                    `;
+                    main.appendChild(confirmHandleRequest);
 
-                        //Remove pop-up if user click NO
-                        confirmHandleRequest.querySelector("button.confirmHandleRequestNo").addEventListener("click", closeAcceptFriendRequestPopUp);
-                        function closeAcceptFriendRequestPopUp(){
-                            confirmHandleRequest.remove();
-                        }
+                    //Remove pop-up if user click NO
+                    confirmHandleRequest.querySelector("button.confirmHandleRequestNo").addEventListener("click", closeAcceptFriendRequestPopUp);
+                    function closeAcceptFriendRequestPopUp(){
+                        confirmHandleRequest.remove();
+                    }
 
-                        //Accept request if user click YES
-                        confirmHandleRequest.querySelector("button.confirmHandleRequestYes").addEventListener("click", acceptFriendRequest);
-                        function acceptFriendRequest(){
-                            handleFriendRequset(friendRequest, User.id, "acceptRequest");
-                        }
+                    //Accept request if user click YES
+                    confirmHandleRequest.querySelector("button.confirmHandleRequestYes").addEventListener("click", acceptFriendRequest);
+                    function acceptFriendRequest(){
+                        handleFriendRequset(friendRequestUser.id, User.id, "acceptRequest");
                     }
                 }
             });
-        });
+        }   
     }
 
     //Display friends pop-up by clicking friends-button
@@ -377,13 +377,12 @@ async function renderFeedPage(){
     })
 
     //Search for friends
-    document.querySelector("#searchWrapper > form > button").addEventListener("click", function(event){
+    document.querySelector("#searchWrapper > form > button").addEventListener("click", async function(event){
         event.preventDefault();
 
         let searchName = document.querySelector("#searchWrapper > form > input").value;
-        let found = false;
         
-        //Inform if user search for themself
+        //Inform if user searched for themself
         if(searchName === User.username){
             let handelSearch = document.createElement("div");
             handelSearch.classList.add("handelSearch");
@@ -402,67 +401,56 @@ async function renderFeedPage(){
                 handelSearch.remove();
             }
         }else{
-
-            Users.forEach(user => {
-                if(searchName === user["username"]){
-                    found = true;
-    
-                    let usersCurrentFriends = User.friends;
-    
-                    //Inform if user is already friends with the person they search for
-                    if(usersCurrentFriends.includes(user["id"])){
-                        let handelSearch = document.createElement("div");
-                        handelSearch.classList.add("handelSearch");
-                        handelSearch.innerHTML =`
+            //Search for user
+            let response = await fetchAPI(true, `action=feed&userID=${UserID}&userPassword=${userPassword}&feedAction=searchUser&searchInput=${searchName}`);
+            let  resource = await response.json();
+            if(!response.ok){
+                let handelSearch = document.createElement("div");
+                handelSearch.classList.add("handelSearch");
+                handelSearch.innerHTML =`
+                    <div>
+                        <h3>${resource.message}</h3>
+                        <div>
+                            <button class="handelSearchYes">OK</button>
+                        </div>
+                    </div>
+                `;
+                main.appendChild(handelSearch);
+   
+                handelSearch.querySelector("button").addEventListener("click", closehandelSearchPopUp);
+                function closehandelSearchPopUp(){
+                    handelSearch.remove();
+                }
+            }else{
+                let handelSearch = document.createElement("div");
+                    handelSearch.classList.add("handelSearch");
+                    handelSearch.innerHTML =`
+                        <div>
+                            <h3> Do you want to add ${resource.username} to your friends?</h3>
                             <div>
-                                <h3>You are already friends with ${searchName}</h3>
-                                <div>
-                                    <button class="handelSearchYes">OK</button>
-                                </div>
+                                <button class="handelSearchYes">YES</button>
+                                <button class="handelSearchNo">NO</button>
                             </div>
-                        `;
-                        main.appendChild(handelSearch);
-           
-                        handelSearch.querySelector("button").addEventListener("click", closehandelSearchPopUp);
-                        function closehandelSearchPopUp(){
-                            handelSearch.remove();
-                        }
-                    }else{
+                        </div>
+                    `;
+                    main.appendChild(handelSearch);
 
-                        let handelSearch = document.createElement("div");
-                        handelSearch.classList.add("handelSearch");
-                        handelSearch.innerHTML =`
-                            <div>
-                                <h3> Do you want to add ${user.username} to your friends?</h3>
-                                <div>
-                                    <button class="handelSearchYes">YES</button>
-                                    <button class="handelSearchNo">NO</button>
-                                </div>
-                            </div>
-                        `;
-                        main.appendChild(handelSearch);
+                    //Remove pop-up if user click NO
+                    handelSearch.querySelector("button.handelSearchNo").addEventListener("click", closehandelSearchPopUp);
+                    function closehandelSearchPopUp(){
+                        handelSearch.remove();
+                    }
 
-                        //Remove pop-up if user click NO
-                        handelSearch.querySelector("button.handelSearchNo").addEventListener("click", closehandelSearchPopUp);
-                        function closehandelSearchPopUp(){
-                            handelSearch.remove();
-                        }
-
-                        //Send frine request if user click YES
-                        handelSearch.querySelector("button.handelSearchYes").addEventListener("click", sendRequest);
-                        function sendRequest(){
-                            handleFriendRequset(UserID, searchName, "sendRequest");  
-                            handelSearch.remove();
-                        }
+                    //Send frine request if user click YES
+                    handelSearch.querySelector("button.handelSearchYes").addEventListener("click", sendRequest);
+                    function sendRequest(){
+                        handleFriendRequset(UserID, searchName, "sendRequest");  
+                        handelSearch.remove();
                     }
                 }
-            });
-    
-            if(found === false){
-                document.querySelector("#searchWrapper > .messageToUser").textContent = "User not found";
-            };
+            }
         }
-    });
+    );
 
     //FOOTER
     footer.classList.add("footerFeed");
