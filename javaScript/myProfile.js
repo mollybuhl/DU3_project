@@ -2,6 +2,7 @@
 
 async function renderProfilePage() {
 
+    // Select my Profile in Menu
     document.querySelector(".footerFeed > div > .chatButton").parentElement.classList.remove("selected");
     document.querySelector(".footerFeed > div > .feedButton").parentElement.classList.remove("selected");
     document.querySelector(".footerFeed > div > .postButton").parentElement.classList.remove("selected");
