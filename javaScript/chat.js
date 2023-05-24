@@ -1,13 +1,5 @@
 "use strict";
 
-/*
-TODO:
-    - Classes/IDs
-    - Variable names
-    - CSS
-    - Small errors in code
-*/
-
 // Renders the chat page.
 async function renderChatPage(calledFromFeed = false, friendName){
     const user = parseInt(window.localStorage.getItem("userId"));
