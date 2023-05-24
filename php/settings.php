@@ -120,7 +120,7 @@ function deleteUserAccount($userData) {
     $typedInPassword = $userData["userPassword"];
 
     if($username == "" || $typedInPassword == "") {
-        $message = ["message" => "You didn't fill in all of the slots"];
+        $message = ["message" => "You didn't fill in all the slots"];
         sendJSON($message, 400);
     }
 
