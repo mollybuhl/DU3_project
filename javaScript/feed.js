@@ -262,13 +262,61 @@ async function renderFeedPage(){
         let friendBox = document.createElement("div");
         friendBox.innerHTML = `
             <img src="${friend["profilePicture"]}">
-            <h3>${friend["username"]}</h3>
+            <h3 class="fontYsabeu">${friend["username"]}</h3>
             <div class="chat_icon"></div>
+            <div class="unfriendContainer">
+                <div class="unfriend"></div>
+            </div>
+            
         `;
 
         friendBox.querySelector(".chat_icon").addEventListener("click", renderFriendChat);
         function renderFriendChat(){
             renderChatPage(true, friend["username"]);
+        }
+
+        friendBox.querySelector(".unfriend").addEventListener("click", removeFriend);
+        function removeFriend(){
+            let confirmDelete = document.createElement("div");
+            confirmDelete.classList.add("confirmDelete");
+            confirmDelete.innerHTML =`
+                <div>
+                    <h3> Would you like to remove this friend?</h3>
+                    <div>
+                        <button class="confirmDeleteYes">YES</button>
+                        <button class="confirmDeleteNo">NO</button>
+                    </div>
+                </div>
+            `;
+            main.appendChild(confirmDelete);
+
+            //Remove pop-up when user click NO
+            confirmDelete.querySelector("button.confirmDeleteNo").addEventListener("click", event => confirmDelete.remove());
+
+            confirmDelete.querySelector("button.confirmDeleteYes").addEventListener("click", confirmRemoveFriend);
+            async function confirmRemoveFriend(event){
+                confirmDelete.remove();
+                const requestOptions = {
+                    method: "DELETE",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({
+                        action: "friendRequests",
+                        userID: UserID,
+                        userPassword: userPassword,
+                        actionCredentials: {
+                            friendID: friend.id
+                        }
+                    })
+                }
+                
+                let response = await fetchAPI(false, requestOptions);
+                if(!response.ok){
+                    const message = response.json();
+                    alert(`This friend could not be removed. Error message provided: ${message}`);
+                }else{
+                    renderFeedPage();
+                }
+            }
         }
 
         document.querySelector("header > .friendDisplay > .friends").appendChild(friendBox);

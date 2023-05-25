@@ -106,7 +106,6 @@ header.feedHeader > .friendDisplay > div:first-child{
 
 /*Friends display: Each friend on list*/
 header.feedHeader > .friendDisplay > .friends > div{
-    width: 80%;
     border-radius: 10px;
 
     padding: 1vh;
@@ -129,6 +128,22 @@ div.friends > div > div.chat_icon{
     height: 6vh;
     width: 6vh;
     background-image: url("../media/chat2.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+}
+/*Friends display: Each friend remove icon*/
+div.friends > div > div.unfriendContainer{
+    flex-basis: 0px;
+    flex-grow: 1;
+    display: flex;
+    justify-content: flex-end;
+}
+div.friends > div > div.unfriendContainer > div.unfriend{
+    height: 6vh;
+    width: 6vh;
+    background-image: url("../media/removeFriend.png");
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
@@ -411,8 +426,8 @@ main > div.confirmDelete, main > div.confirmHandleRequest, main > div.handelSear
 }
 main > div.confirmDelete > div, main > div.confirmHandleRequest > div, main > div.handelSearch > div{
     background-color: whitesmoke;
-    width: 80%;
-    height: 15vh;
+    width: fit-content;
+    height: fit-content;
     border-radius: 10px;
     position: absolute;
     top: 0;
@@ -421,6 +436,11 @@ main > div.confirmDelete > div, main > div.confirmHandleRequest > div, main > di
     right: 0;
     margin: auto;
     z-index: 10;
+
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px 10px;
 
     border-radius: 10px;
     border: 1px solid black;

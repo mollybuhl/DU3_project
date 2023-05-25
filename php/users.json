@@ -1,125 +1,8 @@
 [
     {
-        "username": "molly2",
-        "password": "molly2",
-        "loggedFeelings": [
-            {
-                "week": "May 15-21, 2023",
-                "weekId": 1,
-                "post1": {
-                    "postId": 1,
-                    "dayOfWeek": "Saturday",
-                    "moodOfPost": "Angry"
-                },
-                "post2": {
-                    "postId": 2,
-                    "dayOfWeek": "Sunday",
-                    "moodOfPost": "Forgiving"
-                },
-                "post3": {
-                    "postId": 3,
-                    "dayOfWeek": "Sunday",
-                    "moodOfPost": "Courageous"
-                }
-            }
-        ],
-        "friends": [
-            5,
-            5
-        ],
-        "friendRequests": [
-            6,
-            7
-        ],
-        "posts": [
-            {
-                "postID": 1,
-                "userID": 4,
-                "mood": "Angry",
-                "description": "",
-                "quote": "Anger and intolerance are the enemies of correct understanding.",
-                "dayOfWeek": "Saturday",
-                "timestamp": "10:51, 20 May"
-            },
-            {
-                "postID": 2,
-                "userID": 4,
-                "mood": "Forgiving",
-                "description": "hej",
-                "quote": "It is easier to forgive an enemy than to forgive a friend.",
-                "dayOfWeek": "Sunday",
-                "timestamp": "16:04, 21 May"
-            },
-            {
-                "postID": 3,
-                "userID": 4,
-                "mood": "Courageous",
-                "description": "test",
-                "quote": "Above all, we must realize that no arsenal, or no weapon in the arsenals of the world, is so formidable as the will and moral courage of free men and women. It is a weapon our adversaries in today's world do not have.",
-                "dayOfWeek": "Sunday",
-                "timestamp": "16:25, 21 May"
-            }
-        ],
-        "profilePicture": "media\/profile_imgs\/profile_icon_5.jpg",
-        "id": 4
-    },
-    {
-        "id": 5,
-        "username": "mollyt",
-        "password": "222",
-        "loggedFeelings": [
-            {
-                "week": "May 22 - 28, 2023",
-                "weekId": 1
-            }
-        ],
-        "friends": [
-            4,
-            6
-        ],
-        "friendRequests": [],
-        "posts": [],
-        "profilePicture": "media\/profile_imgs\/profile_icon_2.jpg"
-    },
-    {
-        "id": 6,
-        "username": "mella",
-        "password": "mella",
-        "loggedFeelings": [
-            {
-                "week": "May 22 - 28, 2023",
-                "weekId": 1,
-                "post1": {
-                    "postId": 1,
-                    "dayOfWeek": "Wednesday",
-                    "moodOfPost": "Jealous"
-                }
-            }
-        ],
-        "friends": [
-            5,
-            5
-        ],
-        "friendRequests": [
-            7
-        ],
-        "posts": [
-            {
-                "postID": 1,
-                "userID": 6,
-                "mood": "Jealous",
-                "description": "",
-                "quote": "Jealousy is all the fun you think they had.",
-                "dayOfWeek": "Wednesday",
-                "timestamp": "18:19, 24 May"
-            }
-        ],
-        "profilePicture": "media\/profile_imgs\/profile_icon_4.jpg"
-    },
-    {
-        "id": 7,
-        "username": "emma",
-        "password": "emma",
+        "id": 1,
+        "username": "test",
+        "password": "test",
         "loggedFeelings": [
             {
                 "week": "May 22 - 28, 2023",
@@ -127,10 +10,48 @@
             }
         ],
         "friends": [],
-        "friendRequests": [
-            5
-        ],
+        "friendRequests": [],
         "posts": [],
-        "profilePicture": "media\/profile_imgs\/profile_icon_2.jpg"
+        "profilePicture": "media\/profile_imgs\/profile_icon_3.jpg"
+    },
+    {
+        "id": 2,
+        "username": "testar",
+        "password": "test",
+        "loggedFeelings": [
+            {
+                "week": "May 22 - 28, 2023",
+                "weekId": 1
+            }
+        ],
+        "friends": [],
+        "friendRequests": [],
+        "posts": [],
+        "profilePicture": "media\/profile_imgs\/profile_icon_4.jpg"
+    },
+    {
+        "id": 3,
+        "username": "testen",
+        "password": "test",
+        "loggedFeelings": [],
+        "friends": [],
+        "friendRequests": [],
+        "posts": [],
+        "profilePicture": "media\/profile_imgs\/profile_icon_6.jpg"
+    },
+    {
+        "id": 4,
+        "username": "testarn",
+        "password": "test",
+        "loggedFeelings": [
+            {
+                "week": "May 22 - 28, 2023",
+                "weekId": 1
+            }
+        ],
+        "friends": [],
+        "friendRequests": [],
+        "posts": [],
+        "profilePicture": "media\/profile_imgs\/profile_icon_4.jpg"
     }
 ]

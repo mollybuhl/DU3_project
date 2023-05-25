@@ -66,7 +66,7 @@ switch($action){
         feed($requestData, $users);
         break;
     case "friendRequests":
-        friendRequests($requestData, $users);
+        friendRequests($requestData, $users, $allConversations);
         break;
     case "chat":
         chat($requestData, $users, $allConversations);
