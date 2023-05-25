@@ -118,15 +118,15 @@ header.feedHeader > .friendDisplay > .friends > div{
 
 /*Friends display: Friends profile img*/
 div.friends > div > img{
-    height: 10vh;
-    width: 10vh;
+    height: 8vh;
+    width: 8vh;
 
     border-radius: 10px;
 }
 /*Friends display: Each friend chat icon*/
 div.friends > div > div.chat_icon{
-    height: 6vh;
-    width: 6vh;
+    height: 5vh;
+    width: 5vh;
     background-image: url("../media/chat2.png");
     background-size: contain;
     background-repeat: no-repeat;

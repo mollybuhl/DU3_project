@@ -1,57 +1,56 @@
 [
     {
         "id": 1,
-        "username": "test",
-        "password": "test",
+        "username": "molly",
+        "password": "222",
         "loggedFeelings": [
             {
                 "week": "May 22 - 28, 2023",
                 "weekId": 1
             }
         ],
-        "friends": [],
+        "friends": [
+            2,
+            3
+        ],
         "friendRequests": [],
         "posts": [],
-        "profilePicture": "media\/profile_imgs\/profile_icon_3.jpg"
+        "profilePicture": "media\/profile_imgs\/profile_icon_1.jpg"
     },
     {
         "id": 2,
-        "username": "testar",
-        "password": "test",
+        "username": "ossian",
+        "password": "222",
         "loggedFeelings": [
             {
                 "week": "May 22 - 28, 2023",
                 "weekId": 1
             }
         ],
-        "friends": [],
+        "friends": [
+            3,
+            1
+        ],
         "friendRequests": [],
         "posts": [],
         "profilePicture": "media\/profile_imgs\/profile_icon_4.jpg"
     },
     {
         "id": 3,
-        "username": "testen",
-        "password": "test",
-        "loggedFeelings": [],
-        "friends": [],
-        "friendRequests": [],
-        "posts": [],
-        "profilePicture": "media\/profile_imgs\/profile_icon_6.jpg"
-    },
-    {
-        "id": 4,
-        "username": "testarn",
-        "password": "test",
+        "username": "elin",
+        "password": "222",
         "loggedFeelings": [
             {
                 "week": "May 22 - 28, 2023",
                 "weekId": 1
             }
         ],
-        "friends": [],
+        "friends": [
+            2,
+            1
+        ],
         "friendRequests": [],
         "posts": [],
-        "profilePicture": "media\/profile_imgs\/profile_icon_4.jpg"
+        "profilePicture": "media\/profile_imgs\/profile_icon_5.jpg"
     }
 ]

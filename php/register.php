@@ -15,6 +15,10 @@ function register($data, $users){
         $message = ["message" => "Both the username and password must be 3 characters or longer. Please try again."];
         sendJSON($message, 400); 
     }
+    if(strlen($username) > 10){
+        $message = ["message" => "Sorry, the username can only have 10 characters"];
+        sendJSON($message, 400);
+    }
     
     // Check if the given username is already used by another user. If so, send a message with status 409(Conflict).
     foreach($users as $user){
