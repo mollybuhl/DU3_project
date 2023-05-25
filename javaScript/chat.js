@@ -196,7 +196,7 @@ async function renderChatPage(calledFromFeed = false, friendName){
             <div id="messages"></div>
             <div id="operations">
                 <textarea id="messageText" placeholder="Write a message here"></textarea>
-                <button id="sendMessage">Send</button>
+                <button id="sendMessage"></button>
             </div>
         `
         chat.setAttribute("id", "chat");

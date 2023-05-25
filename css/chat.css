@@ -215,12 +215,27 @@
 #chat > #operations {
     display: flex;
     align-items: center;
+    gap: 5px;
     padding: 0px 10px;
     background-color: rgb(209, 209, 209);
     border-radius: 0px 0px 10px 10px;
 }
 
+#sendMessage {
+    background-image: url(../media/sendIcon.png);
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    border-radius: 5px;
+    height: 38px;
+    width: 75px;
+}
+#sendMessage:active {
+    background-color: rgba(23, 23, 23, 0.154);
+}
+
 #chat > #operations > textarea {
+    resize: none;
     flex-grow: 1;
     border-radius: 10px;
 }
