@@ -29,6 +29,9 @@ async function renderProfilePage() {
 
     main.innerHTML = `
     <div id="profilePicture"></div>
+    <div id="changeProfilePicture">
+        <div id="randomIcon"></div>
+    </div>
     <div id="profileUsername" class="fontYsabeu">${username}</div>
     <p id="calendarWeek"></p>
     <div id="calendarAndButtons">
@@ -56,6 +59,30 @@ async function renderProfilePage() {
 
     let profilePictureDiv = document.getElementById("profilePicture");
     profilePictureDiv.style.backgroundImage = `url(${profilePicture})`;
+
+    main.querySelector("#changeProfilePicture").addEventListener("click", changeProfilePicture);
+    async function changeProfilePicture(){
+        const userID = parseInt(window.localStorage.getItem("userId"));
+        const userPassword = window.localStorage.getItem("userPassword");
+
+        const requestOptions = {
+            method: "PATCH",
+            headers: {"Content-type": "application/json; charset=UTF-8"},
+            body: JSON.stringify({
+                userID: userID,
+                userPassword: userPassword,
+                action: "settings",
+                settingsAction: "profilePicture"
+            })
+        }
+
+        const response = await fetchAPI(false, requestOptions);
+        if(!response.ok){
+            alert("Something went wrong, please try again.")
+        }else{
+            renderProfilePage();
+        }
+    }
 
     //Remove classes from other pages
     let body = document.querySelector("body");
