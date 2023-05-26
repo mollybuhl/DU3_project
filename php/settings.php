@@ -36,6 +36,7 @@ function changeUsername($userData) {
         sendJSON($message, 400);
     }
 
+    //Find user, change username and store it in JSON file again
     for($i = 0; $i < count($usersArray); $i++) {
         $storedUsername = $usersArray[$i]["username"];
         $storedUserId = $usersArray[$i]["id"];
@@ -85,6 +86,7 @@ function changePassword($userData) {
         sendJSON($errorMessage, 400);
     }
 
+    //Find user, change password and save it in JSON file again
     for($i = 0; $i < count($usersArray); $i++) {
         $storedUserId = $usersArray[$i]["id"];
         $storedUsername = $usersArray[$i]["username"];
@@ -157,6 +159,7 @@ function deleteUserAccount($userData) {
         sendJSON($message, 400);
     }
 
+    //Find user object and remove it from array
     $userFound = false;
     for($i = 0; $i < count($usersArray); $i++) {
         $storedUserId = $usersArray[$i]["id"];
@@ -169,11 +172,13 @@ function deleteUserAccount($userData) {
             $deleted = true;
         }
     }
+
     if(!$userFound) {
         $errorMessage = ["message" => "You typed in the wrong username or password"];
         sendJSON($errorMessage, 404);
     }   
 
+    //Try to find the deleted user in array
     foreach($usersArray as $user) {
         $userIdInArray = $user["id"];
         if($userIdInArray == $userId) {

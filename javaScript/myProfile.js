@@ -282,10 +282,12 @@ async function makeWeekIntoArray(beginningOfWeek, endOfWeek, month, endOfMonth, 
     let intoNextMonth;
     let week;
 
+    //Push dates into array
     for(let i = beginningOfWeekInt; i <= endOfWeekInt; i++) {
         arrayOfWeekDates.push(i);
     }
 
+    //Delete array element dates that are not valid
     for(let i = 0; i < arrayOfWeekDates.length; i++) {
         if(arrayOfWeekDates[i].toString() === "0" || arrayOfWeekDates[i].toString().includes("-")) {
             arrayOfWeekDates.splice(i, 1);
@@ -298,6 +300,7 @@ async function makeWeekIntoArray(beginningOfWeek, endOfWeek, month, endOfMonth, 
         }
     }
 
+    //Place correct dates into array and make week
     if(intoLastMonth !== undefined) {
         arrayOfWeekDates.unshift(endOfLastMonth);
         while(arrayOfWeekDates.length < 7) {
@@ -353,6 +356,7 @@ function prepareCalendar(arrayOfPosts, month, storedMoods, week, arrayOfWeekDate
         }
     }
 
+    //If week doesn't exist, store it as an object
     if(weekExists === false) {   
         let weekId = storedMoods.length + 1;                 
         storedMoods.push({
@@ -361,6 +365,7 @@ function prepareCalendar(arrayOfPosts, month, storedMoods, week, arrayOfWeekDate
         });
     }
     
+    //Check if there are any new posts for current week, if so place them in week object
     let currentMonthPosts = [];
     for(let i = 0; i < arrayOfPosts.length; i++) {
         let postObject = arrayOfPosts[i];
@@ -413,6 +418,7 @@ function prepareCalendar(arrayOfPosts, month, storedMoods, week, arrayOfWeekDate
         }
     }
 
+    //If user clicked on profile button, load profile through function call
     let rightWeek = week;
     if(document.querySelector(".mainProfile") !== null) {
         displayRightWeek(rightWeek, storedMoods);
@@ -421,6 +427,7 @@ function prepareCalendar(arrayOfPosts, month, storedMoods, week, arrayOfWeekDate
     let userPassword = window.localStorage.getItem("userPassword");
     let userId = window.localStorage.getItem("userId");
 
+    //Send potentially changed loggedFeelings array to server so that it can be stored
     let requestDetails = {
         method: "POST",
         headers: {"Content-type": "application/json; charset=UTF-8"},
@@ -435,6 +442,7 @@ function prepareCalendar(arrayOfPosts, month, storedMoods, week, arrayOfWeekDate
 }   
 
 async function findWeekForCalendar(event) {
+    //This function gets called when user clicks on calendar buttons
     document.querySelector("button#oneWeekAfter").disabled = false;
     document.querySelector("button#oneWeekBefore").disabled = false;
     document.querySelector("p#messageToUser").style.display = "none";
@@ -456,6 +464,8 @@ async function findWeekForCalendar(event) {
     let resource = await response.json();
     let idOfButton = event.originalTarget.id;    
     
+    //Finds right week in storedMoods array based on value of class attribute for week paragraph
+    //Calls function displayRightWeek
     if(idOfButton === "oneWeekBefore") {
         let currentWeekIdString = event.originalTarget.parentElement.previousElementSibling.classList[0];
         let currentWeekId = parseInt(currentWeekIdString);
@@ -468,7 +478,6 @@ async function findWeekForCalendar(event) {
                 let idOfCurrentWeek = weekIdInArray;
                 idOfWantedWeek = idOfCurrentWeek - 1;
                 document.querySelector("p#calendarWeek").setAttribute("class", `${idOfWantedWeek}`);
-                
             }
         }
 
@@ -536,6 +545,7 @@ function displayRightWeek(rightWeek, storedMoods) {
         </div>
     `;
 
+    //Removes the today class for all weekday paragraphs
     let weekdaysParagraphs = document.querySelectorAll("#weekdays div > p");
     for(let i = 0; i < weekdaysParagraphs.length; i++) {
         if(weekdaysParagraphs[i].classList.contains("today")) {
@@ -544,6 +554,7 @@ function displayRightWeek(rightWeek, storedMoods) {
         }
     }
 
+    //Finds right week in storedMoods, displays moods if there are any
     for(let i = 0; i < storedMoods.length; i++) {
         if(storedMoods[i].week === rightWeek) {
             let rightArrayObject = storedMoods[i];
@@ -640,6 +651,7 @@ function displayRightWeek(rightWeek, storedMoods) {
         }  
     }
 
+    //Checks which calendar buttons that should be disabled based on if there are any more weeks
     let idOfCurrentWeek = document.querySelector("p#calendarWeek").classList[0];
     document.querySelector("button#oneWeekBefore").removeAttribute("title");
     document.querySelector("button#oneWeekAfter").removeAttribute("title");
@@ -836,6 +848,7 @@ function renderDeleteAccountPopup() {
 }
 
 function enableButtons(exceptFor) {
+    //Enables the settings buttons. Except for the one sent as argument, if it was sent
     let allButtons = document.querySelectorAll("div#overlay > #buttonOptions > button");
     for(let i = 0; i < allButtons.length; i++) {
         if(allButtons[i] === exceptFor) {
@@ -858,6 +871,7 @@ async function makeAccountChanges(event) {
     let userID = window.localStorage.getItem("userId");
     let requestDetails;
 
+    //Sends changes to server based on which id the div has
     if(infoBoxId === "changeUsername") {
         let username = document.querySelector("input#username").value;
         let password = document.querySelector("input#password").value;
@@ -934,6 +948,8 @@ async function makeAccountChanges(event) {
     } 
 
     let resource = await response.json();
+
+    //If username was changed do something, else if account was deleted do something else
     if(resource.newUsername) {
         document.querySelector("div#profileUsername").textContent = resource.newUsername;
     } else if(resource.deletedAccount) {
@@ -948,6 +964,7 @@ async function makeAccountChanges(event) {
         return;
     }
     
+    //Tell the user that changes were successful
     document.querySelector("div.infoBox").removeAttribute("id");
     document.querySelector("div.infoBox").innerHTML = `
         <div id="closeInfoBox"></div>

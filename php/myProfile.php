@@ -15,6 +15,7 @@ function myProfile() {
 }
 
 function getProfileInfo() {
+    //Send profilePicture and username back to the web client
     if(isset($_GET["userID"])) {
         $activeUserId = $_GET["userID"];
     }
@@ -43,6 +44,7 @@ function getOrStoreUserMoods() {
     $userData = json_decode($userDataJSON, true);
     $filename = __DIR__."/users.json";
     
+    //If storeMoods key was sent to the server, store the moods in loggedFeelings key
     if(isset($userData["storedMoods"])) {
         $rightUserId = $userData["userID"];
         $calendarData = $userData["storedMoods"];
@@ -68,6 +70,7 @@ function getOrStoreUserMoods() {
             }
         }
     } else {
+        //If no storeMoods key was sent with the request, send below arrays to the web client
         $usersArrayJSON = file_get_contents($filename);
         $usersArray = json_decode($usersArrayJSON, true);
         $activeUserId = $userData["userID"];
