@@ -303,6 +303,14 @@ header.profileHeader > #settingsButton {
 
 
 #overlay .infoBox #sendChanges {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 5px;
+    
     margin-top: 8px;
     max-width: 85px;
     font-family: "Aboreto";
@@ -312,6 +320,9 @@ header.profileHeader > #settingsButton {
 
     z-index: 10;
     cursor: pointer;
+}
+#overlay .infoBox #sendChanges:active {
+    background-color: rgb(184, 184, 184);
 }
 
 .mainProfile #overlay .infoBox #closeInfoBox {

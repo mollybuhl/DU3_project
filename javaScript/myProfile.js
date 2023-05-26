@@ -778,12 +778,10 @@ function renderUsernamePopup() {
         <input id="password" type="password" placeholder="Password">
         <label for="newUsername">Type your new username:</label>
         <input id="newUsername" placeholder="New username">
-        <button id="sendChanges">Save</button>
+        <div id="sendChanges">Save</div>
     `;
 
-    document.querySelector("button#sendChanges").addEventListener("touchstart", makeAccountChanges);
-    document.querySelector("button#sendChanges").addEventListener("touchend", makeAccountChanges);
-    document.querySelector("button#sendChanges").addEventListener("click", makeAccountChanges);
+    document.querySelector("div#sendChanges").addEventListener("click", makeAccountChanges);
     document.querySelector("div#closeInfoBox").addEventListener("click", closeInfoBox);
     
 }
@@ -813,12 +811,10 @@ function renderPasswordPopup() {
         <input id="newPassword" type="password" placeholder="New password">
         <label for="newPassword">Type your new password again:</label>
         <input id="newPasswordCopy" type="password" placeholder="New password">
-        <button id="sendChanges">Save</button>
+        <div id="sendChanges">Save</div>
     `;
 
-    document.querySelector("button#sendChanges").addEventListener("touchstart", makeAccountChanges);
-    document.querySelector("button#sendChanges").addEventListener("touchend", makeAccountChanges);
-    document.querySelector("button#sendChanges").addEventListener("click", makeAccountChanges);
+    document.querySelector("div#sendChanges").addEventListener("click", makeAccountChanges);
     document.querySelector("div#closeInfoBox").addEventListener("click", closeInfoBox);
 
 }
@@ -843,12 +839,10 @@ function renderDeleteAccountPopup() {
         <input id="username" placeholder="Username">
         <label for="password">Type your password:</label>
         <input id="password" type="password" placeholder="Password">
-        <button id="sendChanges">Delete account</button>
+        <div id="sendChanges">Delete account</div>
     `;
 
-    document.querySelector("button#sendChanges").addEventListener("touchstart", makeAccountChanges);
-    document.querySelector("button#sendChanges").addEventListener("touchend", makeAccountChanges);
-    document.querySelector("button#sendChanges").addEventListener("click", makeAccountChanges);
+    document.querySelector("div#sendChanges").addEventListener("click", makeAccountChanges);
     document.querySelector("div#closeInfoBox").addEventListener("click", closeInfoBox);
 
 }
@@ -873,8 +867,6 @@ function closeInfoBox() {
 }
 
 async function makeAccountChanges(event) {
-    event.preventDefault();
-
     let infoBoxId = event.originalTarget.parentElement.id;
     let userID = window.localStorage.getItem("userId");
     let requestDetails;
