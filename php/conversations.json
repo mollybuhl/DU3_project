@@ -1,14 +1,6 @@
 {
     "privateChats": [
         {
-            "id": 1,
-            "betweenUsers": [
-                1,
-                3
-            ],
-            "messages": []
-        },
-        {
             "id": 2,
             "betweenUsers": [
                 1,
