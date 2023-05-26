@@ -781,6 +781,7 @@ function renderUsernamePopup() {
         <button id="sendChanges">Save</button>
     `;
 
+    document.querySelector("button#sendChanges").addEventListener("touchstart", makeAccountChanges);
     document.querySelector("button#sendChanges").addEventListener("click", makeAccountChanges);
     document.querySelector("div#closeInfoBox").addEventListener("click", closeInfoBox);
     
@@ -814,6 +815,7 @@ function renderPasswordPopup() {
         <button id="sendChanges">Save</button>
     `;
 
+    document.querySelector("button#sendChanges").addEventListener("touchstart", makeAccountChanges);
     document.querySelector("button#sendChanges").addEventListener("click", makeAccountChanges);
     document.querySelector("div#closeInfoBox").addEventListener("click", closeInfoBox);
 
@@ -842,6 +844,7 @@ function renderDeleteAccountPopup() {
         <button id="sendChanges">Delete account</button>
     `;
 
+    document.querySelector("button#sendChanges").addEventListener("touchstart", makeAccountChanges);
     document.querySelector("button#sendChanges").addEventListener("click", makeAccountChanges);
     document.querySelector("div#closeInfoBox").addEventListener("click", closeInfoBox);
 
