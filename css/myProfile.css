@@ -335,3 +335,25 @@ header.profileHeader > #settingsButton {
 .infoBox > p.informUser {
     width: 230px;
 }
+
+#changeProfilePicture {
+    height: 3.5vh;
+    width: 3.5vh;
+    border: 1px solid black;
+    border-radius: 50%;
+    margin-bottom: 1vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#changeProfilePicture > #randomIcon {
+    background-image: url("../media/randomIcon.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    height: 2.9vh;
+    width: 2.9vh;
+}
+#changeProfilePicture:active {
+    background-color: rgba(14, 14, 14, 0.15);
+}

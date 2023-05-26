@@ -16,6 +16,8 @@ function editSettings() {
         changePassword($userData);
     } else if($requestMethod == "DELETE") {
         deleteUserAccount($userData);
+    } else if($requestMethod == "PATCH" && isset($userData["settingsAction"])) {
+        newProfilePicture($userData);
     }
 }
 
@@ -104,6 +106,40 @@ function changePassword($userData) {
 
     $errorMessage = ["message" => "You typed in the wrong username or password"];
     sendJSON($errorMessage, 404);
+}
+
+function newProfilePicture($userData) {
+    $filename = __DIR__."/users.json";
+    if(file_exists($filename)) {
+        $usersArrayJSON = file_get_contents($filename);
+    }
+
+    $usersArray = json_decode($usersArrayJSON, true);
+
+    $userID = $userData["userID"];
+
+    $folder = dirname(__DIR__) . "/media/profile_imgs";
+    $imageSources = scandir($folder);
+    $images = [];
+    
+    foreach($imageSources as $imageSource){
+        if(strstr($imageSource, ".jpg") != false){
+            array_push($images, $imageSource);
+        }
+    }
+    
+    $count = count($images);
+    $index = rand(0,($count - 1));
+    
+    $profilePicture = $images[$index];
+
+    foreach($usersArray as $userIndex => $user){
+        if($user["id"] == $userID){
+            $usersArray[$userIndex]["profilePicture"] = "media/profile_imgs/$profilePicture";
+            putInUsersJSON($usersArray);
+            sendJSON($profilePicture, 200);
+        }
+    }
 }
 
 function deleteUserAccount($userData) {
