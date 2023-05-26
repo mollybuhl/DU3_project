@@ -4,28 +4,32 @@
 }
 
 .modalContainer {
-    background-color: whitesmoke;
-    border-radius: 10px;
-    border: 1px solid black;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+
+    background-color: whitesmoke;
+    border-radius: 10px;
+    border: 1px solid black;
+
     padding: 25px;
     margin: 25px;
     gap: 5px;
 }
 
 .chatPageModal {
-    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     position: absolute;
     top: 0;
     bottom: 0;
     right: 0;
     left: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+
+    background-color: rgba(0, 0, 0, 0.4);
 }
 
 #confirmCancel {
@@ -37,12 +41,14 @@
 }
 
 .chatMain button {
-    font-size: 12px;
     display: flex;
-    gap: 10px;
-    font-family: Aboreto;
     justify-content: center;
     align-items: center;
+
+    font-family: Aboreto;
+    font-size: 12px;
+
+    gap: 10px;
     padding: 10px 20px;
     max-width: 150px;
 }
@@ -74,6 +80,7 @@
 
 #confirmCancel {
     display: flex;
+    
     margin-top: 10px;
     gap: 5px;
 }
@@ -111,8 +118,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+
     background-color: #d9d9d978;
     font-family: aboreto;
+
     width: 100%;
     border-radius: 10px;
     height: 35vh;
@@ -121,8 +130,9 @@
 }
 
 #privateChats > p, #groupChats > #groupChatsTop > p {
-    max-width: 100%;
     text-align: start;
+
+    max-width: 100%;
     padding: 10px;
     margin: 0;
 }
@@ -138,15 +148,17 @@
 }
 
 #groupChatsTop {
-    width: 100%;
     display: flex;
     justify-content: space-between;
+    
+    width: 100%;
 }
 
 #privateChatsContainer, #groupChatsContainer {
-    width: 90%;
     display: flex;
     flex-direction: column;
+
+    width: 90%;
     gap: 10px;
     margin: 10px 0px;
 }
@@ -154,13 +166,14 @@
 .groupChat, .privateChat {
     display: flex;
     text-align: start;
-    padding: 15px;
     align-items: center;
     font-family: Helvetica;
+
+    padding: 15px;
     gap: 10px;
-    background-color: #F4F4F4A8;
     border-radius: 10px;
     box-shadow: 0px 0px 20px 2px rgb(55, 55, 55);
+    background-color: #F4F4F4A8;
 }
 .groupChat:active, .privateChat:active {
     background-color: #b3b3b3a9;
@@ -184,6 +197,7 @@
     grid-template-rows: 10% 1fr 10%;
     height: 80vh;
     width: 80vw;
+
     background-color: whitesmoke;
     border-radius: 10px;
     border: 1px solid black;
@@ -193,6 +207,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+
     background-color: rgb(209, 209, 209);
     border-radius: 10px 10px 0px 0px;
 }
@@ -202,11 +217,12 @@
 }
 
 #chat > #messages {
-    text-align: start;
-    max-height: 80vh;
-    overflow-y: scroll;
     display: flex;
     flex-direction: column-reverse;
+    text-align: start;
+
+    max-height: 80vh;
+    overflow-y: scroll;
 }
 #chat > #messages > div {
     margin: 10px;
@@ -215,8 +231,10 @@
 #chat > #operations {
     display: flex;
     align-items: center;
+
     gap: 5px;
     padding: 0px 10px;
+
     background-color: rgb(209, 209, 209);
     border-radius: 0px 0px 10px 10px;
 }
@@ -226,6 +244,7 @@
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
+
     border-radius: 5px;
     height: 38px;
     width: 75px;
@@ -242,8 +261,9 @@
 
 #chatTopOptions {
     display: flex;
-    gap: 8px;
     align-items: center;
+    
+    gap: 8px;
 }
 
 #groupChatOptions {
@@ -357,8 +377,8 @@
 #createGroupChat {
     display: flex;
     flex-direction: column;
-    gap: 15px;
     position: relative;
+    gap: 15px;
 }
 #createGroupChat > .closeModal {
     position: absolute;
@@ -385,18 +405,21 @@
 #friendsSelector {
     display: flex;
     flex-direction: column;
+
     max-height: 25vh;
-    overflow-y: scroll;
     margin-bottom: 10px;
     gap: 10px;
+    overflow-y: scroll;
 }
 
 .friendDiv {
-    padding: 5px 10px;
     display: flex;
     align-items: center;
+
     border: 1px solid black;
     border-radius: 10px;
+
+    padding: 5px 10px;
     gap: 5px;
 }
 

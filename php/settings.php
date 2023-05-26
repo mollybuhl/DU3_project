@@ -133,11 +133,12 @@ function newProfilePicture($userData) {
     
     $profilePicture = $images[$index];
 
+    $profilePictureURL = "media/profile_imgs/$profilePicture";
     foreach($usersArray as $userIndex => $user){
         if($user["id"] == $userID){
-            $usersArray[$userIndex]["profilePicture"] = "media/profile_imgs/$profilePicture";
+            $usersArray[$userIndex]["profilePicture"] = $profilePictureURL;
             putInUsersJSON($usersArray);
-            sendJSON($profilePicture, 200);
+            sendJSON($profilePictureURL, 200);
         }
     }
 }

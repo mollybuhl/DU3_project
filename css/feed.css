@@ -426,7 +426,8 @@ main > div.confirmDelete, main > div.confirmHandleRequest, main > div.handelSear
 }
 main > div.confirmDelete > div, main > div.confirmHandleRequest > div, main > div.handelSearch > div{
     background-color: whitesmoke;
-    width: fit-content;
+    width: 80%;
+    max-width: 400px;
     height: fit-content;
     border-radius: 10px;
     position: absolute;

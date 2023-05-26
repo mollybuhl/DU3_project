@@ -77,9 +77,10 @@ async function renderProfilePage() {
 
         const response = await fetchAPI(false, requestOptions);
         if(!response.ok){
-            alert("Something went wrong, please try again.")
+            alert("Something went wrong, please try again.");
         }else{
-            renderProfilePage();
+            const newProfilePicture = await response.json();
+            profilePictureDiv.style.backgroundImage = `url(${newProfilePicture})`;
         }
     }
 
