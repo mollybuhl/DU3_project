@@ -26,6 +26,7 @@ async function renderFeedPage(){
         window.localStorage.setItem("loggedIn", "false");
         window.localStorage.removeItem("userId");
         renderHomePage();
+        return;
     }
 
     let User = resource.user;
