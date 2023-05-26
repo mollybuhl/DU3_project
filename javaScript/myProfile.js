@@ -782,6 +782,7 @@ function renderUsernamePopup() {
     `;
 
     document.querySelector("button#sendChanges").addEventListener("touchstart", makeAccountChanges);
+    document.querySelector("button#sendChanges").addEventListener("touchend", makeAccountChanges);
     document.querySelector("button#sendChanges").addEventListener("click", makeAccountChanges);
     document.querySelector("div#closeInfoBox").addEventListener("click", closeInfoBox);
     
@@ -816,6 +817,7 @@ function renderPasswordPopup() {
     `;
 
     document.querySelector("button#sendChanges").addEventListener("touchstart", makeAccountChanges);
+    document.querySelector("button#sendChanges").addEventListener("touchend", makeAccountChanges);
     document.querySelector("button#sendChanges").addEventListener("click", makeAccountChanges);
     document.querySelector("div#closeInfoBox").addEventListener("click", closeInfoBox);
 
@@ -845,6 +847,7 @@ function renderDeleteAccountPopup() {
     `;
 
     document.querySelector("button#sendChanges").addEventListener("touchstart", makeAccountChanges);
+    document.querySelector("button#sendChanges").addEventListener("touchend", makeAccountChanges);
     document.querySelector("button#sendChanges").addEventListener("click", makeAccountChanges);
     document.querySelector("div#closeInfoBox").addEventListener("click", closeInfoBox);
 
@@ -870,6 +873,8 @@ function closeInfoBox() {
 }
 
 async function makeAccountChanges(event) {
+    event.preventDefault();
+
     let infoBoxId = event.originalTarget.parentElement.id;
     let userID = window.localStorage.getItem("userId");
     let requestDetails;
