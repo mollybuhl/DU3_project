@@ -24,13 +24,19 @@ function sendJSON($message, $statusCode = 200){
 }
 
 function checkCredentials($userID, $userPassword, $users){
+    $userFound = false;
     foreach($users as $user){
         if($user["id"] == $userID){
+            $userFound = true;
             if($user["password"] != $userPassword){
                 $message = ["message" => "You didn't provide the right details to successfully request this information."];
                 sendJSON($message, 400);
             }
         }
+    }
+    if($userFound){
+        $message = ["message" => "No user found."];
+        sendJSON($message, 404);
     }
 }
 
