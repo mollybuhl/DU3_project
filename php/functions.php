@@ -34,7 +34,7 @@ function checkCredentials($userID, $userPassword, $users){
             }
         }
     }
-    if($userFound){
+    if(!$userFound){
         $message = ["message" => "No user found."];
         sendJSON($message, 404);
     }

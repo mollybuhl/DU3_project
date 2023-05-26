@@ -21,7 +21,7 @@ async function renderFeedPage(){
     
     //Fetching User and User friends
     let response = await fetchAPI(true, `action=feed&userID=${UserID}&userPassword=${userPassword}&feedAction=getUserInfo`);
-    if(!response.ok){
+    if(!response.ok || resource.user === null){
         window.localStorage.setItem("loggedIn", "false");
         window.localStorage.removeItem("userId");
         renderHomePage();
