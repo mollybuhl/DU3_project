@@ -309,6 +309,9 @@ header.profileHeader > #settingsButton {
     font-size: 14px;
     font-weight: bold;
     min-height: 25px;
+
+    z-index: 10;
+    cursor: pointer;
 }
 
 .mainProfile #overlay .infoBox #closeInfoBox {
