@@ -28,26 +28,25 @@ async function renderProfilePage() {
     let username = resource.username;
 
     main.innerHTML = `
-    <div id="profilePicture"></div>
-    <div id="profileUsername" class="fontYsabeu">${username}</div>
-    <p id="calendarWeek"></p>
-    <div id="calendarAndButtons">
-        <button id="oneWeekBefore"><</button>
-        <div id="calendar">
-            <div id="weekdays">
-                <div id="mondayContainer"><p>Mo</p></div>
-                <div id="tuesdayContainer"><p>Tu</p></div>
-                <div id="wednesdayContainer"><p>We</p></div>
-                <div id="thursdayContainer"><p>Th</p></div>
-                <div id="fridayContainer"><p>Fr</p></div>
-                <div id="saturdayContainer"><p>Sa</p></div>
-                <div id="sundayContainer"><p>Su</p></div>
+        <div id="profilePicture"></div>
+        <div id="profileUsername" class="fontYsabeu">${username}</div>
+        <p id="calendarWeek"></p>
+        <div id="calendarAndButtons">
+            <button id="oneWeekBefore"><</button>
+            <div id="calendar">
+                <div id="weekdays">
+                    <div id="mondayContainer"><p>Mo</p></div>
+                    <div id="tuesdayContainer"><p>Tu</p></div>
+                    <div id="wednesdayContainer"><p>We</p></div>
+                    <div id="thursdayContainer"><p>Th</p></div>
+                    <div id="fridayContainer"><p>Fr</p></div>
+                    <div id="saturdayContainer"><p>Sa</p></div>
+                    <div id="sundayContainer"><p>Su</p></div>
+                </div>
+                <p id="messageToUser"></p>
             </div>
-            <p id="messageToUser"></p>
+            <button id="oneWeekAfter">></button>
         </div>
-        <button id="oneWeekAfter">></button>
-    </div>
-
     `;
 
     document.querySelector("p#messageToUser").style.display = "none";
@@ -86,13 +85,148 @@ async function renderProfilePage() {
 
     settingsButton.addEventListener("click", renderSettingsPopup);
 
-    storeMoodInArray();
+    getDatesBasedOnToday();
+}
+
+function getDatesBasedOnToday() {
+    let year = new Date().getFullYear();
+    let dateOfTheMonth = new Date().getDate();
+    
+    let month = "";
+    let endOfMonth = "";
+    let lastMonth = "";
+    let nextMonth = "";
+    let endOfLastMonth = "";
+
+
+    switch(new Date().getMonth()) {
+        case 0:
+            month = "January";
+            endOfMonth = 31;
+            lastMonth = "December";
+            endOfLastMonth = 31;
+            nextMonth = "February";
+            break;
+        case 1:
+            month = "February";
+            endOfMonth = 28;
+            lastMonth = "January";
+            endOfLastMonth = 31;
+            nextMonth = "March";
+            break;
+        case 2:
+            month = "March";
+            endOfMonth = 31;
+            lastMonth = "February";
+            endOfLastMonth = 28;
+            nextMonth = "April";
+            break;
+        case 3:
+            month = "April";
+            endOfMonth = 30;
+            lastMonth = "March";
+            endOfLastMonth = 31;
+            nextMonth = "May";
+            break;
+        case 4: 
+            month = "May";
+            endOfMonth = 31;
+            lastMonth = "April";
+            endOfLastMonth = 30;
+            nextMonth = "June";
+            break;
+        case 5: 
+            month = "June";
+            endOfMonth = 30;
+            lastMonth = "May";
+            endOfLastMonth = 31;
+            nextMonth = "July";
+            break;
+        case 6:
+            month = "July";
+            endOfMonth = 31;
+            lastMonth = "June";
+            endOfLastMonth = 30;
+            nextMonth = "August";
+            break;
+        case 7:
+            month = "August";
+            endOfMonth = 31;
+            lastMonth = "July";
+            endOfLastMonth = 31;
+            nextMonth = "September";
+            break;
+        case 8: 
+            month = "September";
+            endOfMonth = 30;
+            lastMonth = "August";
+            endOfLastMonth = 31;
+            nextMonth = "October";
+            break;
+        case 9: 
+            month = "October";
+            endOfMonth = 31;
+            lastMonth = "September";
+            endOfLastMonth = 30;
+            nextMonth = "November";
+            break;
+        case 10:
+            month = "November";
+            endOfMonth = 30;
+            lastMonth = "October";
+            endOfLastMonth = 31;
+            nextMonth = "December";
+            break;
+        case 11:
+            month = "December";
+            endOfMonth = 31;
+            lastMonth = "November";
+            endOfLastMonth = 30;
+            nextMonth = "January";
+            break;
+    }
+
+    let beginningOfWeek = "";
+    let endOfWeek = "";
+
+    switch(new Date().getDay()) {
+        case 0:
+            beginningOfWeek = dateOfTheMonth - 6;
+            endOfWeek = dateOfTheMonth;
+            break;
+        case 1:
+            beginningOfWeek = dateOfTheMonth;
+            endOfWeek = dateOfTheMonth + 6;
+            break;
+        case 2:
+            beginningOfWeek = dateOfTheMonth - 1;
+            endOfWeek = dateOfTheMonth + 5;
+            break;
+        case 3:
+            beginningOfWeek = dateOfTheMonth - 2;
+            endOfWeek = dateOfTheMonth + 4;
+            break;
+        case 4: 
+            beginningOfWeek = dateOfTheMonth - 3;
+            endOfWeek = dateOfTheMonth + 3;
+            break;
+        case 5: 
+            beginningOfWeek = dateOfTheMonth - 4;
+            endOfWeek = dateOfTheMonth + 2;
+            break;
+        case 6:
+            beginningOfWeek = dateOfTheMonth - 5;
+            endOfWeek = dateOfTheMonth + 1;
+            break;
+    }
+
+    makeWeekIntoArray(beginningOfWeek, endOfWeek, month, endOfMonth, lastMonth, endOfLastMonth, nextMonth, year);
 }
 
 async function makeWeekIntoArray(beginningOfWeek, endOfWeek, month, endOfMonth, lastMonth, endOfLastMonth, nextMonth, year) {
     let userPassword = window.localStorage.getItem("userPassword");
     let userId = window.localStorage.getItem("userId");
-    
+   
     let requestDetails = {
         method: "POST",
         headers: {"Content-type": "application/json; charset=UTF-8"},
@@ -110,7 +244,6 @@ async function makeWeekIntoArray(beginningOfWeek, endOfWeek, month, endOfMonth, 
     }
 
     let resource = await response.json();
-
     let storedMoods = resource.storedMoods;
     let postsOfUser = resource.postsOfUser;
 
@@ -124,6 +257,7 @@ async function makeWeekIntoArray(beginningOfWeek, endOfWeek, month, endOfMonth, 
     for(let i = beginningOfWeekInt; i <= endOfWeekInt; i++) {
         arrayOfWeekDates.push(i);
     }
+
     for(let i = 0; i < arrayOfWeekDates.length; i++) {
         if(arrayOfWeekDates[i].toString() === "0" || arrayOfWeekDates[i].toString().includes("-")) {
             arrayOfWeekDates.splice(i, 1);
@@ -142,14 +276,17 @@ async function makeWeekIntoArray(beginningOfWeek, endOfWeek, month, endOfMonth, 
             let yesterday = arrayOfWeekDates[0] - 1;
             arrayOfWeekDates.unshift(yesterday);
         }
+
         beginningOfWeek = arrayOfWeekDates[0];
         endOfWeek = arrayOfWeekDates[arrayOfWeekDates.length - 1];
+
         if(lastMonth === "December") {
-            prepareCalendar(postsOfUser, month, beginningOfWeek, storedMoods, week);
-            return `${lastMonth}-${month} ${beginningOfWeek} - ${endOfWeek}, ${year-1}-${year}`;
+            week = `${lastMonth} - ${month} ${beginningOfWeek} - ${endOfWeek}, ${year-1}-${year}`;
+            prepareCalendar(postsOfUser, month, storedMoods, week, arrayOfWeekDates);
+            return;
         }
         week = `${lastMonth} - ${month} ${beginningOfWeek} - ${endOfWeek}, ${year}`;
-        prepareCalendar(postsOfUser, month, beginningOfWeek, storedMoods, week);
+        prepareCalendar(postsOfUser, month, storedMoods, week, arrayOfWeekDates);
 
     } else if(intoNextMonth !== undefined) {
         let date = 1;
@@ -157,27 +294,26 @@ async function makeWeekIntoArray(beginningOfWeek, endOfWeek, month, endOfMonth, 
             arrayOfWeekDates.push(date);
             date = date + 1;
         }
+
         beginningOfWeek = arrayOfWeekDates[0];
         endOfWeek = arrayOfWeekDates[arrayOfWeekDates.length - 1];
 
         if(nextMonth === "January") {
-            prepareCalendar(postsOfUser, month, beginningOfWeek, storedMoods, week);
-            return `${month} - ${nextMonth} ${beginningOfWeek} - ${endOfWeek}, ${year}-${year+1}`;
-
+            week = `${month} - ${nextMonth} ${beginningOfWeek} - ${endOfWeek}, ${year}-${year+1}`;
+            prepareCalendar(postsOfUser, month, storedMoods, week, arrayOfWeekDates);
+            return;
         }
         week = `${month} - ${nextMonth} ${beginningOfWeek} - ${endOfWeek}, ${year}`;
-        prepareCalendar(postsOfUser, month, beginningOfWeek, storedMoods, week);
+        prepareCalendar(postsOfUser, month, storedMoods, week, arrayOfWeekDates);
 
     } else {
         week = `${month} ${beginningOfWeek} - ${endOfWeek}, ${year}`;
-        prepareCalendar(postsOfUser, month, beginningOfWeek, storedMoods, week);
+        prepareCalendar(postsOfUser, month, storedMoods, week, arrayOfWeekDates);
 
     }
-    
-    return week;
 }
 
-function prepareCalendar(arrayOfPosts, month, beginningOfWeek, storedMoods, week) {
+function prepareCalendar(arrayOfPosts, month, storedMoods, week, arrayOfWeekDates) {
     if(document.querySelector("#calendarWeek")) {
         document.querySelector("#calendarWeek").textContent = week;
     }
@@ -201,13 +337,14 @@ function prepareCalendar(arrayOfPosts, month, beginningOfWeek, storedMoods, week
     for(let i = 0; i < arrayOfPosts.length; i++) {
         let postObject = arrayOfPosts[i];
         let postTimestamp = postObject.timestamp;
+
         if(postTimestamp.includes(month)) {
             currentMonthPosts.push(postObject);
         }
     }
 
-    let dayCounter = beginningOfWeek; 
-    while(dayCounter <= beginningOfWeek + 6) {
+    for(let i = 0; i < arrayOfWeekDates.length; i++) {
+        let dayCounter = arrayOfWeekDates[i];
         for(let i = 0; i < currentMonthPosts.length; i++) {
             let timestampOfPost = currentMonthPosts[i].timestamp;
             let dayOfPosting = currentMonthPosts[i].dayOfWeek;
@@ -223,6 +360,7 @@ function prepareCalendar(arrayOfPosts, month, beginningOfWeek, storedMoods, week
                     if(storedMoods[i].week === week) {
                         let postAlreadyExists = false;
                         let weekMoods = storedMoods[i];
+
                         for(let key in weekMoods) {
                             if(key === "week" || key === "weekId") {
                                 continue;
@@ -234,7 +372,8 @@ function prepareCalendar(arrayOfPosts, month, beginningOfWeek, storedMoods, week
                             }
                         }
                         if(!postAlreadyExists) {
-                            storedMoods[i][`post${postId}`] = {
+                            storedMoods[i][`post${postId}`] = 
+                            {
                                 postId: postId,
                                 dayOfWeek: dayOfPosting,
                                 moodOfPost: moodOfPost
@@ -244,7 +383,6 @@ function prepareCalendar(arrayOfPosts, month, beginningOfWeek, storedMoods, week
                 }
             } 
         }
-        dayCounter++;
     }
 
     let rightWeek = week;
@@ -347,13 +485,27 @@ function displayRightWeek(rightWeek, storedMoods) {
 
     let weekdaysContainer = document.querySelector("div#weekdays");
     weekdaysContainer.innerHTML = `
-        <div id="mondayContainer"><p>Mo</p></div>
-        <div id="tuesdayContainer"><p>Tu</p></div>
-        <div id="wednesdayContainer"><p>We</p></div>
-        <div id="thursdayContainer"><p>Th</p></div>
-        <div id="fridayContainer"><p>Fr</p></div>
-        <div id="saturdayContainer"><p>Sa</p></div>
-        <div id="sundayContainer"><p>Su</p></div>
+        <div id="mondayContainer">
+            <p>Mo</p>
+        </div>
+        <div id="tuesdayContainer">
+            <p>Tu</p>
+        </div>
+        <div id="wednesdayContainer">
+            <p>We</p>
+        </div>
+        <div id="thursdayContainer">
+            <p>Th</p>
+        </div>
+        <div id="fridayContainer">
+            <p>Fr</p>
+        </div>
+        <div id="saturdayContainer">
+            <p>Sa</p>
+        </div>
+        <div id="sundayContainer">
+            <p>Su</p>
+        </div>
     `;
 
     let weekdaysParagraphs = document.querySelectorAll("#weekdays div > p");
@@ -377,82 +529,85 @@ function displayRightWeek(rightWeek, storedMoods) {
             if(!postsExistForWeek) {
                 document.querySelector("p#messageToUser").style.display = "block";
                 document.querySelector("p#messageToUser").textContent = "No logged feelings this week";
-            }
-
-            let weekId = storedMoods[i].weekId;
-            document.querySelector("#calendarWeek").setAttribute("class", `${weekId}`);
-            document.querySelector("#calendarWeek").textContent = `${rightWeek}`;
-            let weekdays = document.querySelectorAll("#weekdays > div > p");
-            let weekMoods = storedMoods[i];
-            let rightDay;
+                let weekId = storedMoods[i].weekId;
+                document.querySelector("#calendarWeek").setAttribute("class", `${weekId}`);
+                document.querySelector("#calendarWeek").textContent = `${rightWeek}`;
+            } else {
+                let weekId = storedMoods[i].weekId;
+                document.querySelector("#calendarWeek").setAttribute("class", `${weekId}`);
+                document.querySelector("#calendarWeek").textContent = `${rightWeek}`;
+                let weekMoods = storedMoods[i];
+                let rightDay;
+        
+                for(let key in weekMoods) {
+                    if(key === "week" || key === "weekId") {
+                        continue;
+                    }
     
-            for(let key in weekMoods) {
-                if(key === "week" || key === "weekId") {
-                    continue;
-                }
-
-                let dayOfWeek = weekMoods[key].dayOfWeek;
-                let firstTwoWords = dayOfWeek.substring(0, 2);
-            
-                for(let ii = 0; ii < weekdays.length; ii++) {
-                    if(firstTwoWords === weekdays[ii].textContent) {
-                        rightDay = weekdays[ii];
-                    }
-                }       
-                
-                let moodOfPost = weekMoods[key].moodOfPost;
-                let parentOfParagraph = rightDay.parentNode;
-                let moodOfDay = document.createElement("div");
-                parentOfParagraph.appendChild(moodOfDay);
-                moodOfDay.classList.add("feeling");
-
-                switch(moodOfPost) {
-                    case "Happy":
-                        moodOfDay.classList.add("happy");
-                        break;
-                    case "Sad":
-                        moodOfDay.classList.add("sad");
-                        break;
-                    case "Angry":
-                        moodOfDay.classList.add("angry");
-                        break;
-                    case "Jealous":
-                        moodOfDay.classList.add("jealous");
-                        break;
-                    case "Courageous":
-                        moodOfDay.classList.add("courageous");
-                        break;
-                    case "Fear":
-                        moodOfDay.classList.add("fear");
-                        break;
-                    case "Forgiving":
-                        moodOfDay.classList.add("forgiving");
-                        break;
-                    case "Alone":
-                        moodOfDay.classList.add("alone");
-                        break;
-                    case "Funny":
-                        moodOfDay.classList.add("funny");
-                        break;
-                }
-
-                moodOfDay.addEventListener("click", event => {
-                    if(document.querySelector(".moodPopup")){
-                        document.querySelector(".moodPopup").remove();
-                    }
+                    let dayOfWeek = weekMoods[key].dayOfWeek;
+                    let firstTwoWords = dayOfWeek.substring(0, 2);
                     
-                    const moodPopup = document.createElement("div");
-                    moodPopup.innerHTML = `
-                    <div class="popupContainer">
-                        <div>This color means: <br>${moodOfPost}</div>
-                    </div>
-                    `
-                    moodPopup.classList.add("moodPopup");
-                    document.querySelector("#calendar").appendChild(moodPopup);
-                    setTimeout(function(){
-                        moodPopup.remove();
-                    }, 2500)
-                })
+                    let weekdays = document.querySelectorAll("#weekdays > div > p");
+                    for(let i = 0; i < weekdays.length; i++) {
+                        if(firstTwoWords === weekdays[i].textContent) {
+                            rightDay = weekdays[i];
+                        }
+                    }       
+                    
+                    let moodOfPost = weekMoods[key].moodOfPost;
+                    let parentOfParagraph = rightDay.parentNode;
+                    let moodOfDay = document.createElement("div");
+                    parentOfParagraph.appendChild(moodOfDay);
+                    moodOfDay.classList.add("feeling");
+    
+                    switch(moodOfPost) {
+                        case "Happy":
+                            moodOfDay.classList.add("happy");
+                            break;
+                        case "Sad":
+                            moodOfDay.classList.add("sad");
+                            break;
+                        case "Angry":
+                            moodOfDay.classList.add("angry");
+                            break;
+                        case "Jealous":
+                            moodOfDay.classList.add("jealous");
+                            break;
+                        case "Courageous":
+                            moodOfDay.classList.add("courageous");
+                            break;
+                        case "Fear":
+                            moodOfDay.classList.add("fear");
+                            break;
+                        case "Forgiving":
+                            moodOfDay.classList.add("forgiving");
+                            break;
+                        case "Alone":
+                            moodOfDay.classList.add("alone");
+                            break;
+                        case "Funny":
+                            moodOfDay.classList.add("funny");
+                            break;
+                    }
+    
+                    moodOfDay.addEventListener("click", event => {
+                        if(document.querySelector(".moodPopup")){
+                            document.querySelector(".moodPopup").remove();
+                        }
+                        
+                        const moodPopup = document.createElement("div");
+                        moodPopup.innerHTML = `
+                            <div class="popupContainer">
+                                <div>This color means: <br>${moodOfPost}</div>
+                            </div>
+                        `
+                        moodPopup.classList.add("moodPopup");
+                        document.querySelector("#calendar").appendChild(moodPopup);
+                        setTimeout(function(){
+                            moodPopup.remove();
+                        }, 2500)
+                    })
+                }
             }
         }  
     }
@@ -482,149 +637,6 @@ function displayRightWeek(rightWeek, storedMoods) {
         document.querySelector("button#oneWeekBefore").disabled = true;
         document.querySelector("button#oneWeekBefore").setAttribute("title", "No previous logged weeks");
     } 
-}
-
-function storeMoodInArray() {
-    let year = new Date().getFullYear();
-    let dateOfTheMonth = new Date().getDate();
-    
-    let month = "";
-    let endOfMonth = "";
-    let lastMonth = "";
-    let nextMonth = "";
-    let endOfLastMonth = "";
-
-
-    switch(new Date().getMonth()) {
-        case 0:
-            month = "January";
-            endOfMonth = 31;
-            lastMonth = "December";
-            endOfLastMonth = 31;
-            nextMonth = "February";
-            break;
-        case 1:
-            month = "February";
-            endOfMonth = 28;
-            lastMonth = "January";
-            endOfLastMonth = 31;
-            nextMonth = "March";
-            break;
-        case 2:
-            month = "March";
-            endOfMonth = 31;
-            lastMonth = "February";
-            endOfLastMonth = 28;
-            nextMonth = "April";
-            break;
-        case 3:
-            month = "April";
-            endOfMonth = 30;
-            lastMonth = "March";
-            endOfLastMonth = 31;
-            nextMonth = "May";
-            break;
-        case 4: 
-            month = "May";
-            endOfMonth = 31;
-            lastMonth = "April";
-            endOfLastMonth = 30;
-            nextMonth = "June";
-            break;
-        case 5: 
-            month = "June";
-            endOfMonth = 30;
-            lastMonth = "May";
-            endOfLastMonth = 31;
-            nextMonth = "July";
-            break;
-        case 6:
-            month = "July";
-            endOfMonth = 31;
-            lastMonth = "June";
-            endOfLastMonth = 30;
-            nextMonth = "August";
-            break;
-        case 7:
-            month = "August";
-            endOfMonth = 31;
-            lastMonth = "July";
-            endOfLastMonth = 31;
-            nextMonth = "September";
-            break;
-        case 8: 
-            month = "September";
-            endOfMonth = 30;
-            lastMonth = "August";
-            endOfLastMonth = 31;
-            nextMonth = "October";
-            break;
-        case 9: 
-            month = "October";
-            endOfMonth = 31;
-            lastMonth = "September";
-            endOfLastMonth = 30;
-            nextMonth = "November";
-            break;
-        case 10:
-            month = "November";
-            endOfMonth = 30;
-            lastMonth = "October";
-            endOfLastMonth = 31;
-            nextMonth = "December";
-            break;
-        case 11:
-            month = "December";
-            endOfMonth = 31;
-            lastMonth = "November";
-            endOfLastMonth = 30;
-            nextMonth = "January";
-            break;
-    }
-
-    let beginningOfWeek = "";
-    let endOfWeek = "";
-    let today = "";
-
-    switch(new Date().getDay()) {
-        case 0:
-            beginningOfWeek = dateOfTheMonth - 6;
-            endOfWeek = dateOfTheMonth;
-            today = "Su";
-            break;
-        case 1:
-            beginningOfWeek = dateOfTheMonth;
-            endOfWeek = dateOfTheMonth + 6;
-            today = "Mo";
-            break;
-        case 2:
-            beginningOfWeek = dateOfTheMonth - 1;
-            endOfWeek = dateOfTheMonth + 5;
-            today = "Tu";
-            break;
-        case 3:
-            beginningOfWeek = dateOfTheMonth - 2;
-            endOfWeek = dateOfTheMonth + 4;
-            today = "We";
-            break;
-        case 4: 
-            beginningOfWeek = dateOfTheMonth - 3;
-            endOfWeek = dateOfTheMonth + 3;
-            today = "Th";
-            break;
-        case 5: 
-            beginningOfWeek = dateOfTheMonth - 4;
-            endOfWeek = dateOfTheMonth + 2;
-            today = "Fr";
-            break;
-        case 6:
-            beginningOfWeek = dateOfTheMonth - 5;
-            endOfWeek = dateOfTheMonth + 1;
-            today = "Sa";
-            break;
-    }
-
-    makeWeekIntoArray(beginningOfWeek, endOfWeek, month, endOfMonth, lastMonth, endOfLastMonth, nextMonth, year);
 }
 
 function getToday() {
@@ -669,16 +681,16 @@ function renderSettingsPopup() {
     
     let overlay = document.querySelector("div#overlay");
     overlay.innerHTML = `
-    <div id="settingsHeader">
-        <p>Settings</p>
-        <div id="closeSettings"></div>
-    </div>
-    <div id="buttonOptions">
-        <button class="usernameButton">Change username</button>
-        <button class="passwordButton">Change password</button>
-        <button class="deleteUserButton">Delete user</button>
-        <button id="logout">Logout</button>
-    </div>
+        <div id="settingsHeader">
+            <p>Settings</p>
+            <div id="closeSettings"></div>
+        </div>
+        <div id="buttonOptions">
+            <button class="usernameButton">Change username</button>
+            <button class="passwordButton">Change password</button>
+            <button class="deleteUserButton">Delete user</button>
+            <button id="logout">Logout</button>
+        </div>
     `;
     document.querySelector("#overlay").scrollIntoView();
     document.querySelector("body.profileBody").style.overflow = "hidden";
@@ -719,14 +731,14 @@ function renderUsernamePopup() {
     typeInfoBox.setAttribute("id", "changeUsername");
 
     typeInfoBox.innerHTML = `
-    <div id="closeInfoBox"></div>
-    <label class="first" for="username">Type your current username:</label>
-    <input id="username" placeholder="Current username">
-    <label for="password">Type your password:</label>
-    <input id="password" type="password" placeholder="Password">
-    <label for="newUsername">Type your new username:</label>
-    <input id="newUsername" placeholder="New username">
-    <button id="sendChanges">Save</button>
+        <div id="closeInfoBox"></div>
+        <label class="first" for="username">Type your current username:</label>
+        <input id="username" placeholder="Current username">
+        <label for="password">Type your password:</label>
+        <input id="password" type="password" placeholder="Password">
+        <label for="newUsername">Type your new username:</label>
+        <input id="newUsername" placeholder="New username">
+        <button id="sendChanges">Save</button>
     `;
 
     document.querySelector("button#sendChanges").addEventListener("click", makeAccountChanges);
@@ -782,12 +794,12 @@ function renderDeleteAccountPopup() {
     let typeInfoBox = document.querySelector("div.infoBox");
     typeInfoBox.setAttribute("id", "deleteAccount");
     typeInfoBox.innerHTML = `
-    <div id="closeInfoBox"></div>
-    <label class="first" for="username">Type your username:</label>
-    <input id="username" placeholder="Username">
-    <label for="password">Type your password:</label>
-    <input id="password" type="password" placeholder="Password">
-    <button id="sendChanges">Delete account</button>
+        <div id="closeInfoBox"></div>
+        <label class="first" for="username">Type your username:</label>
+        <input id="username" placeholder="Username">
+        <label for="password">Type your password:</label>
+        <input id="password" type="password" placeholder="Password">
+        <button id="sendChanges">Delete account</button>
     `;
 
     document.querySelector("button#sendChanges").addEventListener("click", makeAccountChanges);
@@ -901,7 +913,7 @@ async function makeAccountChanges(event) {
         window.localStorage.removeItem("userId");
 
         document.querySelector("div.infoBox").innerHTML = `
-        <p id="aboutAccount">${resource.message}</p>
+            <p id="aboutAccount">${resource.message}</p>
         `;
 
         setTimeout(renderHomePage, 4500);
@@ -910,8 +922,8 @@ async function makeAccountChanges(event) {
     
     document.querySelector("div.infoBox").removeAttribute("id");
     document.querySelector("div.infoBox").innerHTML = `
-    <div id="closeInfoBox"></div>
-    <p>${resource.message}</p>
+        <div id="closeInfoBox"></div>
+        <p>${resource.message}</p>
     `;
 
     document.querySelector("div.infoBox > p").style.marginBottom = "11px";

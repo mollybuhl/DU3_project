@@ -21,10 +21,8 @@ function editSettings() {
 
 function changeUsername($userData) {
     $filename = __DIR__."/users.json";
-    if(file_exists($filename)) {
-        $usersArrayJSON = file_get_contents($filename);
-    }
-
+    $usersArrayJSON = file_get_contents($filename);
+    
     $usersArray = json_decode($usersArrayJSON, true);
     $currentUsername = $userData["username"];
     $userId = $userData["userID"];
@@ -55,7 +53,7 @@ function changeUsername($userData) {
             ];
             sendJSON($message);
         } else if($storedUsername == $newUsername && $currentUsername != $newUsername) {
-            $errorMessage = ["message" => "This username is already taken. Please pick another"];
+            $errorMessage = ["message" => "This username is already taken. Please pick another one"];
             sendJSON($errorMessage, 400);
         }
     }
@@ -66,10 +64,8 @@ function changeUsername($userData) {
 
 function changePassword($userData) {
     $filename = __DIR__."/users.json";
-    if(file_exists($filename)) {
-        $usersArrayJSON = file_get_contents($filename);
-    }
-
+    $usersArrayJSON = file_get_contents($filename);
+    
     $usersArray = json_decode($usersArrayJSON, true);
     $username = $userData["username"];
     $userId = $userData["userID"];
@@ -112,8 +108,8 @@ function changePassword($userData) {
 
 function deleteUserAccount($userData) {
     $filename = __DIR__."/users.json";
-        
     $usersArrayJSON = file_get_contents($filename);
+
     $usersArray = json_decode($usersArrayJSON, true);
     $username = $userData["username"];
     $userId = $userData["userID"];

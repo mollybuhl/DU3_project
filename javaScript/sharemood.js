@@ -177,7 +177,7 @@ function renderPostingModal(){
                     document.querySelector(".shareMoodFeedbackMessage").textContent = resource.message;
                 }else{
                     postMoodModal.remove();
-                    storeMoodInArray();
+                    getDatesBasedOnToday();
                     renderFeedPage();
                 }
             }catch(error){

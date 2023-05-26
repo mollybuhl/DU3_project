@@ -19,11 +19,9 @@ function getProfileInfo() {
         $activeUserId = $_GET["userID"];
     }
     
-    if(file_exists(__DIR__."/users.json")) {
-        $usersArrayJSON = file_get_contents(__DIR__."/users.json");
-        $usersArray = json_decode($usersArrayJSON, true);
-    }
-
+    $filename = __DIR__."/users.json";
+    $usersArrayJSON = file_get_contents($filename);
+    $usersArray = json_decode($usersArrayJSON, true);
     
     foreach($usersArray as $user) {
         $savedUserId = $user["id"];
@@ -43,17 +41,15 @@ function getProfileInfo() {
 function getOrStoreUserMoods() {
     $userDataJSON = file_get_contents("php://input");
     $userData = json_decode($userDataJSON, true);
-
+    $filename = __DIR__."/users.json";
+    
     if(isset($userData["storedMoods"])) {
         $rightUserId = $userData["userID"];
         $calendarData = $userData["storedMoods"];
-        $filename = __DIR__."/users.json";
     
-        if(file_exists(__DIR__."/users.json")) {
-            $usersArrayJSON = file_get_contents(__DIR__."/users.json");
-            $usersArray = json_decode($usersArrayJSON, true);
-        }
-
+        $usersArrayJSON = file_get_contents($filename);
+        $usersArray = json_decode($usersArrayJSON, true);
+        
         foreach($usersArray as $index => $user) {
             $arrayUserId = $user["id"];
             if($arrayUserId == $rightUserId) {
@@ -72,11 +68,8 @@ function getOrStoreUserMoods() {
             }
         }
     } else {
-        if(file_exists(__DIR__."/users.json")) {
-            $usersArrayJSON = file_get_contents(__DIR__."/users.json");
-            $usersArray = json_decode($usersArrayJSON, true);
-        }
-
+        $usersArrayJSON = file_get_contents($filename);
+        $usersArray = json_decode($usersArrayJSON, true);
         $activeUserId = $userData["userID"];
         foreach($usersArray as $user) {
             $savedUserId = $user["id"];

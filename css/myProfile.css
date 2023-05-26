@@ -16,10 +16,11 @@
 }
 
 .mainProfile #profileUsername {
-    font-family: "Aboreto";
-    margin-top: 5.2px;
+    font-family: "Ysabeu";
     font-weight: bold;
-    font-size: 18.5px;
+    font-size: 22px;
+    position: relative;
+    bottom: 4px;
 }
 
 .mainProfile #calendarWeek {
