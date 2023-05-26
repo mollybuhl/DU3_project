@@ -6,15 +6,30 @@
         "loggedFeelings": [
             {
                 "week": "May 22 - 28, 2023",
-                "weekId": 1
+                "weekId": 1,
+                "post1": {
+                    "postId": 1,
+                    "dayOfWeek": "Friday",
+                    "moodOfPost": "Jealous"
+                }
             }
         ],
         "friends": [
             2
         ],
         "friendRequests": [],
-        "posts": [],
-        "profilePicture": "media\/profile_imgs\/profile_icon_1.jpg"
+        "posts": [
+            {
+                "postID": 1,
+                "userID": 1,
+                "mood": "Jealous",
+                "description": "",
+                "quote": "Jealousy... is a mental cancer.",
+                "dayOfWeek": "Friday",
+                "timestamp": "10:02, 26 May"
+            }
+        ],
+        "profilePicture": "media\/profile_imgs\/profile_icon_5.jpg"
     },
     {
         "id": 2,

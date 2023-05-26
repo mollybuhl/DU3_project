@@ -39,6 +39,7 @@ main > .moodModal > div#feelings{
     font-family: aboreto;
     box-shadow: 0px 0px 10px 5px rgb(40, 40, 40);
     border: none;
+    color: black;
 }
 
 #feelings > button.sad{
@@ -155,6 +156,7 @@ button#postFeeling{
     border-radius: 20px;
     font-family: aboreto;
     font-size: 18px;
+    color: black;
 }
 
 button#postFeeling:hover{
