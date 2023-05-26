@@ -102,7 +102,7 @@ async function renderChatPage(calledFromFeed = false, friendName){
     });
 
     // Add eventListener to create group chat button.
-    main.querySelector("#addGroupChat").addEventListener("click", function(){
+    main.querySelector("#addGroupChat").addEventListener("click", event => {
         createGroupChat(user, userPassword,userFriends);
     });
 
@@ -205,13 +205,13 @@ async function renderChatPage(calledFromFeed = false, friendName){
         // If the chat is a groupchat, add groupchat options button.
         if(type === "groupChat"){
             chat.querySelector("#groupChatOptions").classList.remove("hidden");
-            chat.querySelector("#groupChatOptions").addEventListener("click", function(){
+            chat.querySelector("#groupChatOptions").addEventListener("click", event => {
                 renderGroupChatOptions(user, userPassword, chatID, type, userFriends);
             });
         }
 
         // Add eventListeners to send message.
-        chat.querySelector("#sendMessage").addEventListener("click", function(){
+        chat.querySelector("#sendMessage").addEventListener("click", event => {
             sendMessage(user, userPassword, type, ownerID, chatID);
         });
         // Add eventListener for the member list, once you click the icon to show all members in a chat, render a modal and display all members in the chat in the modal.
@@ -481,7 +481,7 @@ async function renderGroupChatOptions(userID, userPassword, chatID, type, userFr
         </div>
     `
     optionsDivDom.classList.add("chatPageModal", "chatOptions");
-    optionsDivDom.querySelector("#closeOptions").addEventListener("click", e => optionsDivDom.remove());
+    optionsDivDom.querySelector("#closeOptions").addEventListener("click", event => optionsDivDom.remove());
 
     // If the user is the owner of the chat, remove hidden from the buttons to change groupname and change members and add eventlisteners to them. Also make the last button be a delete button to delete the chat. The owner cannot leave the chat, they must delete it to leave it.
     if(userID === ownerID){
@@ -559,7 +559,7 @@ async function renderGroupChatOptions(userID, userPassword, chatID, type, userFr
                 })
                 addFriendsModal.querySelector("#friendsSelector").appendChild(friendDiv);
             })
-            addFriendsModal.querySelector("#confirmCancel > #cancelEditFriends").addEventListener("click", e => addFriendsModal.remove());
+            addFriendsModal.querySelector("#confirmCancel > #cancelEditFriends").addEventListener("click", event => addFriendsModal.remove());
             addFriendsModal.querySelector("#confirmCancel > #confirmEditFriends").addEventListener("click", async function(){
                     await fetchChatPhp(userID, userPassword, "PATCH", {
                         chatAction: "editMembers",
@@ -646,7 +646,7 @@ async function fetchFriends(userID, userPassword){
     return await resource;
 }
 
-// Function to make a request to the server with any requestbody. There is a premade requestbody that will be combined with the object sent as the variable specificInfo to later use that combined object for the fetch. Object.assign() is the method used to combine the two objects..
+// Function to make a request to the server with any requestbody. There is a premade requestbody that will be combined with the object sent as the variable specificInfo to later use that combined object for the fetch. Object.assign() is the method used to combine the two objects.
 async function fetchChatPhp(user, userPassword, method, specificInfo, fetchModal = true){
     let requestBody = {
         action: "chat",
