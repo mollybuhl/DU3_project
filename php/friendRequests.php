@@ -34,25 +34,37 @@ function friendRequests($requestData, $users, $allConversations){
     
             foreach($users as $index => $user){
                 if($user["id"] == $requestTo){
-                    $users[$index]["friends"][] = $requestFrom;
+                    $userFriends = $users[$index]["friends"];
+                    $alreadyFriends = true;
+                    if(!in_array($requestFrom, $userFriends)){
+                        $users[$index]["friends"][] = $requestFrom;
+                        $alreadyFriends = false;
+                    }
     
                     $friendRequests = $users[$index]["friendRequests"];
     
                     foreach($friendRequests as $requestIndex => $request){
                         if($request == $requestFrom){
                             array_splice($users[$index]["friendRequests"], $requestIndex, 1);
-    
-                            foreach($users as $index => $user){
-                                if($user["id"] == $requestFrom){
-                                    $users[$index]["friends"][] = $requestTo;
-                                    putInUsersJSON($users);
-                        
-                                    $message = ["message" => "Friend request accepted", "action" => "acceptRequest"];
-                                    sendJSON($message);
+                            
+                            if($alreadyFriends){
+                                putInUsersJSON($users);
+                                $message = ["message" => "You are already friends", "action" => "acceptRequest"];
+                                sendJSON($message, 400);
+                            }else{
+                                foreach($users as $index => $user){
+                                    if($user["id"] == $requestFrom){
+                                        $users[$index]["friends"][] = $requestTo;
+                                        putInUsersJSON($users);
+                                        
+                                        $message = ["message" => "Friend request accepted", "action" => "acceptRequest"];
+                                        sendJSON($message);
+                                    }
                                 }
                             }
                         }
                     }
+                    
                 }
             }  
         }

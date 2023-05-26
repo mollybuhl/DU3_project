@@ -406,6 +406,7 @@ async function renderFeedPage(){
                     confirmHandleRequest.querySelector("button.confirmHandleRequestYes").addEventListener("click", acceptFriendRequest);
                     function acceptFriendRequest(){
                         handleFriendRequset(friendRequestUser.id, User.id, "acceptRequest");
+                        confirmHandleRequest.remove();
                     }
                 }
             });
